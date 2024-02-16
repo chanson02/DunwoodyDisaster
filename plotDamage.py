@@ -89,6 +89,13 @@ def create_meters(mechanical: int, magic: int, health: int) -> dict:
             }
 
 
+def meters_to_tuple(meters: dict) -> tuple:
+    """
+    :return: (mech, magic, health)
+    """
+    return (meters['mechanical'], meters['magic'], meters['health'])
+
+
 def create_item(name: str, meters: dict) -> dict:
     result = {'name': name}
     result.update(meters)
