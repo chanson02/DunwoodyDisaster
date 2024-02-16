@@ -16,9 +16,7 @@ def highestAttack(
     if meters[0] <= 0 or meters[2] <= 0:
         return None
 
-    mechanical_defense = sum([defense[1] for defense in defense_profile])
-    magic_defense = sum([defense[2] for defense in defense_profile])
-    health_defense = sum([defense[3] for defense in defense_profile])
+    defenses = damageSoak(defense_profile)
 
     highest_damage = float("-inf")
     result = None
@@ -30,11 +28,11 @@ def highestAttack(
 
         damage = (
             attack[1]
-            - mechanical_defense
+            - defenses[0]
             + attack[2]
-            - magic_defense
+            - defenses[1]
             + attack[3]
-            - health_defense
+            - defenses[2]
         )
         if damage > highest_damage:
             highest_damage = damage
