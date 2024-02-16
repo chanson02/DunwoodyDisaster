@@ -28,12 +28,8 @@ def highestAttack(
             continue
 
         damage = (
-            attack[1]
-            - defenses[0]
-            + attack[2]
-            - defenses[1]
-            + attack[3]
-            - defenses[2]
+            attack[1] - defenses[0] + attack[2] -
+            defenses[1] + attack[3] - defenses[2]
         )
         if damage > highest_damage:
             highest_damage = damage
@@ -50,9 +46,9 @@ def damageSoak(defense_profile: list) -> tuple:
     magic = 0
     health = 0
     for defense in defense_profile:
-        mech += defense['mechanical']
-        magic += defense['magic']
-        health += defense['health']
+        mech += defense["mechanical"]
+        magic += defense["magic"]
+        health += defense["health"]
     return (mech, magic, health)
 
 
@@ -61,19 +57,30 @@ def plotDamage(attacker: dict, defender: dict) -> list:
     Goes through potential attacks and their damage to the enemy depending on their defense profile
     :retuen: A list of attacks that show actual damage
     """
-    defense_values = damageSoak(defender['defenses'])
+    defense_values = damageSoak(defender["defenses"])
     real_attacks = []  # How much damage each attack will really do
-    attack_meter = attacker['meters']
+    attack_meter = attacker["meters"]
 
-    for attack in attacker['attacks']:
-        if (attack_meter['mechanical'] == 0 or attack_meter['health'] == 0) or attack_meter['magic'] == 0 and attack['magic'] > 5:
+    for attack in attacker["attacks"]:
+        if (
+            (attack_meter["mechanical"] == 0 or attack_meter["health"] == 0)
+            or attack_meter["magic"] == 0
+            and attack["magic"] > 5
+        ):
             real_damages = create_meters(0, 0, 0)
         else:
             attack_values = meters_to_tuple(attack)
-            after_defense_values = [max(0, attack_values[i] - defense_values[i]) for i in range(len(attack_values))]
-            real_damages = create_meters(after_defense_values[0], after_defense_values[1], after_defense_values[2])
+            after_defense_values = [
+                max(0, attack_values[i] - defense_values[i])
+                for i in range(len(attack_values))
+            ]
+            real_damages = create_meters(
+                after_defense_values[0],
+                after_defense_values[1],
+                after_defense_values[2],
+            )
 
-        real_attack = {'name': attack['name']}
+        real_attack = {"name": attack["name"]}
         real_attack.update(real_damages)
         real_attacks.append(real_attack)
 
@@ -81,54 +88,38 @@ def plotDamage(attacker: dict, defender: dict) -> list:
 
 
 def create_meters(mechanical: int, magic: int, health: int) -> dict:
-    return {
-            'mechanical': mechanical,
-            'magic': magic,
-            'health': health
-            }
+    return {"mechanical": mechanical, "magic": magic, "health": health}
 
 
 def meters_to_tuple(meters: dict) -> tuple:
     """
     :return: (mech, magic, health)
     """
-    return (meters['mechanical'], meters['magic'], meters['health'])
+    return (meters["mechanical"], meters["magic"], meters["health"])
 
 
 def create_item(name: str, meters: dict) -> dict:
-    result = {'name': name}
+    result = {"name": name}
     result.update(meters)
     return result
 
 
 def create_player(meters: dict, attacks: list, defenses: list) -> dict:
-    return {
-            'meters': meters,
-            'attacks': attacks,
-            'defenses': defenses
-            }
+    return {"meters": meters, "attacks": attacks, "defenses": defenses}
 
 
 attacks = [
-        create_item('arrows', create_meters(22, 5, 45)),
-        create_item('sparrow attack', create_meters(45, 15, 25))
-        ]
+    create_item("arrows", create_meters(22, 5, 45)),
+    create_item("sparrow attack", create_meters(45, 15, 25)),
+]
 defenses = [
-        create_item('shield', create_meters(5, 2, 3)),
-        create_item('bubble spell', create_meters(3, 3, 3))
-        ]
+    create_item("shield", create_meters(5, 2, 3)),
+    create_item("bubble spell", create_meters(3, 3, 3)),
+]
 
 player_meters = create_meters(50, 50, 50)
-player1 = create_player(
-        player_meters,
-        attacks,
-        defenses
-        )
-player2 = create_player(
-        player_meters,
-        attacks,
-        defenses
-        )
+player1 = create_player(player_meters, attacks, defenses)
+player2 = create_player(player_meters, attacks, defenses)
 
 print(plotDamage(player1, player2))
 
