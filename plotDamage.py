@@ -1,5 +1,6 @@
 from typing import Optional
 
+
 def highestAttack(
     attack_profile: list, defense_profile: list, meters: list
 ) -> Optional[list]:
@@ -55,30 +56,28 @@ def damageSoak(defense_profile: list) -> tuple:
     return (mech, magic, health)
 
 
-def plotDamage(attacker: list, defender: list) -> list:
+def plotDamage(attacker: dict, defender: dict) -> list:
     """
-    Goes through potential attacks and their damage to the enemy depending on his defense profile
-    :return: A list of attacks that show actual damage
+    Goes through potential attacks and their damage to the enemy depending on their defense profile
+    :retuen: A list of attacks that show actual damage
     """
-    defenses = damageSoak(defender[2])
+    defense_values = damageSoak(defender['defenses'])
     real_attacks = []  # How much damage each attack will really do
+    attack_meter = attacker['meters']
 
-    for attack in attacker[1]:  # attack in attack profile
-        if (
-            (attacker[0][0] == 0 or attacker[0][2] == 0)
-            or attack[2] > 5
-            and attacker[0][1] == 0
-        ):
-            real_damages = [0, 0, 0]
+    for attack in attacker['attacks']:
+        if (attack_meter['mechanical'] == 0 or attack_meter['health'] == 0) or attack_meter['magic'] == 0 and attack['magic'] > 5:
+            real_damages = create_meters(0, 0, 0)
         else:
-            real_damages = [max(0, attack[i + 1] - defenses[i])
-                            for i in range(3)]
-        real_attacks.append([attack[0]] + real_damages)
+            attack_values = meters_to_tuple(attack)
+            after_defense_values = [max(0, attack_values[i] - defense_values[i]) for i in range(len(attack_values))]
+            real_damages = create_meters(after_defense_values[0], after_defense_values[1], after_defense_values[2])
+
+        real_attack = {'name': attack['name']}
+        real_attack.update(real_damages)
+        real_attacks.append(real_attack)
 
     return real_attacks
-
-
-# print(plotDamage(player1, player2))
 
 
 def create_meters(mechanical: int, magic: int, health: int) -> dict:
@@ -131,6 +130,7 @@ player2 = create_player(
         defenses
         )
 
+print(plotDamage(player1, player2))
 
 """
 Each player has:
