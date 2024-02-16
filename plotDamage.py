@@ -1,38 +1,26 @@
 from typing import Optional
 
 
-def highestAttack(
-    attack_profile: list, defense_profile: list, meters: list
-) -> Optional[list]:
+def highestAttack(attacker: dict, defender: dict) -> Optional[dict]:
     """
-    Find the strongest attack for this turn to use on a defense profile
-
-    This took me around 20 minutes, I didn't get the timing exact
-    because I accidently started doing the wrong problem.
-
-    :param meters: [mechanical, magic, health]
-        values of the attackers meters
+    Find the players strongest attack
+    :return: Attack
     """
-    # if mechanical or health are zero, you cannot attack
-    if meters[0] <= 0 or meters[2] <= 0:
+    attack_meter = attacker["meters"]
+    if attack_meter['mechanical'] == 0 or attack_meter['health'] == 0:
         return None
 
-    defenses = damageSoak(defense_profile)
-
-    highest_damage = float("-inf")
+    defenses = damageSoak(defender['defenses'])
+    highest_damage = float('-inf')
     result = None
-
-    for attack in attack_profile:
-        # cannot use magic attack if magic is zero
-        if meters[1] == 0 and attack[2] > 5:
+    for attack in attacker['attacks']:
+        if attack_meter['magic'] == 0 and attack['magic'] > 5:
             continue
 
-        damage = (
-            attack[1] - defenses[0] + attack[2] -
-            defenses[1] + attack[3] - defenses[2]
-        )
-        if damage > highest_damage:
-            highest_damage = damage
+        total_attack_value = 0
+        for attack_value, defense_value in zip(meters_to_tuple(attack), defenses):
+            total_attack_value += max(0, attack_value - defense_value)
+        if total_attack_value > highest_damage:
             result = attack
 
     return result
@@ -40,7 +28,7 @@ def highestAttack(
 
 def damageSoak(defense_profile: list) -> tuple:
     """
-    :return: (mechanical, magic, health) scores
+    :return: total (mechanical, magic, health) scores
     """
     mech = 0
     magic = 0
@@ -74,11 +62,7 @@ def plotDamage(attacker: dict, defender: dict) -> list:
                 max(0, attack_values[i] - defense_values[i])
                 for i in range(len(attack_values))
             ]
-            real_damages = create_meters(
-                after_defense_values[0],
-                after_defense_values[1],
-                after_defense_values[2],
-            )
+            real_damages = create_meters(*after_defense_values)
 
         real_attack = {"name": attack["name"]}
         real_attack.update(real_damages)
@@ -122,6 +106,7 @@ player1 = create_player(player_meters, attacks, defenses)
 player2 = create_player(player_meters, attacks, defenses)
 
 print(plotDamage(player1, player2))
+print(highestAttack(player1, player2))
 
 """
 Each player has:
