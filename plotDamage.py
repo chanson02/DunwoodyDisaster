@@ -7,14 +7,14 @@ def highestAttack(attacker: dict, defender: dict) -> Optional[dict]:
     :return: Attack
     """
     attack_meter = attacker["meters"]
-    if attack_meter['mechanical'] == 0 or attack_meter['health'] == 0:
+    if attack_meter["mechanical"] == 0 or attack_meter["health"] == 0:
         return None
 
-    defenses = damageSoak(defender['defenses'])
-    highest_damage = float('-inf')
+    defenses = damageSoak(defender["defenses"])
+    highest_damage = float("-inf")
     result = None
-    for attack in attacker['attacks']:
-        if attack_meter['magic'] == 0 and attack['magic'] > 5:
+    for attack in attacker["attacks"]:
+        if attack_meter["magic"] == 0 and attack["magic"] > 5:
             continue
 
         total_attack_value = 0
