@@ -78,18 +78,52 @@ def plotDamage(attacker: list, defender: list) -> list:
     return real_attacks
 
 
-attack1 = ["arrows", 22, 5, 45]
-attack2 = ["sparrow attack", 45, 15, 25]
-defense1 = ["shield", 5, 2, 3]
-defense2 = ["bubble spell", 3, 3, 3]
+# print(plotDamage(player1, player2))
 
-attack_profile = [attack1, attack2]
-defense_profile = [defense1, defense2]
-meters = [50, 50, 50]
 
-player1 = [meters, attack_profile, defense_profile]
-player2 = [meters, attack_profile, defense_profile]
-print(plotDamage(player1, player2))
+def create_meters(mechanical: int, magic: int, health: int) -> dict:
+    return {
+            'mechanical': mechanical,
+            'magic': magic,
+            'health': health
+            }
+
+
+def create_item(name: str, meters: dict) -> dict:
+    result = {'name': name}
+    result.update(meters)
+    return result
+
+
+def create_player(meters: dict, attacks: list, defenses: list) -> dict:
+    return {
+            'meters': meters,
+            'attacks': attacks,
+            'defenses': defenses
+            }
+
+
+attacks = [
+        create_item('arrows', create_meters(22, 5, 45)),
+        create_item('sparrow attack', create_meters(45, 15, 25))
+        ]
+defenses = [
+        create_item('shield', create_meters(5, 2, 3)),
+        create_item('bubble spell', create_meters(3, 3, 3))
+        ]
+
+player_meters = create_meters(50, 50, 50)
+player1 = create_player(
+        player_meters,
+        attacks,
+        defenses
+        )
+player2 = create_player(
+        player_meters,
+        attacks,
+        defenses
+        )
+
 
 """
 Each player has:
