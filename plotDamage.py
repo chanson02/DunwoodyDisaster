@@ -49,9 +49,9 @@ def damageSoak(defense_profile: list) -> tuple:
     magic = 0
     health = 0
     for defense in defense_profile:
-        mech += defense[1]
-        magic += defense[2]
-        health += defense[3]
+        mech += defense['mechanical']
+        magic += defense['magic']
+        health += defense['health']
     return (mech, magic, health)
 
 
