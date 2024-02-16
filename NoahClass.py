@@ -1,7 +1,5 @@
 import copy
-# We are going to start building a game together. The ultimate goal here is for everyone to gain a strong understanding of
-# the code. We are going to simulate a super accelerated agile development practice. Where we will regroup every 30 minutes to 
-# determine the best way forward.
+
 
 class Character:
         #info
