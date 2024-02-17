@@ -8,41 +8,49 @@ def PlotRisk(): # goes through enemies potential attacks and damage according to
 def PlotDamage(): # goes through potential attacks and their damage to the enemy depending on his defense profile
     pass
    
-def SortLoot(loot): # sort the loot array into our different bags
-    weapons = []
-    defense = []
-    food = []
-    supplies = []
-    
-    for item in loot:
-        if('weapon' in item):
-            item.remove('weapon')
-            weapons.append([item[0]] + item[1])
-            
-        elif('defense' in item):
-            item.remove('defense')
-            defense.append([item[0]] + item[1])
-        elif('food' in item):
-            item.remove('food')
-            food.append([item[0]] + item[1])
-        elif('supplies' in item):
-            item.remove('supplies')
-            supplies.append(item)
         
     
-  
-                
+# lootDict = {'item1' : {'itemName' : 'MagicWand','itemType' : 'weapon', 'itemStats': [3, 2, 1] },
             
+#             'item2' : {'itemName' : 'gloves', 'itemType' : 'defense','itemStats': [1, 1, 2] }
+#             }
+
+    
+lootDict = {'MagicWand': ['weapon', 3, 2, 1],
+             'gloves' : ['defense', 1, 1, 2],
+             'banana' : ['food', 10, 5],
+             'tape' : ['supplies', 5]}
+    
+         
+def SortLootDict(loot):
+    weapons = {}
+    defense = {}
+    food = {}
+    supplies = {}
+    
+    for itemName in loot:
+        # print('item:', itemName)
+        for item in loot[itemName]:
+            # print('itemName:', item)
+            if item == 'weapon':
+                loot[itemName].remove('weapon')
+                weapons.update({itemName : loot[itemName]})
+            elif item == 'defense':
+                loot[itemName].remove('defense')
+                defense.update({itemName : loot[itemName]})
+            elif item == 'food':
+                loot[itemName].remove('food')
+                food.update({itemName : loot[itemName]})
+            elif item == 'supplies':
+                loot[itemName].remove('supplies')
+                supplies.update({itemName : loot[itemName]})
+  
+            
+           
 def Heal(): # searches food items for needed nutritional value then consumes them for points, changes health meter accordingly
     pass
 
 
-#lootPile1 = [['MagicWand', 'weapon', [3, 2, 1]],
-#              ['gloves', 'defense', [1, 1, 2]],
-#              ['banana', 'food', [10, 5]],
-#              ['tape', 'supplies', 5]]
-# print(lootPile1[0][2])
-SortLoot(lootPile1)
 # Example attack profile:
 # [[weapon, mechanical damage int, magic damage int, health damage int], 
 
