@@ -1,95 +1,112 @@
 from typing import Optional
 
-def highestAttack(
-    attack_profile: list, defense_profile: list, meters: list
-) -> Optional[list]:
-    """
-    Find the strongest attack for this turn to use on a defense profile
 
-    This took me around 20 minutes, I didn't get the timing exact
-    because I accidently started doing the wrong problem.
-
-    :param meters: [mechanical, magic, health]
-        values of the attackers meters
+def HighestAttack(attacker: dict, defender: dict) -> Optional[dict]:
     """
-    # if mechanical or health are zero, you cannot attack
-    if meters[0] <= 0 or meters[2] <= 0:
+    Find the players strongest attack
+    :return: Attack
+    """
+    attackMeter = attacker["meters"]
+    if attackMeter["mechanical"] == 0 or attackMeter["health"] == 0:
         return None
 
-    defenses = damageSoak(defense_profile)
-
-    highest_damage = float("-inf")
+    defenses = DamageSoak(defender["defenses"])
+    highestDamage = float("-inf")
     result = None
-
-    for attack in attack_profile:
-        # cannot use magic attack if magic is zero
-        if meters[1] == 0 and attack[2] > 5:
+    for attack in attacker["attacks"]:
+        if attackMeter["magic"] == 0 and attack["magic"] > 5:
             continue
 
-        damage = (
-            attack[1]
-            - defenses[0]
-            + attack[2]
-            - defenses[1]
-            + attack[3]
-            - defenses[2]
-        )
-        if damage > highest_damage:
-            highest_damage = damage
+        totalAttackValue = 0
+        for attackValue, defenseValue in zip(MetersToTuple(attack), defenses):
+            totalAttackValue += max(0, attackValue - defenseValue)
+        if totalAttackValue > highestDamage:
             result = attack
 
     return result
 
 
-def damageSoak(defense_profile: list) -> tuple:
+def DamageSoak(defenses: list) -> tuple:
     """
-    :return: (mechanical, magic, health) scores
+    :return: total (mechanical, magic, health) scores
     """
     mech = 0
     magic = 0
     health = 0
-    for defense in defense_profile:
-        mech += defense[1]
-        magic += defense[2]
-        health += defense[3]
+    for defense in defenses:
+        mech += defense["mechanical"]
+        magic += defense["magic"]
+        health += defense["health"]
     return (mech, magic, health)
 
 
-def plotDamage(attacker: list, defender: list) -> list:
+def PlotDamage(attacker: dict, defender: dict) -> list:
     """
-    Goes through potential attacks and their damage to the enemy depending on his defense profile
-    :return: A list of attacks that show actual damage
+    Goes through potential attacks and their damage to the enemy depending on their defense profile
+    :retuen: A list of attacks that show actual damage
     """
-    defenses = damageSoak(defender[2])
-    real_attacks = []  # How much damage each attack will really do
+    defenseValues = DamageSoak(defender["defenses"])
+    realAttacks = []  # How much damage each attack will really do
+    attackMeter = attacker["meters"]
 
-    for attack in attacker[1]:  # attack in attack profile
+    for attack in attacker["attacks"]:
         if (
-            (attacker[0][0] == 0 or attacker[0][2] == 0)
-            or attack[2] > 5
-            and attacker[0][1] == 0
+            (attackMeter["mechanical"] == 0 or attackMeter["health"] == 0)
+            or attackMeter["magic"] == 0
+            and attack["magic"] > 5
         ):
-            real_damages = [0, 0, 0]
+            realDamages = CreateMeters(0, 0, 0)
         else:
-            real_damages = [max(0, attack[i + 1] - defenses[i])
-                            for i in range(3)]
-        real_attacks.append([attack[0]] + real_damages)
+            attackValues = MetersToTuple(attack)
+            afterDefenseValues = [
+                max(0, attackValues[i] - defenseValues[i])
+                for i in range(len(attackValues))
+            ]
+            realDamages = CreateMeters(*afterDefenseValues)
 
-    return real_attacks
+        realAttack = {"name": attack["name"]}
+        realAttack.update(realDamages)
+        realAttacks.append(realAttack)
+
+    return realAttacks
 
 
-attack1 = ["arrows", 22, 5, 45]
-attack2 = ["sparrow attack", 45, 15, 25]
-defense1 = ["shield", 5, 2, 3]
-defense2 = ["bubble spell", 3, 3, 3]
+def CreateMeters(mechanical: int, magic: int, health: int) -> dict:
+    return {"mechanical": mechanical, "magic": magic, "health": health}
 
-attack_profile = [attack1, attack2]
-defense_profile = [defense1, defense2]
-meters = [50, 50, 50]
 
-player1 = [meters, attack_profile, defense_profile]
-player2 = [meters, attack_profile, defense_profile]
-print(plotDamage(player1, player2))
+def MetersToTuple(meters: dict) -> tuple:
+    """
+    :return: (mech, magic, health)
+    """
+    return (meters["mechanical"], meters["magic"], meters["health"])
+
+
+def CreateItem(name: str, meters: dict) -> dict:
+    result = {"name": name}
+    result.update(meters)
+    return result
+
+
+def CreatePlayer(meters: dict, attacks: list, defenses: list) -> dict:
+    return {"meters": meters, "attacks": attacks, "defenses": defenses}
+
+
+attacks = [
+    CreateItem("arrows", CreateMeters(22, 5, 45)),
+    CreateItem("sparrow attack", CreateMeters(45, 15, 25)),
+]
+defenses = [
+    CreateItem("shield", CreateMeters(5, 2, 3)),
+    CreateItem("bubble spell", CreateMeters(3, 3, 3)),
+]
+
+player_meters = CreateMeters(50, 50, 50)
+player1 = CreatePlayer(player_meters, attacks, defenses)
+player2 = CreatePlayer(player_meters, attacks, defenses)
+
+print(PlotDamage(player1, player2))
+print(HighestAttack(player1, player2))
 
 """
 Each player has:
