@@ -28,7 +28,7 @@ class Character:
         def __init__(self, name):
                 self.name = name
 
-        def plotRisk(self, attacks): # goes through enemies potential attacks and damage according to our defense profile Me
+        def PlotRisk(self, attacks): # goes through enemies potential attacks and damage according to our defense profile Me
                 #est time 1hr
                 #total time 30mins
                 attacksCopy = copy.deepcopy(attacks)
@@ -62,13 +62,13 @@ class Character:
                                 print(f"{attackName} {risk['none']}")
                                 continue
                 
-        def plotDamage(): # goes through potential attacks and their damage to the enemy depending on his defense profile cooper
+        def PlotDamage(): # goes through potential attacks and their damage to the enemy depending on his defense profile cooper
                 pass
 
-        def sortLoot(): # sort the loot array into our different bags mitch
+        def SortLoot(): # sort the loot array into our different bags mitch
                 pass
 
-        def heal(): # searches food items for needed nutritional value then consumes them for points, changes health meter accordingly John
+        def Heal(): # searches food items for needed nutritional value then consumes them for points, changes health meter accordingly John
                 pass
 
 att = [['arrows', 25, 5, 45], ['sparrow attack', 45, 15, 25]]
