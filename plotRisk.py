@@ -1,6 +1,13 @@
 import copy
 
 
+risk = {
+        "high": "is a high risk attack",
+        "medium": "is a medium risk attack",
+        "low": "is a low risk attack",
+        "none": "is a no risk attack"
+}
+
 class Character:
         #info
         name = ""
@@ -25,7 +32,6 @@ class Character:
                 #est time 1hr
                 #total time 30mins
                 attacksCopy = copy.deepcopy(attacks)
-                risks = ["is a high risk attack", "is a medium risk attack", "is a low risk attack", "is a no risk attack"]
 
                 global health
                 for attack in attacksCopy:
@@ -36,7 +42,7 @@ class Character:
                         healthDamage = attack.pop(0)
                         
                         if self.mechanical <= mechDamage:
-                                att = f"{attackName} {risks[0]}"
+                                att = f"{attackName} {risk['high']}"
                                 print(att) #will "stun" the character 
                                 continue  
                         totalDamage = 0
@@ -44,16 +50,16 @@ class Character:
                         totalDamage += healthDamage - self.defence if self.defence < healthDamage else 0
 
                         if self.health - totalDamage <= 0:
-                                print(f"{attackName} {risks[0]}")
+                                print(f"{attackName} {risk['high']}")
                                 continue #will kill the character
                         elif totalDamage > self.health/2:
-                                print(f"{attackName} {risks[1]}")    
+                                print(f"{attackName} {risk['medium']}")    
                                 continue #a lot of damage to the character
                         elif totalDamage > self.health/4:  
-                                print(f"{attackName} {risks[2]}")   
+                                print(f"{attackName} {risk['low']}")   
                                 continue #a little damage the character
                         else:
-                                print(f"{attackName} {risks[3]}")
+                                print(f"{attackName} {risk['none']}")
                                 continue
                 
         def plotDamage(): # goes through potential attacks and their damage to the enemy depending on his defense profile cooper
