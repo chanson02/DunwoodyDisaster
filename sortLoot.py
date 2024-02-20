@@ -15,14 +15,15 @@ def PlotDamage(): # goes through potential attacks and their damage to the enemy
 #             'item2' : {'itemName' : 'gloves', 'itemType' : 'defense','itemStats': [1, 1, 2] }
 #             }
 
-    
+playerInventory = {}
+
 lootDict = {'MagicWand': ['weapon', 3, 2, 1],
              'gloves' : ['defense', 1, 1, 2],
              'banana' : ['food', 10, 5],
              'tape' : ['supplies', 5]}
     
          
-def SortLootDict(loot):
+def SortLoot(loot: dict, playerInv: dict):
     weapons = {}
     defense = {}
     food = {}
@@ -44,8 +45,12 @@ def SortLootDict(loot):
             elif item == 'supplies':
                 loot[itemName].remove('supplies')
                 supplies.update({itemName : loot[itemName]})
+                
+    playerInv = {**weapons, **defense, **food, **supplies}
+    return(playerInv)
+    
   
-            
+ 
            
 def Heal(): # searches food items for needed nutritional value then consumes them for points, changes health meter accordingly
     pass
