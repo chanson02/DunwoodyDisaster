@@ -11,29 +11,36 @@
 # Defense profile is additive and subtracts from attack
 # Only one attack at a time, alternating turns
 
-foodList = [['bread', 10, 0], ['apple', 5, 0], ['chicken head', 20, 20]]
-#potions = [['small red potion', 15], ['medium red potion', 30], ['big red potion', 50]]
+""" foodList = [['bread', 10, 0], ['apple', 5, 0], ['chicken head', 20, 20]] """
 
-meterArray = [['health', 100], ['magic', 100], ['supply', 100]]
+""" potions = [['small red potion', 15], ['medium red potion', 30], ['big red potion', 50]] """
 
+foodDict = {"Bread": [10, 0],
+            "Apple": [5, 0],
+            "Chicken Head": [20,20]}
 
+""" meterArray = [['health', 100], ['magic', 100], ['supply', 100]] """
 
-def heal(foodChoice, meter): # searches food items for needed nutritional value then consumes them for points, changes health meter accordingly
+meterDict = {"Health": 100,
+             "Magic": 100,
+             "Supply": 100}
+
+def heal(foodDict, meter): # searches food items for needed nutritional value then consumes them for points, changes health meter accordingly
        
     print("Choose a healing item:")
-    for item in foodList:
-        print(f"{item[0]}: {item[1]} health points")
-        selectedItem = input ('Item: ')
+    for item, values in foodDict.items():
+        print(f"{item}: {values[0]} health points and {values[1]} Magic points")
+    selectedItem = input ('Item: ')
 
-        if item[0] == selectedItem:
-            meter[0] += item[1]
-            print(f"Health restored by {item[1]} points!")
-            break
+    if selectedItem in foodDict:
+        meter[0] += foodDict[selectedItem][0]
+        print(f"Health restored by {foodDict[selectedItem][0]} points!")
+        print(f"Magic restored by {foodDict[selectedItem][1]} points!")
+    else:
+        print("Invalid item")
     
-meterArray = [100]
-heal('apple',meterArray)
 
 
 
 
-heal(foodList, meterArray)
+heal(foodDict, meterArray)
