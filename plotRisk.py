@@ -1,7 +1,7 @@
 import copy
 
 
-risk = {
+risk_levels = {
         "high": "is a high risk attack",
         "medium": "is a medium risk attack",
         "low": "is a low risk attack",
@@ -42,7 +42,7 @@ class Character:
                         healthDamage = attack.pop(0)
                         
                         if self.mechanical <= mechDamage:
-                                att = f"{attackName} {risk['high']}"
+                                att = f"{attackName} {risk_levels['high']}"
                                 print(att) #will "stun" the character 
                                 continue  
                         totalDamage = 0
@@ -50,16 +50,16 @@ class Character:
                         totalDamage += healthDamage - self.defense if self.defense < healthDamage else 0
 
                         if self.health - totalDamage <= 0:
-                                print(f"{attackName} {risk['high']}")
+                                print(f"{attackName} {risk_levels['high']}")
                                 continue #will kill the character
                         elif totalDamage > self.health/2:
-                                print(f"{attackName} {risk['medium']}")    
+                                print(f"{attackName} {risk_levels['medium']}")    
                                 continue #a lot of damage to the character
                         elif totalDamage > self.health/4:  
-                                print(f"{attackName} {risk['low']}")   
+                                print(f"{attackName} {risk_levels['low']}")   
                                 continue #a little damage the character
                         else:
-                                print(f"{attackName} {risk['none']}")
+                                print(f"{attackName} {risk_levels['none']}")
                                 continue
                 
         def PlotDamage(): # goes through potential attacks and their damage to the enemy depending on his defense profile cooper
