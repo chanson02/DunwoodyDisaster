@@ -15,7 +15,6 @@ def PlotDamage(): # goes through potential attacks and their damage to the enemy
 #             'item2' : {'itemName' : 'gloves', 'itemType' : 'defense','itemStats': [1, 1, 2] }
 #             }
 
-playerInventory = {}
 
 lootDict = {'MagicWand': ['weapon', 3, 2, 1],
              'gloves' : ['defense', 1, 1, 2],
@@ -23,7 +22,7 @@ lootDict = {'MagicWand': ['weapon', 3, 2, 1],
              'tape' : ['supplies', 5]}
     
          
-def SortLoot(loot: dict, playerInv: dict):
+def SortLoot(loot: dict, playerInv: dict) -> dict:
     weapons = {}
     defense = {}
     food = {}
