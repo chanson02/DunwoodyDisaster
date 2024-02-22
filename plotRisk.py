@@ -16,8 +16,8 @@ class Character:
         health = 100
         magic = 0
         mechanical = 15
-        defence = 0
-        magicDefence = 0
+        defense = 0
+        magicDefense = 0
         level = 1
 
         #inventory
@@ -46,8 +46,8 @@ class Character:
                                 print(att) #will "stun" the character 
                                 continue  
                         totalDamage = 0
-                        totalDamage += magicDamage - self.magicDefence if self.magicDefence < magicDamage else 0
-                        totalDamage += healthDamage - self.defence if self.defence < healthDamage else 0
+                        totalDamage += magicDamage - self.magicDefense if self.magicDefense < magicDamage else 0
+                        totalDamage += healthDamage - self.defense if self.defense < healthDamage else 0
 
                         if self.health - totalDamage <= 0:
                                 print(f"{attackName} {risk['high']}")
@@ -77,7 +77,7 @@ char = Character("Noah")
 char.plotRisk(att)
 #level up
 char.mechanical = 100
-char.magicDefence = 100
-char.defence = 100
+char.magicDefense = 100
+char.defense = 100
 char.health = 10
 char.plotRisk(att)
