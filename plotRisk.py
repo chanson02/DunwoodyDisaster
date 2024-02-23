@@ -74,7 +74,7 @@ class Character:
 att = [['arrows', 25, 5, 45], ['sparrow attack', 45, 15, 25]]
 char = Character("Noah")
 
-char.plotRisk(att)
+char.PlotRisk(att)
 #level up
 char.mechanical = 100
 char.magicDefense = 100
