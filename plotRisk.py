@@ -80,4 +80,4 @@ char.mechanical = 100
 char.magicDefense = 100
 char.defense = 100
 char.health = 10
-char.plotRisk(att)
+char.PlotRisk(att)
