@@ -1,6 +1,13 @@
 import copy
 
 
+risk_levels = {
+        "high": "is a high risk attack",
+        "medium": "is a medium risk attack",
+        "low": "is a low risk attack",
+        "none": "is a no risk attack"
+}
+
 class Character:
         #info
         name = ""
@@ -9,8 +16,8 @@ class Character:
         health = 100
         magic = 0
         mechanical = 15
-        defence = 0
-        magicDefence = 0
+        defense = 0
+        magicDefense = 0
         level = 1
 
         #inventory
@@ -21,11 +28,10 @@ class Character:
         def __init__(self, name):
                 self.name = name
 
-        def plotRisk(self, attacks): # goes through enemies potential attacks and damage according to our defense profile Me
+        def PlotRisk(self, attacks): # goes through enemies potential attacks and damage according to our defense profile Me
                 #est time 1hr
                 #total time 30mins
                 attacksCopy = copy.deepcopy(attacks)
-                risks = ["is a high risk attack", "is a medium risk attack", "is a low risk attack", "is a no risk attack"]
 
                 global health
                 for attack in attacksCopy:
@@ -36,42 +42,42 @@ class Character:
                         healthDamage = attack.pop(0)
                         
                         if self.mechanical <= mechDamage:
-                                att = f"{attackName} {risks[0]}"
+                                att = f"{attackName} {risk_levels['high']}"
                                 print(att) #will "stun" the character 
                                 continue  
                         totalDamage = 0
-                        totalDamage += magicDamage - self.magicDefence if self.magicDefence < magicDamage else 0
-                        totalDamage += healthDamage - self.defence if self.defence < healthDamage else 0
+                        totalDamage += magicDamage - self.magicDefense if self.magicDefense < magicDamage else 0
+                        totalDamage += healthDamage - self.defense if self.defense < healthDamage else 0
 
                         if self.health - totalDamage <= 0:
-                                print(f"{attackName} {risks[0]}")
+                                print(f"{attackName} {risk_levels['high']}")
                                 continue #will kill the character
                         elif totalDamage > self.health/2:
-                                print(f"{attackName} {risks[1]}")    
+                                print(f"{attackName} {risk_levels['medium']}")    
                                 continue #a lot of damage to the character
                         elif totalDamage > self.health/4:  
-                                print(f"{attackName} {risks[2]}")   
+                                print(f"{attackName} {risk_levels['low']}")   
                                 continue #a little damage the character
                         else:
-                                print(f"{attackName} {risks[3]}")
+                                print(f"{attackName} {risk_levels['none']}")
                                 continue
                 
-        def plotDamage(): # goes through potential attacks and their damage to the enemy depending on his defense profile cooper
+        def PlotDamage(): # goes through potential attacks and their damage to the enemy depending on his defense profile cooper
                 pass
 
-        def sortLoot(): # sort the loot array into our different bags mitch
+        def SortLoot(): # sort the loot array into our different bags mitch
                 pass
 
-        def heal(): # searches food items for needed nutritional value then consumes them for points, changes health meter accordingly John
+        def Heal(): # searches food items for needed nutritional value then consumes them for points, changes health meter accordingly John
                 pass
 
 att = [['arrows', 25, 5, 45], ['sparrow attack', 45, 15, 25]]
 char = Character("Noah")
 
-char.plotRisk(att)
+char.PlotRisk(att)
 #level up
 char.mechanical = 100
-char.magicDefence = 100
-char.defence = 100
+char.magicDefense = 100
+char.defense = 100
 char.health = 10
-char.plotRisk(att)
+char.PlotRisk(att)
