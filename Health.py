@@ -14,18 +14,19 @@
 """ foodList = [['bread', 10, 0], ['apple', 5, 0], ['chicken head', 20, 20]] """
 
 """ potions = [['small red potion', 15], ['medium red potion', 30], ['big red potion', 50]] """
+meterArray = 100
 
-foodDict = {"Bread": [10, 0],
+FoodDict = {"Bread": [10, 0],
             "Apple": [5, 0],
             "Chicken Head": [20,20]}
 
 """ meterArray = [['health', 100], ['magic', 100], ['supply', 100]] """
 
-meterDict = {"Health": 100,
+MeterDict = {"Health": 100,
              "Magic": 100,
              "Supply": 100}
 
-def heal(foodDict, meter): # searches food items for needed nutritional value then consumes them for points, changes health meter accordingly
+def Heal(foodDict, meter): # searches food items for needed nutritional value then consumes them for points, changes health meter accordingly
        
     print("Choose a healing item:")
     for item, values in foodDict.items():
@@ -33,15 +34,23 @@ def heal(foodDict, meter): # searches food items for needed nutritional value th
     selectedItem = input ('Item: ')
 
     if selectedItem in foodDict:
-        meter[0] += foodDict[selectedItem][0]
-        print(f"Health restored by {foodDict[selectedItem][0]} points!")
-        print(f"Magic restored by {foodDict[selectedItem][1]} points!")
+        for health, value in meter.items():
+            meter[health] += foodDict[selectedItem][0]
+            print(f"Health restored by {foodDict[selectedItem][0]} points!")
+            print(f"Magic restored by {foodDict[selectedItem][1]} points!")
+            return
     else:
         print("Invalid item")
     
-meterArray = 100
+""" 
+for item in MeterDict.values():
+    print(item) """
+
+Heal(FoodDict, MeterDict)
 
 
 
 
-heal(foodDict, meterArray)
+
+
+#Heal(FoodDict, MeterDict)
