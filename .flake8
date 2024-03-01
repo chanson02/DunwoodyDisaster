@@ -4,3 +4,5 @@ exclude =
   venv/*
 ignore =
   E501
+  W503
+  W504
