@@ -1,7 +1,15 @@
 import copy
 
 
+risk_levels = {
+        "high": "is a high risk attack",
+        "medium": "is a medium risk attack",
+        "low": "is a low risk attack",
+        "none": "is a no risk attack"
+}
+
 class Character:
+<<<<<<< HEAD
     # info
     name = ""
     classType = ""
@@ -84,7 +92,7 @@ char = Character("Noah")
 char.plotRisk(att)
 # level up
 char.mechanical = 100
-char.magicDefence = 100
-char.defence = 100
+char.magicDefense = 100
+char.defense = 100
 char.health = 10
-char.plotRisk(att)
+char.PlotRisk(att)
