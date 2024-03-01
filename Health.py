@@ -39,6 +39,7 @@ def heal(foodDict, meter): # searches food items for needed nutritional value th
     else:
         print("Invalid item")
     
+meterArray = 100
 
 
 
