@@ -5,8 +5,4 @@
 Name (TBD)
 A python implemented GUI fighting game.
 
-Features
-* plotDamage: Goes through a users attacks to see how much damage they can do to an opponent
-* highestAttack: Find a players strongest attack against an opponent
-* SortLoot: Goes through a loot pool (dictionary) and returns an updated dictionary for the player character.
-* Health: Classifies consumables that deals with health, magic and mechanical regeneration and defining their applied usage
+* Health: Classifies consumables that deals with health, magic and mechanical regeneration and defining their applied usag
