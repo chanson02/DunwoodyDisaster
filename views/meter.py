@@ -23,7 +23,7 @@ class Meter(QWidget):
     def paintEvent(self, event: QPaintEvent):
         super().paintEvent(event)
         painter = QPainter(self)
-        bkg_color = QColor(255, 0, 255)
+        bkg_color = QColor(20, 0, 20)
 
         w = self.width()
         h = 50
