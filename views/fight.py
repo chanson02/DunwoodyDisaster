@@ -1,4 +1,6 @@
 from PySide6.QtWidgets import QWidget, QPushButton, QGridLayout
+from PySide6.QtGui import QColor
+from views.meter import Meter
 
 
 class FightScreen(QWidget):
@@ -16,6 +18,8 @@ class FightScreen(QWidget):
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
 
+        color = QColor(0, 255, 0)
         layout.addWidget(self.attack_button, 0, 0)
         layout.addWidget(self.defend_button, 0, 1)
+        layout.addWidget(Meter(color), 1, 1)
         return layout
