@@ -4,13 +4,13 @@ class CharacterFactory:
         def __init__(self):
                 pass
 
-        def createCharacter(self, name, classType): #creates a character with the given name and classType
+        def createCharacter(self, name, classType): # creates a character with the given name and classType
                 char = Character(name, classType)
                 return char
 
-#Dictionary of class types
-#[name, classType, health, magic, mechanical, defense, magicDefense, level, loot, food ]
-#basic class types, can be tweaked and added to as needed
+# Dictionary of class types
+# [name, classType, health, magic, mechanical, defense, magicDefense, level, loot, food ]
+# basic class types, can be tweaked and added to as needed
 class_type = {
         "blank": ["blank", 100, 0, 0, 0, 0, 0, 1, [], []],
         "warrior": ["warrior", 100, 0, 15, 0, 0, 1, [], []],
@@ -26,10 +26,10 @@ risk_levels = {
 }
 
 class Character:
-        #info
+        # info
         name = ""
         classType = class_type["blank"]
-        #stats
+        # stats
         health = 100
         magic = 0
         mechanical = 15
@@ -37,7 +37,7 @@ class Character:
         magicDefense = 0
         level = 1
 
-        #inventory
+        # inventory
         loot = []
         food = []
 
@@ -68,7 +68,7 @@ class Character:
                         
                         if self.mechanical <= mechDamage:
                                 att = f"{attackName} {risk_levels['high']}"
-                                print(att) #will "stun" the character 
+                                print(att) # will "stun" the character 
                                 continue  
                         totalDamage = 0
                         totalDamage += magicDamage - self.magicDefense if self.magicDefense < magicDamage else 0
