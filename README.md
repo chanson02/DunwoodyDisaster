@@ -5,6 +5,9 @@
 Name (TBD)
 A python implemented GUI fighting game.
 
+### Dependencies
+For this project we are using python version 3.11.8
+`pip install -r requirements.txt`
 
 ### Features
 - **plotDamage**: Goes through a users attacks to see how much damage they can do to an opponent
