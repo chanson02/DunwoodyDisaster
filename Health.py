@@ -5,7 +5,7 @@
 
 # food item would be ['foodName', 'food', [vitC_Value, vitB_Value]]
 
-# Enemy has health/magic/mechanical meters, attack & defense profile, Loot 
+# Enemy has health/magic/mechanical meters, attack & defense profile, Loot
 # If mechanical or health are zero, you cannot attack
 # If magic is zero, you may not use attacks with more than 5 magic damage
 # Defense profile is additive and subtracts from attack
@@ -14,7 +14,7 @@
 """ foodList = [['bread', 10, 0], ['apple', 5, 0], ['chicken head', 20, 20]] """
 
 """ potions = [['small red potion', 15], ['medium red potion', 30], ['big red potion', 50]] """
-meterArray = 100
+# meterArray = 100
 
 FoodDict = {"Bread": [10, 0],
             "Apple": [5, 0],
@@ -47,10 +47,3 @@ for item in MeterDict.values():
     print(item) """
 
 Heal(FoodDict, MeterDict)
-
-
-
-
-
-
-#Heal(FoodDict, MeterDict)
