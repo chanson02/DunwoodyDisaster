@@ -1,39 +1,78 @@
-# For Healing:
-# vitC heals health
-# vitB heal magic
-# supplies repair mechanical
+FoodDict = {"Bread": [10, 0],
+            "Apple": [5, 0],
+            "Chicken Head": [20, 20],
+            "Thorny Fruit": [-20, -20]
+            }
 
-# food item would be ['foodName', 'food', [vitC_Value, vitB_Value]]
+RepairItems = {"Wrench": [10],
+               "Toolkit": [30],
+               "Repair Box": [100]
+            }
 
-# Enemy has health/magic/mechanical meters, attack & defense profile, Loot
-# If mechanical or health are zero, you cannot attack
-# If magic is zero, you may not use attacks with more than 5 magic damage
-# Defense profile is additive and subtracts from attack
-# Only one attack at a time, alternating turns
-
-foodList = [["bread", 10, 0], ["apple", 5, 0], ["chicken head", 20, 20]]
-# potions = [['small red potion', 15], ['medium red potion', 30], ['big red potion', 50]]
-
-meterArray = [["health", 100], ["magic", 100], ["supply", 100]]
+PlayerStats = {"Health": 100,
+             "Magic": 100,
+             "Supply": 100}
 
 
-def heal(
-    foodChoice, meter
-):  # searches food items for needed nutritional value then consumes them for points, changes health meter accordingly
 
+def Heal(foodDict, meter):
     print("Choose a healing item:")
-    for item in foodList:
-        print(f"{item[0]}: {item[1]} health points")
-        selectedItem = input("Item: ")
+    for item, values in foodDict.items():
+        print(f"{item}: {values[0]} health points and {values[1]} Magic points")
+    for item, values in RepairItems.items():
+        print(f"{item}: {values[0]} supply points")
+    selectedItem = input('Item: ')
 
-        if item[0] == selectedItem:
-            meter[0] += item[1]
-            print(f"Health restored by {item[1]} points!")
-            break
+    if selectedItem in foodDict:
+        # Update the health and magic meters directly and store the updated values
+        meter["Health"] = max(0, min(100, meter["Health"] + foodDict[selectedItem][0]))
+        meter["Magic"] = max(0, min(100, meter["Magic"] + foodDict[selectedItem][1]))
+
+        # Print the updated values
+        print(f"Health restored by {foodDict[selectedItem][0]} points!")
+        print(f"Current health: {meter['Health']}")
+        print(f"Magic restored by {foodDict[selectedItem][1]} points!")
+        print(f"Current magic: {meter['Magic']}")
+
+    if selectedItem in RepairItems:
+        meter["Supply"] = max(0, min(100, meter["Supply"] + RepairItems[selectedItem][0] ))
+        print(f"Supply restored by {RepairItems[selectedItem][0]} points!")
+        print(f"Current Supply: {meter['Supply']}")
+
+    else:
+        print("Invalid item")
 
 
-meterArray = [100]
-heal("apple", meterArray)
+action_moves = {"Attack": None,
+        "Defend": None,
+        "Heal": Heal}
 
 
-heal(foodList, meterArray)
+while PlayerStats["Health"] >= 1: 
+  
+    # Print out the action moves
+    print("Action Moves:")
+    for move in action_moves:
+        print(move)
+
+    UserChoice = input(str("Choose Action: "))
+
+    if UserChoice in action_moves:
+        if UserChoice == "Heal":
+            action_moves[UserChoice](FoodDict, PlayerStats)
+        else:
+            print("This action is not made yet.")
+    else:
+        print("Invalid Action")
+
+    
+    if PlayerStats["Health"] == 0:
+        print("You are dead")
+        break
+
+    if PlayerStats["Magic"] == 0:
+        print("You ran out of mana")
+
+    choice = input("Do you want to perform another action? (yes/no) ")
+    if choice.lower() != 'yes':
+        break
