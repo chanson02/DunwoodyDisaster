@@ -26,7 +26,7 @@ class Meter(QWidget):
         bkg_color = QColor(20, 0, 20)
 
         w = self.width()
-        h = 50
+        h = self.height()
         border = min(int(h * 0.05), 15)
 
         max_fill_width = w - 2 * border

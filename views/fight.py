@@ -3,8 +3,10 @@ I'm thinking something like this
 https://miro.medium.com/v2/resize:fit:469/1*baExuvv8c4jybSXRoYbj9A.jpeg
 """
 
-from PySide6.QtWidgets import QWidget, QPushButton, QGridLayout, QLabel
+from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor
+from PySide6.QtWidgets import QGridLayout, QLabel, QPushButton, QWidget
+
 from views.meter import Meter
 
 
@@ -43,9 +45,11 @@ class FightScreen(QWidget):
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
 
-        layout.addWidget(QLabel("Health"), 0, 0)
-        layout.addWidget(QLabel("Mechanical"), 1, 0)
-        layout.addWidget(QLabel("Magic"), 2, 0)
+        lbls = [QLabel('Health'), QLabel('Mechanical'), QLabel('Magic')]
+        for i in range(len(lbls)):
+            lbl = lbls[i]
+            lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            layout.addWidget(lbl, i, 0)
 
         layout.addWidget(meters["health"], 0, 1, 1, 3)
         layout.addWidget(meters["mechanical"], 1, 1, 1, 3)
