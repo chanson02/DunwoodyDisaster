@@ -8,6 +8,7 @@ from PySide6.QtGui import QColor
 from PySide6.QtWidgets import QGridLayout, QLabel, QPushButton, QWidget
 
 from views.meter import Meter
+from views.action_selector import ActionSelector
 
 
 class FightScreen(QWidget):
@@ -38,6 +39,9 @@ class FightScreen(QWidget):
                 self.create_meter_layout(self.player_meters),
                 1, 0, 1, 4
                 )
+
+        actions = ActionSelector()
+        layout.addWidget(actions, 2, 0)
         return layout
 
     def create_meter_layout(self, meters: dict) -> QGridLayout:
