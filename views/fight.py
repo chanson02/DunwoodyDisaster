@@ -35,10 +35,7 @@ class FightScreen(QWidget):
 
         layout.addWidget(self.attack_button, 0, 0)
         layout.addWidget(self.defend_button, 0, 1)
-        layout.addLayout(
-                self.create_meter_layout(self.player_meters),
-                1, 0, 1, 4
-                )
+        layout.addLayout(self.create_meter_layout(self.player_meters), 1, 0, 1, 4)
 
         actions = ActionSelector()
         layout.addWidget(actions, 2, 0)
@@ -49,7 +46,7 @@ class FightScreen(QWidget):
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
 
-        lbls = [QLabel('Health'), QLabel('Mechanical'), QLabel('Magic')]
+        lbls = [QLabel("Health"), QLabel("Mechanical"), QLabel("Magic")]
         for i in range(len(lbls)):
             lbl = lbls[i]
             lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)

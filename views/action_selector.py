@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QWidget, QHBoxLayout, QPushButton, QLayout, QGridLayout
+from PySide6.QtWidgets import QWidget, QHBoxLayout, QPushButton, QGridLayout
 
 
 class ActionSelector(QWidget):
@@ -18,11 +18,11 @@ class ActionSelector(QWidget):
     def create_default_widget(self) -> QWidget:
         layout = QHBoxLayout()
 
-        fight_btn = QPushButton('Fight')
+        fight_btn = QPushButton("Fight")
         fight_btn.clicked.connect(self.selectedFight)
         layout.addWidget(fight_btn)
 
-        items_btn = QPushButton('Items')
+        items_btn = QPushButton("Items")
         # items_btn.clicked.connect(self.selectedItems)
         layout.addWidget(items_btn)
 
@@ -43,7 +43,7 @@ class ActionSelector(QWidget):
             btn = QPushButton(move)
             layout.addWidget(btn, row, col)
 
-        back_btn = QPushButton('Back')
+        back_btn = QPushButton("Back")
         back_btn.clicked.connect(self.selectedBack)
         layout.addWidget(back_btn, len(moves) // 2 + 1, 0)
 
