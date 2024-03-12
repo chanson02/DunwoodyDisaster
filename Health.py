@@ -3,22 +3,15 @@ FoodDict = {
     "Bread": [10, 0],
     "Apple": [5, 0],
     "Chicken Head": [20, 20],
-    "Thorny Fruit": [-20, -20]
+    "Thorny Fruit": [-20, -20],
 }
 
 # Dictionary of repair items and their attributes: [Mechanical]
-RepairItems = {
-    "Wrench": 10,
-    "Toolkit": 30,
-    "Repair Box": 100
-}
+RepairItems = {"Wrench": 10, "Toolkit": 30, "Repair Box": 100}
 
 # Dictionary of player's statistics: Health, Magic, Mechanical
-PlayerStats = {
-    "Health": 100,
-    "Magic": 100,
-    "Mechanical": 100
-}
+PlayerStats = {"Health": 100, "Magic": 100, "Mechanical": 100}
+
 
 # Function to heal the player
 def Heal(foodDict, meter):
@@ -35,7 +28,7 @@ def Heal(foodDict, meter):
         print(f"{item}: {values[0]} health points and {values[1]} Magic points")
     for item, values in RepairItems.items():
         print(f"{item}: {values[0]} Mechanical points")
-    selectedItem = input('Item: ')
+    selectedItem = input("Item: ")
 
     # Check if the selected item is a healing item
     if selectedItem in foodDict:
@@ -52,22 +45,22 @@ def Heal(foodDict, meter):
     # Check if the selected item is a repair item
     if selectedItem in RepairItems:
         # Update the Mechanical meter and store the updated value
-        meter["Mechanical"] = max(0, min(100, meter["Mechanical"] + RepairItems[selectedItem][0]))
+        meter["Mechanical"] = max(
+            0, min(100, meter["Mechanical"] + RepairItems[selectedItem][0])
+        )
         print(f"Mechanical restored by {RepairItems[selectedItem][0]} points!")
         print(f"Current Mechanical: {meter['Mechanical']}")
     else:
         print("Invalid item")
 
+
 # Dictionary of action moves, including the "Heal" action which calls the Heal function
-action_moves = {
-    "Attack": None,
-    "Defend": None,
-    "Heal": Heal
-}
+action_moves = {"Attack": None, "Defend": None, "Heal": Heal}
+
 
 # Main game loop
 def main():
-    while PlayerStats["Health"] > 0 :
+    while PlayerStats["Health"] > 0:
         # Print out the available action moves
         print("Action Moves:")
         for move in action_moves:
@@ -104,6 +97,8 @@ def main():
 
         # Ask the player if they want to perform another action
         choice = input("Do you want to perform another action? (yes/no) ")
-        if choice.lower() != 'yes':
+        if choice.lower() != "yes":
             break
+
+
 main()
