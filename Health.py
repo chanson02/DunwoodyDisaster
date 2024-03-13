@@ -21,6 +21,9 @@ def Heal(foodDict, meter):
     :param food_dict: Dictionary of food items and their attributes.
     :param meter: Dictionary of player's statistics.
     """
+    # Starting values for the health and magic meters
+    MAX_HEALTH_VALUE = 100
+    MAX_MAGIC_VALUE = 100
 
     # Display available healing items
     print("Choose a healing item:")
@@ -33,8 +36,12 @@ def Heal(foodDict, meter):
     # Check if the selected item is a healing item
     if selectedItem in foodDict:
         # Update the health and magic meters and store the updated values
-        meter["Health"] = max(0, min(100, meter["Health"] + foodDict[selectedItem][0]))
-        meter["Magic"] = max(0, min(100, meter["Magic"] + foodDict[selectedItem][1]))
+        meter["Health"] = max(
+            0, min(MAX_HEALTH_VALUE, meter["Health"] + foodDict[selectedItem][0])
+        )
+        meter["Magic"] = max(
+            0, min(MAX_MAGIC_VALUE, meter["Magic"] + foodDict[selectedItem][1])
+        )
 
         # Print the updated values
         print(f"Health restored by {foodDict[selectedItem][0]} points!")
