@@ -79,7 +79,6 @@ def main():
 
         """if UserChoice in action_moves:
             if UserChoice == "Heal":
-                
                 action_moves[UserChoice](FoodDict, PlayerStats)
             else:
                 print("This action is not made yet.")
