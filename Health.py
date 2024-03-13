@@ -77,14 +77,6 @@ def main():
         if UserChoice == "Heal":
             action_moves[UserChoice](FoodDict, PlayerStats)
 
-        """if UserChoice in action_moves:
-            if UserChoice == "Heal":
-                action_moves[UserChoice](FoodDict, PlayerStats)
-            else:
-                print("This action is not made yet.")
-        else:
-            print("Invalid Action") """
-
         # Check if the player's health is zero or negative
         if PlayerStats["Health"] == 0:
             print("You are dead")
