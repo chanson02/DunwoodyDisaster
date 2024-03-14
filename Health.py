@@ -29,8 +29,8 @@ def Heal(foodDict, meter):
     print("Choose a healing item:")
     for item, values in foodDict.items():
         print(f"{item}: {values[0]} health points and {values[1]} Magic points")
-    for item, values in RepairItems.items():
-        print(f"{item}: {values[0]} Mechanical points")
+    for item, value in RepairItems.items():
+        print(f"{item}: {value} Mechanical points")
     selectedItem = input("Item: ")
 
     # Check if the selected item is a healing item
@@ -53,9 +53,9 @@ def Heal(foodDict, meter):
     if selectedItem in RepairItems:
         # Update the Mechanical meter and store the updated value
         meter["Mechanical"] = max(
-            0, min(100, meter["Mechanical"] + RepairItems[selectedItem][0])
+            0, min(100, meter["Mechanical"] + RepairItems[selectedItem])
         )
-        print(f"Mechanical restored by {RepairItems[selectedItem][0]} points!")
+        print(f"Mechanical restored by {RepairItems[selectedItem]} points!")
         print(f"Current Mechanical: {meter['Mechanical']}")
     else:
         print("Invalid item")
