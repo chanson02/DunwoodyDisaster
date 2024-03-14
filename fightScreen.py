@@ -13,6 +13,7 @@ from PySide6.QtWidgets import (
     QPushButton,
 )
 from meter import Meter
+
 # from arsenal import Arsenal
 
 
@@ -83,8 +84,8 @@ class MainWindow(QMainWindow):
         arsRow += 1
 
         self.P1WeaponLayout.addItem(
-            QSpacerItem(0, 30, QSizePolicy.Fixed, QSizePolicy.Fixed),
-            arsRow, 1)
+            QSpacerItem(0, 30, QSizePolicy.Fixed, QSizePolicy.Fixed), arsRow, 1
+        )
         arsRow += 1
 
         for key in self.P1WeaponArray:
@@ -96,8 +97,8 @@ class MainWindow(QMainWindow):
             arsRow += 1
 
             self.P1WeaponLayout.addItem(
-                QSpacerItem(0, 10, QSizePolicy.Fixed, QSizePolicy.Fixed),
-                arsRow, 1)
+                QSpacerItem(0, 10, QSizePolicy.Fixed, QSizePolicy.Fixed), arsRow, 1
+            )
             arsRow += 1
 
             self.P1_weapon1_Lbl2 = QLabel("")
@@ -107,8 +108,8 @@ class MainWindow(QMainWindow):
             arsRow += 1
 
             self.P1WeaponLayout.addItem(
-                QSpacerItem(0, 10, QSizePolicy.Fixed, QSizePolicy.Fixed),
-                arsRow, 1)
+                QSpacerItem(0, 10, QSizePolicy.Fixed, QSizePolicy.Fixed), arsRow, 1
+            )
             arsRow += 1
 
             self.P1_weapon1_Lbl3 = QLabel(
@@ -125,13 +126,14 @@ class MainWindow(QMainWindow):
             arsRow += 1
 
             self.P1WeaponLayout.addItem(
-                QSpacerItem(0, 40, QSizePolicy.Fixed, QSizePolicy.Fixed),
-                arsRow, 1)
+                QSpacerItem(0, 40, QSizePolicy.Fixed, QSizePolicy.Fixed), arsRow, 1
+            )
             arsRow += 1
         self.P1WeaponLayout.addItem(
-            QSpacerItem(0, 40,
-                        QSizePolicy.Fixed, QSizePolicy.MinimumExpanding),
-            arsRow, 1)
+            QSpacerItem(0, 40, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding),
+            arsRow,
+            1,
+        )
 
         #############################################################
 
@@ -145,9 +147,9 @@ class MainWindow(QMainWindow):
         self.P1defenseLayout.setContentsMargins(0, 0, 0, 0)
         self.P1defenseWgt = QWidget()
         self.P1defenseWgt.setStyleSheet(
-            '''border-left: 1px solid green;
+            """border-left: 1px solid green;
             border-right: 1px solid green;
-            min-width: 125px;'''
+            min-width: 125px;"""
         )
         self.P1defenseWgt.setLayout(self.P1defenseLayout)
 
@@ -160,8 +162,8 @@ class MainWindow(QMainWindow):
         arsRow += 1
 
         self.P1defenseLayout.addItem(
-            QSpacerItem(0, 30, QSizePolicy.Fixed, QSizePolicy.Fixed),
-            arsRow, 1)
+            QSpacerItem(0, 30, QSizePolicy.Fixed, QSizePolicy.Fixed), arsRow, 1
+        )
         arsRow += 1
 
         for key in self.P1DefenseArray:
@@ -173,8 +175,8 @@ class MainWindow(QMainWindow):
             arsRow += 1
 
             self.P1defenseLayout.addItem(
-                QSpacerItem(0, 10, QSizePolicy.Fixed, QSizePolicy.Fixed),
-                arsRow, 1)
+                QSpacerItem(0, 10, QSizePolicy.Fixed, QSizePolicy.Fixed), arsRow, 1
+            )
             arsRow += 1
 
             self.P1_armor1_Lbl2 = QLabel("")
@@ -184,8 +186,8 @@ class MainWindow(QMainWindow):
             arsRow += 1
 
             self.P1defenseLayout.addItem(
-                QSpacerItem(0, 10, QSizePolicy.Fixed, QSizePolicy.Fixed),
-                arsRow, 1)
+                QSpacerItem(0, 10, QSizePolicy.Fixed, QSizePolicy.Fixed), arsRow, 1
+            )
             arsRow += 1
 
             self.P1_armor1_Lbl3 = QLabel(
@@ -202,13 +204,14 @@ class MainWindow(QMainWindow):
             arsRow += 1
 
             self.P1defenseLayout.addItem(
-                QSpacerItem(0, 40, QSizePolicy.Fixed, QSizePolicy.Fixed),
-                arsRow, 1)
+                QSpacerItem(0, 40, QSizePolicy.Fixed, QSizePolicy.Fixed), arsRow, 1
+            )
             arsRow += 1
         self.P1defenseLayout.addItem(
-            QSpacerItem(0, 40,
-                        QSizePolicy.Fixed, QSizePolicy.MinimumExpanding),
-            arsRow, 1)
+            QSpacerItem(0, 40, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding),
+            arsRow,
+            1,
+        )
 
         #############################################################
 
@@ -217,10 +220,12 @@ class MainWindow(QMainWindow):
         colm += 1
 
         self.mainLayout.addItem(
-            QSpacerItem(40, 40,
-                        QSizePolicy.MinimumExpanding,
-                        QSizePolicy.MinimumExpanding),
-            row, colm)
+            QSpacerItem(
+                40, 40, QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding
+            ),
+            row,
+            colm,
+        )
         row += 1
         colm += 1
 
@@ -252,76 +257,64 @@ class MainWindow(QMainWindow):
             "magic": Meter(QColor(200, 0, 200), 100),
         }
 
-        self.player1Health_Lbl = QLabel("Health Meter: " +
-                                        str(self.P1HealthMeter))
+        self.player1Health_Lbl = QLabel("Health Meter: " + str(self.P1HealthMeter))
         self.player1Health_Lbl.setStyleSheet("color: white;")
         self.mainLayout.addWidget(self.player1Health_Lbl, row, innerCol)
 
         self.player1_healthMeter = self.player1_meters["health"]
-        self.mainLayout.addWidget(self.player1_healthMeter,
-                                  row, innerCol + 1, 1, 2)
+        self.mainLayout.addWidget(self.player1_healthMeter, row, innerCol + 1, 1, 2)
 
-        self.player2Health_Lbl = QLabel("Health Meter: " +
-                                        str(self.P2HealthMeter))
+        self.player2Health_Lbl = QLabel("Health Meter: " + str(self.P2HealthMeter))
         self.player2Health_Lbl.setStyleSheet("color: white;")
         self.mainLayout.addWidget(self.player2Health_Lbl, row, rightCol)
 
         self.player2_healthMeter = self.player2_meters["health"]
-        self.mainLayout.addWidget(self.player2_healthMeter,
-                                  row, rightCol + 1, 1, 2)
+        self.mainLayout.addWidget(self.player2_healthMeter, row, rightCol + 1, 1, 2)
         row += 1
 
         self.mainLayout.addItem(
-            QSpacerItem(0, 10, QSizePolicy.Fixed, QSizePolicy.Fixed),
-            row, innerCol)
+            QSpacerItem(0, 10, QSizePolicy.Fixed, QSizePolicy.Fixed), row, innerCol
+        )
         row += 1
 
-        self.player1Magic_Lbl = QLabel("Magic Meter: " +
-                                       str(self.P1MagicMeter))
+        self.player1Magic_Lbl = QLabel("Magic Meter: " + str(self.P1MagicMeter))
         self.player1Magic_Lbl.setStyleSheet("color: white;")
         self.mainLayout.addWidget(self.player1Magic_Lbl, row, innerCol)
 
         self.player1_magicMeter = self.player1_meters["magic"]
-        self.mainLayout.addWidget(self.player1_magicMeter,
-                                  row, innerCol + 1, 1, 2)
+        self.mainLayout.addWidget(self.player1_magicMeter, row, innerCol + 1, 1, 2)
 
-        self.player2Magic_Lbl = QLabel("Magic Meter: " +
-                                       str(self.P2MagicMeter))
+        self.player2Magic_Lbl = QLabel("Magic Meter: " + str(self.P2MagicMeter))
         self.player2Magic_Lbl.setStyleSheet("color: white;")
         self.mainLayout.addWidget(self.player2Magic_Lbl, row, rightCol)
 
         self.player2_magicMeter = self.player2_meters["magic"]
-        self.mainLayout.addWidget(self.player2_magicMeter,
-                                  row, rightCol + 1, 1, 2)
+        self.mainLayout.addWidget(self.player2_magicMeter, row, rightCol + 1, 1, 2)
         row += 1
 
         self.mainLayout.addItem(
-            QSpacerItem(0, 10, QSizePolicy.Fixed, QSizePolicy.Fixed),
-            row, innerCol)
+            QSpacerItem(0, 10, QSizePolicy.Fixed, QSizePolicy.Fixed), row, innerCol
+        )
         row += 1
 
-        self.player1Mech_Lbl = QLabel("Mechanical Meter: " +
-                                      str(self.P1MechMeter))
+        self.player1Mech_Lbl = QLabel("Mechanical Meter: " + str(self.P1MechMeter))
         self.player1Mech_Lbl.setStyleSheet("color: white;")
         self.mainLayout.addWidget(self.player1Mech_Lbl, row, innerCol)
 
         self.player1_mechMeter = self.player1_meters["mechanical"]
-        self.mainLayout.addWidget(self.player1_mechMeter,
-                                  row, innerCol + 1, 1, 2)
+        self.mainLayout.addWidget(self.player1_mechMeter, row, innerCol + 1, 1, 2)
 
-        self.player2Mech_Lbl = QLabel("Mechanical Meter: " +
-                                      str(self.P2MechMeter))
+        self.player2Mech_Lbl = QLabel("Mechanical Meter: " + str(self.P2MechMeter))
         self.player2Mech_Lbl.setStyleSheet("color: white;")
         self.mainLayout.addWidget(self.player2Mech_Lbl, row, rightCol)
 
         self.player2_mechMeter = self.player2_meters["mechanical"]
-        self.mainLayout.addWidget(self.player2_mechMeter,
-                                  row, rightCol + 1, 1, 2)
+        self.mainLayout.addWidget(self.player2_mechMeter, row, rightCol + 1, 1, 2)
         row += 1
 
         self.mainLayout.addItem(
-            QSpacerItem(0, 20, QSizePolicy.Fixed, QSizePolicy.Fixed),
-            row, innerCol)
+            QSpacerItem(0, 20, QSizePolicy.Fixed, QSizePolicy.Fixed), row, innerCol
+        )
         row += 1
 
         self.player1_Pic = QLabel("")
@@ -331,8 +324,8 @@ class MainWindow(QMainWindow):
         self.mainLayout.addWidget(self.player1_Pic, row, innerCol, 1, 3)
 
         self.mainLayout.addItem(
-            QSpacerItem(30, 0, QSizePolicy.Fixed, QSizePolicy.Fixed),
-            row, innerCol + 3)
+            QSpacerItem(30, 0, QSizePolicy.Fixed, QSizePolicy.Fixed), row, innerCol + 3
+        )
 
         self.player2_Pic = QLabel("")
         self.player2_Pic.setAlignment(Qt.AlignCenter)
@@ -342,8 +335,8 @@ class MainWindow(QMainWindow):
         row += 1
 
         self.mainLayout.addItem(
-            QSpacerItem(0, 20, QSizePolicy.Fixed, QSizePolicy.Fixed),
-            row, innerCol)
+            QSpacerItem(0, 20, QSizePolicy.Fixed, QSizePolicy.Fixed), row, innerCol
+        )
         row += 1
 
         self.P1Weapon_Pic = QLabel("")
@@ -380,8 +373,8 @@ class MainWindow(QMainWindow):
         row += 1
 
         self.mainLayout.addItem(
-            QSpacerItem(0, 20, QSizePolicy.Fixed, QSizePolicy.Fixed),
-            row, innerCol)
+            QSpacerItem(0, 20, QSizePolicy.Fixed, QSizePolicy.Fixed), row, innerCol
+        )
         row += 1
 
         # self.player1Lineup_Lbl = QLabel("Action Lineup: " +
@@ -398,17 +391,19 @@ class MainWindow(QMainWindow):
         row += 1
 
         self.mainLayout.addItem(
-            QSpacerItem(0, 40, QSizePolicy.Fixed, QSizePolicy.Fixed),
-            row, innerCol)
+            QSpacerItem(0, 40, QSizePolicy.Fixed, QSizePolicy.Fixed), row, innerCol
+        )
         row += 1
 
         self.fight_Btn = QPushButton("FIGHT!")
-        self.fight_Btn.setStyleSheet('''border-radius: 25px;
+        self.fight_Btn.setStyleSheet(
+            """border-radius: 25px;
                                         min-width: 150px;
                                         height: 50px;
                                         background-color: green;
                                         color: white;
-                                        font-size: 36px;''')
+                                        font-size: 36px;"""
+        )
         self.mainLayout.addWidget(self.fight_Btn, row, innerCol + 3)
         self.fight_Btn.clicked.connect(self.SetFightFlag)
         row += 1
@@ -416,10 +411,12 @@ class MainWindow(QMainWindow):
         colm = rightCol + 3
 
         self.mainLayout.addItem(
-            QSpacerItem(40, 40,
-                        QSizePolicy.MinimumExpanding,
-                        QSizePolicy.MinimumExpanding),
-            row, rightCol + 3)
+            QSpacerItem(
+                40, 40, QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding
+            ),
+            row,
+            rightCol + 3,
+        )
         colm += 1
 
         #############################################################
@@ -440,8 +437,8 @@ class MainWindow(QMainWindow):
         arsRow += 1
 
         self.P2WeaponLayout.addItem(
-            QSpacerItem(0, 30, QSizePolicy.Fixed, QSizePolicy.Fixed),
-            arsRow, 1)
+            QSpacerItem(0, 30, QSizePolicy.Fixed, QSizePolicy.Fixed), arsRow, 1
+        )
         arsRow += 1
 
         for key in self.P1WeaponArray:
@@ -453,8 +450,8 @@ class MainWindow(QMainWindow):
             arsRow += 1
 
             self.P2WeaponLayout.addItem(
-                QSpacerItem(0, 10, QSizePolicy.Fixed, QSizePolicy.Fixed),
-                arsRow, 1)
+                QSpacerItem(0, 10, QSizePolicy.Fixed, QSizePolicy.Fixed), arsRow, 1
+            )
             arsRow += 1
 
             self.P2_weapon1_Lbl2 = QLabel("")
@@ -464,8 +461,8 @@ class MainWindow(QMainWindow):
             arsRow += 1
 
             self.P2WeaponLayout.addItem(
-                QSpacerItem(0, 10, QSizePolicy.Fixed, QSizePolicy.Fixed),
-                arsRow, 1)
+                QSpacerItem(0, 10, QSizePolicy.Fixed, QSizePolicy.Fixed), arsRow, 1
+            )
             arsRow += 1
 
             self.P2_weapon1_Lbl3 = QLabel(
@@ -482,13 +479,14 @@ class MainWindow(QMainWindow):
             arsRow += 1
 
             self.P2WeaponLayout.addItem(
-                QSpacerItem(0, 40, QSizePolicy.Fixed, QSizePolicy.Fixed),
-                arsRow, 1)
+                QSpacerItem(0, 40, QSizePolicy.Fixed, QSizePolicy.Fixed), arsRow, 1
+            )
             arsRow += 1
         self.P2WeaponLayout.addItem(
-            QSpacerItem(0, 40,
-                        QSizePolicy.Fixed, QSizePolicy.MinimumExpanding),
-            arsRow, 1)
+            QSpacerItem(0, 40, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding),
+            arsRow,
+            1,
+        )
 
         #################################################################
 
@@ -501,9 +499,11 @@ class MainWindow(QMainWindow):
         self.P2defenseLayout = QGridLayout(spacing=0)
         self.P2defenseLayout.setContentsMargins(0, 0, 0, 0)
         self.P2defenseArsenal = QWidget()
-        self.P2defenseArsenal.setStyleSheet('''border-left: 1px solid green;
+        self.P2defenseArsenal.setStyleSheet(
+            """border-left: 1px solid green;
                                             border-right: 1px solid green;
-                                            min-width: 125px;''')
+                                            min-width: 125px;"""
+        )
         self.P2defenseArsenal.setLayout(self.P2defenseLayout)
 
         arsRow = 0
@@ -515,8 +515,8 @@ class MainWindow(QMainWindow):
         arsRow += 1
 
         self.P2defenseLayout.addItem(
-            QSpacerItem(0, 30, QSizePolicy.Fixed, QSizePolicy.Fixed),
-            arsRow, 1)
+            QSpacerItem(0, 30, QSizePolicy.Fixed, QSizePolicy.Fixed), arsRow, 1
+        )
         arsRow += 1
 
         for key in self.P1DefenseArray:
@@ -528,8 +528,8 @@ class MainWindow(QMainWindow):
             arsRow += 1
 
             self.P2defenseLayout.addItem(
-                QSpacerItem(0, 10, QSizePolicy.Fixed, QSizePolicy.Fixed),
-                arsRow, 1)
+                QSpacerItem(0, 10, QSizePolicy.Fixed, QSizePolicy.Fixed), arsRow, 1
+            )
             arsRow += 1
 
             self.P2_armor1_Lbl2 = QLabel("")
@@ -539,8 +539,8 @@ class MainWindow(QMainWindow):
             arsRow += 1
 
             self.P2defenseLayout.addItem(
-                QSpacerItem(0, 10, QSizePolicy.Fixed, QSizePolicy.Fixed),
-                arsRow, 1)
+                QSpacerItem(0, 10, QSizePolicy.Fixed, QSizePolicy.Fixed), arsRow, 1
+            )
             arsRow += 1
 
             self.P2_armor1_Lbl3 = QLabel(
@@ -557,13 +557,14 @@ class MainWindow(QMainWindow):
             arsRow += 1
 
             self.P2defenseLayout.addItem(
-                QSpacerItem(0, 40, QSizePolicy.Fixed, QSizePolicy.Fixed),
-                arsRow, 1)
+                QSpacerItem(0, 40, QSizePolicy.Fixed, QSizePolicy.Fixed), arsRow, 1
+            )
             arsRow += 1
         self.P2defenseLayout.addItem(
-            QSpacerItem(0, 40,
-                        QSizePolicy.Fixed, QSizePolicy.MinimumExpanding),
-            arsRow, 1)
+            QSpacerItem(0, 40, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding),
+            arsRow,
+            1,
+        )
 
         ##################################################################
 
@@ -572,8 +573,8 @@ class MainWindow(QMainWindow):
         colm += 1
 
         self.mainLayout.addItem(
-            QSpacerItem(30, 50, QSizePolicy.Fixed, QSizePolicy.Fixed),
-            row, colm)
+            QSpacerItem(30, 50, QSizePolicy.Fixed, QSizePolicy.Fixed), row, colm
+        )
 
         # Set the central widget of the Window.
         self.setCentralWidget(self.mainWidget)
@@ -625,10 +626,8 @@ class MainWindow(QMainWindow):
                     self.userHealthMeter -= 5
                 else:
                     self.userHealthMeter -= self.damageArray[compActionIndex]
-            self.player1Health_Lbl.setText("Health Meter: " +
-                                           str(self.userHealthMeter))
-            self.player2Health_Lbl.setText("Health Meter: " +
-                                           str(self.compHealthMeter))
+            self.player1Health_Lbl.setText("Health Meter: " + str(self.userHealthMeter))
+            self.player2Health_Lbl.setText("Health Meter: " + str(self.compHealthMeter))
 
             self.compActionArray.pop(0)
             self.userActionArray.pop(0)
