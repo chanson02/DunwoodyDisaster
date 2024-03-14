@@ -13,6 +13,7 @@ For this project we are using python version 3.11.8
 - **highestAttack**: Find a players strongest attack against an opponent
 - **SortLoot**: Goes through a loot pool (dictionary) and returns an updated dictionary for the player character. (Mitch)
 - **PlotRisk**: Determines how much of a risk it is to receive an attack
+- **Health**: Encompasses healing and stat restoration mechanics
 
 ### Actions
 - `pip install black flake8`
