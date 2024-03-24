@@ -1,24 +1,5 @@
 import copy
 
-
-class CharacterFactory:
-    def createCharacter(
-        self, name, classType
-    ):  # creates a character with the given name and classType
-        char = Character(name, classType)
-        return char
-
-
-# Dictionary of class types
-# [name, classType, health, magic, mechanical, defense, magicDefense, level, loot, food ]
-# basic class types, can be tweaked and added to as needed
-class_type = {
-    "blank": ["blank", 100, 0, 0, 0, 0, 0, 1, [], []],
-    "warrior": ["warrior", 100, 0, 15, 0, 0, 1, [], []],
-    "mage": ["mage", 100, 15, 0, 0, 0, 1, [], []],
-    "thief": ["thief", 100, 0, 10, 0, 0, 1, [], []],
-}
-
 risk_levels = {
     "high": "is a high risk attack",
     "medium": "is a medium risk attack",
@@ -27,33 +8,54 @@ risk_levels = {
 }
 
 
+class CharacterFactory:
+    class_types = {
+                "blank": ["blank", 100, 0, 0, 0, 0, 0, 1, [], []],
+                "warrior": ["warrior", 100, 0, 15, 0, 0, 1, [], []],
+                "mage": ["mage", 100, 15, 0, 0, 0, 1, [], []],
+                "thief": ["thief", 100, 0, 10, 0, 0, 1, [], []],
+            }
+
+    @staticmethod
+    def createCharacter(name, classType):
+        if classType not in CharacterFactory.class_types:
+            raise ValueError('Invalid class type')
+
+        data = CharacterFactory.class_types[classType]
+        character = Character()
+
+        character.name = name
+        character.classType = classType
+        character.health = data[1]
+        character.magic = data[2]
+        character.mechanical = data[4]
+        character.defense = data[5]
+        character.magicDefense = data[6]
+        character.level = data[7]
+        character.loot = data[8]
+        character.food = data[9]
+
+        return character
+
+
 class Character:
-    # info
-    name = ""
-    classType = class_type["blank"]
-    # stats
-    health = 100
-    magic = 0
-    mechanical = 15
-    defense = 0
-    magicDefense = 0
-    level = 1
 
-    # inventory
-    loot = []
-    food = []
+    def __init__(self):
+        # Meta data
+        self.level = 0
+        self.name = None
+        self.classType = None
 
-    def __init__(self, name, classType):
-        self.classType = class_type[classType][1]
-        self.health = class_type[classType][2]
-        self.magic = class_type[classType][3]
-        self.mechanical = class_type[classType][4]
-        self.defense = class_type[classType][5]
-        self.magicDefense = class_type[classType][6]
-        self.level = class_type[classType][7]
-        self.loot = class_type[classType][8]
-        self.food = class_type[classType][9]
-        self.name = name
+        # Meters
+        self.health = 0
+        self.magic = 0
+        self.mechanical = 0
+        self.defense = 0
+        self.magicDefense = 0
+
+        # Inventory
+        self.loot = []
+        self.food = []
 
     def PlotRisk(
         self, attacks
@@ -94,12 +96,3 @@ class Character:
             else:
                 print(f"{attackName} {risk_levels['none']}")
                 continue
-
-    def PlotDamage():  # goes through potential attacks and their damage to the enemy depending on his defense profile cooper
-        pass
-
-    def SortLoot():  # sort the loot array into our different bags mitch
-        pass
-
-    def Heal():  # searches food items for needed nutritional value then consumes them for points, changes health meter accordingly John
-        pass
