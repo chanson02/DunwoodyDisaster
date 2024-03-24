@@ -55,27 +55,26 @@ class CharacterFactory:
     @staticmethod
     def createCharacter(name, classType):
         if classType not in CharacterFactory.class_types:
-            raise ValueError('Invalid class type')
+            raise ValueError("Invalid class type")
 
         data = CharacterFactory.class_types[classType]
         character = Character()
 
         character.name = name
         character.classType = classType
-        character.health = data[1]
-        character.magic = data[2]
-        character.mechanical = data[4]
-        character.defense = data[5]
-        character.magicDefense = data[6]
-        character.level = data[7]
-        character.loot = data[8]
-        character.food = data[9]
+        character.health = data['health']
+        character.magic = data['magic']
+        character.mechanical = data['mechanical']
+        character.defense = data['defense']
+        character.magicDefense = data['magicDefense']
+        character.level = data['level']
+        character.loot = data['loot']
+        character.food = data['food']
 
         return character
 
 
 class Character:
-
     def __init__(self):
         # Meta data
         self.level = 0
@@ -93,9 +92,10 @@ class Character:
         self.loot = []
         self.food = []
 
-    def PlotRisk(
-        self, attacks
-    ):  # goes through enemies potential attacks and damage according to our defense profile
+    def PlotRisk(self, attacks):
+        """
+        Goes through enemeis potential attacks and damage according to our defense profile
+        """
         attacksCopy = copy.deepcopy(attacks)
 
         global health
