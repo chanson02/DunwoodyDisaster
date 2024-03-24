@@ -7,6 +7,10 @@ risk_levels = {
 
 
 class CharacterFactory:
+    """
+    A class for creating characters
+    """
+
     class_types = {
         "blank": {
             "health": 100,
@@ -51,7 +55,15 @@ class CharacterFactory:
     }
 
     @staticmethod
-    def createCharacter(name, classType):
+    def createCharacter(name: str, classType: str) -> Character:
+        """
+        Creates a character based on the given class type
+        :param name: The name of the character
+        :param classType: The type of the character
+        :return: The created character object
+        :raises:
+            ValueError: If the provided classType is not a member of CharacterFactory.class_types
+        """
         if classType not in CharacterFactory.class_types:
             raise ValueError("Invalid class type")
 
@@ -76,8 +88,8 @@ class Character:
     def __init__(self):
         # Meta data
         self.level = 0
-        self.name = None
-        self.classType = None
+        self.name = ''
+        self.classType = ''
 
         # Meters
         self.health = 0
@@ -90,9 +102,11 @@ class Character:
         self.loot = []
         self.food = []
 
-    def PlotRisk(self, attacks):
+    def PlotRisk(self, attacks: list) -> None:
         """
         Goes through enemeis potential attacks and damage according to our defense profile
+        Prints how risk each attack could be
+        :param attacks: List containing attack data [name, mechanical damage, magic damage, health damage]
         """
         for attack in attacks:
             name, mech, magic, health = attack
