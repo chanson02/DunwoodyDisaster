@@ -2,9 +2,6 @@ import copy
 
 
 class CharacterFactory:
-    def __init__(self):
-        pass
-
     def createCharacter(
         self, name, classType
     ):  # creates a character with the given name and classType
