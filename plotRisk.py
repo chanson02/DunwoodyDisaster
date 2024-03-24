@@ -17,8 +17,8 @@ class Character:
     health = 100
     magic = 0
     mechanical = 15
-    defense = 0
-    magicDefense = 0
+    defence = 0
+    magicDefence = 0
     level = 1
 
     # inventory
@@ -28,12 +28,18 @@ class Character:
     def __init__(self, name):
         self.name = name
 
-    def PlotRisk(
+    def plotRisk(
         self, attacks
     ):  # goes through enemies potential attacks and damage according to our defense profile Me
         # est time 1hr
         # total time 30mins
         attacksCopy = copy.deepcopy(attacks)
+        risks = [
+            "is a high risk attack",
+            "is a medium risk attack",
+            "is a low risk attack",
+            "is a no risk attack",
+        ]
 
         global health
         for attack in attacksCopy:
@@ -44,46 +50,46 @@ class Character:
             healthDamage = attack.pop(0)
 
             if self.mechanical <= mechDamage:
-                att = f"{attackName} {risk_levels['high']}"
+                att = f"{attackName} {risks[0]}"
                 print(att)  # will "stun" the character
                 continue
             totalDamage = 0
             totalDamage += (
-                magicDamage - self.magicDefense
-                if self.magicDefense < magicDamage
+                magicDamage - self.magicDefence
+                if self.magicDefence < magicDamage
                 else 0
             )
             totalDamage += (
-                healthDamage - self.defense if self.defense < healthDamage else 0
+                healthDamage - self.defence if self.defence < healthDamage else 0
             )
 
             if self.health - totalDamage <= 0:
-                print(f"{attackName} {risk_levels['high']}")
+                print(f"{attackName} {risks[0]}")
                 continue  # will kill the character
             elif totalDamage > self.health / 2:
-                print(f"{attackName} {risk_levels['medium']}")
+                print(f"{attackName} {risks[1]}")
                 continue  # a lot of damage to the character
             elif totalDamage > self.health / 4:
-                print(f"{attackName} {risk_levels['low']}")
+                print(f"{attackName} {risks[2]}")
                 continue  # a little damage the character
             else:
-                print(f"{attackName} {risk_levels['none']}")
+                print(f"{attackName} {risks[3]}")
                 continue
 
-    def PlotDamage():  # goes through potential attacks and their damage to the enemy depending on his defense profile cooper
+    def plotDamage():  # goes through potential attacks and their damage to the enemy depending on his defense profile cooper
         pass
 
-    def SortLoot():  # sort the loot array into our different bags mitch
+    def sortLoot():  # sort the loot array into our different bags mitch
         pass
 
-    def Heal():  # searches food items for needed nutritional value then consumes them for points, changes health meter accordingly John
+    def heal():  # searches food items for needed nutritional value then consumes them for points, changes health meter accordingly John
         pass
 
 
 att = [["arrows", 25, 5, 45], ["sparrow attack", 45, 15, 25]]
 char = Character("Noah")
 
-char.PlotRisk(att)
+char.plotRisk(att)
 # level up
 char.mechanical = 100
 char.magicDefense = 100
