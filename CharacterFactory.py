@@ -80,8 +80,8 @@ class Character:
     def __init__(self):
         # Meta data
         self.level = 0
-        self.name = ''
-        self.classType = ''
+        self.name = ""
+        self.classType = ""
 
         # Meters
         self.health = 0
