@@ -1,11 +1,3 @@
-risk_levels = {
-    "high": "is a high risk attack",
-    "medium": "is a medium risk attack",
-    "low": "is a low risk attack",
-    "none": "is a no risk attack",
-}
-
-
 class CharacterFactory:
     """
     A class for creating characters
@@ -108,6 +100,13 @@ class Character:
         Prints how risk each attack could be
         :param attacks: List containing attack data [name, mechanical damage, magic damage, health damage]
         """
+        risk_levels = {
+            "high": "is a high risk attack",
+            "medium": "is a medium risk attack",
+            "low": "is a low risk attack",
+            "none": "is a no risk attack",
+        }
+
         for attack in attacks:
             name, mech, magic, health = attack
             print(f"{name} ", end="")
