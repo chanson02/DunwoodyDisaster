@@ -49,7 +49,7 @@ class CharacterFactory:
             "level": 1,
             "loot": [],
             "food": [],
-        }
+        },
     }
 
     @staticmethod
@@ -62,14 +62,14 @@ class CharacterFactory:
 
         character.name = name
         character.classType = classType
-        character.health = data['health']
-        character.magic = data['magic']
-        character.mechanical = data['mechanical']
-        character.defense = data['defense']
-        character.magicDefense = data['magicDefense']
-        character.level = data['level']
-        character.loot = data['loot']
-        character.food = data['food']
+        character.health = data["health"]
+        character.magic = data["magic"]
+        character.mechanical = data["mechanical"]
+        character.defense = data["defense"]
+        character.magicDefense = data["magicDefense"]
+        character.level = data["level"]
+        character.loot = data["loot"]
+        character.food = data["food"]
 
         return character
 
@@ -98,18 +98,20 @@ class Character:
         """
         for attack in attacks:
             name, mech, magic, health = attack
-            print(f'{name} ', end='')
+            print(f"{name} ", end="")
             if self.mechanical <= mech:
                 # attack stuns opponent ?
-                print(risk_levels['high'])
+                print(risk_levels["high"])
                 continue
 
-            total_damage = max(0, magic - self.magicDefense) + max(0, health - self.defense)
+            total_damage = max(0, magic - self.magicDefense) + max(
+                0, health - self.defense
+            )
             if total_damage >= self.health:
-                print(risk_levels['high'])
+                print(risk_levels["high"])
             elif total_damage > self.health / 2:
-                print(risk_levels['medium'])
+                print(risk_levels["medium"])
             elif total_damage > self.health / 4:
-                print(risk_levels['low'])
+                print(risk_levels["low"])
             else:
-                print(risk_levels['none'])
+                print(risk_levels["none"])
