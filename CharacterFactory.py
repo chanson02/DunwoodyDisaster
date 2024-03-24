@@ -1,5 +1,3 @@
-import copy
-
 risk_levels = {
     "high": "is a high risk attack",
     "medium": "is a medium risk attack",
