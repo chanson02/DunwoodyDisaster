@@ -96,39 +96,20 @@ class Character:
         """
         Goes through enemeis potential attacks and damage according to our defense profile
         """
-        attacksCopy = copy.deepcopy(attacks)
-
-        global health
-        for attack in attacksCopy:
-            attackName = attack.pop(0)
-
-            mechDamage = attack.pop(0)
-            magicDamage = attack.pop(0)
-            healthDamage = attack.pop(0)
-
-            if self.mechanical <= mechDamage:
-                att = f"{attackName} {risk_levels['high']}"
-                print(att)  # will "stun" the character
+        for attack in attacks:
+            name, mech, magic, health = attack
+            print(f'{name} ', end='')
+            if self.mechanical <= mech:
+                # attack stuns opponent ?
+                print(risk_levels['high'])
                 continue
-            totalDamage = 0
-            totalDamage += (
-                magicDamage - self.magicDefense
-                if self.magicDefense < magicDamage
-                else 0
-            )
-            totalDamage += (
-                healthDamage - self.defense if self.defense < healthDamage else 0
-            )
 
-            if self.health - totalDamage <= 0:
-                print(f"{attackName} {risk_levels['high']}")
-                continue  # will kill the character
-            elif totalDamage > self.health / 2:
-                print(f"{attackName} {risk_levels['medium']}")
-                continue  # a lot of damage to the character
-            elif totalDamage > self.health / 4:
-                print(f"{attackName} {risk_levels['low']}")
-                continue  # a little damage the character
+            total_damage = max(0, magic - self.magicDefense) + max(0, health - self.defense)
+            if total_damage >= self.health:
+                print(risk_levels['high'])
+            elif total_damage > self.health / 2:
+                print(risk_levels['medium'])
+            elif total_damage > self.health / 4:
+                print(risk_levels['low'])
             else:
-                print(f"{attackName} {risk_levels['none']}")
-                continue
+                print(risk_levels['none'])
