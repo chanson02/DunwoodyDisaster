@@ -10,11 +10,47 @@ risk_levels = {
 
 class CharacterFactory:
     class_types = {
-                "blank": ["blank", 100, 0, 0, 0, 0, 0, 1, [], []],
-                "warrior": ["warrior", 100, 0, 15, 0, 0, 1, [], []],
-                "mage": ["mage", 100, 15, 0, 0, 0, 1, [], []],
-                "thief": ["thief", 100, 0, 10, 0, 0, 1, [], []],
-            }
+        "blank": {
+            "health": 100,
+            "magic": 0,
+            "mechanical": 0,
+            "defense": 0,
+            "magicDefense": 0,
+            "level": 1,
+            "loot": [],
+            "food": [],
+        },
+        "warrior": {
+            "health": 100,
+            "magic": 0,
+            "mechanical": 15,
+            "defense": 0,
+            "magicDefense": 0,
+            "level": 1,
+            "loot": [],
+            "food": [],
+        },
+        "mage": {
+            "health": 100,
+            "magic": 15,
+            "mechanical": 0,
+            "defense": 0,
+            "magicDefense": 0,
+            "level": 1,
+            "loot": [],
+            "food": [],
+        },
+        "thief": {
+            "health": 100,
+            "magic": 0,
+            "mechanical": 10,
+            "defense": 0,
+            "magicDefense": 0,
+            "level": 1,
+            "loot": [],
+            "food": [],
+        }
+    }
 
     @staticmethod
     def createCharacter(name, classType):
