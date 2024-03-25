@@ -1,10 +1,7 @@
-import sys
 from random import choice as randChoice
 from PySide6.QtCore import Qt, QTimer
 from PySide6.QtGui import QPixmap, QMovie, QColor
 from PySide6.QtWidgets import (
-    QApplication,
-    QMainWindow,
     QLabel,
     QWidget,
     QGridLayout,
