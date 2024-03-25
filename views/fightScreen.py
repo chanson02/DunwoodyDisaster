@@ -12,7 +12,7 @@ from PySide6.QtWidgets import (
     QSizePolicy,
     QPushButton,
 )
-from meter import Meter
+from views.meter import Meter
 
 # from arsenal import Arsenal
 
