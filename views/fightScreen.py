@@ -17,7 +17,7 @@ from meter import Meter
 # from arsenal import Arsenal
 
 
-class MainWindow(QMainWindow):
+class FightScreen(QWidget):
     def __init__(self):
         super().__init__()
 
@@ -50,13 +50,11 @@ class MainWindow(QMainWindow):
         self.fightFlag = False
         self.timer = QTimer()
 
-        self.setWindowTitle("My Fight App")
-
-        self.mainWidget = QWidget()
-        self.mainWidget.setStyleSheet("background-color: black;")
+        # self = QWidget()
+        self.setStyleSheet("background-color: black;")
         self.mainLayout = QGridLayout(spacing=0)
         self.mainLayout.setContentsMargins(0, 0, 0, 0)
-        self.mainWidget.setLayout(self.mainLayout)
+        self.setLayout(self.mainLayout)
 
         row = 0
         colm = 0
@@ -576,9 +574,6 @@ class MainWindow(QMainWindow):
             QSpacerItem(30, 50, QSizePolicy.Fixed, QSizePolicy.Fixed), row, colm
         )
 
-        # Set the central widget of the Window.
-        self.setCentralWidget(self.mainWidget)
-
         self.timer.start(2000)
         self.timer.timeout.connect(self.Fight)
 
@@ -639,11 +634,3 @@ class MainWindow(QMainWindow):
                 self.attack1_Btn.setEnabled(True)
                 self.attack2_Btn.setEnabled(True)
                 self.defend_Btn.setEnabled(True)
-
-
-app = QApplication(sys.argv)
-
-window = MainWindow()
-window.showMaximized()
-
-app.exec()
