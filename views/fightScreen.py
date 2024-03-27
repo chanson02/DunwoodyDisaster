@@ -11,24 +11,20 @@ from PySide6.QtWidgets import (
 )
 from views.meter import Meter
 
-
 class FightScreen(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.imageDir = "./assets/"
+        self.imageAssets = {
+                item: QPixmap(f"./assets/{item}.jpg")
+                for item in ['sword', 'spear', 'shield', 'gloves']
+                }
 
         self.userActionArray = []
         self.compActionArray = []
-        self.imgDict = {
-            "sword": QPixmap(self.imageDir + "sword.jpg"),
-            "spear": QPixmap(self.imageDir + "spear.jpg"),
-            "shield": QPixmap(self.imageDir + "shield.jpg"),
-            "gloves": QPixmap(self.imageDir + "gloves.jpg"),
-        }
-        punch = QMovie(self.imageDir + "P1Attack1.gif")
-        kick = QMovie(self.imageDir + "P1Attack2.gif")
-        defense = QMovie(self.imageDir + "P1Defense.gif")
+        punch = QMovie("./assets/P1Attack1.gif")
+        kick = QMovie("./assets/P1Attack2.gif")
+        defense = QMovie("./assets/P1Defense.gif")
         self.actionArray = ["Punch", "Kick", "Defend"]
         self.damageArray = [10, 20, 0]
         self.player1PicArray = [punch, kick, defense]
@@ -45,7 +41,6 @@ class FightScreen(QWidget):
         self.fightFlag = False
         self.timer = QTimer()
 
-        # self = QWidget()
         self.setStyleSheet("background-color: black;")
         self.mainLayout = QGridLayout(spacing=0)
         self.mainLayout.setContentsMargins(0, 0, 0, 0)
@@ -96,7 +91,7 @@ class FightScreen(QWidget):
 
             self.P1_weapon1_Lbl2 = QLabel("")
             self.P1_weapon1_Lbl2.setAlignment(Qt.AlignCenter)
-            self.P1_weapon1_Lbl2.setPixmap(self.imgDict[key].scaledToWidth(80))
+            self.P1_weapon1_Lbl2.setPixmap(self.imageAssets[key].scaledToWidth(80))
             self.P1WeaponLayout.addWidget(self.P1_weapon1_Lbl2, arsRow, 1)
             arsRow += 1
 
@@ -173,7 +168,7 @@ class FightScreen(QWidget):
 
             self.P1_armor1_Lbl2 = QLabel("")
             self.P1_armor1_Lbl2.setAlignment(Qt.AlignCenter)
-            self.P1_armor1_Lbl2.setPixmap(self.imgDict[key].scaledToWidth(80))
+            self.P1_armor1_Lbl2.setPixmap(self.imageAssets[key].scaledToWidth(80))
             self.P1defenseLayout.addWidget(self.P1_armor1_Lbl2, arsRow, 1)
             arsRow += 1
 
@@ -311,7 +306,7 @@ class FightScreen(QWidget):
         self.player1_Pic = QLabel("")
         self.player1_Pic.setAlignment(Qt.AlignCenter)
         self.player1_Pic.setStyleSheet("min-width: 380px;")
-        self.player1_Pic.setPixmap(QPixmap(self.imageDir + "ready.jpg"))
+        self.player1_Pic.setPixmap(QPixmap("./assets/ready.jpg"))
         self.mainLayout.addWidget(self.player1_Pic, row, innerCol, 1, 3)
 
         self.mainLayout.addItem(
@@ -321,7 +316,7 @@ class FightScreen(QWidget):
         self.player2_Pic = QLabel("")
         self.player2_Pic.setAlignment(Qt.AlignCenter)
         self.player2_Pic.setStyleSheet("min-width: 380px;")
-        self.player2_Pic.setPixmap(QPixmap(self.imageDir + "ready.jpg"))
+        self.player2_Pic.setPixmap(QPixmap("./assets/ready.jpg"))
         self.mainLayout.addWidget(self.player2_Pic, row, rightCol, 1, 3)
         row += 1
 
@@ -332,25 +327,25 @@ class FightScreen(QWidget):
 
         self.P1Weapon_Pic = QLabel("")
         self.P1Weapon_Pic.setPixmap(
-            QPixmap(self.imageDir + "sword.jpg").scaledToWidth(50)
+            QPixmap("./assets/sword.jpg").scaledToWidth(50)
         )
         self.mainLayout.addWidget(self.P1Weapon_Pic, row, innerCol)
 
         self.P1Defense_Pic = QLabel("")
         self.P1Defense_Pic.setPixmap(
-            QPixmap(self.imageDir + "shield.jpg").scaledToWidth(50)
+            QPixmap("./assets/shield.jpg").scaledToWidth(50)
         )
         self.mainLayout.addWidget(self.P1Defense_Pic, row, innerCol + 1)
 
         self.P2Weapon_Pic = QLabel("")
         self.P2Weapon_Pic.setPixmap(
-            QPixmap(self.imageDir + "spear.jpg").scaledToWidth(50)
+            QPixmap("./assets/spear.jpg").scaledToWidth(50)
         )
         self.mainLayout.addWidget(self.P2Weapon_Pic, row, rightCol)
 
         self.P2Defense_Pic = QLabel("")
         self.P2Defense_Pic.setPixmap(
-            QPixmap(self.imageDir + "gloves.jpg").scaledToWidth(50)
+            QPixmap("./assets/gloves.jpg").scaledToWidth(50)
         )
         self.mainLayout.addWidget(self.P2Defense_Pic, row, rightCol + 1)
 
@@ -447,7 +442,7 @@ class FightScreen(QWidget):
 
             self.P2_weapon1_Lbl2 = QLabel("")
             self.P2_weapon1_Lbl2.setAlignment(Qt.AlignCenter)
-            self.P2_weapon1_Lbl2.setPixmap(self.imgDict[key].scaledToWidth(80))
+            self.P2_weapon1_Lbl2.setPixmap(self.imageAssets[key].scaledToWidth(80))
             self.P2WeaponLayout.addWidget(self.P2_weapon1_Lbl2, arsRow, 1)
             arsRow += 1
 
@@ -524,7 +519,7 @@ class FightScreen(QWidget):
 
             self.P2_armor1_Lbl2 = QLabel("")
             self.P2_armor1_Lbl2.setAlignment(Qt.AlignCenter)
-            self.P2_armor1_Lbl2.setPixmap(self.imgDict[key].scaledToWidth(80))
+            self.P2_armor1_Lbl2.setPixmap(self.imageAssets[key].scaledToWidth(80))
             self.P2defenseLayout.addWidget(self.P2_armor1_Lbl2, arsRow, 1)
             arsRow += 1
 
