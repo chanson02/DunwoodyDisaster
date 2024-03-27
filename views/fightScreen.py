@@ -18,7 +18,7 @@ class FightScreen(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.imageDir = "C:/classGame/"
+        self.imageDir = "./assets/"
 
         self.userActionArray = []
         self.compActionArray = []
