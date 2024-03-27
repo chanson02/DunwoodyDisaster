@@ -11,8 +11,6 @@ from PySide6.QtWidgets import (
 )
 from views.meter import Meter
 
-# from arsenal import Arsenal
-
 
 class FightScreen(QWidget):
     def __init__(self):
@@ -132,7 +130,6 @@ class FightScreen(QWidget):
 
         #############################################################
 
-        # self.P1weaponArsenal = Arsenal('Weapon', self.P1WeaponArray)
         self.mainLayout.addWidget(self.P1WeaponWgt, row, colm, 16, 1)
         colm += 1
 
@@ -210,7 +207,6 @@ class FightScreen(QWidget):
 
         #############################################################
 
-        # self.P1defenseArsenal = Arsenal('Defense', self.P1DefenseArray)
         self.mainLayout.addWidget(self.P1defenseWgt, row, colm, 16, 1)
         colm += 1
 
@@ -485,7 +481,6 @@ class FightScreen(QWidget):
 
         #################################################################
 
-        # self.P2weaponArsenal = Arsenal('Weapon', self.P1WeaponArray)
         self.mainLayout.addWidget(self.P2weaponArsenal, 1, colm, 16, 1)
         colm += 1
 
@@ -563,7 +558,6 @@ class FightScreen(QWidget):
 
         ##################################################################
 
-        # self.P2defenseArsenal = Arsenal('Defense', self.P1DefenseArray)
         self.mainLayout.addWidget(self.P2defenseArsenal, 1, colm, 16, 1)
         colm += 1
 
