@@ -126,3 +126,13 @@ class CharacterFactory:
         character.food = data["food"]
 
         return character
+
+    @staticmethod
+    def createTestChar() -> Character:
+        """
+        Creates a default character we can use for testing
+        """
+        character = CharacterFactory.createCharacter('Test-Char', 'blank')
+        character.weapons = {'sword': [20, 30, 10], 'spear': [30, 10, 20]}
+        character.defenses = {'shield': [30, 10, 20], 'gloves': [10, 10, 10]}
+        return character
