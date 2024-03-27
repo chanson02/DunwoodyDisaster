@@ -9,12 +9,12 @@ class Character:
         self.health = 0
         self.magic = 0
         self.mechanical = 0
-        self.defense = 0
-        self.magicDefense = 0
 
         # Inventory
         self.loot = []
         self.food = []
+        self.weapons = {}
+        self.defenses = {}
 
     def PlotRisk(self, attacks: list) -> None:
         """
