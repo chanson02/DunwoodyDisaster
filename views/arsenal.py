@@ -62,7 +62,7 @@ class Arsenal(QWidget):
 
         lbl = QLabel(label)
         lbl.setAlignment(Qt.AlignCenter)
-        lbl.setStyleSheet("color: white;")
+        lbl.setStyleSheet("color: white; font-size: 24px;")
         layout.addWidget(lbl, row, 1)
         row += 1
         layout.addItem(self.spacer(10), row, 1)
@@ -71,7 +71,7 @@ class Arsenal(QWidget):
         for item in items:
             name = QLabel(item['name'])
             name.setAlignment(Qt.AlignCenter)
-            name.setStyleSHeet("color: white;")
+            name.setStyleSheet("color: white;")
             layout.addWidget(name, row, 1)
             row += 1
 
@@ -80,7 +80,7 @@ class Arsenal(QWidget):
 
             image = QLabel("")
             image.setAlignment(Qt.AlignCenter)
-            image.setPixmap(item['image'])
+            image.setPixmap(QPixmap(item['image']))
             layout.addWidget(image, row, 1)
             row += 1
 

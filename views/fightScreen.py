@@ -10,6 +10,7 @@ from PySide6.QtWidgets import (
     QPushButton,
 )
 from views.meter import Meter
+from views.arsenal import Arsenal
 
 
 class FightScreen(QWidget):
@@ -55,6 +56,10 @@ class FightScreen(QWidget):
         row += 1
         colm += 1
 
+        self.P1Arsenal = Arsenal()
+        self.mainLayout.addWidget(self.P1Arsenal, row, colm, 16, 1)
+
+        """
         #############################################################
         self.P1WeaponLayout = QGridLayout(spacing=0)
         self.P1WeaponLayout.setContentsMargins(0, 0, 0, 0)
@@ -135,9 +140,9 @@ class FightScreen(QWidget):
         self.P1defenseLayout.setContentsMargins(0, 0, 0, 0)
         self.P1defenseWgt = QWidget()
         self.P1defenseWgt.setStyleSheet(
-            """border-left: 1px solid green;
+            border-left: 1px solid green;
             border-right: 1px solid green;
-            min-width: 125px;"""
+            min-width: 125px;
         )
         self.P1defenseWgt.setLayout(self.P1defenseLayout)
 
@@ -202,8 +207,9 @@ class FightScreen(QWidget):
         )
 
         #############################################################
-
         self.mainLayout.addWidget(self.P1defenseWgt, row, colm, 16, 1)
+        """
+
         colm += 1
 
         self.mainLayout.addItem(
