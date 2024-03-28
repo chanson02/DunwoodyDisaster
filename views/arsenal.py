@@ -87,6 +87,7 @@ class Arsenal(QWidget):
             row += 1
 
             properties = QLabel(f"H: {item['KEY'][0]}\nM: {item['KEY'][1]}\nMech: {item['KEY'][2]}")
+            properties.setAlignment(Qt.AlignmentFlag.AlignCenter)
             properties.setStyleSheet("color: white;")
             layout.addWidget(properties, row, 1)
             row += 1
