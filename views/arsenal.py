@@ -95,6 +95,6 @@ class Arsenal(QWidget):
             row += 1
 
         widget = QWidget()
-        widget.setStyleSheet("border: 1px solid green; min-width: 125px;")
+        widget.setStyleSheet("min-width: 125px; border-left: 1px solid green; border-right: 1px solid green")
         widget.setLayout(layout)
         return widget
