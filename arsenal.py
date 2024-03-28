@@ -18,7 +18,38 @@ class Arsenal(QWidget):
         self.setStyleSheet("background-color: black;")
         layout = QGridLayout()
         layout.setContentsMargins(0, 0, 0, 0)
+
+        weapons = [
+                {
+                    'name': 'sword',
+                    'image': './assets/sword.jpg',
+                    'KEY': [20, 30, 10]
+                    },
+                {
+                    'name': 'spear',
+                    'image': './assets/spear.jpg',
+                    'KEY': [30, 10, 20]
+                    }
+                ]
+        weapons_widget = self.create_inventory('Weapons', weapons)
+        armor = [
+                {
+                    'name': 'shield',
+                    'image': './assets/shield.jpg',
+                    'KEY': [30, 10, 20]
+                    },
+                {
+                    'name': 'gloves',
+                    'image': './assets/gloves.jpg',
+                    'KEY': [10, 10, 10]
+                    }
+                ]
+        armor_widget = self.create_inventory('Armor', armor)
+
+        layout.addWidget(weapons_widget, 0, 0)
+        layout.addWidget(armor_widget, 0, 1)
         self.setLayout(layout)
+
 
     def spacer(self, height: int) -> QSpacerItem:
         return QSpacerItem(0, height, QSizePolicy.Fixed, QSizePolicy.Fixed)
@@ -65,5 +96,6 @@ class Arsenal(QWidget):
             row += 1
 
         widget = QWidget()
+        widget.setStyleSheet("border: 1px solid green; min-width: 125px;")
         widget.setLayout(layout)
         return widget
