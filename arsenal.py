@@ -16,6 +16,9 @@ class Arsenal(QWidget):
                 }
 
         self.setStyleSheet("background-color: black;")
+        layout = QGridLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
+        self.setLayout(layout)
 
     def initUI(self):
         try:
