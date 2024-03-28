@@ -9,12 +9,12 @@ class Character:
         self.health = 0
         self.magic = 0
         self.mechanical = 0
-        self.defense = 0
-        self.magicDefense = 0
 
         # Inventory
         self.loot = []
         self.food = []
+        self.weapons = {}
+        self.defenses = {}
 
     def PlotRisk(self, attacks: list) -> None:
         """
@@ -125,4 +125,14 @@ class CharacterFactory:
         character.loot = data["loot"]
         character.food = data["food"]
 
+        return character
+
+    @staticmethod
+    def createTestChar() -> Character:
+        """
+        Creates a default character we can use for testing
+        """
+        character = CharacterFactory.createCharacter("Test-Char", "blank")
+        character.weapons = {"sword": [20, 30, 10], "spear": [30, 10, 20]}
+        character.defenses = {"shield": [30, 10, 20], "gloves": [10, 10, 10]}
         return character
