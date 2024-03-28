@@ -1,6 +1,6 @@
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap
-from PySide6.QtWidgets import QLabel, QWidget, QGridLayout, QSpacerItem, QSizePolicy, QLayout
+from PySide6.QtWidgets import QGridLayout, QLabel, QSizePolicy, QSpacerItem, QWidget
 
 
 class Arsenal(QWidget):
@@ -50,9 +50,8 @@ class Arsenal(QWidget):
         layout.addWidget(armor_widget, 0, 1)
         self.setLayout(layout)
 
-
     def spacer(self, height: int) -> QSpacerItem:
-        return QSpacerItem(0, height, QSizePolicy.Fixed, QSizePolicy.Fixed)
+        return QSpacerItem(0, height, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
 
     def create_inventory(self, label: str, items: list[dict]) -> QWidget:
         layout = QGridLayout()
@@ -61,7 +60,7 @@ class Arsenal(QWidget):
         row = 0
 
         lbl = QLabel(label)
-        lbl.setAlignment(Qt.AlignCenter)
+        lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
         lbl.setStyleSheet("color: white; font-size: 24px;")
         layout.addWidget(lbl, row, 1)
         row += 1
@@ -70,7 +69,7 @@ class Arsenal(QWidget):
 
         for item in items:
             name = QLabel(item['name'])
-            name.setAlignment(Qt.AlignCenter)
+            name.setAlignment(Qt.AlignmentFlag.AlignCenter)
             name.setStyleSheet("color: white;")
             layout.addWidget(name, row, 1)
             row += 1
@@ -79,7 +78,7 @@ class Arsenal(QWidget):
             row += 1
 
             image = QLabel("")
-            image.setAlignment(Qt.AlignCenter)
+            image.setAlignment(Qt.AlignmentFlag.AlignCenter)
             image.setPixmap(QPixmap(item['image']).scaledToWidth(80))
             layout.addWidget(image, row, 1)
             row += 1
