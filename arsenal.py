@@ -23,7 +23,7 @@ class Arsenal(QWidget):
     def spacer(self, height: int) -> QSpacerItem:
         return QSpacerItem(0, height, QSizePolicy.Fixed, QSizePolicy.Fixed)
 
-    def create_inventory(self, label: str, items: list) -> QWidget:
+    def create_inventory(self, label: str, items: list[dict]) -> QWidget:
         layout = QGridLayout()
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -40,55 +40,26 @@ class Arsenal(QWidget):
         for item in items:
             name = QLabel(item['name'])
             name.setAlignment(Qt.AlignCenter)
+            name.setStyleSHeet("color: white;")
             layout.addWidget(name, row, 1)
             row += 1
 
+            layout.addItem(self.spacer(10), row, 1)
+            row += 1
 
+            image = QLabel("")
+            image.setAlignment(Qt.AlignCenter)
+            image.setPixmap(item['image'])
+            layout.addWidget(image, row, 1)
+            row += 1
 
+            layout.addItem(self.spacer(10), row, 1)
+            row += 1
 
+            properties = QLabel(f"H: {item['KEY'][0]}\nM: {item['KEY'][1]}\nMech: {item['KEY'][2]}")
+            properties.setStyleSheet("color: white;")
+            layout.addWidget(properties, row, 1)
+            row += 1
 
-    def initUI(self):
-        try:
-
-
-            for item in self.contents:
-                self.P1_weapon1_Lbl1 = QLabel(item)
-                self.P1_weapon1_Lbl1.setAlignment(Qt.AlignCenter)
-                self.P1_weapon1_Lbl1.setStyleSheet("color: white;")
-                self.mainLayout.addWidget(self.P1_weapon1_Lbl1, row, 1)
-                row += 1
-
-                self.mainLayout.addItem(
-                    QSpacerItem(0, 10, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 1
-                )
-                row += 1
-
-                self.P1_weapon1_Lbl2 = QLabel("")
-                self.P1_weapon1_Lbl2.setAlignment(Qt.AlignCenter)
-                self.P1_weapon1_Lbl2.setPixmap(self.imgDict[item])
-                self.mainLayout.addWidget(self.P1_weapon1_Lbl2, row, 1)
-                row += 1
-
-                self.mainLayout.addItem(
-                    QSpacerItem(0, 10, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 1
-                )
-                row += 1
-
-                self.P1_weapon1_Lbl3 = QLabel(
-                    "H: "
-                    + str(self.contents[item][0])
-                    + "\nM: "
-                    + str(self.contents[item][1])
-                    + "\nMech: "
-                    + str(self.contents[item][2])
-                )
-                self.P1_weapon1_Lbl3.setStyleSheet("color: white;")
-                self.mainLayout.addWidget(self.P1_weapon1_Lbl3, row, 1)
-                row += 1
-
-                self.mainLayout.addItem(
-                    QSpacerItem(0, 40, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 1
-                )
-                row += 1
-        except Exception as e:
-            print(e)
+            layout.addItem(self.spacer(40), row, 1)
+            row += 1
