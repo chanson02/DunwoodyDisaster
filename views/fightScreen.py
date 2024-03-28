@@ -243,7 +243,7 @@ class FightScreen(QWidget):
             "mechanical": Meter(QColor(50, 50, 50), 100),
             "magic": Meter(QColor(200, 0, 200), 100),
         }
-
+        
         self.player1Health_Lbl = QLabel("Health Meter: " + str(self.P1HealthMeter))
         self.player1Health_Lbl.setStyleSheet("color: white;")
         self.mainLayout.addWidget(self.player1Health_Lbl, row, innerCol)
@@ -572,7 +572,16 @@ class FightScreen(QWidget):
             self.defend_Btn.setEnabled(False)
             self.fight_Btn.setEnabled(True)
 
+    def UpdateMeters(self, meters):
+        pass
+        # curPercent = (curVal/maxVal) * 100
+        # print(curPercent)
+        # Meter.setPercentage(self, curPercent)
+    
+
+
     def Fight(self):
+        self.UpdateMeters(self.player1_meters)
         if self.fightFlag:
             self.fight_Btn.setEnabled(False)
 
@@ -613,3 +622,5 @@ class FightScreen(QWidget):
                 self.attack1_Btn.setEnabled(True)
                 self.attack2_Btn.setEnabled(True)
                 self.defend_Btn.setEnabled(True)
+
+        

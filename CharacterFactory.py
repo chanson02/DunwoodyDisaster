@@ -6,9 +6,12 @@ class Character:
         self.classType = ""
 
         # Meters
-        self.health = 0
-        self.magic = 0
-        self.mechanical = 0
+        self.curHealth = 0
+        self.maxHealth = 0
+        self.curMagic = 0
+        self.maxMagic = 0
+        self.curMechanical = 0
+        self.maxMechanical = 0
 
         # Inventory
         self.loot = []
@@ -32,7 +35,7 @@ class Character:
         for attack in attacks:
             name, mech, magic, health = attack
             print(f"{name} ", end="")
-            if self.mechanical <= mech:
+            if self.maxMechanical <= mech:
                 # attack stuns opponent ?
                 print(risk_levels["high"])
                 continue
@@ -40,11 +43,11 @@ class Character:
             total_damage = max(0, magic - self.magicDefense) + max(
                 0, health - self.defense
             )
-            if total_damage >= self.health:
+            if total_damage >= self.maxHealth:
                 print(risk_levels["high"])
-            elif total_damage > self.health / 2:
+            elif total_damage > self.maxHealth / 2:
                 print(risk_levels["medium"])
-            elif total_damage > self.health / 4:
+            elif total_damage > self.maxHealth / 4:
                 print(risk_levels["low"])
             else:
                 print(risk_levels["none"])
@@ -116,9 +119,9 @@ class CharacterFactory:
 
         character.name = name
         character.classType = classType
-        character.health = data["health"]
-        character.magic = data["magic"]
-        character.mechanical = data["mechanical"]
+        character.maxHealth = data["health"]
+        character.maxMagic = data["magic"]
+        character.maxMechanical = data["mechanical"]
         character.defense = data["defense"]
         character.magicDefense = data["magicDefense"]
         character.level = data["level"]
