@@ -71,7 +71,8 @@ class FightScreen(QWidget):
         row += 1
         colm += 1
 
-        ##################### This is the middle section of the screen ##############
+        ####################
+        # This is the middle section of the screen ##############
         innerCol = colm
         rightCol = colm + 4
         self.player1_Lbl = QLabel("Player 1")
