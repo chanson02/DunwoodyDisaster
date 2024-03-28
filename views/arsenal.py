@@ -80,7 +80,7 @@ class Arsenal(QWidget):
 
             image = QLabel("")
             image.setAlignment(Qt.AlignCenter)
-            image.setPixmap(QPixmap(item['image']))
+            image.setPixmap(QPixmap(item['image']).scaledToWidth(80))
             layout.addWidget(image, row, 1)
             row += 1
 
