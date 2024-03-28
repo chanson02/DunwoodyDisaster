@@ -63,3 +63,7 @@ class Arsenal(QWidget):
 
             layout.addItem(self.spacer(40), row, 1)
             row += 1
+
+        widget = QWidget()
+        widget.setLayout(layout)
+        return widget
