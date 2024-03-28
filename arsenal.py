@@ -20,20 +20,36 @@ class Arsenal(QWidget):
         layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(layout)
 
+    def spacer(self, height: int) -> QSpacerItem:
+        return QSpacerItem(0, height, QSizePolicy.Fixed, QSizePolicy.Fixed)
+
+    def create_inventory(self, label: str, items: list) -> QWidget:
+        layout = QGridLayout()
+        layout.setSpacing(0)
+        layout.setContentsMargins(0, 0, 0, 0)
+        row = 0
+
+        lbl = QLabel(label)
+        lbl.setAlignment(Qt.AlignCenter)
+        lbl.setStyleSheet("color: white;")
+        layout.addWidget(lbl, row, 1)
+        row += 1
+        layout.addItem(self.spacer(10), row, 1)
+        row += 1
+
+        for item in items:
+            name = QLabel(item['name'])
+            name.setAlignment(Qt.AlignCenter)
+            layout.addWidget(name, row, 1)
+            row += 1
+
+
+
+
+
     def initUI(self):
         try:
-            row = 0
 
-            self.main_Lbl = QLabel(self.name)
-            self.main_Lbl.setAlignment(Qt.AlignCenter)
-            self.main_Lbl.setStyleSheet("color: white;")
-            self.mainLayout.addWidget(self.main_Lbl, row, 1)
-            row += 1
-
-            self.mainLayout.addItem(
-                QSpacerItem(0, 30, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 1
-            )
-            row += 1
 
             for item in self.contents:
                 self.P1_weapon1_Lbl1 = QLabel(item)
