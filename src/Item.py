@@ -2,14 +2,16 @@
 images = {
     "sword": "assets/sword.png",
     "spear": "assets/spear.png",
+    "shield": "assets/shield.png",
+    "gloves": "assets/gloves.png",
 }
 # Stats for the items
 # Add items as needed under its respective category
-WeaponStats = {"sword": [20, 30, 10]}
+WeaponStats = {"sword": [20, 30, 10], "spear": [30, 10, 20]}
 
 FoodStats = {}
 
-ArmorStats = {}
+ArmorStats = {"shield": [30, 10, 20], "gloves": [10, 10, 10]}
 
 
 class Item:
