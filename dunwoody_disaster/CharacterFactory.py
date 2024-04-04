@@ -35,7 +35,7 @@ class Character:
         for attack in attacks:
             name, mech, magic, health = attack
             print(f"{name} ", end="")
-            if self.maxMechanical <= mech:
+            if self.curMechanical <= mech:
                 # attack stuns opponent ?
                 print(risk_levels["high"])
                 continue
@@ -43,11 +43,11 @@ class Character:
             total_damage = max(0, magic - self.magicDefense) + max(
                 0, health - self.defense
             )
-            if total_damage >= self.maxHealth:
+            if total_damage >= self.curHealth:
                 print(risk_levels["high"])
-            elif total_damage > self.maxHealth / 2:
+            elif total_damage > self.curHealth / 2:
                 print(risk_levels["medium"])
-            elif total_damage > self.maxHealth / 4:
+            elif total_damage > self.curHealth / 4:
                 print(risk_levels["low"])
             else:
                 print(risk_levels["none"])
