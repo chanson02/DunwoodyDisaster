@@ -9,7 +9,7 @@ from PySide6.QtWidgets import (
     QSizePolicy,
     QPushButton,
 )
-from views.meter import Meter
+from dunwoody_disaster.views.meter import Meter
 
 
 class FightScreen(QWidget):
@@ -17,15 +17,15 @@ class FightScreen(QWidget):
         super().__init__()
 
         self.imageAssets = {
-            item: QPixmap(f"./assets/{item}.jpg")
+            item: QPixmap(f"./dunwoody_disaster/assets/{item}.jpg")
             for item in ["sword", "spear", "shield", "gloves"]
         }
 
         self.userActionArray = []
         self.compActionArray = []
-        punch = QMovie("./assets/P1Attack1.gif")
-        kick = QMovie("./assets/P1Attack2.gif")
-        defense = QMovie("./assets/P1Defense.gif")
+        punch = QMovie("./dunwoody_disaster/assets/P1Attack1.gif")
+        kick = QMovie("./dunwoody_disaster/assets/P1Attack2.gif")
+        defense = QMovie("./dunwoody_disaster/assets/P1Defense.gif")
         self.actionArray = ["Punch", "Kick", "Defend"]
         self.damageArray = [10, 20, 0]
         self.player1PicArray = [punch, kick, defense]
@@ -307,7 +307,7 @@ class FightScreen(QWidget):
         self.player1_Pic = QLabel("")
         self.player1_Pic.setAlignment(Qt.AlignCenter)
         self.player1_Pic.setStyleSheet("min-width: 380px;")
-        self.player1_Pic.setPixmap(QPixmap("./assets/ready.jpg"))
+        self.player1_Pic.setPixmap(QPixmap("./dunwoody_disaster/assets/ready.jpg"))
         self.mainLayout.addWidget(self.player1_Pic, row, innerCol, 1, 3)
 
         self.mainLayout.addItem(
@@ -317,7 +317,7 @@ class FightScreen(QWidget):
         self.player2_Pic = QLabel("")
         self.player2_Pic.setAlignment(Qt.AlignCenter)
         self.player2_Pic.setStyleSheet("min-width: 380px;")
-        self.player2_Pic.setPixmap(QPixmap("./assets/ready.jpg"))
+        self.player2_Pic.setPixmap(QPixmap("./dunwoody_disaster/assets/ready.jpg"))
         self.mainLayout.addWidget(self.player2_Pic, row, rightCol, 1, 3)
         row += 1
 
