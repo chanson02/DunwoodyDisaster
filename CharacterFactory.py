@@ -61,8 +61,8 @@ class CharacterFactory:
     class_types = {
         "blank": {
             "health": 100,
-            "magic": 1,
-            "mechanical": 1,
+            "magic": 100,
+            "mechanical": 100,
             "defense": 0,
             "magicDefense": 0,
             "level": 1,
