@@ -10,6 +10,7 @@ from PySide6.QtWidgets import (
     QPushButton,
 )
 from views.meter import Meter
+from CharacterFactory import Character, CharacterFactory
 
 
 class FightScreen(QWidget):
@@ -234,7 +235,7 @@ class FightScreen(QWidget):
 
         self.player1_meters = {
             "health": Meter(QColor(255, 0, 0), 100),
-            "mechanical": Meter(QColor(50, 50, 50), 100),
+            "mechanical": Meter(QColor(50, 50, 50), 50),
             "magic": Meter(QColor(200, 0, 200), 100),
         }
 
@@ -397,7 +398,7 @@ class FightScreen(QWidget):
             rightCol + 3,
         )
         colm += 1
-
+        
         #############################################################
         self.P2WeaponLayout = QGridLayout(spacing=0)
         self.P2WeaponLayout.setContentsMargins(0, 0, 0, 0)
@@ -572,16 +573,28 @@ class FightScreen(QWidget):
             self.defend_Btn.setEnabled(False)
             self.fight_Btn.setEnabled(True)
 
-    def UpdateMeters(self, meters):
-        pass
-        # curPercent = (curVal/maxVal) * 100
-        # print(curPercent)
-        # Meter.setPercentage(self, curPercent)
+    
+
+    def UpdateMeters(self, player, meters : dict):
+        maxHealth = player.maxHealth
+        curHealth = 50
+        healthPercentage = (curHealth/maxHealth) * 100
+        meters["health"].setPercentage(healthPercentage)
+
+        maxMagic = player.maxMagic
+        curMagic = 50
+        magicPercentage = (curMagic/maxMagic) * 100
+        meters["magic"].setPercentage(magicPercentage)
+
+        maxMechanical = player.maxMechanical
+        curMechanical = 50
+        mechanicalPercentage = (curMechanical/maxMechanical) * 100
+        meters["mechanical"].setPercentage(mechanicalPercentage)
+
     
 
 
     def Fight(self):
-        self.UpdateMeters(self.player1_meters)
         if self.fightFlag:
             self.fight_Btn.setEnabled(False)
 
