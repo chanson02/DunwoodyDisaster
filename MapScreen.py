@@ -3,7 +3,6 @@ The entry point for the game
 """
 
 import sys
-from os import path
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QApplication, QMainWindow, QGridLayout, QWidget, QLabel
 from PySide6.QtGui import QPixmap, QKeyEvent
