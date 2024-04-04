@@ -573,7 +573,7 @@ class FightScreen(QWidget):
             self.defend_Btn.setEnabled(False)
             self.fight_Btn.setEnabled(True)
 
-    def UpdateMeters(self, player, meters: dict):
+    def UpdateMeters(self, player: Character, meters: dict):
         maxHealth = player.maxHealth
         curHealth = 50
         healthPercentage = (curHealth / maxHealth) * 100
