@@ -595,9 +595,6 @@ class FightScreen(QWidget):
 
 
     def Fight(self):
-        testChar = CharacterFactory.createTestChar()
-        self.UpdateMeters(testChar, self.player1_meters)
-        
         if self.fightFlag:
             self.fight_Btn.setEnabled(False)
 
