@@ -13,6 +13,10 @@ class Character:
         self.curMechanical = 0
         self.maxMechanical = 0
 
+        # What are these? --Cooper
+        self.defense = 0
+        self.magicDefense = 0
+
         # Inventory
         self.loot = []
         self.food = []
