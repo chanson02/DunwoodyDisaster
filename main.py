@@ -4,7 +4,7 @@ The entry point for the game
 
 import sys
 from PySide6.QtWidgets import QApplication, QMainWindow
-from views.fightScreen import FightScreen
+from dunwoody_disaster.views.fightScreen import FightScreen
 
 
 class MainWindow(QMainWindow):

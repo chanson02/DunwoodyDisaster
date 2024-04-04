@@ -9,8 +9,9 @@ from PySide6.QtWidgets import (
     QSizePolicy,
     QPushButton,
 )
-from views.meter import Meter
-from views.arsenal import Arsenal
+from dunwoody_disaster.views.meter import Meter
+from dunwoody_disaster.views.arsenal import Arsenal
+from dunwoody_disaster import ASSETS
 
 
 class FightScreen(QWidget):
@@ -18,15 +19,15 @@ class FightScreen(QWidget):
         super().__init__()
 
         self.imageAssets = {
-            item: QPixmap(f"./assets/{item}.jpg")
+            item: QPixmap(ASSETS[item])
             for item in ["sword", "spear", "shield", "gloves"]
         }
 
         self.userActionArray = []
         self.compActionArray = []
-        punch = QMovie("./assets/P1Attack1.gif")
-        kick = QMovie("./assets/P1Attack2.gif")
-        defense = QMovie("./assets/P1Defense.gif")
+        punch = QMovie(ASSETS["P1Attack1"])
+        kick = QMovie(ASSETS["P1Attack2"])
+        defense = QMovie(ASSETS["P1Defense"])
         self.actionArray = ["Punch", "Kick", "Defend"]
         self.damageArray = [10, 20, 0]
         self.player1PicArray = [punch, kick, defense]
@@ -178,7 +179,7 @@ class FightScreen(QWidget):
         self.player1_Pic = QLabel("")
         self.player1_Pic.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.player1_Pic.setStyleSheet("min-width: 380px;")
-        self.player1_Pic.setPixmap(QPixmap("./assets/ready.jpg"))
+        self.player1_Pic.setPixmap(QPixmap(ASSETS["ready"]))
         self.mainLayout.addWidget(self.player1_Pic, row, innerCol, 1, 3)
 
         self.mainLayout.addItem(
@@ -190,7 +191,7 @@ class FightScreen(QWidget):
         self.player2_Pic = QLabel("")
         self.player2_Pic.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.player2_Pic.setStyleSheet("min-width: 380px;")
-        self.player2_Pic.setPixmap(QPixmap("./assets/ready.jpg"))
+        self.player2_Pic.setPixmap(QPixmap(ASSETS["ready"]))
         self.mainLayout.addWidget(self.player2_Pic, row, rightCol, 1, 3)
         row += 1
 
@@ -202,19 +203,19 @@ class FightScreen(QWidget):
         row += 1
 
         self.P1Weapon_Pic = QLabel("")
-        self.P1Weapon_Pic.setPixmap(QPixmap("./assets/sword.jpg").scaledToWidth(50))
+        self.P1Weapon_Pic.setPixmap(QPixmap(ASSETS["sword"]).scaledToWidth(50))
         self.mainLayout.addWidget(self.P1Weapon_Pic, row, innerCol)
 
         self.P1Defense_Pic = QLabel("")
-        self.P1Defense_Pic.setPixmap(QPixmap("./assets/shield.jpg").scaledToWidth(50))
+        self.P1Defense_Pic.setPixmap(QPixmap(ASSETS["shield"]).scaledToWidth(50))
         self.mainLayout.addWidget(self.P1Defense_Pic, row, innerCol + 1)
 
         self.P2Weapon_Pic = QLabel("")
-        self.P2Weapon_Pic.setPixmap(QPixmap("./assets/spear.jpg").scaledToWidth(50))
+        self.P2Weapon_Pic.setPixmap(QPixmap(ASSETS["spear"]).scaledToWidth(50))
         self.mainLayout.addWidget(self.P2Weapon_Pic, row, rightCol)
 
         self.P2Defense_Pic = QLabel("")
-        self.P2Defense_Pic.setPixmap(QPixmap("./assets/gloves.jpg").scaledToWidth(50))
+        self.P2Defense_Pic.setPixmap(QPixmap(ASSETS["gloves"]).scaledToWidth(50))
         self.mainLayout.addWidget(self.P2Defense_Pic, row, rightCol + 1)
 
         # self.defend_Btn = QPushButton("Defend")
