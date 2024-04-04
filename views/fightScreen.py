@@ -235,7 +235,7 @@ class FightScreen(QWidget):
 
         self.player1_meters = {
             "health": Meter(QColor(255, 0, 0), 100),
-            "mechanical": Meter(QColor(50, 50, 50), 50),
+            "mechanical": Meter(QColor(50, 50, 50), 100),
             "magic": Meter(QColor(200, 0, 200), 100),
         }
 
@@ -244,7 +244,7 @@ class FightScreen(QWidget):
             "mechanical": Meter(QColor(50, 50, 50), 100),
             "magic": Meter(QColor(200, 0, 200), 100),
         }
-        
+
         self.player1Health_Lbl = QLabel("Health Meter: " + str(self.P1HealthMeter))
         self.player1Health_Lbl.setStyleSheet("color: white;")
         self.mainLayout.addWidget(self.player1Health_Lbl, row, innerCol)
@@ -398,7 +398,7 @@ class FightScreen(QWidget):
             rightCol + 3,
         )
         colm += 1
-        
+
         #############################################################
         self.P2WeaponLayout = QGridLayout(spacing=0)
         self.P2WeaponLayout.setContentsMargins(0, 0, 0, 0)
@@ -573,26 +573,21 @@ class FightScreen(QWidget):
             self.defend_Btn.setEnabled(False)
             self.fight_Btn.setEnabled(True)
 
-    
-
-    def UpdateMeters(self, player, meters : dict):
+    def UpdateMeters(self, player, meters: dict):
         maxHealth = player.maxHealth
         curHealth = 50
-        healthPercentage = (curHealth/maxHealth) * 100
+        healthPercentage = (curHealth / maxHealth) * 100
         meters["health"].setPercentage(healthPercentage)
 
         maxMagic = player.maxMagic
         curMagic = 50
-        magicPercentage = (curMagic/maxMagic) * 100
+        magicPercentage = (curMagic / maxMagic) * 100
         meters["magic"].setPercentage(magicPercentage)
 
         maxMechanical = player.maxMechanical
         curMechanical = 50
-        mechanicalPercentage = (curMechanical/maxMechanical) * 100
+        mechanicalPercentage = (curMechanical / maxMechanical) * 100
         meters["mechanical"].setPercentage(mechanicalPercentage)
-
-    
-
 
     def Fight(self):
         if self.fightFlag:
@@ -635,5 +630,3 @@ class FightScreen(QWidget):
                 self.attack1_Btn.setEnabled(True)
                 self.attack2_Btn.setEnabled(True)
                 self.defend_Btn.setEnabled(True)
-
-        
