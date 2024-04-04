@@ -12,7 +12,7 @@ from PySide6.QtWidgets import (
 from dunwoody_disaster.views.meter import Meter
 from dunwoody_disaster.views.arsenal import Arsenal
 from dunwoody_disaster import ASSETS
-from dunwoody_disaster.CharacterFactory import Character, CharacterFactory
+from dunwoody_disaster.CharacterFactory import Character
 
 
 class FightScreen(QWidget):
