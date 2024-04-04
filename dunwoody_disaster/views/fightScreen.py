@@ -25,7 +25,7 @@ class FightScreen(QWidget):
 
         self.userActionArray = []
         self.compActionArray = []
-        punch = QMovie(ASSETS['P1Attack1'])
+        punch = QMovie(ASSETS["P1Attack1"])
         kick = QMovie(ASSETS["P1Attack2"])
         defense = QMovie(ASSETS["P1Defense"])
         self.actionArray = ["Punch", "Kick", "Defend"]

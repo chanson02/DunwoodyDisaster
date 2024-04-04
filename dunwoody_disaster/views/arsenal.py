@@ -21,13 +21,13 @@ class Arsenal(QWidget):
         layout.setContentsMargins(0, 0, 0, 0)
 
         weapons = [
-            {"name": "sword", "image": ASSETS['sword'], "KEY": [20, 30, 10]},
-            {"name": "spear", "image": ASSETS['spear'], "KEY": [30, 10, 20]},
+            {"name": "sword", "image": ASSETS["sword"], "KEY": [20, 30, 10]},
+            {"name": "spear", "image": ASSETS["spear"], "KEY": [30, 10, 20]},
         ]
         weapons_widget = self.create_inventory("Weapons", weapons)
         armor = [
-            {"name": "shield", "image": ASSETS['shield'], "KEY": [30, 10, 20]},
-            {"name": "gloves", "image": ASSETS['gloves'], "KEY": [10, 10, 10]},
+            {"name": "shield", "image": ASSETS["shield"], "KEY": [30, 10, 20]},
+            {"name": "gloves", "image": ASSETS["gloves"], "KEY": [10, 10, 10]},
         ]
         armor_widget = self.create_inventory("Armor", armor)
 
