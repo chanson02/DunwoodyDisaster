@@ -319,12 +319,12 @@ class FightScreen(QWidget):
         meters["health"].setPercentage(healthPercentage)
 
         maxMagic = player.maxMagic
-        curMagic = 50
+        curMagic = player.curMagic
         magicPercentage = (curMagic / maxMagic) * 100
         meters["magic"].setPercentage(magicPercentage)
 
         maxMechanical = player.maxMechanical
-        curMechanical = 50
+        curMechanical = player.curMechanical
         mechanicalPercentage = (curMechanical / maxMechanical) * 100
         meters["mechanical"].setPercentage(mechanicalPercentage)
 
