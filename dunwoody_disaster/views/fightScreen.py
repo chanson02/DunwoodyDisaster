@@ -1,7 +1,7 @@
 from random import choice as randChoice
 from typing import Optional
-from PySide6.QtCore import Qt, QTimer
-from PySide6.QtGui import QPixmap, QMovie, QColor
+from PySide6.QtCore import QTimer
+from PySide6.QtGui import QPixmap, QMovie
 from PySide6.QtWidgets import (
     QLabel,
     QWidget,
@@ -10,10 +10,9 @@ from PySide6.QtWidgets import (
     QSizePolicy,
     QPushButton,
 )
-from dunwoody_disaster.views.meter import Meter
 from dunwoody_disaster.views.arsenal import Arsenal
 import dunwoody_disaster as DD
-from dunwoody_disaster.CharacterFactory import Character, CharacterFactory
+from dunwoody_disaster.CharacterFactory import CharacterFactory
 from dunwoody_disaster.views.characterState import CharacterState
 
 
