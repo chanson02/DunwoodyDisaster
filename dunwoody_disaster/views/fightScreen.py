@@ -202,31 +202,6 @@ class FightScreen(QWidget):
             self.defend_Btn.setEnabled(False)
             self.fight_Btn.setEnabled(True)
 
-    def UpdateMeters(self, player: Character, meters: dict):
-        maxHealth = player.maxHealth
-        curHealth = player.curHealth
-        if curHealth == 0:
-            healthPercentage = 0
-        else:
-            healthPercentage = (curHealth / maxHealth) * 100
-        meters["health"].setPercentage(healthPercentage)
-
-        maxMagic = player.maxMagic
-        curMagic = player.curMagic
-        if curMagic == 0:
-            magicPercentage = 0
-        else:
-            magicPercentage = (curMagic / maxMagic) * 100
-        meters["magic"].setPercentage(magicPercentage)
-
-        maxMechanical = player.maxMechanical
-        curMechanical = player.curMechanical
-        if curMechanical == 0:
-            mechanicalPercentage = 0
-        else:
-            mechanicalPercentage = (curMechanical / maxMechanical) * 100
-        meters["mechanical"].setPercentage(mechanicalPercentage)
-
     def Fight(self):
         if self.fightFlag:
             self.fight_Btn.setEnabled(False)

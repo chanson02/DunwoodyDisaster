@@ -1,3 +1,7 @@
+from dunwoody_disaster.views.meter import Meter
+from PySide6.QtGui import QColor
+
+
 class Character:
     def __init__(self):
         # Meta data
@@ -5,13 +9,15 @@ class Character:
         self.name = ""
         self.classType = ""
 
-        # Meters
         self.curHealth = 0
         self.maxHealth = 0
         self.curMagic = 0
         self.maxMagic = 0
         self.curMechanical = 0
         self.maxMechanical = 0
+        self.health_meter = Meter(QColor(255, 0, 0), 100)
+        self.magic_meter = Meter(QColor(200, 0, 200), 100)
+        self.mech_meter = Meter(QColor(50, 50, 50), 100)
 
         # What are these? --Cooper
         self.defense = 0
@@ -22,6 +28,30 @@ class Character:
         self.food = []
         self.weapons = {}
         self.defenses = {}
+
+    def set_health(self, health: int):
+        self.curHealth = health
+        if self.maxHealth == 0:
+            percentage = 0
+        else:
+            percentage = (health // self.maxHealth) * 100
+        self.health_meter.setPercentage(percentage)
+
+    def set_magic(self, magic: int):
+        self.curMagic = magic
+        if self.maxMagic == 0:
+            percentage = 0
+        else:
+            percentage = (magic // self.maxMagic) * 100
+        self.magic_meter.setPercentage(percentage)
+
+    def set_mechanical(self, mech: int):
+        self.curMechanical = mech
+        if self.maxMechanical == 0:
+            percentage = 0
+        else:
+            percentage = (mech // self.maxMechanical) * 100
+        self.mech_meter.setPercentage(percentage)
 
     def PlotRisk(self, attacks: list) -> None:
         """

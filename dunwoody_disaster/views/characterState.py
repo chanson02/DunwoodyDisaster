@@ -1,5 +1,5 @@
 from dunwoody_disaster.CharacterFactory import Character
-from dunwoody_disaster.views.meter import Meter
+# from dunwoody_disaster.views.meter import Meter
 from dunwoody_disaster import ASSETS
 from PySide6.QtWidgets import QWidget, QGridLayout, QLayout, QSpacerItem, QSizePolicy, QLabel
 from PySide6.QtGui import QColor, QPixmap
@@ -37,18 +37,14 @@ class CharacterState(QWidget):
         magic = QLabel(f"Magic: {self.character.curMagic}")
         mech = QLabel(f"Mechanical: {self.character.curMechanical}")
 
-        health_meter = Meter(QColor(255, 0, 0), 100)
-        magic_meter = Meter(QColor(200, 0, 200), 100)
-        mech_meter = Meter(QColor(50, 50, 50, 100))
-
         layout.addWidget(health, row, 0)
-        layout.addWidget(health_meter, row, 1, 1, 2)
+        layout.addWidget(self.character.health_meter, row, 1, 1, 2)
         row += 1
         layout.addWidget(magic, row, 0)
-        layout.addWidget(magic_meter, row, 1, 1, 2)
+        layout.addWidget(self.character.magic_meter, row, 1, 1, 2)
         row += 1
         layout.addWidget(mech, row, 0)
-        layout.addWidget(mech_meter, row, 1, 1, 2)
+        layout.addWidget(self.character.mech_meter, row, 1, 1, 2)
         row += 1
 
         layout.addItem(self.spacer(10), row, 0)
