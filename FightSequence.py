@@ -34,7 +34,7 @@ class FightSequence:
         
     def CanAttack(self, player, attack) -> bool:
         """
-        
+        Checks to see if character has enough stamina or magic to attack with.
         """
         if(player.curStamina - attack.staminaCost >= 0 and player.curMagic >= attack.magicCost):
             return True
@@ -43,7 +43,7 @@ class FightSequence:
 
     def CalculateDamage(playerAttack : Item.Weapon, targetDefense : Item.Armor):
         """
-        
+        Deals damage based on playerAttack vs the targets defensive item.
         """
         attackDamage = playerAttack.damage - targetDefense.armorVal
         
