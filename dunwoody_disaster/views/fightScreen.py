@@ -12,7 +12,7 @@ from PySide6.QtWidgets import (
 )
 from dunwoody_disaster.views.meter import Meter
 from dunwoody_disaster.views.arsenal import Arsenal
-from dunwoody_disaster import ASSETS
+import dunwoody_disaster as DD
 from dunwoody_disaster.CharacterFactory import Character, CharacterFactory
 from dunwoody_disaster.views.characterState import CharacterState
 
@@ -22,15 +22,15 @@ class FightScreen(QWidget):
         super().__init__()
 
         self.imageAssets = {
-            item: QPixmap(ASSETS[item])
+            item: QPixmap(DD.ASSETS[item])
             for item in ["sword", "spear", "shield", "gloves"]
         }
 
         self.userActionArray = []
         self.compActionArray = []
-        punch = QMovie(ASSETS["P1Attack1"])
-        kick = QMovie(ASSETS["P1Attack2"])
-        defense = QMovie(ASSETS["P1Defense"])
+        punch = QMovie(DD.ASSETS["P1Attack1"])
+        kick = QMovie(DD.ASSETS["P1Attack2"])
+        defense = QMovie(DD.ASSETS["P1Defense"])
         self.actionArray = ["Punch", "Kick", "Defend"]
         self.damageArray = [10, 20, 0]
         self.player1PicArray = [punch, kick, defense]
@@ -55,6 +55,7 @@ class FightScreen(QWidget):
 
         row = 0
         colm = 0
+
         self.mainLayout.addItem(
             QSpacerItem(30, 50, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed),
             row,
@@ -99,14 +100,14 @@ class FightScreen(QWidget):
         row += 1
 
         self.mainLayout.addItem(
-            QSpacerItem(0, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed),
+            DD.spacer(2),
             row,
             innerCol,
         )
         row += 1
 
         self.mainLayout.addItem(
-            QSpacerItem(0, 40, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed),
+            DD.spacer(40),
             row,
             innerCol,
         )
@@ -161,10 +162,10 @@ class FightScreen(QWidget):
 
         attack_pic = QLabel("")
         if attack:
-            attack_pic.setPixmap(QPixmap(ASSETS[attack]).scaledToWidth(50))
+            attack_pic.setPixmap(QPixmap(DD.ASSETS[attack]).scaledToWidth(50))
         defend_pic = QLabel("")
         if defence:
-            defend_pic.setPixmap(QPixmap(ASSETS[defence]).scaledToWidth(50))
+            defend_pic.setPixmap(QPixmap(DD.ASSETS[defence]).scaledToWidth(50))
 
         layout.addWidget(attack_pic, 0, 0)
         layout.addWidget(defend_pic, 0, 1)

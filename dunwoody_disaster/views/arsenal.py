@@ -1,7 +1,7 @@
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QGridLayout, QLabel, QSizePolicy, QSpacerItem, QWidget
-from dunwoody_disaster import ASSETS
+import dunwoody_disaster as DD
 
 
 class Arsenal(QWidget):
@@ -21,24 +21,19 @@ class Arsenal(QWidget):
         layout.setContentsMargins(0, 0, 0, 0)
 
         weapons = [
-            {"name": "sword", "image": ASSETS["sword"], "KEY": [20, 30, 10]},
-            {"name": "spear", "image": ASSETS["spear"], "KEY": [30, 10, 20]},
+            {"name": "sword", "image": DD.ASSETS["sword"], "KEY": [20, 30, 10]},
+            {"name": "spear", "image": DD.ASSETS["spear"], "KEY": [30, 10, 20]},
         ]
         weapons_widget = self.create_inventory("Weapons", weapons)
         armor = [
-            {"name": "shield", "image": ASSETS["shield"], "KEY": [30, 10, 20]},
-            {"name": "gloves", "image": ASSETS["gloves"], "KEY": [10, 10, 10]},
+            {"name": "shield", "image": DD.ASSETS["shield"], "KEY": [30, 10, 20]},
+            {"name": "gloves", "image": DD.ASSETS["gloves"], "KEY": [10, 10, 10]},
         ]
         armor_widget = self.create_inventory("Armor", armor)
 
         layout.addWidget(weapons_widget, 0, 0)
         layout.addWidget(armor_widget, 0, 1)
         self.setLayout(layout)
-
-    def spacer(self, height: int) -> QSpacerItem:
-        return QSpacerItem(
-            0, height, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed
-        )
 
     def create_inventory(self, label: str, items: list[dict]) -> QWidget:
         layout = QGridLayout()
@@ -51,7 +46,7 @@ class Arsenal(QWidget):
         lbl.setStyleSheet("color: white; font-size: 24px;")
         layout.addWidget(lbl, row, 1)
         row += 1
-        layout.addItem(self.spacer(10), row, 1)
+        layout.addItem(DD.spacer(10), row, 1)
         row += 1
 
         for item in items:
@@ -61,7 +56,7 @@ class Arsenal(QWidget):
             layout.addWidget(name, row, 1)
             row += 1
 
-            layout.addItem(self.spacer(10), row, 1)
+            layout.addItem(DD.spacer(10), row, 1)
             row += 1
 
             image = QLabel("")
@@ -70,7 +65,7 @@ class Arsenal(QWidget):
             layout.addWidget(image, row, 1)
             row += 1
 
-            layout.addItem(self.spacer(10), row, 1)
+            layout.addItem(DD.spacer(10), row, 1)
             row += 1
 
             properties = QLabel(
@@ -81,7 +76,7 @@ class Arsenal(QWidget):
             layout.addWidget(properties, row, 1)
             row += 1
 
-            layout.addItem(self.spacer(40), row, 1)
+            layout.addItem(DD.spacer(40), row, 1)
             row += 1
 
         widget = QWidget()

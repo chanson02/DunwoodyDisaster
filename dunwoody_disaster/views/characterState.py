@@ -1,6 +1,5 @@
 from dunwoody_disaster.CharacterFactory import Character
-# from dunwoody_disaster.views.meter import Meter
-from dunwoody_disaster import ASSETS
+import dunwoody_disaster as DD
 from PySide6.QtWidgets import QWidget, QGridLayout, QLayout, QSpacerItem, QSizePolicy, QLabel
 from PySide6.QtGui import QColor, QPixmap
 from PySide6.QtCore import Qt
@@ -17,11 +16,6 @@ class CharacterState(QWidget):
     def update_ui(self):
         self.setLayout(self.create_layout())
 
-    def spacer(self, height: int) -> QSpacerItem:
-        return QSpacerItem(
-            0, height, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed
-        )
-
     def create_layout(self) -> QLayout:
         layout = QGridLayout()
         layout.setSpacing(0)
@@ -33,7 +27,7 @@ class CharacterState(QWidget):
         layout.addWidget(name, row, 0, 1, 3)
         row += 1
 
-        layout.addItem(self.spacer(30), row, 1)
+        layout.addItem(DD.spacer(30), row, 1)
         row += 1
 
         health = QLabel(f"Health: {self.character.curHealth}")
@@ -50,17 +44,17 @@ class CharacterState(QWidget):
         layout.addWidget(self.character.mech_meter, row, 1, 1, 2)
         row += 1
 
-        layout.addItem(self.spacer(10), row, 0)
+        layout.addItem(DD.spacer(10), row, 0)
         row += 1
 
         pic = QLabel("")
         pic.setAlignment(Qt.AlignmentFlag.AlignCenter)
         pic.setStyleSheet("min-width: 380px;")
-        pic.setPixmap(QPixmap(ASSETS["ready"]))
+        pic.setPixmap(QPixmap(DD.ASSETS["ready"]))
         layout.addWidget(pic, row, 0, 1, 3)
         row += 1
 
-        layout.addItem(self.spacer(30), row, 0)
+        layout.addItem(DD.spacer(30), row, 0)
         row += 1
 
         return layout

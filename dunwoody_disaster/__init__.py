@@ -1,3 +1,4 @@
+from PySide6.QtWidgets import QSpacerItem, QSizePolicy
 import os
 
 ASSETS = {}
@@ -8,3 +9,9 @@ for fname in os.listdir(asset_dir):
     if os.path.isfile(path) and "." in fname:
         key = os.path.splitext(fname)[0]
         ASSETS[key] = path
+
+
+def spacer(height: int) -> QSpacerItem:
+    return QSpacerItem(
+            0, height, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed
+            )
