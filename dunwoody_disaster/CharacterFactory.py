@@ -10,12 +10,14 @@ class Character:
         self.maxHealth = 0
         self.curMagic = 0
         self.maxMagic = 0
-        self.curMechanical = 0
-        self.maxMechanical = 0
+        self.curStamina = 0
+        self.maxStamina = 0 
 
-        # What are these? --Cooper
-        self.defense = 0
-        self.magicDefense = 0
+        self.meters = {
+            "health": self.maxHealth,
+            "magic": self.maxMagic,
+            "stamina": self.maxStamina
+        }
 
         # Inventory
         self.loot = []
@@ -125,12 +127,10 @@ class CharacterFactory:
         character.classType = classType
         character.maxHealth = data["health"]
         character.maxMagic = data["magic"]
-        character.maxMechanical = data["mechanical"]
+        character.maxStamina = data["mechanical"]
         character.curHealth = data["health"]
         character.curMagic = data["magic"]
-        character.curMechanical = data["mechanical"]
-        character.defense = data["defense"]
-        character.magicDefense = data["magicDefense"]
+        character.curStamina = data["mechanical"]
         character.level = data["level"]
         character.loot = data["loot"]
         character.food = data["food"]
@@ -145,4 +145,5 @@ class CharacterFactory:
         character = CharacterFactory.createCharacter("Test-Char", "blank")
         character.weapons = {"sword": [20, 30, 10], "spear": [30, 10, 20]}
         character.defenses = {"shield": [30, 10, 20], "gloves": [10, 10, 10]}
+        character.meters = {"health": 100, "magic": 100, "stamina": 100}
         return character
