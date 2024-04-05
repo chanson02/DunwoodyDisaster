@@ -9,6 +9,7 @@ from PySide6.QtWidgets import (
     QSpacerItem,
     QSizePolicy,
     QPushButton,
+    QLayout
 )
 from dunwoody_disaster.views.arsenal import Arsenal
 import dunwoody_disaster as DD
@@ -19,25 +20,35 @@ from dunwoody_disaster.views.characterState import CharacterState
 class ActionSelector(QWidget):
     def __init__(self):
         super().__init__()
-        self.attack = None
-        self.defense = None
-        self.update_ui(None, None)
+        self.attack: Optional[dict] = None
+        self.defense: Optional[dict] = None
+        self.setLayout(self.create_layout())
 
-    def update_ui(self, attack: Optional[str], defence: Optional[str]):
+    def set_attack(self, item: dict):
+        self.attack = item
+        self.update_ui()
+
+    def set_defense(self, item: dict):
+        self.defense = item
+        self.update_ui()
+
+    def update_ui(self):
+        if self.attack:
+            self.attack_pic.setPixmap(QPixmap(DD.ASSETS[self.attack['name']]).scaledToWidth(50))
+        if self.defense:
+            self.defend_pic.setPixmap(QPixmap(DD.ASSETS[self.defense['name']]).scaledToWidth(50))
+
+    def create_layout(self) -> QLayout:
         layout = QGridLayout()
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
 
-        attack_pic = QLabel("")
-        if attack:
-            attack_pic.setPixmap(QPixmap(DD.ASSETS[attack]).scaledToWidth(50))
-        defend_pic = QLabel("")
-        if defence:
-            defend_pic.setPixmap(QPixmap(DD.ASSETS[defence]).scaledToWidth(50))
+        self.attack_pic = QLabel("")
+        self.defend_pic = QLabel("")
 
-        layout.addWidget(attack_pic, 0, 0)
-        layout.addWidget(defend_pic, 0, 1)
-        self.setLayout(layout)
+        layout.addWidget(self.attack_pic, 0, 0)
+        layout.addWidget(self.defend_pic, 0, 1)
+        return layout
 
 class FightScreen(QWidget):
     def __init__(self):

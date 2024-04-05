@@ -1,8 +1,7 @@
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QPixmap
-from PySide6.QtWidgets import QGridLayout, QLabel, QSizePolicy, QSpacerItem, QWidget
+from PySide6.QtGui import QPixmap, QIcon
+from PySide6.QtWidgets import QGridLayout, QLabel, QSizePolicy, QSpacerItem, QWidget, QPushButton
 import dunwoody_disaster as DD
-from dunwoody_disaster.views.fightScreen import ActionSelector
 
 
 class Arsenal(QWidget):
@@ -10,7 +9,7 @@ class Arsenal(QWidget):
     The arsenal is made up of two `inventory` widgets which display items
     """
 
-    def __init__(self, selector: ActionSelector):
+    def __init__(self, selector):
         super().__init__()
         self.selector = selector
         self.imageAssets = {
@@ -37,7 +36,20 @@ class Arsenal(QWidget):
         layout.addWidget(armor_widget, 0, 1)
         self.setLayout(layout)
 
+    def select_item(self, item: dict, attack: bool):
+        if attack:
+            self.selector.set_attack(item)
+        else:
+            self.selector.set_defense(item)
+        return
+
+    def select_item_lambda(self, item: dict, attack: bool):
+        return lambda: self.select_item(item, attack)
+
     def create_inventory(self, label: str, items: list[dict]) -> QWidget:
+        attacking = False
+        if label == 'Weapons':
+            attacking = True
         layout = QGridLayout()
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -61,10 +73,12 @@ class Arsenal(QWidget):
             layout.addItem(DD.spacer(10), row, 1)
             row += 1
 
-            image = QLabel("")
-            image.setAlignment(Qt.AlignmentFlag.AlignCenter)
-            image.setPixmap(QPixmap(item["image"]).scaledToWidth(80))
-            layout.addWidget(image, row, 1)
+            image = QPixmap(item['image']).scaledToWidth(80)
+            btn = QPushButton()
+            btn.setIcon(image)
+            btn.setIconSize(image.size())
+            btn.clicked.connect(self.select_item_lambda(item, attacking))
+            layout.addWidget(btn, row, 1)
             row += 1
 
             layout.addItem(DD.spacer(10), row, 1)
