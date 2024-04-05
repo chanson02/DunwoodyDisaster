@@ -1,6 +1,11 @@
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QPixmap, QIcon
-from PySide6.QtWidgets import QGridLayout, QLabel, QSizePolicy, QSpacerItem, QWidget, QPushButton
+from PySide6.QtGui import QPixmap
+from PySide6.QtWidgets import (
+    QGridLayout,
+    QLabel,
+    QWidget,
+    QPushButton,
+)
 import dunwoody_disaster as DD
 
 
@@ -48,7 +53,7 @@ class Arsenal(QWidget):
 
     def create_inventory(self, label: str, items: list[dict]) -> QWidget:
         attacking = False
-        if label == 'Weapons':
+        if label == "Weapons":
             attacking = True
         layout = QGridLayout()
         layout.setSpacing(0)
@@ -73,7 +78,7 @@ class Arsenal(QWidget):
             layout.addItem(DD.spacer(10), row, 1)
             row += 1
 
-            image = QPixmap(item['image']).scaledToWidth(80)
+            image = QPixmap(item["image"]).scaledToWidth(80)
             btn = QPushButton()
             btn.setIcon(image)
             btn.setIconSize(image.size())

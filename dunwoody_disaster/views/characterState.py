@@ -1,7 +1,12 @@
 from dunwoody_disaster.CharacterFactory import Character
 import dunwoody_disaster as DD
-from PySide6.QtWidgets import QWidget, QGridLayout, QLayout, QSpacerItem, QSizePolicy, QLabel
-from PySide6.QtGui import QColor, QPixmap
+from PySide6.QtWidgets import (
+    QWidget,
+    QGridLayout,
+    QLayout,
+    QLabel,
+)
+from PySide6.QtGui import QPixmap
 from PySide6.QtCore import Qt
 
 

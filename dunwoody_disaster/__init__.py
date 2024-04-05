@@ -12,6 +12,4 @@ for fname in os.listdir(asset_dir):
 
 
 def spacer(height: int) -> QSpacerItem:
-    return QSpacerItem(
-            0, height, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed
-            )
+    return QSpacerItem(0, height, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)

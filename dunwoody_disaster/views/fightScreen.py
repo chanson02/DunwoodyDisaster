@@ -9,7 +9,7 @@ from PySide6.QtWidgets import (
     QSpacerItem,
     QSizePolicy,
     QPushButton,
-    QLayout
+    QLayout,
 )
 from dunwoody_disaster.views.arsenal import Arsenal
 import dunwoody_disaster as DD
@@ -34,9 +34,13 @@ class ActionSelector(QWidget):
 
     def update_ui(self):
         if self.attack:
-            self.attack_pic.setPixmap(QPixmap(DD.ASSETS[self.attack['name']]).scaledToWidth(50))
+            self.attack_pic.setPixmap(
+                QPixmap(DD.ASSETS[self.attack["name"]]).scaledToWidth(50)
+            )
         if self.defense:
-            self.defend_pic.setPixmap(QPixmap(DD.ASSETS[self.defense['name']]).scaledToWidth(50))
+            self.defend_pic.setPixmap(
+                QPixmap(DD.ASSETS[self.defense["name"]]).scaledToWidth(50)
+            )
 
     def create_layout(self) -> QLayout:
         layout = QGridLayout()
@@ -49,6 +53,7 @@ class ActionSelector(QWidget):
         layout.addWidget(self.attack_pic, 0, 0)
         layout.addWidget(self.defend_pic, 0, 1)
         return layout
+
 
 class FightScreen(QWidget):
     def __init__(self):
