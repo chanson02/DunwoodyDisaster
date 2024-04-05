@@ -1,31 +1,32 @@
-from CharacterFactory import Character
-from fightScreen import UpdateMeters
+from dunwoody_disaster import CharacterFactory
+from dunwoody_disaster.views import fightScreen
 
 class FightSequence:
     def __init__(self, player, enemy):
         self.player = player
         self.enemy = enemy
 
-    def Fight(self, playerAttack, enemyAttack):
+    def Fight(self, playerWeapon, enemyWeapon):
         """
         Simulates a fight between player and enemy
         :param playerAttack: The attack the player is using
         :param enemyAttack: The attack the enemy is using
         :return: The stat changes for the player and enemy
         """
-        canPlayerAttack = self.CanAttack(self.player, playerAttack)
-        canEnemyAttack = self.CanAttack(self.enemy, enemyAttack)
+        
+        canPlayerAttack = self.CanAttack(self.player, playerWeapon)
+        canEnemyAttack = self.CanAttack(self.enemy, enemyWeapon)
 
         if(canPlayerAttack):
-            playerDamage = self.CalculateDamage(playerAttack, self.player, self.enemy)
-            self.player.curStamina -= playerAttack.staminaCost
+            playerDamage = self.CalculateDamage(playerWeapon, self.player, self.enemy)
+            self.player.curStamina -= playerWeapon.staminaCost
             self.enemy.health -= playerDamage
-            self.UpdateMeters(self.player, self.player.meters)
+            fightScreen.UpdateMeters(self.player, self.player.meters)
         if(canEnemyAttack):
-            enemyDamage = self.CalculateDamage(enemyAttack, self.enemy, self.player)
-            self.enemy.curStamina -= enemyAttack.staminaCost
+            enemyDamage = self.CalculateDamage(enemyWeapon, self.enemy, self.player)
+            self.enemy.curStamina -= enemyWeapon.staminaCost
             self.player.health -= enemyDamage
-            self.UpdateMeters(self.enemy, self.enemy.meters)
+            fightScreen.UpdateMeters(self.enemy, self.enemy.meters)
         
         
         return self.player, self.enemy
@@ -37,8 +38,8 @@ class FightSequence:
         else:
             return False
 
-    def CalculateDamage(attack, attacker, target):
-        attackDamage = attack 
+    def CalculateDamage(weapon, attacker, target):
+        attackDamage = weapon
         
 
         return attackDamage
