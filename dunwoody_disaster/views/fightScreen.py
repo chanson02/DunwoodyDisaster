@@ -323,7 +323,7 @@ class FightScreen(QWidget):
 
         maxMagic = player.maxMagic
         curMagic = player.curMagic
-        if(curMagic == 0):
+        if curMagic == 0:
             magicPercentage = 0
         else:
             magicPercentage = (curMagic / maxMagic) * 100
@@ -331,7 +331,7 @@ class FightScreen(QWidget):
 
         maxMechanical = player.maxMechanical
         curMechanical = player.curMechanical
-        if(curMechanical == 0):
+        if curMechanical == 0:
             mechanicalPercentage = 0
         else:
             mechanicalPercentage = (curMechanical / maxMechanical) * 100
