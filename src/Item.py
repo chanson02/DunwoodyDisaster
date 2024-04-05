@@ -1,9 +1,12 @@
 # Assets for the items
+
+from dunwoody_disaster import ASSETS
+
 images = {
-    "sword": "assets/sword.png",
-    "spear": "assets/spear.png",
-    "shield": "assets/shield.png",
-    "gloves": "assets/gloves.png",
+    "sword": ASSETS["sword"],
+    "spear": ASSETS["spear"],
+    "shield": ASSETS["shield"],
+    "gloves": ASSETS["gloves"],
 }
 # Stats for the items
 # Add items as needed under its respective category
@@ -21,7 +24,7 @@ class Item:
         self.stats = None
 
     def __str__(self) -> str:
-        return self.name, self.stats
+        return str(self.name, self.stats)
 
 
 class Weapon(Item):
