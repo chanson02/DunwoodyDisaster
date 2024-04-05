@@ -12,7 +12,8 @@ from PySide6.QtWidgets import (
 from dunwoody_disaster.views.meter import Meter
 from dunwoody_disaster.views.arsenal import Arsenal
 from dunwoody_disaster import ASSETS
-from dunwoody_disaster.CharacterFactory import Character
+from dunwoody_disaster.CharacterFactory import Character, CharacterFactory
+from dunwoody_disaster.views.characterState import CharacterState
 
 
 class FightScreen(QWidget):
@@ -81,126 +82,15 @@ class FightScreen(QWidget):
 
         ####################
         # This is the middle section of the screen ##############
+        player1 = CharacterFactory.createTestChar()
+        player2 = CharacterFactory.createTestChar()
+        p1 = CharacterState(player1)
+        p2 = CharacterState(player2)
+
         innerCol = colm
         rightCol = colm + 4
-        self.player1_Lbl = QLabel("Player 1")
-        self.player1_Lbl.setStyleSheet("color: white; font-size: 30px;")
-        self.mainLayout.addWidget(self.player1_Lbl, row, innerCol, 1, 3)
-
-        self.player2_Lbl = QLabel("Player 2")
-        self.player2_Lbl.setStyleSheet("color: white; font-size: 30px;")
-        self.mainLayout.addWidget(self.player2_Lbl, row, rightCol, 1, 3)
-        row += 1
-
-        self.mainLayout.addItem(
-            QSpacerItem(0, 30, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed),
-            row,
-            1,
-        )
-        row += 1
-
-        self.player1_meters = {
-            "health": Meter(QColor(255, 0, 0), 100),
-            "mechanical": Meter(QColor(50, 50, 50), 100),
-            "magic": Meter(QColor(200, 0, 200), 100),
-        }
-
-        self.player2_meters = {
-            "health": Meter(QColor(255, 0, 0), 100),
-            "mechanical": Meter(QColor(50, 50, 50), 100),
-            "magic": Meter(QColor(200, 0, 200), 100),
-        }
-
-        self.player1Health_Lbl = QLabel("Health Meter: " + str(self.P1HealthMeter))
-        self.player1Health_Lbl.setStyleSheet("color: white;")
-        self.mainLayout.addWidget(self.player1Health_Lbl, row, innerCol)
-
-        self.player1_healthMeter = self.player1_meters["health"]
-        self.mainLayout.addWidget(self.player1_healthMeter, row, innerCol + 1, 1, 2)
-
-        self.player2Health_Lbl = QLabel("Health Meter: " + str(self.P2HealthMeter))
-        self.player2Health_Lbl.setStyleSheet("color: white;")
-        self.mainLayout.addWidget(self.player2Health_Lbl, row, rightCol)
-
-        self.player2_healthMeter = self.player2_meters["health"]
-        self.mainLayout.addWidget(self.player2_healthMeter, row, rightCol + 1, 1, 2)
-        row += 1
-
-        self.mainLayout.addItem(
-            QSpacerItem(0, 10, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed),
-            row,
-            innerCol,
-        )
-        row += 1
-
-        self.player1Magic_Lbl = QLabel("Magic Meter: " + str(self.P1MagicMeter))
-        self.player1Magic_Lbl.setStyleSheet("color: white;")
-        self.mainLayout.addWidget(self.player1Magic_Lbl, row, innerCol)
-
-        self.player1_magicMeter = self.player1_meters["magic"]
-        self.mainLayout.addWidget(self.player1_magicMeter, row, innerCol + 1, 1, 2)
-
-        self.player2Magic_Lbl = QLabel("Magic Meter: " + str(self.P2MagicMeter))
-        self.player2Magic_Lbl.setStyleSheet("color: white;")
-        self.mainLayout.addWidget(self.player2Magic_Lbl, row, rightCol)
-
-        self.player2_magicMeter = self.player2_meters["magic"]
-        self.mainLayout.addWidget(self.player2_magicMeter, row, rightCol + 1, 1, 2)
-        row += 1
-
-        self.mainLayout.addItem(
-            QSpacerItem(0, 10, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed),
-            row,
-            innerCol,
-        )
-        row += 1
-
-        self.player1Mech_Lbl = QLabel("Mechanical Meter: " + str(self.P1MechMeter))
-        self.player1Mech_Lbl.setStyleSheet("color: white;")
-        self.mainLayout.addWidget(self.player1Mech_Lbl, row, innerCol)
-
-        self.player1_mechMeter = self.player1_meters["mechanical"]
-        self.mainLayout.addWidget(self.player1_mechMeter, row, innerCol + 1, 1, 2)
-
-        self.player2Mech_Lbl = QLabel("Mechanical Meter: " + str(self.P2MechMeter))
-        self.player2Mech_Lbl.setStyleSheet("color: white;")
-        self.mainLayout.addWidget(self.player2Mech_Lbl, row, rightCol)
-
-        self.player2_mechMeter = self.player2_meters["mechanical"]
-        self.mainLayout.addWidget(self.player2_mechMeter, row, rightCol + 1, 1, 2)
-        row += 1
-
-        self.mainLayout.addItem(
-            QSpacerItem(0, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed),
-            row,
-            innerCol,
-        )
-        row += 1
-
-        self.player1_Pic = QLabel("")
-        self.player1_Pic.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.player1_Pic.setStyleSheet("min-width: 380px;")
-        self.player1_Pic.setPixmap(QPixmap(ASSETS["ready"]))
-        self.mainLayout.addWidget(self.player1_Pic, row, innerCol, 1, 3)
-
-        self.mainLayout.addItem(
-            QSpacerItem(30, 0, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed),
-            row,
-            innerCol + 3,
-        )
-
-        self.player2_Pic = QLabel("")
-        self.player2_Pic.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.player2_Pic.setStyleSheet("min-width: 380px;")
-        self.player2_Pic.setPixmap(QPixmap(ASSETS["ready"]))
-        self.mainLayout.addWidget(self.player2_Pic, row, rightCol, 1, 3)
-        row += 1
-
-        self.mainLayout.addItem(
-            QSpacerItem(0, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed),
-            row,
-            innerCol,
-        )
+        self.mainLayout.addWidget(p1, row, innerCol, 1, 2)
+        self.mainLayout.addWidget(p2, row, rightCol, 1, 2)
         row += 1
 
         self.P1Weapon_Pic = QLabel("")
