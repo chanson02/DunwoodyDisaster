@@ -315,17 +315,26 @@ class FightScreen(QWidget):
     def UpdateMeters(self, player: Character, meters: dict):
         maxHealth = player.maxHealth
         curHealth = player.curHealth
-        healthPercentage = (curHealth / maxHealth) * 100
+        if curHealth == 0:
+            healthPercentage = 0
+        else:
+            healthPercentage = (curHealth / maxHealth) * 100
         meters["health"].setPercentage(healthPercentage)
 
         maxMagic = player.maxMagic
         curMagic = player.curMagic
-        magicPercentage = (curMagic / maxMagic) * 100
+        if(curMagic == 0):
+            magicPercentage = 0
+        else:
+            magicPercentage = (curMagic / maxMagic) * 100
         meters["magic"].setPercentage(magicPercentage)
 
         maxMechanical = player.maxMechanical
         curMechanical = player.curMechanical
-        mechanicalPercentage = (curMechanical / maxMechanical) * 100
+        if(curMechanical == 0):
+            mechanicalPercentage = 0
+        else:
+            mechanicalPercentage = (curMechanical / maxMechanical) * 100
         meters["mechanical"].setPercentage(mechanicalPercentage)
 
     def Fight(self):
