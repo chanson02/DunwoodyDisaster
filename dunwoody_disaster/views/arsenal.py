@@ -7,6 +7,7 @@ from PySide6.QtWidgets import (
     QPushButton,
 )
 import dunwoody_disaster as DD
+from dunwoody_disaster.views.action_selector import ActionSelector
 
 
 class Arsenal(QWidget):
@@ -14,7 +15,7 @@ class Arsenal(QWidget):
     The arsenal is made up of two `inventory` widgets which display items
     """
 
-    def __init__(self, selector):
+    def __init__(self, selector: ActionSelector):
         super().__init__()
         self.selector = selector
         self.imageAssets = {
