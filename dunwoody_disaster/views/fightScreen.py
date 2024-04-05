@@ -93,29 +93,8 @@ class FightScreen(QWidget):
         self.mainLayout.addWidget(p2, row, rightCol, 1, 2)
         row += 1
 
-        self.P1Weapon_Pic = QLabel("")
-        self.P1Weapon_Pic.setPixmap(QPixmap(ASSETS["sword"]).scaledToWidth(50))
-        self.mainLayout.addWidget(self.P1Weapon_Pic, row, innerCol)
-
-        self.P1Defense_Pic = QLabel("")
-        self.P1Defense_Pic.setPixmap(QPixmap(ASSETS["shield"]).scaledToWidth(50))
-        self.mainLayout.addWidget(self.P1Defense_Pic, row, innerCol + 1)
-
-        self.P2Weapon_Pic = QLabel("")
-        self.P2Weapon_Pic.setPixmap(QPixmap(ASSETS["spear"]).scaledToWidth(50))
-        self.mainLayout.addWidget(self.P2Weapon_Pic, row, rightCol)
-
-        self.P2Defense_Pic = QLabel("")
-        self.P2Defense_Pic.setPixmap(QPixmap(ASSETS["gloves"]).scaledToWidth(50))
-        self.mainLayout.addWidget(self.P2Defense_Pic, row, rightCol + 1)
-
-        # self.defend_Btn = QPushButton("Defend")
-        # self.defend_Btn.setStyleSheet('''border-radius: 15px;
-        #                               min-width: 100px;
-        #                               height: 32px;
-        #                               background-color: blue;''')
-        # self.mainLayout.addWidget(self.defend_Btn, row, innerCol+2)
-        # self.defend_Btn.clicked.connect(lambda: self.AddToQueue('Defend'))
+        self.mainLayout.addWidget(self.action_selector('sword', 'shield'), row, innerCol)
+        self.mainLayout.addWidget(self.action_selector('spear', 'gloves'), row, rightCol)
         row += 1
 
         self.mainLayout.addItem(
@@ -123,19 +102,6 @@ class FightScreen(QWidget):
             row,
             innerCol,
         )
-        row += 1
-
-        # self.player1Lineup_Lbl = QLabel("Action Lineup: " +
-        #                                   str(self.userActionArray))
-        # self.player1Lineup_Lbl.setStyleSheet("color: white;")
-        # self.mainLayout.addWidget(self.player1Lineup_Lbl,
-        #                            row, innerCol, 1, 3)
-
-        # self.player2Lineup_Lbl = QLabel("Action Lineup: " +
-        #                                   str(self.compActionArray))
-        # self.player2Lineup_Lbl.setStyleSheet("color: white;")
-        # self.mainLayout.addWidget(self.player2Lineup_Lbl,
-        #                           row, rightCol, 1, 3)
         row += 1
 
         self.mainLayout.addItem(
@@ -185,6 +151,23 @@ class FightScreen(QWidget):
 
         self.timer.start(2000)
         self.timer.timeout.connect(self.Fight)
+
+    def action_selector(self, attack: str, defence: str) -> QWidget:
+        widget = QWidget()
+        layout = QGridLayout()
+        layout.setSpacing(0)
+        layout.setContentsMargins(0, 0, 0, 0)
+
+        attack_pic = QLabel("")
+        attack_pic.setPixmap(QPixmap(ASSETS[attack]).scaledToWidth(50))
+        defend_pic = QLabel("")
+        defend_pic.setPixmap(QPixmap(ASSETS[defence]).scaledToWidth(50))
+
+        layout.addWidget(attack_pic, 0, 0)
+        layout.addWidget(defend_pic, 0, 1)
+        widget.setLayout(layout)
+
+        return widget
 
     def SetFightFlag(self):
         self.fightFlag = True

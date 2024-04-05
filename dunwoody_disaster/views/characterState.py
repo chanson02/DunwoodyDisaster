@@ -11,8 +11,11 @@ class CharacterState(QWidget):
         super().__init__()
         self.character = character
 
-        layout = self.create_layout()
-        self.setLayout(layout)
+        self.update_ui()
+        return
+
+    def update_ui(self):
+        self.setLayout(self.create_layout())
 
     def spacer(self, height: int) -> QSpacerItem:
         return QSpacerItem(
