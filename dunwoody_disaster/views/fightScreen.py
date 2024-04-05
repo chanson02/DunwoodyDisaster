@@ -1,4 +1,5 @@
 from random import choice as randChoice
+from typing import Optional
 from PySide6.QtCore import Qt, QTimer
 from PySide6.QtGui import QPixmap, QMovie, QColor
 from PySide6.QtWidgets import (
@@ -152,16 +153,18 @@ class FightScreen(QWidget):
         self.timer.start(2000)
         self.timer.timeout.connect(self.Fight)
 
-    def action_selector(self, attack: str, defence: str) -> QWidget:
+    def action_selector(self, attack: Optional[str], defence: Optional[str]) -> QWidget:
         widget = QWidget()
         layout = QGridLayout()
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
 
         attack_pic = QLabel("")
-        attack_pic.setPixmap(QPixmap(ASSETS[attack]).scaledToWidth(50))
+        if attack:
+            attack_pic.setPixmap(QPixmap(ASSETS[attack]).scaledToWidth(50))
         defend_pic = QLabel("")
-        defend_pic.setPixmap(QPixmap(ASSETS[defence]).scaledToWidth(50))
+        if defence:
+            defend_pic.setPixmap(QPixmap(ASSETS[defence]).scaledToWidth(50))
 
         layout.addWidget(attack_pic, 0, 0)
         layout.addWidget(defend_pic, 0, 1)
