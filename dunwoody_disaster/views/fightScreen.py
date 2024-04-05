@@ -86,7 +86,9 @@ class FightScreen(QWidget):
         row += 1
         colm += 1
 
-        self.P1Arsenal = Arsenal()
+        self.p1_selector = ActionSelector()
+        self.p2_selector = ActionSelector()
+        self.P1Arsenal = Arsenal(self.p1_selector)
         self.mainLayout.addWidget(self.P1Arsenal, row, colm, 16, 1)
 
         colm += 1
@@ -117,8 +119,6 @@ class FightScreen(QWidget):
         self.mainLayout.addWidget(p2, row, rightCol, 1, 2)
         row += 1
 
-        self.p1_selector = ActionSelector()
-        self.p2_selector = ActionSelector()
         self.mainLayout.addWidget(self.p1_selector, row, innerCol)
         self.mainLayout.addWidget(self.p2_selector, row, rightCol)
         row += 1
@@ -165,7 +165,7 @@ class FightScreen(QWidget):
         colm += 1
 
         #############################################################
-        self.P2Arsenal = Arsenal()
+        self.P2Arsenal = Arsenal(self.p2_selector)
         self.mainLayout.addWidget(self.P2Arsenal, 1, colm, 16, 1)
 
         colm += 1

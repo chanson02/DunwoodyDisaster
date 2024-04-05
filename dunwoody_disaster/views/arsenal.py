@@ -2,6 +2,7 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QGridLayout, QLabel, QSizePolicy, QSpacerItem, QWidget
 import dunwoody_disaster as DD
+from dunwoody_disaster.views.fightScreen import ActionSelector
 
 
 class Arsenal(QWidget):
@@ -9,8 +10,9 @@ class Arsenal(QWidget):
     The arsenal is made up of two `inventory` widgets which display items
     """
 
-    def __init__(self):
+    def __init__(self, selector: ActionSelector):
         super().__init__()
+        self.selector = selector
         self.imageAssets = {
             item: QPixmap(f"./assets/{item}.jpg")
             for item in ["sword", "spear", "shield", "gloves"]
