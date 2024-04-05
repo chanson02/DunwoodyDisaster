@@ -11,12 +11,12 @@ class Character:
         self.curMagic = 0
         self.maxMagic = 0
         self.curStamina = 0
-        self.maxStamina = 0 
+        self.maxStamina = 0
 
         self.meters = {
             "health": self.maxHealth,
             "magic": self.maxMagic,
-            "stamina": self.maxStamina
+            "stamina": self.maxStamina,
         }
 
         # Inventory
