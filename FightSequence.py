@@ -1,4 +1,4 @@
-from dunwoody_disaster import CharacterFactory
+from dunwoody_disaster import CharacterFactory, Item
 from dunwoody_disaster.views import fightScreen
 
 class FightSequence:
@@ -33,13 +33,18 @@ class FightSequence:
     
         
     def CanAttack(self, player, attack) -> bool:
+        """
+        
+        """
         if(player.curStamina - attack.staminaCost >= 0 and player.curMagic >= attack.magicCost):
             return True
         else:
             return False
 
-    def CalculateDamage(weapon, attacker, target):
-        attackDamage = weapon
+    def CalculateDamage(playerAttack : Item.Weapon, targetDefense : Item.Armor):
+        """
         
-
+        """
+        attackDamage = playerAttack.damage - targetDefense.armorVal
+        
         return attackDamage
