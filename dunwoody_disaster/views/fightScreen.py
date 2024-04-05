@@ -16,6 +16,29 @@ from dunwoody_disaster.CharacterFactory import CharacterFactory
 from dunwoody_disaster.views.characterState import CharacterState
 
 
+class ActionSelector(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.attack = None
+        self.defense = None
+        self.update_ui(None, None)
+
+    def update_ui(self, attack: Optional[str], defence: Optional[str]):
+        layout = QGridLayout()
+        layout.setSpacing(0)
+        layout.setContentsMargins(0, 0, 0, 0)
+
+        attack_pic = QLabel("")
+        if attack:
+            attack_pic.setPixmap(QPixmap(DD.ASSETS[attack]).scaledToWidth(50))
+        defend_pic = QLabel("")
+        if defence:
+            defend_pic.setPixmap(QPixmap(DD.ASSETS[defence]).scaledToWidth(50))
+
+        layout.addWidget(attack_pic, 0, 0)
+        layout.addWidget(defend_pic, 0, 1)
+        self.setLayout(layout)
+
 class FightScreen(QWidget):
     def __init__(self):
         super().__init__()
@@ -94,8 +117,10 @@ class FightScreen(QWidget):
         self.mainLayout.addWidget(p2, row, rightCol, 1, 2)
         row += 1
 
-        self.mainLayout.addWidget(self.action_selector('sword', 'shield'), row, innerCol)
-        self.mainLayout.addWidget(self.action_selector('spear', 'gloves'), row, rightCol)
+        self.p1_selector = ActionSelector()
+        self.p2_selector = ActionSelector()
+        self.mainLayout.addWidget(self.p1_selector, row, innerCol)
+        self.mainLayout.addWidget(self.p2_selector, row, rightCol)
         row += 1
 
         self.mainLayout.addItem(
@@ -152,25 +177,6 @@ class FightScreen(QWidget):
 
         self.timer.start(2000)
         self.timer.timeout.connect(self.Fight)
-
-    def action_selector(self, attack: Optional[str], defence: Optional[str]) -> QWidget:
-        widget = QWidget()
-        layout = QGridLayout()
-        layout.setSpacing(0)
-        layout.setContentsMargins(0, 0, 0, 0)
-
-        attack_pic = QLabel("")
-        if attack:
-            attack_pic.setPixmap(QPixmap(DD.ASSETS[attack]).scaledToWidth(50))
-        defend_pic = QLabel("")
-        if defence:
-            defend_pic.setPixmap(QPixmap(DD.ASSETS[defence]).scaledToWidth(50))
-
-        layout.addWidget(attack_pic, 0, 0)
-        layout.addWidget(defend_pic, 0, 1)
-        widget.setLayout(layout)
-
-        return widget
 
     def SetFightFlag(self):
         self.fightFlag = True
