@@ -11,11 +11,11 @@ class ActionSelector(QWidget):
         self.defense: Optional[dict] = None
         self.setLayout(self.create_layout())
 
-    def set_attack(self, item: dict):
+    def set_attack(self, item: Optional[dict]):
         self.attack = item
         self.update_ui()
 
-    def set_defense(self, item: dict):
+    def set_defense(self, item: Optional[dict]):
         self.defense = item
         self.update_ui()
 
