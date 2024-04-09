@@ -14,15 +14,15 @@ class Character:
         self.maxHealth = 0
         self.curMagic = 0
         self.maxMagic = 0
-        self.curMechanical = 0
-        self.maxMechanical = 0
+        self.curStamina = 0
+        self.maxStamina = 0
 
         self.health_lbl = QLabel(f"Health: {self.curHealth}")
         self.magic_lbl = QLabel(f"Magic: {self.curMagic}")
-        self.mech_lbl = QLabel(f"Mechanical: {self.curMechanical}")
+        self.stamina_lbl = QLabel(f"Stamina: {self.curStamina}")
         self.health_meter = Meter(QColor(255, 0, 0), 100)
         self.magic_meter = Meter(QColor(200, 0, 200), 100)
-        self.mech_meter = Meter(QColor(50, 50, 50), 100)
+        self.stamina_meter = Meter(QColor(50, 50, 50), 100)
 
         # What are these? --Cooper
         self.defense = 0
@@ -52,20 +52,20 @@ class Character:
         self.magic_lbl = QLabel(f"Magic: {self.curMagic}")
         self.magic_meter.setPercentage(percentage)
 
-    def set_mechanical(self, mech: int):
-        self.curMechanical = mech
-        if self.maxMechanical == 0:
+    def set_stamina(self, stamina: int):
+        self.curStamina = stamina
+        if self.maxStamina == 0:
             percentage = 0
         else:
-            percentage = (mech // self.maxMechanical) * 100
-        self.mech_lbl = QLabel(f"Mechanical: {self.curMechanical}")
-        self.mech_meter.setPercentage(percentage)
+            percentage = (stamina // self.maxStamina) * 100
+        self.stamina_lbl = QLabel(f"Stamina: {self.curStamina}")
+        self.stamina_meter.setPercentage(percentage)
 
     def PlotRisk(self, attacks: list) -> None:
         """
         Goes through enemeis potential attacks and damage according to our defense profile
         Prints how risk each attack could be
-        :param attacks: List containing attack data [name, mechanical damage, magic damage, health damage]
+        :param attacks: List containing attack data [name, stamina cost, magic damage, health damage]
         """
         risk_levels = {
             "high": "is a high risk attack",
@@ -77,7 +77,7 @@ class Character:
         for attack in attacks:
             name, mech, magic, health = attack
             print(f"{name} ", end="")
-            if self.curMechanical <= mech:
+            if self.curStamina <= mech:
                 # attack stuns opponent ?
                 print(risk_levels["high"])
                 continue
@@ -104,7 +104,7 @@ class CharacterFactory:
         "blank": {
             "health": 100,
             "magic": 100,
-            "mechanical": 100,
+            "stamina": 100,
             "defense": 0,
             "magicDefense": 0,
             "level": 1,
@@ -114,7 +114,7 @@ class CharacterFactory:
         "warrior": {
             "health": 100,
             "magic": 0,
-            "mechanical": 15,
+            "stamina": 15,
             "defense": 0,
             "magicDefense": 0,
             "level": 1,
@@ -124,7 +124,7 @@ class CharacterFactory:
         "mage": {
             "health": 100,
             "magic": 15,
-            "mechanical": 0,
+            "stamina": 0,
             "defense": 0,
             "magicDefense": 0,
             "level": 1,
@@ -134,7 +134,7 @@ class CharacterFactory:
         "thief": {
             "health": 100,
             "magic": 0,
-            "mechanical": 10,
+            "stamina": 10,
             "defense": 0,
             "magicDefense": 0,
             "level": 1,
@@ -163,16 +163,19 @@ class CharacterFactory:
         character.classType = classType
         character.maxHealth = data["health"]
         character.maxMagic = data["magic"]
-        character.maxMechanical = data["mechanical"]
+        character.maxStamina = data["stamina"]
+
+        # What are these ? --Cooper
         character.defense = data["defense"]
         character.magicDefense = data["magicDefense"]
+
         character.level = data["level"]
         character.loot = data["loot"]
         character.food = data["food"]
 
         character.set_health(data['health'])
         character.set_magic(data['magic'])
-        character.set_mechanical(data['mechanical'])
+        character.set_stamina(data['stamina'])
 
         return character
 

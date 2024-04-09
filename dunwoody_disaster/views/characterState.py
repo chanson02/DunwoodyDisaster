@@ -38,8 +38,8 @@ class CharacterState(QWidget):
         layout.addWidget(self.character.magic_lbl, row, 0)
         layout.addWidget(self.character.magic_meter, row, 1, 1, 2)
         row += 1
-        layout.addWidget(self.character.mech_lbl, row, 0)
-        layout.addWidget(self.character.mech_meter, row, 1, 1, 2)
+        layout.addWidget(self.character.stamina_lbl, row, 0)
+        layout.addWidget(self.character.stamina_meter, row, 1, 1, 2)
         row += 1
 
         layout.addItem(DD.spacer(10), row, 0)
