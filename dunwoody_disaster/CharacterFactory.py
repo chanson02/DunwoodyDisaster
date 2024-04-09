@@ -29,7 +29,7 @@ class Character:
         """
         Goes through enemeis potential attacks and damage according to our defense profile
         Prints how risk each attack could be
-        :param attacks: List containing attack data [name, mechanical damage, magic damage, health damage]
+        :param attacks: List containing attack data [name, stamina cost, magic damage, health damage]
         """
         risk_levels = {
             "high": "is a high risk attack",
@@ -41,7 +41,7 @@ class Character:
         for attack in attacks:
             name, mech, magic, health = attack
             print(f"{name} ", end="")
-            if self.curMechanical <= mech:
+            if self.curStamina <= mech:
                 # attack stuns opponent ?
                 print(risk_levels["high"])
                 continue
@@ -68,7 +68,7 @@ class CharacterFactory:
         "blank": {
             "health": 100,
             "magic": 100,
-            "mechanical": 100,
+            "stamina": 100,
             "defense": 0,
             "magicDefense": 0,
             "level": 1,
@@ -78,7 +78,7 @@ class CharacterFactory:
         "warrior": {
             "health": 100,
             "magic": 0,
-            "mechanical": 15,
+            "stamina": 15,
             "defense": 0,
             "magicDefense": 0,
             "level": 1,
@@ -88,7 +88,7 @@ class CharacterFactory:
         "mage": {
             "health": 100,
             "magic": 15,
-            "mechanical": 0,
+            "stamina": 0,
             "defense": 0,
             "magicDefense": 0,
             "level": 1,
@@ -98,7 +98,7 @@ class CharacterFactory:
         "thief": {
             "health": 100,
             "magic": 0,
-            "mechanical": 10,
+            "stamina": 10,
             "defense": 0,
             "magicDefense": 0,
             "level": 1,

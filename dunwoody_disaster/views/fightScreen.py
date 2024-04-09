@@ -329,8 +329,8 @@ class FightScreen(QWidget):
             magicPercentage = (curMagic / maxMagic) * 100
         meters["magic"].setPercentage(magicPercentage)
 
-        maxStamina = player.maxMechanical
-        curStamina = player.curMechanical
+        maxStamina = player.maxStamina
+        curStamina = player.curStamina
         if curStamina == 0:
             staminaPercentage = 0
         else:
