@@ -32,16 +32,6 @@ class FightScreen(QWidget):
         self.actionArray = ["Punch", "Kick", "Defend"]
         self.damageArray = [10, 20, 0]
         self.player1PicArray = [punch, kick, defense]
-        self.P1WeaponArray = {"sword": [20, 30, 10], "spear": [30, 10, 20]}
-        self.P1DefenseArray = {"shield": [30, 10, 20], "gloves": [10, 10, 10]}
-        self.P2WeaponArray = {"sword": [20, 30, 10], "spear": [30, 10, 20]}
-        self.P2DefenseArray = {"shield": [30, 10, 20], "gloves": [10, 10, 10]}
-        self.P1HealthMeter = 100
-        self.P2HealthMeter = 100
-        self.P1MagicMeter = 100
-        self.P2MagicMeter = 100
-        self.P1MechMeter = 100
-        self.P2MechMeter = 100
         self.fightFlag = False
         self.timer = QTimer()
 
