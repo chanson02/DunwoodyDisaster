@@ -3,11 +3,15 @@ from dunwoody_disaster.views import fightScreen
 
 
 class FightSequence:
-    def __init__(self, player, enemy):
+    def __init__(
+        self, player: CharacterFactory.Character, enemy: CharacterFactory.Character
+    ):
         self.player = player
         self.enemy = enemy
 
-    def Fight(self, playerWeapon, enemyWeapon):
+    def Fight(
+        self, playerWeapon: Item.Weapon, enemyWeapon: Item.Weapon
+    ) -> tuple[CharacterFactory.Character, CharacterFactory.Character]:
         """
         Simulates a fight between player and enemy
         :param playerAttack: The attack the player is using
@@ -31,21 +35,20 @@ class FightSequence:
 
         return self.player, self.enemy
 
-    def CanAttack(self, player, attack) -> bool:
+    def CanAttack(
+        self, player: CharacterFactory.Character, attack: Item.Weapon
+    ) -> bool:
         """
         Checks to see if character has enough stamina or magic to attack with.
         """
-        if (
+        return (
             player.curStamina - attack.staminaCost >= 0
             and player.curMagic >= attack.magicCost
-        ):
-            return True
-        else:
-            return False
+        )
 
     def CalculateDamage(playerAttack: Item.Weapon, targetDefense: Item.Armor):
         """
-        Deals damage based on playerAttack vs the targets defensive item.
+        Calculates damage based on playerAttack vs the targets defensive item.
         """
         attackDamage = playerAttack.damage - targetDefense.armorVal
 

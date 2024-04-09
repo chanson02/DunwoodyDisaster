@@ -127,10 +127,10 @@ class CharacterFactory:
         character.classType = classType
         character.maxHealth = data["health"]
         character.maxMagic = data["magic"]
-        character.maxStamina = data["mechanical"]
+        character.maxStamina = data["stamina"]
         character.curHealth = data["health"]
         character.curMagic = data["magic"]
-        character.curStamina = data["mechanical"]
+        character.curStamina = data["stamina"]
         character.level = data["level"]
         character.loot = data["loot"]
         character.food = data["food"]
