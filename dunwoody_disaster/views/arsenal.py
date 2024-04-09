@@ -46,7 +46,9 @@ class Arsenal(QWidget):
     def select_item_lambda(self, item: Item.Item):
         return lambda: self.select_item(item)
 
-    def create_inventory(self, label: str, items: Sequence[Item.Weapon | Item.Armor]) -> QWidget:
+    def create_inventory(
+        self, label: str, items: Sequence[Item.Weapon | Item.Armor]
+    ) -> QWidget:
         layout = QGridLayout()
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)

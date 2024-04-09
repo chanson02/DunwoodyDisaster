@@ -173,9 +173,9 @@ class CharacterFactory:
         character.loot = data["loot"]
         character.food = data["food"]
 
-        character.set_health(data['health'])
-        character.set_magic(data['magic'])
-        character.set_stamina(data['stamina'])
+        character.set_health(data["health"])
+        character.set_magic(data["magic"])
+        character.set_stamina(data["stamina"])
 
         return character
 

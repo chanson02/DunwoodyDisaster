@@ -19,7 +19,7 @@ class Item:
         if name in ASSETS:
             self.image = ASSETS[name]
         else:
-            self.image = ASSETS['no_texture']
+            self.image = ASSETS["no_texture"]
 
     def __str__(self) -> str:
         return f"Item({self.name}, {self.stats})"
@@ -50,12 +50,6 @@ class Armor(Item):
         self.armorVal = armorVal
 
 
-weapons = [
-        Weapon('sword', 20, 30, 10),
-        Weapon('spear', 30, 10, 20)
-        ]
+weapons = [Weapon("sword", 20, 30, 10), Weapon("spear", 30, 10, 20)]
 
-armors = [
-        Armor('shield', 30, 10, 20),
-        Armor('gloves', 10, 10, 10)
-        ]
+armors = [Armor("shield", 30, 10, 20), Armor("gloves", 10, 10, 10)]
