@@ -22,9 +22,10 @@ class Item:
         self.name = name
         self.image = images[self.name]
         self.stats = None
+        self.path = ASSETS['no_texture']
 
     def __str__(self) -> str:
-        return str(self.name, self.stats)
+        return f"Item{self.name}, {self.stats}"
 
 
 class Weapon(Item):
