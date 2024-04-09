@@ -15,11 +15,8 @@ class CharacterState(QWidget):
         super().__init__()
         self.character = character
 
-        self.update_ui()
-        return
-
-    def update_ui(self):
         self.setLayout(self.create_layout())
+        return
 
     def create_layout(self) -> QLayout:
         layout = QGridLayout()
