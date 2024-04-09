@@ -32,17 +32,13 @@ class CharacterState(QWidget):
         layout.addItem(DD.spacer(30), row, 1)
         row += 1
 
-        health = QLabel(f"Health: {self.character.curHealth}")
-        magic = QLabel(f"Magic: {self.character.curMagic}")
-        mech = QLabel(f"Mechanical: {self.character.curMechanical}")
-
-        layout.addWidget(health, row, 0)
+        layout.addWidget(self.character.health_lbl, row, 0)
         layout.addWidget(self.character.health_meter, row, 1, 1, 2)
         row += 1
-        layout.addWidget(magic, row, 0)
+        layout.addWidget(self.character.magic_lbl, row, 0)
         layout.addWidget(self.character.magic_meter, row, 1, 1, 2)
         row += 1
-        layout.addWidget(mech, row, 0)
+        layout.addWidget(self.character.mech_lbl, row, 0)
         layout.addWidget(self.character.mech_meter, row, 1, 1, 2)
         row += 1
 

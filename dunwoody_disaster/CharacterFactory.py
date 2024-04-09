@@ -1,5 +1,6 @@
 from dunwoody_disaster.views.meter import Meter
 from PySide6.QtGui import QColor
+from PySide6.QtWidgets import QLabel
 
 
 class Character:
@@ -15,6 +16,10 @@ class Character:
         self.maxMagic = 0
         self.curMechanical = 0
         self.maxMechanical = 0
+
+        self.health_lbl = QLabel(f"Health: {self.curHealth}")
+        self.magic_lbl = QLabel(f"Magic: {self.curMagic}")
+        self.mech_lbl = QLabel(f"Mechanical: {self.curMechanical}")
         self.health_meter = Meter(QColor(255, 0, 0), 100)
         self.magic_meter = Meter(QColor(200, 0, 200), 100)
         self.mech_meter = Meter(QColor(50, 50, 50), 100)
@@ -35,6 +40,7 @@ class Character:
             percentage = 0
         else:
             percentage = (health // self.maxHealth) * 100
+        self.health_lbl = QLabel(f"Health: {self.curHealth}")
         self.health_meter.setPercentage(percentage)
 
     def set_magic(self, magic: int):
@@ -43,6 +49,7 @@ class Character:
             percentage = 0
         else:
             percentage = (magic // self.maxMagic) * 100
+        self.magic_lbl = QLabel(f"Magic: {self.curMagic}")
         self.magic_meter.setPercentage(percentage)
 
     def set_mechanical(self, mech: int):
@@ -51,6 +58,7 @@ class Character:
             percentage = 0
         else:
             percentage = (mech // self.maxMechanical) * 100
+        self.mech_lbl = QLabel(f"Mechanical: {self.curMechanical}")
         self.mech_meter.setPercentage(percentage)
 
     def PlotRisk(self, attacks: list) -> None:
@@ -156,14 +164,15 @@ class CharacterFactory:
         character.maxHealth = data["health"]
         character.maxMagic = data["magic"]
         character.maxMechanical = data["mechanical"]
-        character.curHealth = data["health"]
-        character.curMagic = data["magic"]
-        character.curMechanical = data["mechanical"]
         character.defense = data["defense"]
         character.magicDefense = data["magicDefense"]
         character.level = data["level"]
         character.loot = data["loot"]
         character.food = data["food"]
+
+        character.set_health(data['health'])
+        character.set_magic(data['magic'])
+        character.set_mechanical(data['mechanical'])
 
         return character
 
