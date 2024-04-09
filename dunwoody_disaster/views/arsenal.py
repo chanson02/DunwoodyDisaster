@@ -1,3 +1,4 @@
+from typing import Sequence
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import (
@@ -8,6 +9,7 @@ from PySide6.QtWidgets import (
 )
 import dunwoody_disaster as DD
 from dunwoody_disaster.views.action_selector import ActionSelector
+from dunwoody_disaster import Item
 
 
 class Arsenal(QWidget):
@@ -27,35 +29,24 @@ class Arsenal(QWidget):
         layout = QGridLayout()
         layout.setContentsMargins(0, 0, 0, 0)
 
-        weapons = [
-            {"name": "sword", "image": DD.ASSETS["sword"], "KEY": [20, 30, 10]},
-            {"name": "spear", "image": DD.ASSETS["spear"], "KEY": [30, 10, 20]},
-        ]
-        weapons_widget = self.create_inventory("Weapons", weapons)
-        armor = [
-            {"name": "shield", "image": DD.ASSETS["shield"], "KEY": [30, 10, 20]},
-            {"name": "gloves", "image": DD.ASSETS["gloves"], "KEY": [10, 10, 10]},
-        ]
-        armor_widget = self.create_inventory("Armor", armor)
+        weapons_widget = self.create_inventory("Weapons", Item.weapons)
+        armor_widget = self.create_inventory("Armor", Item.armors)
 
         layout.addWidget(weapons_widget, 0, 0)
         layout.addWidget(armor_widget, 0, 1)
         self.setLayout(layout)
 
-    def select_item(self, item: dict, attack: bool):
-        if attack:
+    def select_item(self, item: Item.Item):
+        if type(item) is Item.Weapon:
             self.selector.set_attack(item)
-        else:
+        elif type(item) is Item.Armor:
             self.selector.set_defense(item)
         return
 
-    def select_item_lambda(self, item: dict, attack: bool):
-        return lambda: self.select_item(item, attack)
+    def select_item_lambda(self, item: Item.Item):
+        return lambda: self.select_item(item)
 
-    def create_inventory(self, label: str, items: list[dict]) -> QWidget:
-        attacking = False
-        if label == "Weapons":
-            attacking = True
+    def create_inventory(self, label: str, items: Sequence[Item.Weapon | Item.Armor]) -> QWidget:
         layout = QGridLayout()
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -70,7 +61,7 @@ class Arsenal(QWidget):
         row += 1
 
         for item in items:
-            name = QLabel(item["name"])
+            name = QLabel(item.name)
             name.setAlignment(Qt.AlignmentFlag.AlignCenter)
             name.setStyleSheet("color: white;")
             layout.addWidget(name, row, 1)
@@ -79,20 +70,19 @@ class Arsenal(QWidget):
             layout.addItem(DD.spacer(10), row, 1)
             row += 1
 
-            image = QPixmap(item["image"]).scaledToWidth(80)
+            image = QPixmap(item.image).scaledToWidth(80)
             btn = QPushButton()
             btn.setIcon(image)
             btn.setIconSize(image.size())
-            btn.clicked.connect(self.select_item_lambda(item, attacking))
+            btn.clicked.connect(self.select_item_lambda(item))
             layout.addWidget(btn, row, 1)
             row += 1
 
             layout.addItem(DD.spacer(10), row, 1)
             row += 1
 
-            properties = QLabel(
-                f"H: {item['KEY'][0]}\nM: {item['KEY'][1]}\nMech: {item['KEY'][2]}"
-            )
+            # TODO: Clean up these properties
+            properties = QLabel(str(item))
             properties.setAlignment(Qt.AlignmentFlag.AlignCenter)
             properties.setStyleSheet("color: white;")
             layout.addWidget(properties, row, 1)
