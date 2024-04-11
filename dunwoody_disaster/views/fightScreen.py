@@ -1,6 +1,7 @@
 from random import choice as randChoice
 from PySide6.QtCore import QTimer
-from PySide6.QtGui import QPixmap, QMovie
+
+# from PySide6.QtGui import QMovie
 from PySide6.QtWidgets import (
     QWidget,
     QGridLayout,
@@ -21,9 +22,9 @@ class FightScreen(QWidget):
 
         self.player1 = player1
         self.player2 = player2
-        punch = QMovie(DD.ASSETS["P1Attack1"])
-        kick = QMovie(DD.ASSETS["P1Attack2"])
-        defense = QMovie(DD.ASSETS["P1Defense"])
+        # punch = QMovie(DD.ASSETS["P1Attack1"])
+        # kick = QMovie(DD.ASSETS["P1Attack2"])
+        # defense = QMovie(DD.ASSETS["P1Defense"])
         self.timer = QTimer()
 
         self.setStyleSheet("background-color: black;")
