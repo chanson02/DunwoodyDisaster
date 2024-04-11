@@ -1,12 +1,7 @@
 from typing import Sequence
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap
-from PySide6.QtWidgets import (
-    QGridLayout,
-    QLabel,
-    QWidget,
-    QPushButton,
-)
+from PySide6.QtWidgets import QGridLayout, QLabel, QWidget, QPushButton, QScrollArea
 import dunwoody_disaster as DD
 from dunwoody_disaster.views.action_selector import ActionSelector
 from dunwoody_disaster import Item
@@ -49,6 +44,7 @@ class Arsenal(QWidget):
     def create_inventory(
         self, label: str, items: Sequence[Item.Weapon | Item.Armor]
     ) -> QWidget:
+
         layout = QGridLayout()
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -94,8 +90,13 @@ class Arsenal(QWidget):
             row += 1
 
         widget = QWidget()
-        widget.setStyleSheet(
+        widget.setLayout(layout)
+        scroll_area = QScrollArea()
+        scroll_area.setWidgetResizable(True)
+        scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
+        scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        scroll_area.setStyleSheet(
             "min-width: 125px; border-left: 1px solid green; border-right: 1px solid green"
         )
-        widget.setLayout(layout)
-        return widget
+        scroll_area.setWidget(widget)
+        return scroll_area
