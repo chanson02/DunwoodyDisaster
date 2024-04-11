@@ -1,18 +1,18 @@
 from random import choice as randChoice
-from PySide6.QtCore import Qt, QTimer
-from PySide6.QtGui import QPixmap, QMovie, QColor
+from PySide6.QtCore import QTimer
+from PySide6.QtGui import QPixmap, QMovie
 from PySide6.QtWidgets import (
-    QLabel,
     QWidget,
     QGridLayout,
     QSpacerItem,
     QSizePolicy,
     QPushButton,
 )
-from dunwoody_disaster.views.meter import Meter
 from dunwoody_disaster.views.arsenal import Arsenal
-from dunwoody_disaster import ASSETS
-from dunwoody_disaster.CharacterFactory import Character
+import dunwoody_disaster as DD
+from dunwoody_disaster.CharacterFactory import CharacterFactory
+from dunwoody_disaster.views.characterState import CharacterState
+from dunwoody_disaster.views.action_selector import ActionSelector
 
 
 class FightScreen(QWidget):
@@ -20,28 +20,18 @@ class FightScreen(QWidget):
         super().__init__()
 
         self.imageAssets = {
-            item: QPixmap(ASSETS[item])
+            item: QPixmap(DD.ASSETS[item])
             for item in ["sword", "spear", "shield", "gloves"]
         }
 
         self.userActionArray = []
         self.compActionArray = []
-        punch = QMovie(ASSETS["P1Attack1"])
-        kick = QMovie(ASSETS["P1Attack2"])
-        defense = QMovie(ASSETS["P1Defense"])
+        punch = QMovie(DD.ASSETS["P1Attack1"])
+        kick = QMovie(DD.ASSETS["P1Attack2"])
+        defense = QMovie(DD.ASSETS["P1Defense"])
         self.actionArray = ["Punch", "Kick", "Defend"]
         self.damageArray = [10, 20, 0]
         self.player1PicArray = [punch, kick, defense]
-        self.P1WeaponArray = {"sword": [20, 30, 10], "spear": [30, 10, 20]}
-        self.P1DefenseArray = {"shield": [30, 10, 20], "gloves": [10, 10, 10]}
-        self.P2WeaponArray = {"sword": [20, 30, 10], "spear": [30, 10, 20]}
-        self.P2DefenseArray = {"shield": [30, 10, 20], "gloves": [10, 10, 10]}
-        self.P1HealthMeter = 100
-        self.P2HealthMeter = 100
-        self.P1MagicMeter = 100
-        self.P2MagicMeter = 100
-        self.P1MechMeter = 100
-        self.P2MechMeter = 100
         self.fightFlag = False
         self.timer = QTimer()
 
@@ -53,6 +43,7 @@ class FightScreen(QWidget):
 
         row = 0
         colm = 0
+
         self.mainLayout.addItem(
             QSpacerItem(30, 50, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed),
             row,
@@ -61,7 +52,9 @@ class FightScreen(QWidget):
         row += 1
         colm += 1
 
-        self.P1Arsenal = Arsenal()
+        self.p1_selector = ActionSelector()
+        self.p2_selector = ActionSelector()
+        self.P1Arsenal = Arsenal(self.p1_selector)
         self.mainLayout.addWidget(self.P1Arsenal, row, colm, 16, 1)
 
         colm += 1
@@ -81,175 +74,30 @@ class FightScreen(QWidget):
 
         ####################
         # This is the middle section of the screen ##############
+        player1 = CharacterFactory.createTestChar()
+        player2 = CharacterFactory.createTestChar()
+        p1 = CharacterState(player1)
+        p2 = CharacterState(player2)
+
         innerCol = colm
         rightCol = colm + 4
-        self.player1_Lbl = QLabel("Player 1")
-        self.player1_Lbl.setStyleSheet("color: white; font-size: 30px;")
-        self.mainLayout.addWidget(self.player1_Lbl, row, innerCol, 1, 3)
+        self.mainLayout.addWidget(p1, row, innerCol, 1, 2)
+        self.mainLayout.addWidget(p2, row, rightCol, 1, 2)
+        row += 1
 
-        self.player2_Lbl = QLabel("Player 2")
-        self.player2_Lbl.setStyleSheet("color: white; font-size: 30px;")
-        self.mainLayout.addWidget(self.player2_Lbl, row, rightCol, 1, 3)
+        self.mainLayout.addWidget(self.p1_selector, row, innerCol)
+        self.mainLayout.addWidget(self.p2_selector, row, rightCol)
         row += 1
 
         self.mainLayout.addItem(
-            QSpacerItem(0, 30, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed),
-            row,
-            1,
-        )
-        row += 1
-
-        self.player1_meters = {
-            "health": Meter(QColor(255, 0, 0), 100),
-            "stamina": Meter(QColor(50, 50, 50), 100),
-            "magic": Meter(QColor(200, 0, 200), 100),
-        }
-
-        self.player2_meters = {
-            "health": Meter(QColor(255, 0, 0), 100),
-            "stamina": Meter(QColor(50, 50, 50), 100),
-            "magic": Meter(QColor(200, 0, 200), 100),
-        }
-
-        self.player1Health_Lbl = QLabel("Health Meter: " + str(self.P1HealthMeter))
-        self.player1Health_Lbl.setStyleSheet("color: white;")
-        self.mainLayout.addWidget(self.player1Health_Lbl, row, innerCol)
-
-        self.player1_healthMeter = self.player1_meters["health"]
-        self.mainLayout.addWidget(self.player1_healthMeter, row, innerCol + 1, 1, 2)
-
-        self.player2Health_Lbl = QLabel("Health Meter: " + str(self.P2HealthMeter))
-        self.player2Health_Lbl.setStyleSheet("color: white;")
-        self.mainLayout.addWidget(self.player2Health_Lbl, row, rightCol)
-
-        self.player2_healthMeter = self.player2_meters["health"]
-        self.mainLayout.addWidget(self.player2_healthMeter, row, rightCol + 1, 1, 2)
-        row += 1
-
-        self.mainLayout.addItem(
-            QSpacerItem(0, 10, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed),
+            DD.spacer(2),
             row,
             innerCol,
         )
         row += 1
 
-        self.player1Magic_Lbl = QLabel("Magic Meter: " + str(self.P1MagicMeter))
-        self.player1Magic_Lbl.setStyleSheet("color: white;")
-        self.mainLayout.addWidget(self.player1Magic_Lbl, row, innerCol)
-
-        self.player1_magicMeter = self.player1_meters["magic"]
-        self.mainLayout.addWidget(self.player1_magicMeter, row, innerCol + 1, 1, 2)
-
-        self.player2Magic_Lbl = QLabel("Magic Meter: " + str(self.P2MagicMeter))
-        self.player2Magic_Lbl.setStyleSheet("color: white;")
-        self.mainLayout.addWidget(self.player2Magic_Lbl, row, rightCol)
-
-        self.player2_magicMeter = self.player2_meters["magic"]
-        self.mainLayout.addWidget(self.player2_magicMeter, row, rightCol + 1, 1, 2)
-        row += 1
-
         self.mainLayout.addItem(
-            QSpacerItem(0, 10, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed),
-            row,
-            innerCol,
-        )
-        row += 1
-
-        self.player1Mech_Lbl = QLabel("Stamina Meter: " + str(self.P1MechMeter))
-        self.player1Mech_Lbl.setStyleSheet("color: white;")
-        self.mainLayout.addWidget(self.player1Mech_Lbl, row, innerCol)
-
-        self.player1_mechMeter = self.player1_meters["stamina"]
-        self.mainLayout.addWidget(self.player1_mechMeter, row, innerCol + 1, 1, 2)
-
-        self.player2Mech_Lbl = QLabel("Stamina Meter: " + str(self.P2MechMeter))
-        self.player2Mech_Lbl.setStyleSheet("color: white;")
-        self.mainLayout.addWidget(self.player2Mech_Lbl, row, rightCol)
-
-        self.player2_mechMeter = self.player2_meters["stamina"]
-        self.mainLayout.addWidget(self.player2_mechMeter, row, rightCol + 1, 1, 2)
-        row += 1
-
-        self.mainLayout.addItem(
-            QSpacerItem(0, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed),
-            row,
-            innerCol,
-        )
-        row += 1
-
-        self.player1_Pic = QLabel("")
-        self.player1_Pic.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.player1_Pic.setStyleSheet("min-width: 380px;")
-        self.player1_Pic.setPixmap(QPixmap(ASSETS["ready"]))
-        self.mainLayout.addWidget(self.player1_Pic, row, innerCol, 1, 3)
-
-        self.mainLayout.addItem(
-            QSpacerItem(30, 0, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed),
-            row,
-            innerCol + 3,
-        )
-
-        self.player2_Pic = QLabel("")
-        self.player2_Pic.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.player2_Pic.setStyleSheet("min-width: 380px;")
-        self.player2_Pic.setPixmap(QPixmap(ASSETS["ready"]))
-        self.mainLayout.addWidget(self.player2_Pic, row, rightCol, 1, 3)
-        row += 1
-
-        self.mainLayout.addItem(
-            QSpacerItem(0, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed),
-            row,
-            innerCol,
-        )
-        row += 1
-
-        self.P1Weapon_Pic = QLabel("")
-        self.P1Weapon_Pic.setPixmap(QPixmap(ASSETS["sword"]).scaledToWidth(50))
-        self.mainLayout.addWidget(self.P1Weapon_Pic, row, innerCol)
-
-        self.P1Defense_Pic = QLabel("")
-        self.P1Defense_Pic.setPixmap(QPixmap(ASSETS["shield"]).scaledToWidth(50))
-        self.mainLayout.addWidget(self.P1Defense_Pic, row, innerCol + 1)
-
-        self.P2Weapon_Pic = QLabel("")
-        self.P2Weapon_Pic.setPixmap(QPixmap(ASSETS["spear"]).scaledToWidth(50))
-        self.mainLayout.addWidget(self.P2Weapon_Pic, row, rightCol)
-
-        self.P2Defense_Pic = QLabel("")
-        self.P2Defense_Pic.setPixmap(QPixmap(ASSETS["gloves"]).scaledToWidth(50))
-        self.mainLayout.addWidget(self.P2Defense_Pic, row, rightCol + 1)
-
-        # self.defend_Btn = QPushButton("Defend")
-        # self.defend_Btn.setStyleSheet('''border-radius: 15px;
-        #                               min-width: 100px;
-        #                               height: 32px;
-        #                               background-color: blue;''')
-        # self.mainLayout.addWidget(self.defend_Btn, row, innerCol+2)
-        # self.defend_Btn.clicked.connect(lambda: self.AddToQueue('Defend'))
-        row += 1
-
-        self.mainLayout.addItem(
-            QSpacerItem(0, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed),
-            row,
-            innerCol,
-        )
-        row += 1
-
-        # self.player1Lineup_Lbl = QLabel("Action Lineup: " +
-        #                                   str(self.userActionArray))
-        # self.player1Lineup_Lbl.setStyleSheet("color: white;")
-        # self.mainLayout.addWidget(self.player1Lineup_Lbl,
-        #                            row, innerCol, 1, 3)
-
-        # self.player2Lineup_Lbl = QLabel("Action Lineup: " +
-        #                                   str(self.compActionArray))
-        # self.player2Lineup_Lbl.setStyleSheet("color: white;")
-        # self.mainLayout.addWidget(self.player2Lineup_Lbl,
-        #                           row, rightCol, 1, 3)
-        row += 1
-
-        self.mainLayout.addItem(
-            QSpacerItem(0, 40, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed),
+            DD.spacer(40),
             row,
             innerCol,
         )
@@ -283,7 +131,7 @@ class FightScreen(QWidget):
         colm += 1
 
         #############################################################
-        self.P2Arsenal = Arsenal()
+        self.P2Arsenal = Arsenal(self.p2_selector)
         self.mainLayout.addWidget(self.P2Arsenal, 1, colm, 16, 1)
 
         colm += 1
@@ -311,31 +159,6 @@ class FightScreen(QWidget):
             self.attack2_Btn.setEnabled(False)
             self.defend_Btn.setEnabled(False)
             self.fight_Btn.setEnabled(True)
-
-    def UpdateMeters(self, player: Character, meters: dict):
-        maxHealth = player.maxHealth
-        curHealth = player.curHealth
-        if curHealth == 0:
-            healthPercentage = 0
-        else:
-            healthPercentage = (curHealth / maxHealth) * 100
-        meters["health"].setPercentage(healthPercentage)
-
-        maxMagic = player.maxMagic
-        curMagic = player.curMagic
-        if curMagic == 0:
-            magicPercentage = 0
-        else:
-            magicPercentage = (curMagic / maxMagic) * 100
-        meters["magic"].setPercentage(magicPercentage)
-
-        maxStamina = player.maxStamina
-        curStamina = player.curStamina
-        if curStamina == 0:
-            staminaPercentage = 0
-        else:
-            staminaPercentage = (curStamina / maxStamina) * 100
-        meters["stamina"].setPercentage(staminaPercentage)
 
     def Fight(self):
         if self.fightFlag:

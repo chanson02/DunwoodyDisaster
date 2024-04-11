@@ -1,3 +1,8 @@
+from dunwoody_disaster.views.meter import Meter
+from PySide6.QtGui import QColor
+from PySide6.QtWidgets import QLabel
+
+
 class Character:
     def __init__(self):
         # Meta data
@@ -5,7 +10,6 @@ class Character:
         self.name = ""
         self.classType = ""
 
-        # Meters
         self.curHealth = 0
         self.maxHealth = 0
         self.curMagic = 0
@@ -13,17 +17,49 @@ class Character:
         self.curStamina = 0
         self.maxStamina = 0
 
-        self.meters = {
-            "health": self.maxHealth,
-            "magic": self.maxMagic,
-            "stamina": self.maxStamina,
-        }
+        self.health_lbl = QLabel(f"Health: {self.curHealth}")
+        self.magic_lbl = QLabel(f"Magic: {self.curMagic}")
+        self.stamina_lbl = QLabel(f"Stamina: {self.curStamina}")
+        self.health_meter = Meter(QColor(255, 0, 0), 100)
+        self.magic_meter = Meter(QColor(200, 0, 200), 100)
+        self.stamina_meter = Meter(QColor(50, 50, 50), 100)
+
+        # What are these? --Cooper
+        self.defense = 0
+        self.magicDefense = 0
 
         # Inventory
         self.loot = []
         self.food = []
         self.weapons = {}
         self.defenses = {}
+
+    def set_health(self, health: int):
+        self.curHealth = health
+        if self.maxHealth == 0:
+            percentage = 0
+        else:
+            percentage = (health // self.maxHealth) * 100
+        self.health_lbl = QLabel(f"Health: {self.curHealth}")
+        self.health_meter.setPercentage(percentage)
+
+    def set_magic(self, magic: int):
+        self.curMagic = magic
+        if self.maxMagic == 0:
+            percentage = 0
+        else:
+            percentage = (magic // self.maxMagic) * 100
+        self.magic_lbl = QLabel(f"Magic: {self.curMagic}")
+        self.magic_meter.setPercentage(percentage)
+
+    def set_stamina(self, stamina: int):
+        self.curStamina = stamina
+        if self.maxStamina == 0:
+            percentage = 0
+        else:
+            percentage = (stamina // self.maxStamina) * 100
+        self.stamina_lbl = QLabel(f"Stamina: {self.curStamina}")
+        self.stamina_meter.setPercentage(percentage)
 
     def PlotRisk(self, attacks: list) -> None:
         """
@@ -128,12 +164,18 @@ class CharacterFactory:
         character.maxHealth = data["health"]
         character.maxMagic = data["magic"]
         character.maxStamina = data["stamina"]
-        character.curHealth = data["health"]
-        character.curMagic = data["magic"]
-        character.curStamina = data["stamina"]
+
+        # What are these ? --Cooper
+        character.defense = data["defense"]
+        character.magicDefense = data["magicDefense"]
+
         character.level = data["level"]
         character.loot = data["loot"]
         character.food = data["food"]
+
+        character.set_health(data["health"])
+        character.set_magic(data["magic"])
+        character.set_stamina(data["stamina"])
 
         return character
 
@@ -145,5 +187,4 @@ class CharacterFactory:
         character = CharacterFactory.createCharacter("Test-Char", "blank")
         character.weapons = {"sword": [20, 30, 10], "spear": [30, 10, 20]}
         character.defenses = {"shield": [30, 10, 20], "gloves": [10, 10, 10]}
-        character.meters = {"health": 100, "magic": 100, "stamina": 100}
         return character
