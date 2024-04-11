@@ -50,6 +50,6 @@ class Armor(Item):
         self.armorVal = armorVal
 
 
-weapons = [Weapon("sword", 20, 30, 10), Weapon("spear", 30, 10, 20)]
+weapons = [Weapon("sword", 20, 0, 10), Weapon("spear", 30, 0, 20)]
 
 armors = [Armor("shield", 30, 10, 20), Armor("gloves", 10, 10, 10)]
