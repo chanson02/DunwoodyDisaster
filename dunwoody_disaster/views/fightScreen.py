@@ -10,15 +10,17 @@ from PySide6.QtWidgets import (
 )
 from dunwoody_disaster.views.arsenal import Arsenal
 import dunwoody_disaster as DD
-from dunwoody_disaster.CharacterFactory import CharacterFactory
+from dunwoody_disaster.CharacterFactory import Character
 from dunwoody_disaster.views.characterState import CharacterState
 from dunwoody_disaster.views.action_selector import ActionSelector
 
 
 class FightScreen(QWidget):
-    def __init__(self):
+    def __init__(self, player1: Character, player2: Character):
         super().__init__()
 
+        self.player1 = player1
+        self.player2 = player2
         punch = QMovie(DD.ASSETS["P1Attack1"])
         kick = QMovie(DD.ASSETS["P1Attack2"])
         defense = QMovie(DD.ASSETS["P1Defense"])
@@ -43,9 +45,7 @@ class FightScreen(QWidget):
 
         self.p1_selector = ActionSelector()
         self.p2_selector = ActionSelector()
-        player1 = CharacterFactory.createTestChar()
-        player2 = CharacterFactory.createTestChar()
-        self.P1Arsenal = Arsenal(self.p1_selector, player1.weapons, player1.defenses)
+        self.P1Arsenal = Arsenal(self.p1_selector, self.player1.weapons, self.player1.defenses)
         self.mainLayout.addWidget(self.P1Arsenal, row, colm, 16, 1)
 
         colm += 1
@@ -65,8 +65,8 @@ class FightScreen(QWidget):
 
         ####################
         # This is the middle section of the screen ##############
-        p1 = CharacterState(player1)
-        p2 = CharacterState(player2)
+        p1 = CharacterState(self.player1)
+        p2 = CharacterState(self.player2)
 
         innerCol = colm
         rightCol = colm + 4
@@ -120,7 +120,7 @@ class FightScreen(QWidget):
         colm += 1
 
         #############################################################
-        self.P2Arsenal = Arsenal(self.p2_selector, player2.weapons, player2.defenses)
+        self.P2Arsenal = Arsenal(self.p2_selector, self.player2.weapons, self.player2.defenses)
         self.mainLayout.addWidget(self.P2Arsenal, 1, colm, 16, 1)
 
         colm += 1
