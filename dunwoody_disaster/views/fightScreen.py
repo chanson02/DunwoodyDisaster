@@ -150,6 +150,8 @@ class FightScreen(QWidget):
             self.fight_Btn.setEnabled(True)
 
     def Fight(self):
+        pass
+        """
         if self.fightFlag:
             self.fight_Btn.setEnabled(False)
 
@@ -190,3 +192,4 @@ class FightScreen(QWidget):
                 self.attack1_Btn.setEnabled(True)
                 self.attack2_Btn.setEnabled(True)
                 self.defend_Btn.setEnabled(True)
+                """
