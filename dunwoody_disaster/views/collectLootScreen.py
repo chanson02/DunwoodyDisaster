@@ -60,9 +60,8 @@ class CollectLootScreen(QWidget):
         return widget, cb
 
     def confirm(self):
-        selected = []
         for cb, item in zip(self.boxes, self.items):
             if cb.isChecked():
-                selected.append(item)
+                self.player.add_item(item)
 
-        print('you selected', selected)
+        return

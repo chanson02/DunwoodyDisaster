@@ -62,7 +62,7 @@ class Character:
         self.stamina_lbl = QLabel(f"Stamina: {self.curStamina}")
         self.stamina_meter.setPercentage(percentage)
 
-    def add_item(self, item: Item.Weapon | Item.Armor):
+    def add_item(self, item: Item.Item):
         kind = type(item)
         if kind is Item.Weapon:
             self.weapons.append(item)
