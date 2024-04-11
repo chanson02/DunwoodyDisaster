@@ -1,6 +1,7 @@
 from dunwoody_disaster.views.meter import Meter
 from PySide6.QtGui import QColor
 from PySide6.QtWidgets import QLabel
+from dunwoody_disaster import Item
 
 
 class Character:
@@ -31,8 +32,8 @@ class Character:
         # Inventory
         self.loot = []
         self.food = []
-        self.weapons = {}
-        self.defenses = {}
+        self.weapons = []
+        self.defenses = []
 
     def set_health(self, health: int):
         self.curHealth = health
@@ -60,6 +61,15 @@ class Character:
             percentage = (stamina // self.maxStamina) * 100
         self.stamina_lbl = QLabel(f"Stamina: {self.curStamina}")
         self.stamina_meter.setPercentage(percentage)
+
+    def addItem(self, item: Item.Weapon | Item.Armor):
+        kind = type(item)
+        if kind is Item.Weapon:
+            self.weapons.append(item)
+        elif kind is Item.Armor:
+            self.defenses.append(item)
+        else:
+            raise ValueError('Unknown item type')
 
     def PlotRisk(self, attacks: list) -> None:
         """
@@ -176,6 +186,11 @@ class CharacterFactory:
         character.set_health(data["health"])
         character.set_magic(data["magic"])
         character.set_stamina(data["stamina"])
+
+        for weapon in Item.weapons:
+            character.addItem(weapon)
+        for armor in Item.armors:
+            character.addItem(armor)
 
         return character
 
