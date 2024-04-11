@@ -62,7 +62,7 @@ class Character:
         self.stamina_lbl = QLabel(f"Stamina: {self.curStamina}")
         self.stamina_meter.setPercentage(percentage)
 
-    def addItem(self, item: Item.Weapon | Item.Armor):
+    def add_item(self, item: Item.Weapon | Item.Armor):
         kind = type(item)
         if kind is Item.Weapon:
             self.weapons.append(item)
@@ -188,9 +188,9 @@ class CharacterFactory:
         character.set_stamina(data["stamina"])
 
         for weapon in Item.weapons:
-            character.addItem(weapon)
+            character.add_item(weapon)
         for armor in Item.armors:
-            character.addItem(armor)
+            character.add_item(armor)
 
         return character
 
@@ -200,6 +200,4 @@ class CharacterFactory:
         Creates a default character we can use for testing
         """
         character = CharacterFactory.createCharacter("Test-Char", "blank")
-        character.weapons = {"sword": [20, 30, 10], "spear": [30, 10, 20]}
-        character.defenses = {"shield": [30, 10, 20], "gloves": [10, 10, 10]}
         return character

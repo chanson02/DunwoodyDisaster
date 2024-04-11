@@ -12,20 +12,15 @@ class Arsenal(QWidget):
     The arsenal is made up of two `inventory` widgets which display items
     """
 
-    def __init__(self, selector: ActionSelector):
+    def __init__(self, selector: ActionSelector, weapons: list[Item.Weapon], armors: list[Item.Armor]):
         super().__init__()
         self.selector = selector
-        self.imageAssets = {
-            item: QPixmap(f"./assets/{item}.jpg")
-            for item in ["sword", "spear", "shield", "gloves"]
-        }
-
         self.setStyleSheet("background-color: black;")
         layout = QGridLayout()
         layout.setContentsMargins(0, 0, 0, 0)
 
-        weapons_widget = self.create_inventory("Weapons", Item.weapons)
-        armor_widget = self.create_inventory("Armor", Item.armors)
+        weapons_widget = self.create_inventory("Weapons", weapons)
+        armor_widget = self.create_inventory("Armor", armors)
 
         layout.addWidget(weapons_widget, 0, 0)
         layout.addWidget(armor_widget, 0, 1)

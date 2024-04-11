@@ -19,20 +19,9 @@ class FightScreen(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.imageAssets = {
-            item: QPixmap(DD.ASSETS[item])
-            for item in ["sword", "spear", "shield", "gloves"]
-        }
-
-        self.userActionArray = []
-        self.compActionArray = []
         punch = QMovie(DD.ASSETS["P1Attack1"])
         kick = QMovie(DD.ASSETS["P1Attack2"])
         defense = QMovie(DD.ASSETS["P1Defense"])
-        self.actionArray = ["Punch", "Kick", "Defend"]
-        self.damageArray = [10, 20, 0]
-        self.player1PicArray = [punch, kick, defense]
-        self.fightFlag = False
         self.timer = QTimer()
 
         self.setStyleSheet("background-color: black;")
@@ -54,7 +43,9 @@ class FightScreen(QWidget):
 
         self.p1_selector = ActionSelector()
         self.p2_selector = ActionSelector()
-        self.P1Arsenal = Arsenal(self.p1_selector)
+        player1 = CharacterFactory.createTestChar()
+        player2 = CharacterFactory.createTestChar()
+        self.P1Arsenal = Arsenal(self.p1_selector, player1.weapons, player1.defenses)
         self.mainLayout.addWidget(self.P1Arsenal, row, colm, 16, 1)
 
         colm += 1
@@ -74,8 +65,6 @@ class FightScreen(QWidget):
 
         ####################
         # This is the middle section of the screen ##############
-        player1 = CharacterFactory.createTestChar()
-        player2 = CharacterFactory.createTestChar()
         p1 = CharacterState(player1)
         p2 = CharacterState(player2)
 
@@ -131,7 +120,7 @@ class FightScreen(QWidget):
         colm += 1
 
         #############################################################
-        self.P2Arsenal = Arsenal(self.p2_selector)
+        self.P2Arsenal = Arsenal(self.p2_selector, player2.weapons, player2.defenses)
         self.mainLayout.addWidget(self.P2Arsenal, 1, colm, 16, 1)
 
         colm += 1
