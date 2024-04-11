@@ -1,4 +1,5 @@
 from typing import Sequence
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QCheckBox, QPushButton, QHBoxLayout
 from dunwoody_disaster.CharacterFactory import Character
 from dunwoody_disaster import Item
@@ -25,21 +26,29 @@ class CollectLootScreen(QWidget):
         items_layout = QHBoxLayout()
         layout.addLayout(items_layout)
 
-        checkboxes = QVBoxLayout()
         self.boxes = []
         for item in self.items:
-            items_layout.addWidget(item.widget())
-            box = QCheckBox(item.name)
+            widget, box = self.create_checkbox(item)
+            items_layout.addWidget(widget)
             self.boxes.append(box)
-            checkboxes.addWidget(box)
-
-        layout.addLayout(checkboxes)
 
         btn = QPushButton('Confirm')
         btn.clicked.connect(self.confirm)
         layout.addWidget(btn)
 
         self.setLayout(layout)
+
+    def create_checkbox(self, item: Item.Item) -> tuple[QWidget, QCheckBox]:
+        layout = QVBoxLayout()
+        layout.addWidget(item.widget())
+        layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        cb = QCheckBox()
+        layout.addWidget(cb)
+
+        widget = QWidget()
+        widget.setLayout(layout)
+        return widget, cb
 
     def confirm(self):
         selected = []

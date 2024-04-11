@@ -36,19 +36,19 @@ class Item:
         layout = QVBoxLayout()
 
         name = QLabel(self.name)
-        name.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        # name.setAlignment(Qt.AlignmentFlag.AlignCenter)
         name.setStyleSheet("color: white; font-size: 24px;")
         layout.addWidget(name)
 
         img = QLabel()
-        img.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        # img.setAlignment(Qt.AlignmentFlag.AlignCenter)
         img.setPixmap(QPixmap(self.image).scaledToWidth(80))
         layout.addWidget(img)
 
         stats = {'stat1': self.stats[0], 'stat2': self.stats[1], 'stat3': self.stats[2]}
         for stat, value in stats.items():
             lbl = QLabel(f"{stat}: {value}")
-            lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            # lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
             layout.addWidget(lbl)
 
         widget = QWidget()
