@@ -42,17 +42,17 @@ class CollectLootScreen(QWidget):
 
     def create_checkbox(self, item: Item.Item) -> tuple[QWidget, QCheckBox]:
         layout = QVBoxLayout()
-        
-        def test():
-            print('this is a test')
+        cb = QCheckBox()
+
+        def toggle_box():
+            cb.setChecked(not cb.isChecked())
 
         item_widget = item.widget()
-        DD.clickable(item_widget).connect(test)
+        DD.clickable(item_widget).connect(toggle_box)
 
         layout.addWidget(item_widget)
         layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        cb = QCheckBox()
         layout.addWidget(cb)
 
         widget = QWidget()
