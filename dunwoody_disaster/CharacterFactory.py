@@ -10,12 +10,14 @@ class Character:
         self.maxHealth = 0
         self.curMagic = 0
         self.maxMagic = 0
-        self.curMechanical = 0
-        self.maxMechanical = 0
+        self.curStamina = 0
+        self.maxStamina = 0
 
-        # What are these? --Cooper
-        self.defense = 0
-        self.magicDefense = 0
+        self.meters = {
+            "health": self.maxHealth,
+            "magic": self.maxMagic,
+            "stamina": self.maxStamina,
+        }
 
         # Inventory
         self.loot = []
@@ -27,7 +29,7 @@ class Character:
         """
         Goes through enemeis potential attacks and damage according to our defense profile
         Prints how risk each attack could be
-        :param attacks: List containing attack data [name, mechanical damage, magic damage, health damage]
+        :param attacks: List containing attack data [name, stamina cost, magic damage, health damage]
         """
         risk_levels = {
             "high": "is a high risk attack",
@@ -39,7 +41,7 @@ class Character:
         for attack in attacks:
             name, mech, magic, health = attack
             print(f"{name} ", end="")
-            if self.curMechanical <= mech:
+            if self.curStamina <= mech:
                 # attack stuns opponent ?
                 print(risk_levels["high"])
                 continue
@@ -66,7 +68,7 @@ class CharacterFactory:
         "blank": {
             "health": 100,
             "magic": 100,
-            "mechanical": 100,
+            "stamina": 100,
             "defense": 0,
             "magicDefense": 0,
             "level": 1,
@@ -76,7 +78,7 @@ class CharacterFactory:
         "warrior": {
             "health": 100,
             "magic": 0,
-            "mechanical": 15,
+            "stamina": 15,
             "defense": 0,
             "magicDefense": 0,
             "level": 1,
@@ -86,7 +88,7 @@ class CharacterFactory:
         "mage": {
             "health": 100,
             "magic": 15,
-            "mechanical": 0,
+            "stamina": 0,
             "defense": 0,
             "magicDefense": 0,
             "level": 1,
@@ -96,7 +98,7 @@ class CharacterFactory:
         "thief": {
             "health": 100,
             "magic": 0,
-            "mechanical": 10,
+            "stamina": 10,
             "defense": 0,
             "magicDefense": 0,
             "level": 1,
@@ -125,12 +127,10 @@ class CharacterFactory:
         character.classType = classType
         character.maxHealth = data["health"]
         character.maxMagic = data["magic"]
-        character.maxMechanical = data["mechanical"]
+        character.maxStamina = data["stamina"]
         character.curHealth = data["health"]
         character.curMagic = data["magic"]
-        character.curMechanical = data["mechanical"]
-        character.defense = data["defense"]
-        character.magicDefense = data["magicDefense"]
+        character.curStamina = data["stamina"]
         character.level = data["level"]
         character.loot = data["loot"]
         character.food = data["food"]
@@ -145,4 +145,5 @@ class CharacterFactory:
         character = CharacterFactory.createCharacter("Test-Char", "blank")
         character.weapons = {"sword": [20, 30, 10], "spear": [30, 10, 20]}
         character.defenses = {"shield": [30, 10, 20], "gloves": [10, 10, 10]}
+        character.meters = {"health": 100, "magic": 100, "stamina": 100}
         return character

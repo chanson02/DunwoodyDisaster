@@ -101,13 +101,13 @@ class FightScreen(QWidget):
 
         self.player1_meters = {
             "health": Meter(QColor(255, 0, 0), 100),
-            "mechanical": Meter(QColor(50, 50, 50), 100),
+            "stamina": Meter(QColor(50, 50, 50), 100),
             "magic": Meter(QColor(200, 0, 200), 100),
         }
 
         self.player2_meters = {
             "health": Meter(QColor(255, 0, 0), 100),
-            "mechanical": Meter(QColor(50, 50, 50), 100),
+            "stamina": Meter(QColor(50, 50, 50), 100),
             "magic": Meter(QColor(200, 0, 200), 100),
         }
 
@@ -155,18 +155,18 @@ class FightScreen(QWidget):
         )
         row += 1
 
-        self.player1Mech_Lbl = QLabel("Mechanical Meter: " + str(self.P1MechMeter))
+        self.player1Mech_Lbl = QLabel("Stamina Meter: " + str(self.P1MechMeter))
         self.player1Mech_Lbl.setStyleSheet("color: white;")
         self.mainLayout.addWidget(self.player1Mech_Lbl, row, innerCol)
 
-        self.player1_mechMeter = self.player1_meters["mechanical"]
+        self.player1_mechMeter = self.player1_meters["stamina"]
         self.mainLayout.addWidget(self.player1_mechMeter, row, innerCol + 1, 1, 2)
 
-        self.player2Mech_Lbl = QLabel("Mechanical Meter: " + str(self.P2MechMeter))
+        self.player2Mech_Lbl = QLabel("Stamina Meter: " + str(self.P2MechMeter))
         self.player2Mech_Lbl.setStyleSheet("color: white;")
         self.mainLayout.addWidget(self.player2Mech_Lbl, row, rightCol)
 
-        self.player2_mechMeter = self.player2_meters["mechanical"]
+        self.player2_mechMeter = self.player2_meters["stamina"]
         self.mainLayout.addWidget(self.player2_mechMeter, row, rightCol + 1, 1, 2)
         row += 1
 
@@ -329,13 +329,13 @@ class FightScreen(QWidget):
             magicPercentage = (curMagic / maxMagic) * 100
         meters["magic"].setPercentage(magicPercentage)
 
-        maxMechanical = player.maxMechanical
-        curMechanical = player.curMechanical
-        if curMechanical == 0:
-            mechanicalPercentage = 0
+        maxStamina = player.maxStamina
+        curStamina = player.curStamina
+        if curStamina == 0:
+            staminaPercentage = 0
         else:
-            mechanicalPercentage = (curMechanical / maxMechanical) * 100
-        meters["mechanical"].setPercentage(mechanicalPercentage)
+            staminaPercentage = (curStamina / maxStamina) * 100
+        meters["stamina"].setPercentage(staminaPercentage)
 
     def Fight(self):
         if self.fightFlag:
