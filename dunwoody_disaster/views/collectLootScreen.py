@@ -3,6 +3,8 @@ from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QCheckBox, QPushButton, QHBoxLayout
 from dunwoody_disaster.CharacterFactory import Character
 from dunwoody_disaster import Item
+import dunwoody_disaster as DD
+
 
 
 class CollectLootScreen(QWidget):
@@ -40,7 +42,14 @@ class CollectLootScreen(QWidget):
 
     def create_checkbox(self, item: Item.Item) -> tuple[QWidget, QCheckBox]:
         layout = QVBoxLayout()
-        layout.addWidget(item.widget())
+        
+        def test():
+            print('this is a test')
+
+        item_widget = item.widget()
+        DD.clickable(item_widget).connect(test)
+
+        layout.addWidget(item_widget)
         layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         cb = QCheckBox()
