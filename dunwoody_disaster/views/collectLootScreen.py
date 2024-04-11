@@ -1,5 +1,5 @@
 from typing import Sequence
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QCheckBox, QPushButton
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QCheckBox, QPushButton, QHBoxLayout
 from dunwoody_disaster.CharacterFactory import Character
 from dunwoody_disaster import Item
 
@@ -22,9 +22,13 @@ class CollectLootScreen(QWidget):
         lbl = QLabel('Loot Screen')
         layout.addWidget(lbl)
 
+        items_layout = QHBoxLayout()
+        layout.addLayout(items_layout)
+
         checkboxes = QVBoxLayout()
         self.boxes = []
         for item in self.items:
+            items_layout.addWidget(item.widget())
             box = QCheckBox(item.name)
             self.boxes.append(box)
             checkboxes.addWidget(box)
