@@ -1,10 +1,16 @@
 from typing import Sequence
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QCheckBox, QPushButton, QHBoxLayout
+from PySide6.QtWidgets import (
+    QWidget,
+    QVBoxLayout,
+    QLabel,
+    QCheckBox,
+    QPushButton,
+    QHBoxLayout,
+)
 from dunwoody_disaster.CharacterFactory import Character
 from dunwoody_disaster import Item
 import dunwoody_disaster as DD
-
 
 
 class CollectLootScreen(QWidget):
@@ -22,7 +28,7 @@ class CollectLootScreen(QWidget):
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
 
-        lbl = QLabel('Loot Screen')
+        lbl = QLabel("Loot Screen")
         layout.addWidget(lbl)
 
         items_layout = QHBoxLayout()
@@ -34,7 +40,7 @@ class CollectLootScreen(QWidget):
             items_layout.addWidget(widget)
             self.boxes.append(box)
 
-        btn = QPushButton('Confirm')
+        btn = QPushButton("Confirm")
         btn.clicked.connect(self.confirm)
         layout.addWidget(btn)
 

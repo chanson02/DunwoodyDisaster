@@ -25,6 +25,7 @@ def clickable(widget: QWidget) -> SignalInstance:
     Turn any QWidget into a clickable object.
     :example: clickable(QLabel('Hello')).connect(lambda: print('clicked'))
     """
+
     class Filter(QObject):
         clicked = Signal()
 

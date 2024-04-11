@@ -12,7 +12,12 @@ class Arsenal(QWidget):
     The arsenal is made up of two `inventory` widgets which display items
     """
 
-    def __init__(self, selector: ActionSelector, weapons: list[Item.Weapon], armors: list[Item.Armor]):
+    def __init__(
+        self,
+        selector: ActionSelector,
+        weapons: list[Item.Weapon],
+        armors: list[Item.Armor],
+    ):
         super().__init__()
         self.selector = selector
         self.setStyleSheet("background-color: black;")
@@ -36,9 +41,7 @@ class Arsenal(QWidget):
     def select_item_lambda(self, item: Item.Item):
         return lambda: self.select_item(item)
 
-    def create_inventory(
-        self, label: str, items: Sequence[Item.Item]
-    ) -> QWidget:
+    def create_inventory(self, label: str, items: Sequence[Item.Item]) -> QWidget:
 
         layout = QGridLayout()
         layout.setSpacing(0)

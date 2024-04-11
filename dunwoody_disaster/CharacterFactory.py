@@ -69,7 +69,7 @@ class Character:
         elif kind is Item.Armor:
             self.defenses.append(item)
         else:
-            raise ValueError('Unknown item type')
+            raise ValueError("Unknown item type")
 
     def PlotRisk(self, attacks: list) -> None:
         """
