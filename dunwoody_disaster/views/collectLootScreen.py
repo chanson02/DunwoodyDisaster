@@ -45,7 +45,8 @@ class CollectLootScreen(QWidget):
         cb = QCheckBox()
 
         def toggle_box():
-            cb.setChecked(not cb.isChecked())
+            if cb.isEnabled():
+                cb.setChecked(not cb.isChecked())
 
         item_widget = item.widget()
         DD.clickable(item_widget).connect(toggle_box)
@@ -61,7 +62,8 @@ class CollectLootScreen(QWidget):
 
     def confirm(self):
         for cb, item in zip(self.boxes, self.items):
+            cb.setEnabled(False)
             if cb.isChecked():
                 self.player.add_item(item)
 
-        return
+        self.deleteLater()
