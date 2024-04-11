@@ -1,4 +1,4 @@
-from typing import Sequence
+from typing import Type, Sequence
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QGridLayout, QLabel, QWidget, QPushButton, QScrollArea
@@ -37,7 +37,7 @@ class Arsenal(QWidget):
         return lambda: self.select_item(item)
 
     def create_inventory(
-        self, label: str, items: Sequence[Item.Weapon | Item.Armor]
+        self, label: str, items: Sequence[Item.Item]
     ) -> QWidget:
 
         layout = QGridLayout()

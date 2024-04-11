@@ -1,10 +1,11 @@
+from typing import Type
 from PySide6.QtWidgets import QWidget, QGridLayout, QLabel
 from dunwoody_disaster.CharacterFactory import Character
 from dunwoody_disaster import Item
 
 
 class CollectLootScreen(QWidget):
-    def __init__(self, player: Character, available: list[Item.Item]):
+    def __init__(self, player: Character, available: list[Type[Item.Item]]):
         """
         :param player: The player that is selecting an item.
         :param available: A list of items the player has access to select.

@@ -12,7 +12,7 @@ ArmorStats = {"shield": [30, 10, 20], "gloves": [10, 10, 10]}
 
 
 class Item:
-    def __init__(self, name):
+    def __init__(self, name: str):
         self.name = name
         self.stats = None
 
