@@ -178,20 +178,6 @@ class FightScreen(QWidget):
             self.player2.set_magic(self.player2.curMagic)
             self.player2.set_stamina(self.player2.curStamina)
 
-            print("health label text", self.player1.health_lbl.text())
-            # self.player1Health_Lbl.setText("Health Meter: " + str(self.userHealthMeter))
-            # self.player2Health_Lbl.setText("Health Meter: " + str(self.compHealthMeter))
-
-            # self.compActionArray.pop(0)
-            # self.userActionArray.pop(0)
-            # if len(self.userActionArray) == 0:
-            #     self.fightFlag = False
-            #     self.player1Lineup_Lbl.setText(
-            #         "Action Lineup: " + str(self.userActionArray)
-            #     )
             self.fightFlag = False
             self.fight_Btn.setEnabled(True)
 
-            # self.attack1_Btn.setEnabled(True)
-            # self.attack2_Btn.setEnabled(True)
-            # self.defend_Btn.setEnabled(True)

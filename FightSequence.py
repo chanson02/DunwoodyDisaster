@@ -28,14 +28,10 @@ class FightSequence:
             playerDamage = self.CalculateDamage(self.player, playerWeapon, enemyDefense)
             self.player.curStamina -= playerWeapon.staminaCost
             self.enemy.curHealth -= playerDamage
-            print(self.enemy.curHealth)
-            #fightScreen.UpdateMeters(self.player, self.player.meters)
         if canEnemyAttack:
             enemyDamage = self.CalculateDamage(self.enemy, enemyWeapon, playerDefense)
             self.enemy.curStamina -= enemyWeapon.staminaCost
             self.player.curHealth -= enemyDamage
-            print(self.player.curHealth)
-            #fightScreen.UpdateMeters(self.enemy, self.enemy.meters)
 
         return self.player, self.enemy
 
