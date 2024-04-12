@@ -12,6 +12,13 @@ from dunwoody_disaster.CharacterFactory import Character
 from dunwoody_disaster import Item
 import dunwoody_disaster as DD
 
+"""
+what i'm working on:
+I just made it so each character has a .inventory_capacity
+I want to check if they can add an item to their inventory based on how much stamina it costs
+
+the problem is that each time they toggle on or off an item, I want to enable/disable a checkbox
+"""
 
 class CollectLootScreen(QWidget):
     def __init__(self, player: Character, available: Sequence[Item.Item]):
@@ -34,11 +41,12 @@ class CollectLootScreen(QWidget):
         items_layout = QHBoxLayout()
         layout.addLayout(items_layout)
 
-        self.boxes = []
+        self.boxes: dict[QCheckBox, Item.Item] = {}
         for item in self.items:
-            widget, box = self.create_checkbox(item)
+            widget, box = self.create_inventory_slot(item)
             items_layout.addWidget(widget)
-            self.boxes.append(box)
+            # self.boxes.append(box)
+            self.boxes[box] = item
 
         btn = QPushButton("Confirm")
         btn.clicked.connect(self.confirm)
@@ -46,6 +54,39 @@ class CollectLootScreen(QWidget):
 
         self.setLayout(layout)
 
+    def create_inventory_slot(self, item: Item.Item) -> tuple[QWidget, QCheckBox]:
+        layout = QVBoxLayout()
+        layout.addWidget(item.widget())
+
+        cb = QCheckBox()
+        cbl = QVBoxLayout()
+        cbl.addWidget(cb)
+        cbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.addLayout(cbl)
+
+        def callback():
+            self.select_item(cb)
+
+        def widget_click():
+            cb.setChecked(not cb.isChecked())
+            callback()
+
+        widget = QWidget()
+        widget.setLayout(layout)
+        DD.clickable(widget).connect(widget_click)
+        cb.clicked.connect(callback)
+        return widget, cb
+
+    def select_item(self, selected: QCheckBox):
+        if not selected.isEnabled():
+            return
+
+        selected_items = [item for checkbox, item in self.boxes.items() if checkbox.isChecked()]
+        print(selected_items)
+
+        return
+
+    """
     def create_checkbox(self, item: Item.Item) -> tuple[QWidget, QCheckBox]:
         layout = QVBoxLayout()
 
@@ -63,7 +104,6 @@ class CollectLootScreen(QWidget):
         layout.addWidget(item_widget)
         layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        # layout.addWidget(cb)
         cb_layout.addWidget(cb)
         cb_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addLayout(cb_layout)
@@ -71,6 +111,7 @@ class CollectLootScreen(QWidget):
         widget = QWidget()
         widget.setLayout(layout)
         return widget, cb
+    """
 
     def confirm(self):
         for cb, item in zip(self.boxes, self.items):

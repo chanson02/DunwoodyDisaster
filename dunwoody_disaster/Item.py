@@ -33,7 +33,7 @@ class Item:
         return {
                 'damage': self.stats[0],
                 'magic': self.stats[1],
-                'stamina': self.stats[2]
+                'stamina': self.stats[2],
                 }
 
     def widget(self, min_width=100) -> QWidget:
