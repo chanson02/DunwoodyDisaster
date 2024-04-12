@@ -1,6 +1,7 @@
 from dunwoody_disaster.views.meter import Meter
 from PySide6.QtGui import QColor
 from PySide6.QtWidgets import QLabel
+from dunwoody_disaster import Item
 
 
 class Character:
@@ -31,8 +32,8 @@ class Character:
         # Inventory
         self.loot = []
         self.food = []
-        self.weapons = {}
-        self.defenses = {}
+        self.weapons = []
+        self.defenses = []
 
     def set_health(self, health: int):
         self.curHealth = health
@@ -60,6 +61,15 @@ class Character:
             percentage = (stamina // self.maxStamina) * 100
         self.stamina_lbl = QLabel(f"Stamina: {self.curStamina}")
         self.stamina_meter.setPercentage(percentage)
+
+    def add_item(self, item: Item.Item):
+        kind = type(item)
+        if kind is Item.Weapon:
+            self.weapons.append(item)
+        elif kind is Item.Armor:
+            self.defenses.append(item)
+        else:
+            raise ValueError("Unknown item type")
 
     def PlotRisk(self, attacks: list) -> None:
         """
@@ -177,6 +187,11 @@ class CharacterFactory:
         character.set_magic(data["magic"])
         character.set_stamina(data["stamina"])
 
+        for weapon in Item.weapons:
+            character.add_item(weapon)
+        for armor in Item.armors:
+            character.add_item(armor)
+
         return character
 
     @staticmethod
@@ -185,6 +200,4 @@ class CharacterFactory:
         Creates a default character we can use for testing
         """
         character = CharacterFactory.createCharacter("Test-Char", "blank")
-        character.weapons = {"sword": [20, 30, 10], "spear": [30, 10, 20]}
-        character.defenses = {"shield": [30, 10, 20], "gloves": [10, 10, 10]}
         return character

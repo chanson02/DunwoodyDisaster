@@ -5,6 +5,9 @@ The entry point for the game
 import sys
 from PySide6.QtWidgets import QApplication, QMainWindow, QStackedWidget
 from dunwoody_disaster.views.fightScreen import FightScreen
+from dunwoody_disaster.views.collectLootScreen import CollectLootScreen
+from dunwoody_disaster.CharacterFactory import CharacterFactory
+from dunwoody_disaster import Item
 
 from dunwoody_disaster.views.StartMenu import StartMenu
 from dunwoody_disaster.views.MapScreen import MapScreen
@@ -16,6 +19,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Dunwoody-Disaster")
         # self.setGeometry(100, 100, 800, 600)
 
+<<<<<<< HEAD
         self.startMenu = StartMenu()
         self.startMenu.startButton.clicked.connect(self.showMapScreen)
         self.mapScreen = MapScreen()
@@ -45,6 +49,15 @@ class MainWindow(QMainWindow):
         if reply == QMessageBox.Yes:
             self.close()  # Close the window if the user confirms
     """
+=======
+        player1 = CharacterFactory.createTestChar()
+        player2 = CharacterFactory.createTestChar()
+        if 1 == 2:  # this is here to clear lint warnings
+            self.setCentralWidget(FightScreen(player1, player2))
+        else:
+            items = Item.weapons + Item.armors
+            self.setCentralWidget(CollectLootScreen(player1, items))
+>>>>>>> origin/28-inventory-system
 
 
 if __name__ == "__main__":
