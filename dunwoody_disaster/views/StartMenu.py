@@ -9,7 +9,6 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap, QPainter
-from MapScreen import MapScreen
 from dunwoody_disaster import ASSETS
 
 
@@ -59,24 +58,3 @@ class StartMenu(QWidget):
         )  # Scale the background image to fill the window """
 
         painter.drawPixmap(self.rect(), pixmap)  # Draw the scaled pixmap on the window
-
-    def startGame(self):
-        QMessageBox.information(self, "Start Game", "Starting the game...")
-        self.game_page = MapScreen()  # Create an instance of the GamePage
-        self.game_page.show()  # Show a message box when the start game button is clicked
-
-    def showOptions(self):
-        QMessageBox.information(
-            self, "Options", "Show game options..."
-        )  # Show a message box when the options button is clicked
-
-    def exitGame(self):
-        reply = QMessageBox.question(
-            self,
-            "Exit",
-            "Are you sure you want to exit?",
-            QMessageBox.Yes | QMessageBox.No,
-            QMessageBox.No,
-        )  # Ask for confirmation before exiting
-        if reply == QMessageBox.Yes:
-            self.close()  # Close the window if the user confirms
