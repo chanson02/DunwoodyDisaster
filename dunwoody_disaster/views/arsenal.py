@@ -42,7 +42,6 @@ class Arsenal(QWidget):
         return lambda: self.select_item(item)
 
     def create_inventory(self, label: str, items: Sequence[Item.Item]) -> QWidget:
-
         layout = QGridLayout()
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -53,38 +52,11 @@ class Arsenal(QWidget):
         lbl.setStyleSheet("color: white; font-size: 24px;")
         layout.addWidget(lbl, row, 1)
         row += 1
-        layout.addItem(DD.spacer(10), row, 1)
-        row += 1
 
         for item in items:
-            name = QLabel(item.name)
-            name.setAlignment(Qt.AlignmentFlag.AlignCenter)
-            name.setStyleSheet("color: white;")
-            layout.addWidget(name, row, 1)
-            row += 1
-
-            layout.addItem(DD.spacer(10), row, 1)
-            row += 1
-
-            image = QPixmap(item.image).scaledToWidth(80)
-            btn = QPushButton()
-            btn.setIcon(image)
-            btn.setIconSize(image.size())
-            btn.clicked.connect(self.select_item_lambda(item))
-            layout.addWidget(btn, row, 1)
-            row += 1
-
-            layout.addItem(DD.spacer(10), row, 1)
-            row += 1
-
-            # TODO: Clean up these properties
-            properties = QLabel(str(item))
-            properties.setAlignment(Qt.AlignmentFlag.AlignCenter)
-            properties.setStyleSheet("color: white;")
-            layout.addWidget(properties, row, 1)
-            row += 1
-
-            layout.addItem(DD.spacer(40), row, 1)
+            item_widget = item.widget()
+            DD.clickable(item_widget).connect(self.select_item_lambda(item))
+            layout.addWidget(item_widget, row, 1)
             row += 1
 
         widget = QWidget()
@@ -93,8 +65,6 @@ class Arsenal(QWidget):
         scroll_area.setWidgetResizable(True)
         scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-        scroll_area.setStyleSheet(
-            "min-width: 125px; border-left: 1px solid green; border-right: 1px solid green"
-        )
+        scroll_area.setStyleSheet("min-width: 125px;")
         scroll_area.setWidget(widget)
         return scroll_area
