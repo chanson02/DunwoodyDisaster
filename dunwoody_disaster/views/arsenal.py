@@ -45,7 +45,7 @@ class Arsenal(QWidget):
         layout = QGridLayout()
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
-        row = 0
+        row = 1
 
         lbl = QLabel(label)
         lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
