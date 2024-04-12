@@ -23,17 +23,19 @@ class FightSequence:
         print("Fighting")
         canPlayerAttack = self.CanAttack(self.player, playerWeapon)
         canEnemyAttack = self.CanAttack(self.enemy, enemyWeapon)
-        print("thye can attack")
+
         if canPlayerAttack:
             playerDamage = self.CalculateDamage(self.player, playerWeapon, enemyDefense)
             self.player.curStamina -= playerWeapon.staminaCost
             self.enemy.curHealth -= playerDamage
-            fightScreen.UpdateMeters(self.player, self.player.meters)
+            print(self.enemy.curHealth)
+            #fightScreen.UpdateMeters(self.player, self.player.meters)
         if canEnemyAttack:
             enemyDamage = self.CalculateDamage(self.enemy, enemyWeapon, playerDefense)
             self.enemy.curStamina -= enemyWeapon.staminaCost
             self.player.curHealth -= enemyDamage
-            fightScreen.UpdateMeters(self.enemy, self.enemy.meters)
+            print(self.player.curHealth)
+            #fightScreen.UpdateMeters(self.enemy, self.enemy.meters)
 
         return self.player, self.enemy
 
@@ -52,6 +54,10 @@ class FightSequence:
         """
         Calculates damage based on playerAttack vs the targets defensive item.
         """
-        attackDamage = playerAttack.damage - targetDefense.armorVal
-
-        return attackDamage
+        if playerAttack.magic: 
+            attackDamage = (playerAttack.damage + player.intelligence) - targetDefense.magicDefense
+        else:
+            attackDamage = (playerAttack.damage + player.strength)  - targetDefense.armorVal
+        print('attack damage: ', attackDamage)
+        if attackDamage > 0: return attackDamage
+        return 0

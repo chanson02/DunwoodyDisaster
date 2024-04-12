@@ -9,7 +9,10 @@ class Character:
         self.level = 0
         self.name = ""
         self.classType = ""
+        self.strength = 0
+        self.intelligence = 0
 
+        #Meteres
         self.curHealth = 0
         self.maxHealth = 0
         self.curMagic = 0
@@ -18,8 +21,11 @@ class Character:
         self.maxStamina = 0
 
         self.health_lbl = QLabel(f"Health: {self.curHealth}")
+        self.health_lbl.setStyleSheet("color: white; font-size: 24px;")
         self.magic_lbl = QLabel(f"Magic: {self.curMagic}")
+        self.magic_lbl.setStyleSheet("color: white; font-size: 24px;")
         self.stamina_lbl = QLabel(f"Stamina: {self.curStamina}")
+        self.stamina_lbl.setStyleSheet("color: white; font-size: 24px;")
         self.health_meter = Meter(QColor(255, 0, 0), 100)
         self.magic_meter = Meter(QColor(200, 0, 200), 100)
         self.stamina_meter = Meter(QColor(50, 50, 50), 100)
@@ -40,7 +46,8 @@ class Character:
             percentage = 0
         else:
             percentage = (health // self.maxHealth) * 100
-        self.health_lbl = QLabel(f"Health: {self.curHealth}")
+        print(f"Health: {self.curHealth}")
+        self.health_lbl.setText(f"Health: {self.curMagic}")
         self.health_meter.setPercentage(percentage)
 
     def set_magic(self, magic: int):
@@ -49,7 +56,7 @@ class Character:
             percentage = 0
         else:
             percentage = (magic // self.maxMagic) * 100
-        self.magic_lbl = QLabel(f"Magic: {self.curMagic}")
+        self.magic_lbl.setText(f"Magic: {self.curMagic}")
         self.magic_meter.setPercentage(percentage)
 
     def set_stamina(self, stamina: int):
@@ -58,7 +65,7 @@ class Character:
             percentage = 0
         else:
             percentage = (stamina // self.maxStamina) * 100
-        self.stamina_lbl = QLabel(f"Stamina: {self.curStamina}")
+        self.stamina_lbl.setText(f"Stamina: {self.curStamina}")
         self.stamina_meter.setPercentage(percentage)
 
     def PlotRisk(self, attacks: list) -> None:
@@ -105,6 +112,8 @@ class CharacterFactory:
             "health": 100,
             "magic": 100,
             "stamina": 100,
+            "strength": 10,
+            "intelligence": 10,
             "defense": 0,
             "magicDefense": 0,
             "level": 1,
@@ -115,6 +124,8 @@ class CharacterFactory:
             "health": 100,
             "magic": 0,
             "stamina": 15,
+            "strength": 15,
+            "intelligence": 5,
             "defense": 0,
             "magicDefense": 0,
             "level": 1,
@@ -125,6 +136,8 @@ class CharacterFactory:
             "health": 100,
             "magic": 15,
             "stamina": 0,
+            "strength": 5,
+            "intelligence": 15,
             "defense": 0,
             "magicDefense": 0,
             "level": 1,
@@ -135,6 +148,8 @@ class CharacterFactory:
             "health": 100,
             "magic": 0,
             "stamina": 10,
+            "strength": 8,
+            "intelligence": 8,
             "defense": 0,
             "magicDefense": 0,
             "level": 1,
@@ -165,7 +180,9 @@ class CharacterFactory:
         character.maxMagic = data["magic"]
         character.maxStamina = data["stamina"]
 
-        # What are these ? --Cooper
+        character.strength = data["strength"]
+        character.intelligence = data["intelligence"]
+
         character.defense = data["defense"]
         character.magicDefense = data["magicDefense"]
 

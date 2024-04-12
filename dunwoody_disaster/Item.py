@@ -29,9 +29,10 @@ class Item:
 
 
 class Weapon(Item):
-    def __init__(self, name, damage, magicCost, staminaCost):
+    def __init__(self, name, magic, damage, magicCost, staminaCost):
         super().__init__(name)
         self.stats = WeaponStats[name]
+        self.magic = magic
         self.damage = damage
         self.magicReq = magicCost
         self.staminaCost = staminaCost
@@ -50,6 +51,6 @@ class Armor(Item):
         self.armorVal = armorVal
 
 
-weapons = [Weapon("sword", 20, 0, 10), Weapon("spear", 30, 0, 20)]
+weapons = [Weapon("sword", False, 30, 0, 10), Weapon("spear", False, 30, 0, 20)]
 
 armors = [Armor("shield", 30, 10, 20), Armor("gloves", 10, 10, 10)]
