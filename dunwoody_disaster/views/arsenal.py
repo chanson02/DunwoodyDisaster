@@ -1,7 +1,6 @@
 from typing import Sequence
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QPixmap
-from PySide6.QtWidgets import QGridLayout, QLabel, QWidget, QPushButton, QScrollArea
+from PySide6.QtWidgets import QGridLayout, QLabel, QWidget, QScrollArea
 import dunwoody_disaster as DD
 from dunwoody_disaster.views.action_selector import ActionSelector
 from dunwoody_disaster import Item
