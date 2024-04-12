@@ -6,7 +6,7 @@ import sys
 from PySide6.QtWidgets import QApplication, QMainWindow, QStackedWidget
 from dunwoody_disaster.views.fightScreen import FightScreen
 
-from StartMenuTest import StartMenu
+from StartMenu import StartMenu
 from MapScreen import MapScreen  # Assuming MapScreen.py contains MapScreen class
 
 class MainWindow(QMainWindow):
