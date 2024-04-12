@@ -5,7 +5,6 @@ from PySide6.QtWidgets import (
     QHBoxLayout,
     QPushButton,
     QLabel,
-    QMessageBox,
 )
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap, QPainter
@@ -15,7 +14,9 @@ from dunwoody_disaster import ASSETS
 class StartMenu(QWidget):
     def __init__(self):
         super().__init__()  # Call the constructor of the parent class (QWidget)
-        self.background_pixmap = QPixmap(ASSETS['TitleScreen'])  # Load the image as a QPixmap
+        self.background_pixmap = QPixmap(
+            ASSETS["TitleScreen"]
+        )  # Load the image as a QPixmap
         self.initUI()  # Initialize the user interface
 
     def initUI(self):

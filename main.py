@@ -9,6 +9,7 @@ from dunwoody_disaster.views.fightScreen import FightScreen
 from dunwoody_disaster.views.StartMenu import StartMenu
 from dunwoody_disaster.views.MapScreen import MapScreen
 
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
