@@ -29,9 +29,10 @@ class Item:
     def __repr__(self) -> str:
         return f"Item({self.name}, {self.stats})"
 
-    def widget(self) -> QWidget:
+    def widget(self, min_width=100) -> QWidget:
         """
         Create a UI element to display the items properties
+        :param min_width: the minimum amount of pixels to use when rendering
         """
         layout = QVBoxLayout()
 
@@ -53,6 +54,8 @@ class Item:
 
         widget = QWidget()
         widget.setLayout(layout)
+        widget.setContentsMargins(0, 0, 0, 0)
+        widget.setStyleSheet(f'min-width: {min_width}px;')
         return widget
 
 

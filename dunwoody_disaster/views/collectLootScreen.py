@@ -48,7 +48,10 @@ class CollectLootScreen(QWidget):
 
     def create_checkbox(self, item: Item.Item) -> tuple[QWidget, QCheckBox]:
         layout = QVBoxLayout()
+
+        cb_layout = QVBoxLayout()
         cb = QCheckBox()
+        cb_layout.addWidget(cb)
 
         def toggle_box():
             if cb.isEnabled():
@@ -60,7 +63,10 @@ class CollectLootScreen(QWidget):
         layout.addWidget(item_widget)
         layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        layout.addWidget(cb)
+        # layout.addWidget(cb)
+        cb_layout.addWidget(cb)
+        cb_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.addLayout(cb_layout)
 
         widget = QWidget()
         widget.setLayout(layout)

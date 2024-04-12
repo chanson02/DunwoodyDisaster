@@ -65,6 +65,5 @@ class Arsenal(QWidget):
         scroll_area.setWidgetResizable(True)
         scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-        scroll_area.setStyleSheet("min-width: 125px;")
         scroll_area.setWidget(widget)
         return scroll_area

@@ -18,7 +18,7 @@ class MainWindow(QMainWindow):
 
         player1 = CharacterFactory.createTestChar()
         player2 = CharacterFactory.createTestChar()
-        if 1 == 1:  # this is here to clear lint warnings
+        if 1 == 2:  # this is here to clear lint warnings
             self.setCentralWidget(FightScreen(player1, player2))
         else:
             items = Item.weapons + Item.armors
