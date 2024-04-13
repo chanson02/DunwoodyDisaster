@@ -33,7 +33,7 @@ class CollectLootScreen(QWidget):
         lbl = QLabel("Loot Screen")
         layout.addWidget(lbl)
 
-        self.capacity = Meter(QColor('red'), 0)
+        self.capacity = Meter(QColor("red"), 0)
         layout.addWidget(self.capacity)
 
         new_items = QHBoxLayout()
@@ -103,12 +103,14 @@ class CollectLootScreen(QWidget):
             else:
                 unselected_boxes.append(checkbox)
 
-        total_inventory = sum(item.serialize()['stamina'] for item in selected_items)
+        total_inventory = sum(item.serialize()["stamina"] for item in selected_items)
         remaining = self.player.inventory_capacity - total_inventory
-        self.capacity.setPercentage((total_inventory / self.player.inventory_capacity) * 100)
+        self.capacity.setPercentage(
+            (total_inventory / self.player.inventory_capacity) * 100
+        )
 
         for box in unselected_boxes:
-            if self.boxes[box].serialize()['stamina'] > remaining:
+            if self.boxes[box].serialize()["stamina"] > remaining:
                 box.setEnabled(False)
             else:
                 box.setEnabled(True)
