@@ -8,6 +8,7 @@ from PySide6.QtWidgets import (
     QCheckBox,
     QPushButton,
     QHBoxLayout,
+    QScrollArea
 )
 from dunwoody_disaster.CharacterFactory import Character
 from dunwoody_disaster import Item
@@ -45,12 +46,18 @@ class CollectLootScreen(QWidget):
             new_items.addWidget(widget)
             self.boxes[box] = item
 
+        scroll_area = QScrollArea()
         old_items = QHBoxLayout()
-        layout.addLayout(old_items)
+        item_container = QWidget()
+        item_container.setLayout(old_items)
+        scroll_area.setWidget(item_container)
+        scroll_area.setWidgetResizable(True)
+        layout.addWidget(scroll_area)
         box = None
         for item in self.player.get_items():
             widget, box = self.create_inventory_slot(item)
             old_items.addWidget(widget)
+            old_items.addSpacing(10)
             self.boxes[box] = item
             box.setChecked(True)
         if box is not None:
