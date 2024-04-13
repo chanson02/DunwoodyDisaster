@@ -67,8 +67,12 @@ class CollectLootScreen(QWidget):
             self.select_item(cb)
 
         def widget_click():
+            if not cb.isEnabled():
+                return
+
             cb.setChecked(not cb.isChecked())
             callback()
+            return
 
         widget = QWidget()
         widget.setLayout(layout)
@@ -86,8 +90,18 @@ class CollectLootScreen(QWidget):
             if checkbox.checkState() is Qt.CheckState.Checked:
                 checkbox.setEnabled(True)
                 selected_items.append(item)
+            else:
+                unselected_boxes.append(checkbox)
+
+        total_inventory = sum(item.serialize()['stamina'] for item in selected_items)
+        remaining = self.player.inventory_capacity - total_inventory
 
         print(selected_items)
+        for box in unselected_boxes:
+            if self.boxes[box].serialize()['stamina'] > remaining:
+                box.setEnabled(False)
+            else:
+                box.setEnabled(True)
 
         return
 
