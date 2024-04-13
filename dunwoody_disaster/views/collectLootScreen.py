@@ -44,20 +44,32 @@ class CollectLootScreen(QWidget):
         self.capacity = Meter(QColor('red'), 0)
         layout.addWidget(self.capacity)
 
-        items_layout = QHBoxLayout()
-        layout.addLayout(items_layout)
+        new_items = QHBoxLayout()
+        layout.addLayout(new_items)
 
         self.boxes: dict[QCheckBox, Item.Item] = {}
         for item in self.items:
             widget, box = self.create_inventory_slot(item)
-            items_layout.addWidget(widget)
+            new_items.addWidget(widget)
             self.boxes[box] = item
+
+        old_items = QHBoxLayout()
+        layout.addLayout(old_items)
+        box = None
+        for item in self.player.get_items():
+            widget, box = self.create_inventory_slot(item)
+            old_items.addWidget(widget)
+            self.boxes[box] = item
+            box.setChecked(True)
+        if box is not None:
+            self.select_item(box)
 
         btn = QPushButton("Confirm")
         btn.clicked.connect(self.confirm)
         layout.addWidget(btn)
 
         self.setLayout(layout)
+        return
 
     def create_inventory_slot(self, item: Item.Item) -> tuple[QWidget, QCheckBox]:
         layout = QVBoxLayout()
