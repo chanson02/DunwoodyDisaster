@@ -8,7 +8,7 @@ from PySide6.QtWidgets import (
     QCheckBox,
     QPushButton,
     QHBoxLayout,
-    QScrollArea
+    QScrollArea,
 )
 from dunwoody_disaster.CharacterFactory import Character
 from dunwoody_disaster import Item
@@ -35,6 +35,7 @@ class CollectLootScreen(QWidget):
         layout.addWidget(lbl)
 
         self.capacity = Meter(QColor("red"), 0)
+        self.capacity.setStyleSheet("min-height: 50px;")
         layout.addWidget(self.capacity)
 
         new_items = QHBoxLayout()
