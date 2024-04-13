@@ -96,7 +96,6 @@ class CollectLootScreen(QWidget):
         total_inventory = sum(item.serialize()['stamina'] for item in selected_items)
         remaining = self.player.inventory_capacity - total_inventory
 
-        print(selected_items)
         for box in unselected_boxes:
             if self.boxes[box].serialize()['stamina'] > remaining:
                 box.setEnabled(False)
@@ -104,33 +103,6 @@ class CollectLootScreen(QWidget):
                 box.setEnabled(True)
 
         return
-
-    """
-    def create_checkbox(self, item: Item.Item) -> tuple[QWidget, QCheckBox]:
-        layout = QVBoxLayout()
-
-        cb_layout = QVBoxLayout()
-        cb = QCheckBox()
-        cb_layout.addWidget(cb)
-
-        def toggle_box():
-            if cb.isEnabled():
-                cb.setChecked(not cb.isChecked())
-
-        item_widget = item.widget()
-        DD.clickable(item_widget).connect(toggle_box)
-
-        layout.addWidget(item_widget)
-        layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
-        cb_layout.addWidget(cb)
-        cb_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        layout.addLayout(cb_layout)
-
-        widget = QWidget()
-        widget.setLayout(layout)
-        return widget, cb
-    """
 
     def confirm(self):
         for cb, item in zip(self.boxes, self.items):
