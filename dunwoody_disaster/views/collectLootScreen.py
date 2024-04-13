@@ -45,7 +45,6 @@ class CollectLootScreen(QWidget):
         for item in self.items:
             widget, box = self.create_inventory_slot(item)
             items_layout.addWidget(widget)
-            # self.boxes.append(box)
             self.boxes[box] = item
 
         btn = QPushButton("Confirm")
@@ -81,7 +80,13 @@ class CollectLootScreen(QWidget):
         if not selected.isEnabled():
             return
 
-        selected_items = [item for checkbox, item in self.boxes.items() if checkbox.isChecked()]
+        selected_items = []
+        unselected_boxes = []
+        for checkbox, item in self.boxes.items():
+            if checkbox.checkState() is Qt.CheckState.Checked:
+                checkbox.setEnabled(True)
+                selected_items.append(item)
+
         print(selected_items)
 
         return
