@@ -16,7 +16,7 @@ class Meter(QWidget):
     def setColor(self, color: QColor):
         self._color = color
 
-    def setPercentage(self, percentage: int):
+    def setPercentage(self, percentage: int | float):
         self._percentage = max(0, min(percentage, 100))
         self.update()
 

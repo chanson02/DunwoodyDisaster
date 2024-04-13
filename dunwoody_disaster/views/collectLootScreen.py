@@ -1,5 +1,6 @@
 from typing import Sequence
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QColor
 from PySide6.QtWidgets import (
     QWidget,
     QVBoxLayout,
@@ -11,6 +12,7 @@ from PySide6.QtWidgets import (
 from dunwoody_disaster.CharacterFactory import Character
 from dunwoody_disaster import Item
 import dunwoody_disaster as DD
+from dunwoody_disaster.views.meter import Meter
 
 """
 what i'm working on:
@@ -19,6 +21,7 @@ I want to check if they can add an item to their inventory based on how much sta
 
 the problem is that each time they toggle on or off an item, I want to enable/disable a checkbox
 """
+
 
 class CollectLootScreen(QWidget):
     def __init__(self, player: Character, available: Sequence[Item.Item]):
@@ -37,6 +40,9 @@ class CollectLootScreen(QWidget):
 
         lbl = QLabel("Loot Screen")
         layout.addWidget(lbl)
+
+        self.capacity = Meter(QColor('red'), 0)
+        layout.addWidget(self.capacity)
 
         items_layout = QHBoxLayout()
         layout.addLayout(items_layout)
@@ -95,6 +101,7 @@ class CollectLootScreen(QWidget):
 
         total_inventory = sum(item.serialize()['stamina'] for item in selected_items)
         remaining = self.player.inventory_capacity - total_inventory
+        self.capacity.setPercentage((total_inventory / self.player.inventory_capacity) * 100)
 
         for box in unselected_boxes:
             if self.boxes[box].serialize()['stamina'] > remaining:
