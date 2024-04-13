@@ -14,14 +14,6 @@ from dunwoody_disaster import Item
 import dunwoody_disaster as DD
 from dunwoody_disaster.views.meter import Meter
 
-"""
-what i'm working on:
-I just made it so each character has a .inventory_capacity
-I want to check if they can add an item to their inventory based on how much stamina it costs
-
-the problem is that each time they toggle on or off an item, I want to enable/disable a checkbox
-"""
-
 
 class CollectLootScreen(QWidget):
     def __init__(self, player: Character, available: Sequence[Item.Item]):
