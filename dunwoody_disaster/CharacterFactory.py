@@ -76,6 +76,10 @@ class Character:
     def get_items(self) -> list[Item.Item]:
         return self.weapons + self.defenses
 
+    def clear_items(self):
+        self.weapons = []
+        self.defenses = []
+
     def PlotRisk(self, attacks: list) -> None:
         """
         Goes through enemeis potential attacks and damage according to our defense profile

@@ -126,9 +126,10 @@ class CollectLootScreen(QWidget):
         return
 
     def confirm(self):
-        for cb, item in zip(self.boxes, self.items):
-            cb.setEnabled(False)
-            if cb.isChecked():
+        self.player.clear_items()
+        for box, item in self.boxes.items():
+            box.setEnabled(False)
+            if box.checkState() is Qt.CheckState.Checked:
                 self.player.add_item(item)
 
         self.deleteLater()
