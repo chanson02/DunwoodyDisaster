@@ -1,5 +1,4 @@
 import sys
-
 from PySide6.QtWidgets import (
     QApplication,
     QWidget,
@@ -12,7 +11,7 @@ from PySide6.QtWidgets import (
 
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap, QPainter
-from Class.DunwoodyDisaster.dunwoody_disaster.views.MapScreen import MapScreen
+from dunwoody_disaster.views.MapScreen import MapScreen
 from dunwoody_disaster import ASSETS
 
 
@@ -67,7 +66,6 @@ class StartMenu(QWidget):
 
     def startGame(self):
         print("clicked")
-        QMessageBox.information(self, "Start Game", "Starting the game...")
         self.game_page = MapScreen()  # Create an instance of the GamePage
         self.game_page.show()  # Show a message box when the start game button is clicked
 
