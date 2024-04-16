@@ -1,5 +1,5 @@
-import sys
-from PySide6.QtWidgets import QApplication, QMainWindow, QStackedWidget
+
+from PySide6.QtWidgets import QMainWindow, QStackedWidget
 from dunwoody_disaster.views.fightScreen import FightScreen
 from dunwoody_disaster.views.StartMenu import StartMenu
 from dunwoody_disaster.views.MapScreen import MapScreen
