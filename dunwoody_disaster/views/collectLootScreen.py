@@ -9,6 +9,7 @@ from PySide6.QtWidgets import (
     QPushButton,
     QHBoxLayout,
     QScrollArea,
+    QGroupBox
 )
 from dunwoody_disaster.CharacterFactory import Character
 from dunwoody_disaster import Item
@@ -31,7 +32,7 @@ class CollectLootScreen(QWidget):
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
 
-        # todo change color based on how full
+        # todo change color based on how full (white when empty, red when filled)
         container = QHBoxLayout()
         capacity_label = QLabel('Inventory capacity used: ')
         capacity_label.setFixedWidth(200)
@@ -41,27 +42,31 @@ class CollectLootScreen(QWidget):
         container.addWidget(self.capacity)
         layout.addLayout(container)
 
-        new_items = QHBoxLayout()
-        layout.addLayout(new_items)
+        loot_container = QGroupBox('Loot Dropped')
+        loot = QHBoxLayout()
+        loot_container.setLayout(loot)
+        layout.addWidget(loot_container)
 
         self.boxes: dict[QCheckBox, Item.Item] = {}
         for item in self.items:
             widget, box = self.create_inventory_slot(item)
-            new_items.addWidget(widget)
+            loot.addWidget(widget)
             self.boxes[box] = item
 
+        inventory_container = QGroupBox('Inventory')
         scroll_area = QScrollArea()
-        old_items = QHBoxLayout()
-        item_container = QWidget()
-        item_container.setLayout(old_items)
-        scroll_area.setWidget(item_container)
-        scroll_area.setWidgetResizable(True)
-        layout.addWidget(scroll_area)
+        scroll_container = QHBoxLayout()
+        inventory = QHBoxLayout()
+        scroll_area.setLayout(inventory)
+        scroll_container.addWidget(scroll_area)
+        inventory_container.setLayout(scroll_container)
+        layout.addWidget(inventory_container)
+
         box = None
         for item in self.player.get_items():
             widget, box = self.create_inventory_slot(item)
-            old_items.addWidget(widget)
-            old_items.addSpacing(10)
+            inventory.addWidget(widget)
+            inventory.addSpacing(10)
             self.boxes[box] = item
             box.setChecked(True)
         if box is not None:
