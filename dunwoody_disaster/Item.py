@@ -61,7 +61,7 @@ class Item:
         widget = QWidget()
         widget.setLayout(layout)
         widget.setContentsMargins(0, 0, 0, 0)
-        widget.setStyleSheet(f"min-width: {min_width}px;")
+        widget.setMinimumWidth(min_width)
         return widget
 
 
