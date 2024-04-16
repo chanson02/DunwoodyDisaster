@@ -31,9 +31,18 @@ class Meter(QWidget):
         """
         if self._endColor is None or self._percentage < thresh:
             return self._color
-        r = int((self._endColor.red() - self._color.red()) * self._percentage / 100) + self._color.red()
-        g = int((self._endColor.green() - self._color.green()) * self._percentage / 100) + self._color.green()
-        b = int((self._endColor.blue() - self._color.blue()) * self._percentage / 100) + self._color.blue()
+        r = (
+            int((self._endColor.red() - self._color.red()) * self._percentage / 100)
+            + self._color.red()
+        )
+        g = (
+            int((self._endColor.green() - self._color.green()) * self._percentage / 100)
+            + self._color.green()
+        )
+        b = (
+            int((self._endColor.blue() - self._color.blue()) * self._percentage / 100)
+            + self._color.blue()
+        )
         return QColor(r, g, b)
 
     def paintEvent(self, event: QPaintEvent):

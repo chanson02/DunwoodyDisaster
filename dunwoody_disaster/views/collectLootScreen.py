@@ -9,7 +9,7 @@ from PySide6.QtWidgets import (
     QPushButton,
     QHBoxLayout,
     QScrollArea,
-    QGroupBox
+    QGroupBox,
 )
 from dunwoody_disaster.CharacterFactory import Character
 from dunwoody_disaster import Item
@@ -33,16 +33,16 @@ class CollectLootScreen(QWidget):
         layout.setContentsMargins(0, 0, 0, 0)
 
         container = QHBoxLayout()
-        capacity_label = QLabel('Inventory capacity used: ')
+        capacity_label = QLabel("Inventory capacity used: ")
         capacity_label.setFixedWidth(200)
         self.capacity = Meter(QColor("white"), 0)
-        self.capacity.setEndColor(QColor('red'))
+        self.capacity.setEndColor(QColor("red"))
         self.capacity.setStyleSheet("min-height: 50px;")
         container.addWidget(capacity_label)
         container.addWidget(self.capacity)
         layout.addLayout(container)
 
-        loot_container = QGroupBox('Loot Dropped')
+        loot_container = QGroupBox("Loot Dropped")
         loot = QHBoxLayout()
         loot_container.setLayout(loot)
         layout.addWidget(loot_container)
@@ -53,7 +53,7 @@ class CollectLootScreen(QWidget):
             loot.addWidget(widget)
             self.boxes[box] = item
 
-        inventory_container = QGroupBox('Inventory')
+        inventory_container = QGroupBox("Inventory")
         inventory_container.setMinimumHeight(350)
         scroll_area = QScrollArea()
         scroll_container = QHBoxLayout()

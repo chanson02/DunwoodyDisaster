@@ -15,7 +15,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("Pokemon-like Game")
         self.setGeometry(100, 100, 800, 600)
-        self.setStyleSheet('background-color: #2f2f2f;')
+        self.setStyleSheet("background-color: #2f2f2f;")
 
         player1 = CharacterFactory.createTestChar()
         player2 = CharacterFactory.createTestChar()
