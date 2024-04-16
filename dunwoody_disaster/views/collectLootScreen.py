@@ -54,6 +54,7 @@ class CollectLootScreen(QWidget):
             self.boxes[box] = item
 
         inventory_container = QGroupBox('Inventory')
+        inventory_container.setMinimumHeight(350)
         scroll_area = QScrollArea()
         scroll_container = QHBoxLayout()
         inventory = QHBoxLayout()
