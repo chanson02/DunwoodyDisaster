@@ -32,11 +32,11 @@ class CollectLootScreen(QWidget):
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
 
-        # todo change color based on how full (white when empty, red when filled)
         container = QHBoxLayout()
         capacity_label = QLabel('Inventory capacity used: ')
         capacity_label.setFixedWidth(200)
-        self.capacity = Meter(QColor("red"), 0)
+        self.capacity = Meter(QColor("white"), 0)
+        self.capacity.setEndColor(QColor('red'))
         self.capacity.setStyleSheet("min-height: 50px;")
         container.addWidget(capacity_label)
         container.addWidget(self.capacity)
