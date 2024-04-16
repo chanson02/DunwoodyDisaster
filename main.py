@@ -19,11 +19,21 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Dunwoody-Disaster")
         # self.setGeometry(100, 100, 800, 600)
 
-<<<<<<< HEAD
+        player1 = CharacterFactory.createTestChar()
+        testChar = CharacterFactory.createTestChar()
+        #Enemies
+        classChar = CharacterFactory.createTestChar()
+        libraryChar = CharacterFactory.createTestChar()
+        compLabChar = CharacterFactory.createTestChar()
+        sciLabChar = CharacterFactory.createTestChar()
+
+
+
+
         self.startMenu = StartMenu()
         self.startMenu.startButton.clicked.connect(self.showMapScreen)
         self.mapScreen = MapScreen()
-        self.fightScreen = FightScreen()
+        self.fightScreen = FightScreen(player1, testChar)
 
         self.stack = QStackedWidget()
         self.stack.addWidget(self.startMenu)
@@ -35,7 +45,13 @@ class MainWindow(QMainWindow):
 
     def showMapScreen(self):
         self.stack.setCurrentIndex(1)
-
+    
+    """
+    Change fight screen character objects. Call init UI to redraw based on the character objects. Enter fight screen by pointing stack at fight screen.
+    """
+    def EnterFight(self):
+        pass
+ 
     """
     TODO: Make sure this works
     def exitGame(self):
@@ -49,15 +65,6 @@ class MainWindow(QMainWindow):
         if reply == QMessageBox.Yes:
             self.close()  # Close the window if the user confirms
     """
-=======
-        player1 = CharacterFactory.createTestChar()
-        player2 = CharacterFactory.createTestChar()
-        if 1 == 2:  # this is here to clear lint warnings
-            self.setCentralWidget(FightScreen(player1, player2))
-        else:
-            items = Item.weapons + Item.armors
-            self.setCentralWidget(CollectLootScreen(player1, items))
->>>>>>> origin/28-inventory-system
 
 
 if __name__ == "__main__":

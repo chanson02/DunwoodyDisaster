@@ -37,3 +37,7 @@ class MapScreen(QWidget):
             self.currImgIndex = (self.currImgIndex + 1) % len(self.imagePaths)
             self.mapPic.setPixmap(QPixmap(self.imagePaths[self.currImgIndex]))
             print("right")
+
+        elif event.key() == Qt.Key_Return:
+            #ToDo Enter into fight screen
+            pass
