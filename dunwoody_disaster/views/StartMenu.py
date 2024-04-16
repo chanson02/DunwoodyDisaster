@@ -6,7 +6,9 @@ from PySide6.QtWidgets import (
     QHBoxLayout,
     QPushButton,
     QLabel,
+    QMessageBox,
 )
+
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap, QPainter
 from Class.DunwoodyDisaster.dunwoody_disaster.views.MapScreen import MapScreen
@@ -60,13 +62,9 @@ class StartMenu(QWidget):
     def paintEvent(self, event):
         painter = QPainter(self)  # Create a QPainter object for drawing
         pixmap = self.background_pixmap.scaledToWidth(400)
-        """pixmap = self.background_pixmap.scaled(
-            self.size(), Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation
-        )  # Scale the background image to fill the window """
-
         painter.drawPixmap(self.rect(), pixmap)  # Draw the scaled pixmap on the window
 
-"""     def startGame(self):
+    def startGame(self):
         print("clicked")
         QMessageBox.information(self, "Start Game", "Starting the game...")
         self.game_page = MapScreen()  # Create an instance of the GamePage
@@ -82,7 +80,7 @@ class StartMenu(QWidget):
         )  # Ask for confirmation before exiting
         if reply == QMessageBox.Yes:
             self.close()  # Close the window if the user confirms
- """
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)  # Create an instance of QApplication
