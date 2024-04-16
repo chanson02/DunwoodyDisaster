@@ -1,3 +1,4 @@
+import sys
 from PySide6.QtWidgets import (
     QApplication,
     QWidget,
@@ -8,6 +9,7 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap, QPainter
+from Class.DunwoodyDisaster.dunwoody_disaster.views.MapScreen import MapScreen
 from dunwoody_disaster import ASSETS
 
 
@@ -32,16 +34,20 @@ class StartMenu(QWidget):
         main_layout = QVBoxLayout(self)
 
         title = QLabel("Dunwoody Disaster")
-        title.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        title.setAlignment(Qt.AlignCenter)
 
         main_layout.addWidget(title)
 
         button_layout = QHBoxLayout()
 
         self.startButton = QPushButton("Start Game")
+        self.startButton.clicked.connect(
+            self.startGame
+        )  # Connect to startGame function
         button_layout.addWidget(self.startButton)
 
         self.exitButton = QPushButton("Exit")
+        self.exitButton.clicked.connect(self.exitGame)
         button_layout.addWidget(
             self.exitButton
         )  # Add the exit button to the button layout
@@ -59,3 +65,27 @@ class StartMenu(QWidget):
         )  # Scale the background image to fill the window """
 
         painter.drawPixmap(self.rect(), pixmap)  # Draw the scaled pixmap on the window
+
+    def startGame(self):
+        print("clicked")
+        QMessageBox.information(self, "Start Game", "Starting the game...")
+        self.game_page = MapScreen()  # Create an instance of the GamePage
+        self.game_page.show()  # Show a message box when the start game button is clicked
+
+    def exitGame(self):
+        reply = QMessageBox.question(
+            self,
+            "Exit",
+            "Are you sure you want to exit?",
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.No,
+        )  # Ask for confirmation before exiting
+        if reply == QMessageBox.Yes:
+            self.close()  # Close the window if the user confirms
+
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)  # Create an instance of QApplication
+    startMenu = StartMenu()  # Create an instance of StartMenu
+    startMenu.show()  # Show the StartMenu window in windowed mode
+    sys.exit(app.exec())  # Start the application's event loop and exit when it finishes
