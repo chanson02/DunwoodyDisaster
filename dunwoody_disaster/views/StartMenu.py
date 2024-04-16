@@ -66,7 +66,7 @@ class StartMenu(QWidget):
 
         painter.drawPixmap(self.rect(), pixmap)  # Draw the scaled pixmap on the window
 
-    def startGame(self):
+"""     def startGame(self):
         print("clicked")
         QMessageBox.information(self, "Start Game", "Starting the game...")
         self.game_page = MapScreen()  # Create an instance of the GamePage
@@ -82,7 +82,7 @@ class StartMenu(QWidget):
         )  # Ask for confirmation before exiting
         if reply == QMessageBox.Yes:
             self.close()  # Close the window if the user confirms
-
+ """
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)  # Create an instance of QApplication
