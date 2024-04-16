@@ -1,4 +1,3 @@
-
 from PySide6.QtWidgets import QMainWindow, QStackedWidget
 from dunwoody_disaster.views.fightScreen import FightScreen
 from dunwoody_disaster.views.StartMenu import StartMenu
