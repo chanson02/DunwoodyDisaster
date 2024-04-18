@@ -24,8 +24,9 @@ class FightSequence:
         playerWeapon = playerActions.attack
         enemyWeapon = enemyActions.attack
         playerDefense = playerActions.defense
-
         enemyDefense = enemyActions.defense
+
+        # putting this here so the typechecker shuts up --Cooper
         if not (playerWeapon and enemyWeapon and playerDefense and enemyDefense):
             raise Exception('Players did not select items')
 
