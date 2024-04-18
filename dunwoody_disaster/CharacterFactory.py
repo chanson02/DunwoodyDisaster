@@ -41,10 +41,7 @@ class Character:
         self.defenses = {}
 
     def set_health(self, health: int):
-        if health <= 0:
-            health = 0
-        else:
-            self.curHealth = health
+        self.curHealth = min(self.maxHealth, max(0, health))  
         if self.maxHealth == 0:
             percentage = 0
         else:
@@ -53,7 +50,7 @@ class Character:
         self.health_meter.setPercentage(percentage)
 
     def set_magic(self, magic: int):
-        self.curMagic = magic
+        self.curMagic = min(self.maxMagic, max(0, magic))
         if self.maxMagic == 0:
             percentage = 0
         else:
@@ -62,7 +59,7 @@ class Character:
         self.magic_meter.setPercentage(percentage)
 
     def set_stamina(self, stamina: int):
-        self.curStamina = stamina
+        self.curStamina = min(self.maxStamina, max(0, stamina))
         if self.maxStamina == 0:
             percentage = 0
         else:
