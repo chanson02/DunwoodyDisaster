@@ -32,7 +32,7 @@ def clickable(widget: QWidget) -> SignalInstance:
         def eventFilter(self, watched: QObject, event: QEvent) -> bool:
             if watched == widget:
                 if event.type() == QEvent.Type.MouseButtonRelease:
-                    if watched.rect().contains(event.pos()):
+                    if widget.rect().contains(event.pos()):
                         self.clicked.emit()
                         return True
             return False
