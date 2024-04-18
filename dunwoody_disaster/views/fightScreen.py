@@ -167,10 +167,8 @@ class FightScreen(QWidget):
             self.fight_Btn.setEnabled(False)
 
             self.player1, self.player2 = self.fightSequence.Fight(
-                self.p1_selector.attack,
-                self.p2_selector.attack,
-                self.p1_selector.defense,
-                self.p2_selector.defense,
+                self.p1_selector,
+                self.p2_selector,
             )
             self.player1.set_health(self.player1.curHealth)
             self.player1.set_magic(self.player1.curMagic)

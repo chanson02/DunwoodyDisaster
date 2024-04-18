@@ -1,5 +1,6 @@
 from dunwoody_disaster import CharacterFactory, Item
 from dunwoody_disaster.CharacterFactory import Character
+from dunwoody_disaster.views import action_selector
 
 
 class FightSequence:
@@ -11,10 +12,8 @@ class FightSequence:
 
     def Fight(
         self,
-        playerWeapon: Item.Weapon,
-        enemyWeapon: Item.Weapon,
-        playerDefense: Item.Armor,
-        enemyDefense: Item.Armor,
+        playerActions: action_selector.ActionSelector,
+        enemyActions: action_selector.ActionSelector,
     ) -> tuple[CharacterFactory.Character, CharacterFactory.Character]:
         """
         Simulates a fight between player and enemy
@@ -22,7 +21,11 @@ class FightSequence:
         :param enemyAttack: The attack the enemy is using
         :return: The stat changes for the player and enemy
         """
-        print("Fighting")
+        playerWeapon = playerActions.attack
+        enemyWeapon = enemyActions.attack
+        playerDefense = playerActions.defense
+        enemyDefense = enemyActions.defense
+
         canPlayerAttack = self.CanAttack(self.player, playerWeapon)
         canEnemyAttack = self.CanAttack(self.enemy, enemyWeapon)
 
