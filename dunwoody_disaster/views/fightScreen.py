@@ -14,6 +14,7 @@ import dunwoody_disaster as DD
 from dunwoody_disaster.CharacterFactory import Character
 from dunwoody_disaster.views.characterState import CharacterState
 from dunwoody_disaster.views.action_selector import ActionSelector
+from FightSequence import FightSequence
 
 
 class FightScreen(QWidget):
@@ -68,6 +69,7 @@ class FightScreen(QWidget):
 
         ####################
         # This is the middle section of the screen ##############
+        self.fightSequence = FightSequence(self.player1, self.player2)
         p1 = CharacterState(self.player1)
         p2 = CharacterState(self.player2)
 
@@ -155,46 +157,22 @@ class FightScreen(QWidget):
             self.fight_Btn.setEnabled(True)
 
     def Fight(self):
-        pass
-        """
         if self.fightFlag:
             self.fight_Btn.setEnabled(False)
 
-            userActionIndex = self.actionArray.index(self.userActionArray[0])
-            compActionIndex = self.actionArray.index(self.compActionArray[0])
+            self.player1, self.player2 = self.fightSequence.Fight(
+                self.p1_selector.attack,
+                self.p2_selector.attack,
+                self.p1_selector.defense,
+                self.p2_selector.defense,
+            )
+            self.player1.set_health(self.player1.curHealth)
+            self.player1.set_magic(self.player1.curMagic)
+            self.player1.set_stamina(self.player1.curStamina)
 
-            p1ActionGif = self.player1PicArray[userActionIndex]
-            p2ActionGif = self.player1PicArray[compActionIndex]
-            self.player1_Pic.setMovie(p1ActionGif)
-            p1ActionGif.start()
-            self.player2_Pic.setMovie(p2ActionGif)
-            p2ActionGif.start()
+            self.player2.set_health(self.player2.curHealth)
+            self.player2.set_magic(self.player2.curMagic)
+            self.player2.set_stamina(self.player2.curStamina)
 
-            if (
-                self.compActionArray[0] == "Defense"
-                and self.userActionArray[0] == "Defense"
-            ):
-                pass
-            else:
-                if self.userActionArray[0] == "Defense":
-                    self.compHealthMeter -= 5
-                else:
-                    self.compHealthMeter -= self.damageArray[userActionIndex]
-                if self.userActionArray[0] == "Defense":
-                    self.userHealthMeter -= 5
-                else:
-                    self.userHealthMeter -= self.damageArray[compActionIndex]
-            self.player1Health_Lbl.setText("Health Meter: " + str(self.userHealthMeter))
-            self.player2Health_Lbl.setText("Health Meter: " + str(self.compHealthMeter))
-
-            self.compActionArray.pop(0)
-            self.userActionArray.pop(0)
-            if len(self.userActionArray) == 0:
-                self.fightFlag = False
-                self.player1Lineup_Lbl.setText(
-                    "Action Lineup: " + str(self.userActionArray)
-                )
-                self.attack1_Btn.setEnabled(True)
-                self.attack2_Btn.setEnabled(True)
-                self.defend_Btn.setEnabled(True)
-                """
+            self.fightFlag = False
+            self.fight_Btn.setEnabled(True)
