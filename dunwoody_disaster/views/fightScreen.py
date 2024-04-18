@@ -1,4 +1,4 @@
-from random import choice as randChoice
+# from random import choice as randChoice
 from PySide6.QtCore import QTimer
 from PySide6.QtGui import QPixmap, QMovie
 from PySide6.QtWidgets import (
@@ -152,19 +152,6 @@ class FightScreen(QWidget):
             self.fightFlag = True
         else:
             print("You must select 2 actions to fight!")
-
-    def AddToQueue(self, action):
-        if not len(self.userActionArray) >= 3:
-            self.userActionArray.append(action)
-            self.compActionArray.append(randChoice(self.actionArray))
-            self.player1Lineup_Lbl.setText(
-                "Action Lineup: " + str(self.userActionArray)
-            )
-        if len(self.userActionArray) == 3:
-            self.attack1_Btn.setEnabled(False)
-            self.attack2_Btn.setEnabled(False)
-            self.defend_Btn.setEnabled(False)
-            self.fight_Btn.setEnabled(True)
 
     def CanFight(self, actionSelctor: ActionSelector):
         return actionSelctor.attack is not None and actionSelctor.defense is not None

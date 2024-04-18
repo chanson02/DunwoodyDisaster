@@ -26,6 +26,10 @@ class FightSequence:
         playerDefense = playerActions.defense
         enemyDefense = enemyActions.defense
 
+        # putting this here so the typechecker shuts up --Cooper
+        if not (playerWeapon and enemyWeapon and playerDefense and enemyDefense):
+            raise Exception("Players did not select items")
+
         canPlayerAttack = self.CanAttack(self.player, playerWeapon)
         canEnemyAttack = self.CanAttack(self.enemy, enemyWeapon)
 
