@@ -12,7 +12,7 @@ class Character:
         self.strength = 0
         self.intelligence = 0
 
-        #Meteres
+        # Meteres
         self.curHealth = 0
         self.maxHealth = 0
         self.curMagic = 0

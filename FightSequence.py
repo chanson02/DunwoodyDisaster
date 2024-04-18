@@ -1,6 +1,5 @@
 from dunwoody_disaster import CharacterFactory, Item
 from dunwoody_disaster.CharacterFactory import Character
-from dunwoody_disaster.views import fightScreen
 
 
 class FightSequence:
@@ -11,8 +10,11 @@ class FightSequence:
         self.enemy = enemy
 
     def Fight(
-        self, playerWeapon: Item.Weapon, enemyWeapon: Item.Weapon,
-        playerDefense: Item.Armor, enemyDefense: Item.Armor
+        self,
+        playerWeapon: Item.Weapon,
+        enemyWeapon: Item.Weapon,
+        playerDefense: Item.Armor,
+        enemyDefense: Item.Armor,
     ) -> tuple[CharacterFactory.Character, CharacterFactory.Character]:
         """
         Simulates a fight between player and enemy
@@ -35,9 +37,7 @@ class FightSequence:
 
         return self.player, self.enemy
 
-    def CanAttack(
-        self, player: Character, attack: Item.Weapon
-    ) -> bool:
+    def CanAttack(self, player: Character, attack: Item.Weapon) -> bool:
         """
         Checks to see if character has enough stamina or magic to attack with.
         """
@@ -46,14 +46,21 @@ class FightSequence:
             and player.curMagic >= attack.magicReq
         )
 
-    def CalculateDamage(self, player:Character, playerAttack: Item.Weapon, targetDefense: Item.Armor):
+    def CalculateDamage(
+        self, player: Character, playerAttack: Item.Weapon, targetDefense: Item.Armor
+    ):
         """
         Calculates damage based on playerAttack vs the targets defensive item.
         """
-        if playerAttack.magic: 
-            attackDamage = (playerAttack.damage + player.intelligence) - targetDefense.magicDefense
+        if playerAttack.magic:
+            attackDamage = (
+                playerAttack.damage + player.intelligence
+            ) - targetDefense.magicDefense
         else:
-            attackDamage = (playerAttack.damage + player.strength)  - targetDefense.armorVal
-        print('attack damage: ', attackDamage)
-        if attackDamage > 0: return attackDamage
+            attackDamage = (
+                playerAttack.damage + player.strength
+            ) - targetDefense.armorVal
+        print("attack damage: ", attackDamage)
+        if attackDamage > 0:
+            return attackDamage
         return 0
