@@ -8,6 +8,8 @@ from PySide6.QtGui import QPixmap, QKeyEvent
 from dunwoody_disaster import ASSETS
 
 
+
+
 class MapScreen(QWidget):
     def __init__(self):
         super().__init__()
@@ -27,7 +29,7 @@ class MapScreen(QWidget):
         self.currImgIndex = 0
 
     def keyPressEvent(self, event: QKeyEvent):
-        print("entering")
+        #print("entering")
         if event.key() == Qt.Key_Left:
             self.currImgIndex = (self.currImgIndex - 1) % len(self.imagePaths)
             self.mapPic.setPixmap(QPixmap(self.imagePaths[self.currImgIndex]))
@@ -41,3 +43,4 @@ class MapScreen(QWidget):
         elif event.key() == Qt.Key_Return:
             #ToDo Enter into fight screen
             pass
+            

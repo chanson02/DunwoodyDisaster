@@ -26,6 +26,10 @@ class FightScreen(QWidget):
         # kick = QMovie(DD.ASSETS["P1Attack2"])
         # defense = QMovie(DD.ASSETS["P1Defense"])
         self.timer = QTimer()
+        self.init_UI()
+
+    def init_UI(self):
+        pass
 
         self.setStyleSheet("background-color: black;")
         self.mainLayout = QGridLayout()

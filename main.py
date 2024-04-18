@@ -22,12 +22,10 @@ class MainWindow(QMainWindow):
         player1 = CharacterFactory.createTestChar()
         testChar = CharacterFactory.createTestChar()
         #Enemies
-        classChar = CharacterFactory.createTestChar()
-        libraryChar = CharacterFactory.createTestChar()
-        compLabChar = CharacterFactory.createTestChar()
+        courtChar = CharacterFactory.createTestChar()
+        lectChar = CharacterFactory.createTestChar()
+        phyLabChar = CharacterFactory.createTestChar()
         sciLabChar = CharacterFactory.createTestChar()
-
-
 
 
         self.startMenu = StartMenu()
@@ -47,10 +45,16 @@ class MainWindow(QMainWindow):
         self.stack.setCurrentIndex(1)
     
     """
-    Change fight screen character objects. Call init UI to redraw based on the character objects. Enter fight screen by pointing stack at fight screen.
+    Change fight screen character objects. Call init UI to redraw based on the character objects. Enter fight screen by pointing stack at fight screen. 
+    This will need to be changed to set the proper opponent per setting.
     """
     def EnterFight(self):
-        pass
+        self.player1 = self.player1
+        self.player2 = self.classChar
+
+        self.fightScreen.init_UI()
+
+        self.stack.setCurrentIndex(3)
  
     """
     TODO: Make sure this works
