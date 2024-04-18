@@ -30,7 +30,7 @@ class MainWindow(QMainWindow):
 
         self.startMenu = StartMenu()
         self.startMenu.startButton.clicked.connect(self.showMapScreen)
-        self.mapScreen = MapScreen()
+        self.mapScreen = MapScreen(self.EnterFight)
         self.fightScreen = FightScreen(player1, testChar)
 
         self.stack = QStackedWidget()
