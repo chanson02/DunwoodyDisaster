@@ -12,8 +12,8 @@ from dunwoody_disaster import ASSETS
 
 class MapScreen(QWidget):
     def __init__(self, callback):
-        self.fight_callback = callback
         super().__init__()
+        self.fighCallback = callback
         self.mainLayout = QGridLayout(spacing=0)
         self.mainLayout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(self.mainLayout)
@@ -42,9 +42,8 @@ class MapScreen(QWidget):
             print("right")
 
         elif event.key() == Qt.Key_Return:
-            print('you pressed enter')
-            self.fight_callback()
-
             #ToDo Enter into fight screen
+            print("Entered fight")
+            self.fighCallback()
             pass
             

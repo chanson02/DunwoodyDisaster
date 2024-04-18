@@ -19,19 +19,19 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Dunwoody-Disaster")
         # self.setGeometry(100, 100, 800, 600)
 
-        player1 = CharacterFactory.createTestChar()
-        testChar = CharacterFactory.createTestChar()
+        self.player1 = CharacterFactory.createTestChar()
+        self.testChar = CharacterFactory.createTestChar()
         #Enemies
-        courtChar = CharacterFactory.createTestChar()
-        lectChar = CharacterFactory.createTestChar()
-        phyLabChar = CharacterFactory.createTestChar()
-        sciLabChar = CharacterFactory.createTestChar()
+        self.courtChar = CharacterFactory.createTestChar()
+        self.lectChar = CharacterFactory.createTestChar()
+        self.phyLabChar = CharacterFactory.createTestChar()
+        self.sciLabChar = CharacterFactory.createTestChar()
 
 
         self.startMenu = StartMenu()
         self.startMenu.startButton.clicked.connect(self.showMapScreen)
         self.mapScreen = MapScreen(self.EnterFight)
-        self.fightScreen = FightScreen(player1, testChar)
+        self.fightScreen = FightScreen(self.player1, self.testChar)
 
         self.stack = QStackedWidget()
         self.stack.addWidget(self.startMenu)
@@ -49,12 +49,10 @@ class MainWindow(QMainWindow):
     This will need to be changed to set the proper opponent per setting.
     """
     def EnterFight(self):
+        self.stack.setCurrentIndex(2)
         self.player1 = self.player1
-        self.player2 = self.classChar
+        self.player2 = self.courtChar
 
-        self.fightScreen.init_UI()
-
-        self.stack.setCurrentIndex(3)
  
     """
     TODO: Make sure this works
