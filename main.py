@@ -21,12 +21,11 @@ class MainWindow(QMainWindow):
 
         self.player1 = CharacterFactory.createTestChar()
         self.testChar = CharacterFactory.createTestChar()
-        #Enemies
+        # Enemies
         self.courtChar = CharacterFactory.createTestChar()
         self.lectChar = CharacterFactory.createTestChar()
         self.phyLabChar = CharacterFactory.createTestChar()
         self.sciLabChar = CharacterFactory.createTestChar()
-
 
         self.startMenu = StartMenu()
         self.startMenu.startButton.clicked.connect(self.showMapScreen)
@@ -43,17 +42,17 @@ class MainWindow(QMainWindow):
 
     def showMapScreen(self):
         self.stack.setCurrentIndex(1)
-    
+
     """
     Change fight screen character objects. Call init UI to redraw based on the character objects. Enter fight screen by pointing stack at fight screen. 
     This will need to be changed to set the proper opponent per setting.
     """
+
     def EnterFight(self):
         self.stack.setCurrentIndex(2)
         self.player1 = self.player1
         self.player2 = self.courtChar
 
- 
     """
     TODO: Make sure this works
     def exitGame(self):
