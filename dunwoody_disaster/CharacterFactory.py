@@ -45,9 +45,8 @@ class Character:
         if self.maxHealth == 0:
             percentage = 0
         else:
-            percentage = (health // self.maxHealth) * 100
-        print(f"Health: {self.curHealth}")
-        self.health_lbl.setText(f"Health: {self.curMagic}")
+            percentage = (health / self.maxHealth) * 100
+        self.health_lbl.setText(f"Health: {self.curHealth}")
         self.health_meter.setPercentage(percentage)
 
     def set_magic(self, magic: int):
@@ -55,7 +54,7 @@ class Character:
         if self.maxMagic == 0:
             percentage = 0
         else:
-            percentage = (magic // self.maxMagic) * 100
+            percentage = (magic / self.maxMagic) * 100
         self.magic_lbl.setText(f"Magic: {self.curMagic}")
         self.magic_meter.setPercentage(percentage)
 
@@ -64,7 +63,7 @@ class Character:
         if self.maxStamina == 0:
             percentage = 0
         else:
-            percentage = (stamina // self.maxStamina) * 100
+            percentage = (stamina / self.maxStamina) * 100
         self.stamina_lbl.setText(f"Stamina: {self.curStamina}")
         self.stamina_meter.setPercentage(percentage)
 
