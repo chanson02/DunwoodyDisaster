@@ -147,7 +147,10 @@ class FightScreen(QWidget):
         self.timer.timeout.connect(self.Fight)
 
     def SetFightFlag(self):
-        self.fightFlag = True
+        if self.CanFight(self.p1_selector) and self.CanFight(self.p2_selector):
+            self.fightFlag = True
+        else:
+            print("You must select 2 actions to fight!")
 
     def AddToQueue(self, action):
         if not len(self.userActionArray) >= 3:
@@ -162,10 +165,14 @@ class FightScreen(QWidget):
             self.defend_Btn.setEnabled(False)
             self.fight_Btn.setEnabled(True)
 
+    def CanFight(self, actionSelctor:ActionSelector):
+        return actionSelctor.attack is not None and actionSelctor.defense is not None
+
+    
+
     def Fight(self):
         if self.fightFlag:
             self.fight_Btn.setEnabled(False)
-
             self.player1, self.player2 = self.fightSequence.Fight(
                 self.p1_selector,
                 self.p2_selector,
