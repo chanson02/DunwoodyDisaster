@@ -31,17 +31,17 @@ class MapScreen(QWidget):
 
     def keyPressEvent(self, event: QKeyEvent):
         #print("entering")
-        if event.key() == Qt.Key_Left:
+        if event.key() == Qt.Key.Key_Left:
             self.currImgIndex = (self.currImgIndex - 1) % len(self.imagePaths)
             self.mapPic.setPixmap(QPixmap(self.imagePaths[self.currImgIndex]))
             print("left")
 
-        elif event.key() == Qt.Key_Right:
+        elif event.key() == Qt.Key.Key_Right:
             self.currImgIndex = (self.currImgIndex + 1) % len(self.imagePaths)
             self.mapPic.setPixmap(QPixmap(self.imagePaths[self.currImgIndex]))
             print("right")
 
-        elif event.key() == Qt.Key_Return:
+        elif event.key() == Qt.Key.Key_Return:
             #ToDo Enter into fight screen
             print("Entered fight")
             self.fighCallback()
