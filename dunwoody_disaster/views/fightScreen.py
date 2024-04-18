@@ -35,6 +35,7 @@ class FightScreen(QWidget):
         self.player1PicArray = [punch, kick, defense]
         self.fightFlag = False
         self.timer = QTimer()
+        self.doneFlag = False
 
         self.setStyleSheet("background-color: black;")
         self.mainLayout = QGridLayout()
@@ -184,6 +185,13 @@ class FightScreen(QWidget):
             self.player2.set_health(self.player2.curHealth)
             self.player2.set_magic(self.player2.curMagic)
             self.player2.set_stamina(self.player2.curStamina)
-
+            if self.player1.curHealth <= 0 or self.player2.curHealth <= 0:
+                self.doneFlag = True
+                self.timer.stop()
+                if self.player1.curHealth == 0:
+                    print("Player 2 Wins!")
+                else:
+                    print("Player 1 Wins!")
             self.fightFlag = False
             self.fight_Btn.setEnabled(True)
+
