@@ -25,7 +25,7 @@ class CollectLootScreen(QWidget):
         :return: Creates a UI where a user can select which item(s)? they want to add to their inventory.
         """
         super().__init__()
-        self._callback = self.unset_callback
+        self._callback = DD.unimplemented
         self.player = player
         self.items = available
 

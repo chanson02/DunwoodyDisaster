@@ -19,6 +19,13 @@ def spacer(height: int) -> QSpacerItem:
     return QSpacerItem(0, height, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
 
 
+def unimplemented():
+    """
+    Use this as a default callback
+    """
+    raise Exception("This function is unimplemented")
+
+
 # https://wiki.python.org/moin/PyQt/Making%20non-clickable%20widgets%20clickable
 def clickable(widget: QWidget) -> SignalInstance:
     """
