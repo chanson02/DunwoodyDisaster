@@ -166,10 +166,8 @@ class FightScreen(QWidget):
             self.defend_Btn.setEnabled(False)
             self.fight_Btn.setEnabled(True)
 
-    def CanFight(self, actionSelctor:ActionSelector):
+    def CanFight(self, actionSelctor: ActionSelector):
         return actionSelctor.attack is not None and actionSelctor.defense is not None
-
-    
 
     def Fight(self):
         if self.fightFlag:
@@ -194,4 +192,3 @@ class FightScreen(QWidget):
                     print("Player 1 Wins!")
             self.fightFlag = False
             self.fight_Btn.setEnabled(True)
-
