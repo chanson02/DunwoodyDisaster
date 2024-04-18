@@ -18,6 +18,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("Dunwoody-Disaster")
         # self.setGeometry(100, 100, 800, 600)
+        self.setStyleSheet("background-color: #2f2f2f;")
 
         self.player1 = CharacterFactory.createTestChar()
         self.testChar = CharacterFactory.createTestChar()
