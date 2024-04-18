@@ -44,7 +44,7 @@ class Character:
         self.defenses = []
 
     def set_health(self, health: int):
-        self.curHealth = min(self.maxHealth, max(0, health))  
+        self.curHealth = min(self.maxHealth, max(0, health))
         if self.maxHealth == 0:
             percentage = 0
         else:
