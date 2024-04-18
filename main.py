@@ -4,10 +4,7 @@ The entry point for the game
 
 import sys
 from PySide6.QtWidgets import QApplication, QMainWindow
-from dunwoody_disaster.views.fightScreen import FightScreen
-from dunwoody_disaster.views.collectLootScreen import CollectLootScreen
 from dunwoody_disaster.CharacterFactory import CharacterFactory
-from dunwoody_disaster import Item
 
 from dunwoody_disaster.FightSequence import FightSequence
 from dunwoody_disaster.views.victoryScreen import VictoryScreen

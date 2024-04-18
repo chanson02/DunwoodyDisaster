@@ -45,7 +45,7 @@ class Character:
         self.defenses = []
 
     def image(self) -> QPixmap:
-        return QPixmap(ASSETS['ready'])
+        return QPixmap(ASSETS["ready"])
 
     def set_health(self, health: int):
         self.curHealth = health

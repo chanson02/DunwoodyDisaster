@@ -82,7 +82,7 @@ class CollectLootScreen(QWidget):
         return
 
     def unset_callback(self):
-        raise Exception('Callback never assigned')
+        raise Exception("Callback never assigned")
 
     def set_callback(self, callback: Callable):
         """

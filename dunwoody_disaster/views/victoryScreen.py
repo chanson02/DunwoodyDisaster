@@ -12,7 +12,7 @@ class VictoryScreen(QWidget):
         layout.setAlignment(Qt.AlignmentFlag.AlignTop)
         self.setLayout(layout)
 
-        lbl = QLabel(f'Congradulations {fight_controller.player.name}! You Win!')
+        lbl = QLabel(f"Congradulations {fight_controller.player.name}! You Win!")
         lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(lbl)
 
@@ -22,13 +22,15 @@ class VictoryScreen(QWidget):
         pic.setPixmap(fight_controller.player.image())
         layout.addWidget(pic)
 
-        lbl = QLabel('Manage your inventory: ')
+        lbl = QLabel("Manage your inventory: ")
         layout.addWidget(lbl)
 
-        loot_screen = CollectLootScreen(fight_controller.player, fight_controller.enemy.get_items())
+        loot_screen = CollectLootScreen(
+            fight_controller.player, fight_controller.enemy.get_items()
+        )
         loot_screen.set_callback(self.loot_selected_event)
         layout.addWidget(loot_screen)
 
     def loot_selected_event(self):
-        print('Player selected the loot they wanted')
+        print("Player selected the loot they wanted")
         # TODO: Return to map
