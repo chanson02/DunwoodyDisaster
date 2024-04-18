@@ -17,9 +17,9 @@ class FightSequence:
     ) -> tuple[CharacterFactory.Character, CharacterFactory.Character]:
         """
         Simulates a fight between player and enemy
-        :param playerAttack: The attack the player is using
-        :param enemyAttack: The attack the enemy is using
-        :return: The stat changes for the player and enemy
+        :param playerActions: The actions the player is using
+        :param enemyActions: The actions the enemy is using
+        :return: The updated player and enemy characters
         """
         playerWeapon = playerActions.attack
         enemyWeapon = enemyActions.attack
