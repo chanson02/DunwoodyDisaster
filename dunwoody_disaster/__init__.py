@@ -19,7 +19,7 @@ def spacer(height: int) -> QSpacerItem:
     return QSpacerItem(0, height, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
 
 
-def unimplemented():
+def unimplemented(*_):
     """
     Use this as a default callback
     """
