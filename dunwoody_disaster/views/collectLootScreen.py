@@ -1,4 +1,4 @@
-from typing import Sequence
+from typing import Sequence, Callable
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor
 from PySide6.QtWidgets import (
@@ -25,6 +25,7 @@ class CollectLootScreen(QWidget):
         :return: Creates a UI where a user can select which item(s)? they want to add to their inventory.
         """
         super().__init__()
+        self._callback = self.unset_callback
         self.player = player
         self.items = available
 
@@ -79,6 +80,15 @@ class CollectLootScreen(QWidget):
 
         self.setLayout(layout)
         return
+
+    def unset_callback(self):
+        raise Exception('Callback never assigned')
+
+    def set_callback(self, callback: Callable):
+        """
+        Call this function when the loot has been confirmed
+        """
+        self._callback = callback
 
     def create_inventory_slot(self, item: Item.Item) -> tuple[QWidget, QCheckBox]:
         layout = QVBoxLayout()
@@ -142,3 +152,4 @@ class CollectLootScreen(QWidget):
                 self.player.add_item(item)
 
         self.deleteLater()
+        self._callback()

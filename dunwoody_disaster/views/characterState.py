@@ -48,7 +48,7 @@ class CharacterState(QWidget):
         pic = QLabel("")
         pic.setAlignment(Qt.AlignmentFlag.AlignCenter)
         pic.setStyleSheet("min-width: 380px;")
-        pic.setPixmap(QPixmap(DD.ASSETS["ready"]))
+        pic.setPixmap(self.character.image())
         layout.addWidget(pic, row, 0, 1, 3)
         row += 1
 

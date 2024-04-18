@@ -9,6 +9,9 @@ from dunwoody_disaster.views.collectLootScreen import CollectLootScreen
 from dunwoody_disaster.CharacterFactory import CharacterFactory
 from dunwoody_disaster import Item
 
+from dunwoody_disaster.FightSequence import FightSequence
+from dunwoody_disaster.views.victoryScreen import VictoryScreen
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -19,11 +22,8 @@ class MainWindow(QMainWindow):
 
         player1 = CharacterFactory.createTestChar()
         player2 = CharacterFactory.createTestChar()
-        if 1 == 2:  # this is here to clear lint warnings
-            self.setCentralWidget(FightScreen(player1, player2))
-        else:
-            items = Item.weapons + Item.armors
-            self.setCentralWidget(CollectLootScreen(player1, items))
+        test_fight_controller = FightSequence(player1, player2)
+        self.setCentralWidget(VictoryScreen(test_fight_controller))
 
 
 if __name__ == "__main__":
