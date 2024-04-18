@@ -150,8 +150,8 @@ class FightScreen(QWidget):
         else:
             print("You must select 2 actions to fight!")
 
-    def CanFight(self, actionSelctor: ActionSelector):
-        return actionSelctor.attack is not None and actionSelctor.defense is not None
+    def CanFight(self, actionSelector: ActionSelector):
+        return (actionSelector.attack and actionSelector.defense) is not None
 
     def Fight(self):
         if self.fightFlag:
