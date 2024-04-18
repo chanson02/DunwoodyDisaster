@@ -24,7 +24,10 @@ class FightSequence:
         playerWeapon = playerActions.attack
         enemyWeapon = enemyActions.attack
         playerDefense = playerActions.defense
+
         enemyDefense = enemyActions.defense
+        if not (playerWeapon and enemyWeapon and playerDefense and enemyDefense):
+            raise Exception('Players did not select items')
 
         canPlayerAttack = self.CanAttack(self.player, playerWeapon)
         canEnemyAttack = self.CanAttack(self.enemy, enemyWeapon)
