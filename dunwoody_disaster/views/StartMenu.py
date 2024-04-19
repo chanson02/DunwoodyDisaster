@@ -37,7 +37,7 @@ class StartMenu(QWidget):
         main_layout = QVBoxLayout(self)
 
         title = QLabel("Dunwoody Disaster")
-        title.setAlignment(Qt.AlignCenter)
+        title.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         main_layout.addWidget(title)
 
