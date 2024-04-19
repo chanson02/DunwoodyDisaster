@@ -5,7 +5,9 @@ The entry point for the game
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QGridLayout, QWidget, QLabel
 from PySide6.QtGui import QPixmap, QKeyEvent
-from dunwoody_disaster import ASSETS
+
+
+# from dunwoody_disaster import Assets
 
 
 class MapScreen(QWidget):
@@ -15,7 +17,7 @@ class MapScreen(QWidget):
         self.mainLayout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(self.mainLayout)
 
-        self.imagePaths = character.imageArray
+        self.imagePaths = character.mapImageArray
 
         self.mapPic = QLabel("")
         self.mapPic.setPixmap(QPixmap(self.imagePaths[0]))

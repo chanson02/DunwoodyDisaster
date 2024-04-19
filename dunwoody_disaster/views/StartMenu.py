@@ -11,16 +11,18 @@ from PySide6.QtWidgets import (
 
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap, QPainter
-from dunwoody_disaster.views.MapScreen import MapScreen
+
+# from dunwoody_disaster.views.MapScreen import MapScreen
 from dunwoody_disaster import ASSETS
 
 
 class StartMenu(QWidget):
-    def __init__(self):
+    def __init__(self, showMapScreen):
         super().__init__()  # Call the constructor of the parent class (QWidget)
         self.background_pixmap = QPixmap(
             ASSETS["TitleScreen"]
         )  # Load the image as a QPixmap
+        self.showMapScreen = showMapScreen
         self.initUI()  # Initialize the user interface
 
     def initUI(self):
@@ -43,9 +45,8 @@ class StartMenu(QWidget):
         button_layout = QHBoxLayout()
 
         self.startButton = QPushButton("Start Game")
-        self.startButton.clicked.connect(
-            self.startGame
-        )  # Connect to startGame function
+        self.startButton.clicked.connect(self.showMapScreen)
+
         button_layout.addWidget(self.startButton)
 
         self.exitButton = QPushButton("Exit")
@@ -64,11 +65,6 @@ class StartMenu(QWidget):
         pixmap = self.background_pixmap.scaledToWidth(400)
         painter.drawPixmap(self.rect(), pixmap)  # Draw the scaled pixmap on the window
 
-    def startGame(self):
-        print("clicked")
-        self.game_page = MapScreen()  # Create an instance of the GamePage
-        self.game_page.show()  # Show a message box when the start game button is clicked
-
     def exitGame(self):
         reply = QMessageBox.question(
             self,
@@ -79,10 +75,3 @@ class StartMenu(QWidget):
         )  # Ask for confirmation before exiting
         if reply == QMessageBox.Yes:
             self.close()  # Close the window if the user confirms
-
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)  # Create an instance of QApplication
-    startMenu = StartMenu()  # Create an instance of StartMenu
-    startMenu.show()  # Show the StartMenu window in windowed mode
-    sys.exit(app.exec())  # Start the application's event loop and exit when it finishes
