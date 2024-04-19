@@ -29,6 +29,13 @@ class Item:
     def __repr__(self) -> str:
         return f"Item({self.name}, {self.stats})"
 
+    def serialize(self) -> dict:
+        return {
+            "damage": self.stats[0],
+            "magic": self.stats[1],
+            "stamina": self.stats[2],
+        }
+
     def widget(self, min_width=100) -> QWidget:
         """
         Create a UI element to display the items properties
@@ -46,8 +53,7 @@ class Item:
         img.setPixmap(QPixmap(self.image).scaledToWidth(80))
         layout.addWidget(img)
 
-        stats = {"stat1": self.stats[0], "stat2": self.stats[1], "stat3": self.stats[2]}
-        for stat, value in stats.items():
+        for stat, value in self.serialize().items():
             lbl = QLabel(f"{stat}: {value}")
             lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
             layout.addWidget(lbl)
@@ -55,7 +61,7 @@ class Item:
         widget = QWidget()
         widget.setLayout(layout)
         widget.setContentsMargins(0, 0, 0, 0)
-        widget.setStyleSheet(f"min-width: {min_width}px;")
+        widget.setMinimumWidth(min_width)
         return widget
 
 

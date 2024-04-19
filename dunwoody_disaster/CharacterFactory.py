@@ -18,6 +18,8 @@ class Character:
         self.curStamina = 0
         self.maxStamina = 0
 
+        self.inventory_capacity = 100
+
         self.health_lbl = QLabel(f"Health: {self.curHealth}")
         self.magic_lbl = QLabel(f"Magic: {self.curMagic}")
         self.stamina_lbl = QLabel(f"Stamina: {self.curStamina}")
@@ -70,6 +72,13 @@ class Character:
             self.defenses.append(item)
         else:
             raise ValueError("Unknown item type")
+
+    def get_items(self) -> list[Item.Item]:
+        return self.weapons + self.defenses
+
+    def clear_items(self):
+        self.weapons = []
+        self.defenses = []
 
     def PlotRisk(self, attacks: list) -> None:
         """

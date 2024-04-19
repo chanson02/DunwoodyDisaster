@@ -28,9 +28,6 @@ class FightScreen(QWidget):
         self.timer = QTimer()
         self.init_UI()
 
-    def init_UI(self):
-        pass
-
         self.setStyleSheet("background-color: black;")
         self.mainLayout = QGridLayout()
         self.mainLayout.setSpacing(0)
