@@ -18,11 +18,11 @@ class MainWindow(QMainWindow):
         # self.setGeometry(100, 100, 800, 600)
         self.setStyleSheet("background-color: #2f2f2f;")
 
-        self.player1 = CharacterFactory.createTestChar()
+        self.player1 = CharacterFactory.createCharacter("Player", "blank")
         self.testChar = CharacterFactory.createTestChar()
         # Enemies
-        self.courtChar = CharacterFactory.createTestChar()
-        self.lectChar = CharacterFactory.createTestChar()
+        self.courtChar = CharacterFactory.createCharacter("Court", "blank")
+        self.lectChar = CharacterFactory.createCharacter("Lecture", "blank")
         self.phyLabChar = CharacterFactory.createTestChar()
         self.sciLabChar = CharacterFactory.createTestChar()
 
@@ -47,9 +47,17 @@ class MainWindow(QMainWindow):
         Enter fight screen by pointing stack at fight screen.
         This will need to be changed to set the proper opponent per setting. Index 2 is the fight screen.
         """
+        self.fightScreen.player1 = self.player1
+
+        if self.mapScreen.currImgIndex == 0:
+            self.fightScreen.player2 = self.courtChar
+        elif self.mapScreen.currImgIndex == 1:
+            self.fightScreen.player2 = self.lectChar
+        else:
+            self.fightScreen.player2 = self.testChar
+
+        self.fightScreen.init_UI()
         self.stack.setCurrentIndex(2)
-        self.player1 = self.player1
-        self.player2 = self.courtChar
 
     """
     TODO: Make sure this works
