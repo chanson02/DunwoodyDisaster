@@ -17,7 +17,9 @@ class DialogueScreen(QWidget):
         self._char2_dialogue = []
 
         self.char1_img = QLabel("")
+        self.char1_img.setPixmap(self.char1.image())
         self.char2_img = QLabel("")
+        self.char2_img.setPixmap(self.char2.image())
         self.char1_dialogue = QLabel("")
         self.char2_dialogue = QLabel("")
 
@@ -33,8 +35,6 @@ class DialogueScreen(QWidget):
 
         player_layout = QHBoxLayout()
         layout.addLayout(player_layout)
-        self.char1_img.setPixmap(self.char1.image())
-        self.char2_img.setPixmap(self.char2.image())
         player_layout.addWidget(self.char1_img)
         player_layout.addWidget(self.char2_img)
 
