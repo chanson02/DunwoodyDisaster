@@ -144,8 +144,8 @@ class FightScreen(QWidget):
             colm,
         )
 
-        # self.timer.start(2000)
-        # self.timer.timeout.connect(self.Fight)
+        self.timer.start(2000)
+        self.timer.timeout.connect(self.Fight)
 
     def SetFightFlag(self):
         self.fightFlag = True
