@@ -1,4 +1,4 @@
-from random import choice as randChoice
+# from random import choice as randChoice
 from PySide6.QtCore import QTimer
 
 # from PySide6.QtGui import QMovie
@@ -11,9 +11,11 @@ from PySide6.QtWidgets import (
 )
 from dunwoody_disaster.views.arsenal import Arsenal
 import dunwoody_disaster as DD
+from dunwoody_disaster.CharacterFactory import CharacterFactory
 from dunwoody_disaster.CharacterFactory import Character
 from dunwoody_disaster.views.characterState import CharacterState
 from dunwoody_disaster.views.action_selector import ActionSelector
+from FightSequence import FightSequence
 
 
 class FightScreen(QWidget):
@@ -26,6 +28,7 @@ class FightScreen(QWidget):
         # kick = QMovie(DD.ASSETS["P1Attack2"])
         # defense = QMovie(DD.ASSETS["P1Defense"])
         self.timer = QTimer()
+        self.doneFlag = False
 
         self.setStyleSheet("background-color: black;")
         self.mainLayout = QGridLayout()
@@ -68,6 +71,9 @@ class FightScreen(QWidget):
 
         ####################
         # This is the middle section of the screen ##############
+        self.player1 = CharacterFactory.createTestChar()
+        self.player2 = CharacterFactory.createTestChar()
+        self.fightSequence = FightSequence(self.player1, self.player2)
         p1 = CharacterState(self.player1)
         p2 = CharacterState(self.player2)
 
@@ -139,62 +145,34 @@ class FightScreen(QWidget):
         self.timer.timeout.connect(self.Fight)
 
     def SetFightFlag(self):
-        self.fightFlag = True
+        if self.CanFight(self.p1_selector) and self.CanFight(self.p2_selector):
+            self.fightFlag = True
+        else:
+            print("You must select 2 actions to fight!")
 
-    def AddToQueue(self, action):
-        if not len(self.userActionArray) >= 3:
-            self.userActionArray.append(action)
-            self.compActionArray.append(randChoice(self.actionArray))
-            self.player1Lineup_Lbl.setText(
-                "Action Lineup: " + str(self.userActionArray)
-            )
-        if len(self.userActionArray) == 3:
-            self.attack1_Btn.setEnabled(False)
-            self.attack2_Btn.setEnabled(False)
-            self.defend_Btn.setEnabled(False)
-            self.fight_Btn.setEnabled(True)
+    def CanFight(self, actionSelector: ActionSelector):
+        return (actionSelector.attack and actionSelector.defense) is not None
 
     def Fight(self):
-        pass
-        """
         if self.fightFlag:
             self.fight_Btn.setEnabled(False)
+            self.player1, self.player2 = self.fightSequence.Fight(
+                self.p1_selector,
+                self.p2_selector,
+            )
+            self.player1.set_health(self.player1.curHealth)
+            self.player1.set_magic(self.player1.curMagic)
+            self.player1.set_stamina(self.player1.curStamina)
 
-            userActionIndex = self.actionArray.index(self.userActionArray[0])
-            compActionIndex = self.actionArray.index(self.compActionArray[0])
-
-            p1ActionGif = self.player1PicArray[userActionIndex]
-            p2ActionGif = self.player1PicArray[compActionIndex]
-            self.player1_Pic.setMovie(p1ActionGif)
-            p1ActionGif.start()
-            self.player2_Pic.setMovie(p2ActionGif)
-            p2ActionGif.start()
-
-            if (
-                self.compActionArray[0] == "Defense"
-                and self.userActionArray[0] == "Defense"
-            ):
-                pass
-            else:
-                if self.userActionArray[0] == "Defense":
-                    self.compHealthMeter -= 5
+            self.player2.set_health(self.player2.curHealth)
+            self.player2.set_magic(self.player2.curMagic)
+            self.player2.set_stamina(self.player2.curStamina)
+            if self.player1.curHealth <= 0 or self.player2.curHealth <= 0:
+                self.doneFlag = True
+                self.timer.stop()
+                if self.player1.curHealth == 0:
+                    print("Player 2 Wins!")
                 else:
-                    self.compHealthMeter -= self.damageArray[userActionIndex]
-                if self.userActionArray[0] == "Defense":
-                    self.userHealthMeter -= 5
-                else:
-                    self.userHealthMeter -= self.damageArray[compActionIndex]
-            self.player1Health_Lbl.setText("Health Meter: " + str(self.userHealthMeter))
-            self.player2Health_Lbl.setText("Health Meter: " + str(self.compHealthMeter))
-
-            self.compActionArray.pop(0)
-            self.userActionArray.pop(0)
-            if len(self.userActionArray) == 0:
-                self.fightFlag = False
-                self.player1Lineup_Lbl.setText(
-                    "Action Lineup: " + str(self.userActionArray)
-                )
-                self.attack1_Btn.setEnabled(True)
-                self.attack2_Btn.setEnabled(True)
-                self.defend_Btn.setEnabled(True)
-                """
+                    print("Player 1 Wins!")
+            self.fightFlag = False
+            self.fight_Btn.setEnabled(True)
