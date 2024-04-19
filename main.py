@@ -1,9 +1,4 @@
 import sys
-from PySide6.QtWidgets import QApplication, QMainWindow
-from dunwoody_disaster.CharacterFactory import CharacterFactory
-
-from dunwoody_disaster.FightSequence import FightSequence
-from dunwoody_disaster.views.victoryScreen import VictoryScreen
 from PySide6.QtWidgets import QMainWindow, QStackedWidget, QApplication
 from dunwoody_disaster.views.fightScreen import FightScreen
 from dunwoody_disaster.views.StartMenu import StartMenu

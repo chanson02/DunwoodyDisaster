@@ -13,7 +13,6 @@ from PySide6.QtWidgets import (
 
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap, QPainter
-from dunwoody_disaster.views.MapScreen import MapScreen
 from dunwoody_disaster import ASSETS
 
 
@@ -68,7 +67,7 @@ class StartMenu(QWidget):
 
     def startGame(self):
         print("clicked")
-        #self.game_page = MapScreen()  # Create an instance of the GamePage
+        # self.game_page = MapScreen()  # Create an instance of the GamePage
         player1 = CharacterFactory.createTestChar()
         player2 = CharacterFactory.createTestChar()
         self.game_page = FightScreen(player1, player2)

@@ -8,7 +8,7 @@ from PySide6.QtWidgets import (
     QSpacerItem,
     QSizePolicy,
     QPushButton,
-    QStackedLayout
+    QStackedLayout,
 )
 from dunwoody_disaster.views.arsenal import Arsenal
 import dunwoody_disaster as DD
@@ -37,7 +37,7 @@ class FightScreen(QWidget):
         self.mainWidget.setLayout(self.mainLayout)
         self.mainLayout.setSpacing(0)
         self.mainLayout.setContentsMargins(0, 0, 0, 0)
-        #self.setLayout(self.mainLayout)
+        # self.setLayout(self.mainLayout)
         self.stacked_layout.addWidget(self.mainWidget)
         self.setLayout(self.stacked_layout)
 
@@ -144,11 +144,11 @@ class FightScreen(QWidget):
             colm,
         )
 
-        #self.timer.start(2000)
-        #self.timer.timeout.connect(self.Fight)
+        # self.timer.start(2000)
+        # self.timer.timeout.connect(self.Fight)
 
     def SetFightFlag(self):
-        #self.fightFlag = True
+        # self.fightFlag = True
         self.onWin()
 
     def AddToQueue(self, action):
