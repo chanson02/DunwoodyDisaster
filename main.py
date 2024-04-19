@@ -5,9 +5,7 @@ The entry point for the game
 import sys
 from PySide6.QtWidgets import QApplication, QMainWindow, QStackedWidget
 from dunwoody_disaster.views.fightScreen import FightScreen
-from dunwoody_disaster.views.collectLootScreen import CollectLootScreen
 from dunwoody_disaster.CharacterFactory import CharacterFactory
-from dunwoody_disaster import Item
 
 from dunwoody_disaster.views.StartMenu import StartMenu
 from dunwoody_disaster.views.MapScreen import MapScreen
@@ -48,7 +46,6 @@ class MainWindow(QMainWindow):
     Enter fight screen by pointing stack at fight screen. 
     This will need to be changed to set the proper opponent per setting. Index 2 is the fight screen.
     """
-
     def EnterFight(self):
         """
         Change fight screen character objects. Call init UI to redraw based on the character objects. Enter fight screen by pointing stack at fight screen.
