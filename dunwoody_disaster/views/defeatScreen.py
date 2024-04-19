@@ -1,17 +1,11 @@
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QColor, QPixmap
+from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import (
     QWidget,
     QVBoxLayout,
     QLabel,
-    QCheckBox,
     QPushButton,
-    QHBoxLayout,
-    QScrollArea,
-    QGroupBox,
 )
-from PySide6.QtWidgets import QApplication, QMainWindow
-import sys
 
 styles = {
     "title-text": "color: white; font-size: 24px;",
@@ -55,6 +49,7 @@ class DefeatScreen(QWidget):
             Imagelabel.setPixmap(defeat_image)
             container.addWidget(Imagelabel)
 
+        # Add elements to layout
         container.addWidget(defeat_label)
         container.addWidget(return_button)
         layout.addLayout(container)
@@ -64,8 +59,8 @@ class DefeatScreen(QWidget):
     def return_to_map(self):
         """
         Returns the player to the map screen
-
         """
+        print("Returning to map")
         self.show = False
 
     def SetImage(self, image: str):
@@ -75,24 +70,3 @@ class DefeatScreen(QWidget):
         """
         self.image = QPixmap(image)
         self.label.setPixmap(self.image)
-
-
-# For testing purposes
-# class MainWindow(QMainWindow):
-#     def __init__(self):
-#         super().__init__()
-#         self.setWindowTitle("Pokemon-like Game")
-#         self.setGeometry(100, 100, 800, 600)
-#         self.setStyleSheet("background-color: #2f2f2f;")
-
-#         if 1 == 2:  # this is here to clear lint warnings
-#             self.setCentralWidget(DefeatScreen())
-#         else:
-#             self.setCentralWidget(DefeatScreen("dunwoody_disaster/assets/ready.jpg"))
-
-
-# if __name__ == "__main__":
-#     app = QApplication()
-#     window = MainWindow()
-#     window.show()
-#     sys.exit(app.exec())
