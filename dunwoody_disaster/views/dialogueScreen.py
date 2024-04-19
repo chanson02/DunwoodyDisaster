@@ -17,6 +17,11 @@ class DialogueScreen(QWidget):
         A screen to show two characters having a conversation
         :param char1: The character to show on the left side
         :param char2: The character to show on the right side
+
+        :example:
+            dls = DialogueScreen(p1, p2)
+            dls.set_dialogue(["Hi! I'm player 1"], ["Nice to meet you, I'm player 2"])
+            dls.onComplete(callback)
         """
         super().__init__()
         self._index = 0
