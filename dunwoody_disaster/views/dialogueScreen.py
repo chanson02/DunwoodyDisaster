@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import QWidget, QStackedLayout, QVBoxLayout, QLabel, QHBoxLayout, QGroupBox
 from dunwoody_disaster.CharacterFactory import Character
 import dunwoody_disaster as DD
+from typing import Callable
 
 
 class DialogueScreen(QWidget):
@@ -27,12 +28,16 @@ class DialogueScreen(QWidget):
 
         self.init_ui()
         DD.clickable(self).connect(self.next_dialogue)
+        self._callback = DD.unimplemented
 
     def set_dialogue(self, char1: list[str], char2: list[str]):
         self._char1_dialogue = char1
         self._char2_dialogue = char2
         self._index = 0
         self.next_dialogue()
+
+    def onComplete(self, callback: Callable):
+        self._callback = callback
 
     def init_ui(self):
         layout = QVBoxLayout()
@@ -66,10 +71,15 @@ class DialogueScreen(QWidget):
         index = self._index // 2
         char = self._index % 2
 
-        if char == 0:
-            self.char1_dialogue.setText(self._char1_dialogue[index])
-        else:
-            self.char2_dialogue.setText(self._char2_dialogue[index])
+        try:
+            if char == 0:
+                self.char1_dialogue.setText(self._char1_dialogue[index])
+            else:
+                self.char2_dialogue.setText(self._char2_dialogue[index])
+        except IndexError:
+            # There is no more dialogue
+            self.deleteLater()
+            self._callback()
 
         self.dialogue_stack.setCurrentIndex(char)
         self._index += 1
