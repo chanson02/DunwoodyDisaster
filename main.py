@@ -1,33 +1,42 @@
-"""
-The entry point for the game
-"""
-
 import sys
-from PySide6.QtWidgets import QApplication, QMainWindow
+from PySide6.QtWidgets import QMainWindow, QStackedWidget, QApplication
 from dunwoody_disaster.views.fightScreen import FightScreen
-from dunwoody_disaster.views.collectLootScreen import CollectLootScreen
+from dunwoody_disaster.views.StartMenu import StartMenu
+from dunwoody_disaster.views.MapScreen import MapScreen
 from dunwoody_disaster.CharacterFactory import CharacterFactory
-from dunwoody_disaster import Item
 
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Pokemon-like Game")
-        self.setGeometry(100, 100, 800, 600)
+        self.setWindowTitle("Dunwoody-Disaster")
         self.setStyleSheet("background-color: #2f2f2f;")
+        # self.setGeometry(100, 100, 800, 600)
 
         player1 = CharacterFactory.createTestChar()
         player2 = CharacterFactory.createTestChar()
-        if 1 == 2:  # this is here to clear lint warnings
-            self.setCentralWidget(FightScreen(player1, player2))
-        else:
-            items = Item.weapons + Item.armors
-            self.setCentralWidget(CollectLootScreen(player1, items))
+
+        self.startMenu = StartMenu(self.showMapScreen)
+
+        self.mapScreen = MapScreen(player1)
+
+        self.fightScreen = FightScreen(player1, player2)
+
+        self.stack = QStackedWidget()
+        self.stack.addWidget(self.startMenu)
+        self.stack.addWidget(self.mapScreen)
+        self.stack.addWidget(self.fightScreen)
+
+        # Set the stacked widget as the central widget of the main window
+        self.setCentralWidget(self.stack)
+
+    def showMapScreen(self):
+        self.stack.setCurrentIndex(1)
+        print("passed")
 
 
 if __name__ == "__main__":
-    app = QApplication()
-    window = MainWindow()
-    window.show()
-    sys.exit(app.exec())
+    app = QApplication()  # Create an instance of QApplication
+    MainWindow = MainWindow()  # Create an instance of MainWindow
+    MainWindow.show()  # Show the Main window in windowed mode
+    sys.exit(app.exec())  # Start the application's event loop and exit when it finishes

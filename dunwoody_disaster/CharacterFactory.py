@@ -2,6 +2,7 @@ from dunwoody_disaster.views.meter import Meter
 from PySide6.QtGui import QColor
 from PySide6.QtWidgets import QLabel
 from dunwoody_disaster import Item
+from dunwoody_disaster import ASSETS
 
 
 class Character:
@@ -20,6 +21,7 @@ class Character:
         self.maxMagic = 0
         self.curStamina = 0
         self.maxStamina = 0
+        self.mapImageArray = []
 
         self.inventory_capacity = 100
 
@@ -137,6 +139,15 @@ class CharacterFactory:
             "level": 1,
             "loot": [],
             "food": [],
+            "mapImageArray": [
+                ASSETS[img]
+                for img in [
+                    "MainMap_Coop_bus",
+                    "MainMap_Coop_Classroom1",
+                    "MainMap_Coop_Classroom2",
+                    "MainMap_Coop_Courtyard",
+                ]
+            ],
         },
         "warrior": {
             "health": 100,
@@ -197,6 +208,7 @@ class CharacterFactory:
         character.maxHealth = data["health"]
         character.maxMagic = data["magic"]
         character.maxStamina = data["stamina"]
+        character.mapImageArray = data["mapImageArray"]
 
         character.strength = data["strength"]
         character.intelligence = data["intelligence"]
