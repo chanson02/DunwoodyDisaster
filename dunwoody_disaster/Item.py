@@ -66,9 +66,10 @@ class Item:
 
 
 class Weapon(Item):
-    def __init__(self, name, damage, magicCost, staminaCost):
+    def __init__(self, name, magic, damage, magicCost, staminaCost):
         super().__init__(name)
         self.stats = WeaponStats[name]
+        self.magic = magic
         self.damage = damage
         self.magicReq = magicCost
         self.staminaCost = staminaCost
@@ -81,12 +82,13 @@ class Food(Item):
 
 
 class Armor(Item):
-    def __init__(self, name: str, armorVal: int, *args):
+    def __init__(self, name: str, armorVal: int, magicDefense: int, *args):
         super().__init__(name)
         self.stats = ArmorStats[name]
+        self.magicDefense = magicDefense
         self.armorVal = armorVal
 
 
-weapons = [Weapon("sword", 20, 30, 10), Weapon("spear", 30, 10, 20)]
+weapons = [Weapon("sword", False, 30, 0, 10), Weapon("spear", False, 30, 0, 20)]
 
 armors = [Armor("shield", 30, 10, 20), Armor("gloves", 10, 10, 10)]
