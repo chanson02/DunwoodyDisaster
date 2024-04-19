@@ -148,8 +148,7 @@ class FightScreen(QWidget):
         # self.timer.timeout.connect(self.Fight)
 
     def SetFightFlag(self):
-        # self.fightFlag = True
-        self.onWin()
+        self.fightFlag = True
 
     def AddToQueue(self, action):
         if not len(self.userActionArray) >= 3:
