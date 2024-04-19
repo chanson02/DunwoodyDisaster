@@ -1,4 +1,6 @@
 import sys
+from dunwoody_disaster.CharacterFactory import CharacterFactory
+from dunwoody_disaster.views.fightScreen import FightScreen
 from PySide6.QtWidgets import (
     QApplication,
     QWidget,
@@ -66,7 +68,10 @@ class StartMenu(QWidget):
 
     def startGame(self):
         print("clicked")
-        self.game_page = MapScreen()  # Create an instance of the GamePage
+        #self.game_page = MapScreen()  # Create an instance of the GamePage
+        player1 = CharacterFactory.createTestChar()
+        player2 = CharacterFactory.createTestChar()
+        self.game_page = FightScreen(player1, player2)
         self.game_page.show()  # Show a message box when the start game button is clicked
 
     def exitGame(self):

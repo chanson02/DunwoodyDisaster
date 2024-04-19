@@ -34,9 +34,6 @@ class MainWindow(QMainWindow):
         # Set the stacked widget as the central widget of the main window
         self.setCentralWidget(self.stack)
 
-        # test_fight_controller = FightSequence(player1, player2)
-        # self.setCentralWidget(VictoryScreen(test_fight_controller))
-
     def showMapScreen(self):
         self.stack.setCurrentIndex(1)
 
