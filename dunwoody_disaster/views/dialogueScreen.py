@@ -1,4 +1,11 @@
-from PySide6.QtWidgets import QWidget, QStackedLayout, QVBoxLayout, QLabel, QHBoxLayout, QGroupBox
+from PySide6.QtWidgets import (
+    QWidget,
+    QStackedLayout,
+    QVBoxLayout,
+    QLabel,
+    QHBoxLayout,
+    QGroupBox,
+)
 from dunwoody_disaster.CharacterFactory import Character
 import dunwoody_disaster as DD
 from typing import Callable
@@ -65,7 +72,7 @@ class DialogueScreen(QWidget):
         player2_dialogue_box.setLayout(container)
         self.dialogue_stack.addWidget(player2_dialogue_box)
 
-        #self.next_dialogue()
+        # self.next_dialogue()
 
     def next_dialogue(self):
         index = self._index // 2
