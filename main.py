@@ -31,5 +31,5 @@ class MainWindow(QMainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)  # Create an instance of QApplication
     startMenu = StartMenu()  # Create an instance of StartMenu
-    startMenu.show()  # Show the StartMenu window in windowed mode
+    startMenu.show()  # Show the StartMenu window in windowed mode 
     sys.exit(app.exec())  # Start the application's event loop and exit when it finishes
