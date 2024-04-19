@@ -74,4 +74,4 @@ class StartMenu(QWidget):
             QMessageBox.No,
         )  # Ask for confirmation before exiting
         if reply == QMessageBox.Yes:
-            self.close()  # Close the window if the user confirms
+            self.close()  # Close the window if the user confirms t
