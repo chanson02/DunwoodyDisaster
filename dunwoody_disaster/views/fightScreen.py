@@ -1,6 +1,7 @@
 from random import choice as randChoice
 from PySide6.QtCore import QTimer
-from PySide6.QtGui import QPixmap, QMovie
+
+# from PySide6.QtGui import QMovie
 from PySide6.QtWidgets import (
     QWidget,
     QGridLayout,
@@ -10,29 +11,20 @@ from PySide6.QtWidgets import (
 )
 from dunwoody_disaster.views.arsenal import Arsenal
 import dunwoody_disaster as DD
-from dunwoody_disaster.CharacterFactory import CharacterFactory
+from dunwoody_disaster.CharacterFactory import Character
 from dunwoody_disaster.views.characterState import CharacterState
 from dunwoody_disaster.views.action_selector import ActionSelector
 
 
 class FightScreen(QWidget):
-    def __init__(self):
+    def __init__(self, player1: Character, player2: Character):
         super().__init__()
 
-        self.imageAssets = {
-            item: QPixmap(DD.ASSETS[item])
-            for item in ["sword", "spear", "shield", "gloves"]
-        }
-
-        self.userActionArray = []
-        self.compActionArray = []
-        punch = QMovie(DD.ASSETS["P1Attack1"])
-        kick = QMovie(DD.ASSETS["P1Attack2"])
-        defense = QMovie(DD.ASSETS["P1Defense"])
-        self.actionArray = ["Punch", "Kick", "Defend"]
-        self.damageArray = [10, 20, 0]
-        self.player1PicArray = [punch, kick, defense]
-        self.fightFlag = False
+        self.player1 = player1
+        self.player2 = player2
+        # punch = QMovie(DD.ASSETS["P1Attack1"])
+        # kick = QMovie(DD.ASSETS["P1Attack2"])
+        # defense = QMovie(DD.ASSETS["P1Defense"])
         self.timer = QTimer()
 
         self.setStyleSheet("background-color: black;")
@@ -54,7 +46,9 @@ class FightScreen(QWidget):
 
         self.p1_selector = ActionSelector()
         self.p2_selector = ActionSelector()
-        self.P1Arsenal = Arsenal(self.p1_selector)
+        self.P1Arsenal = Arsenal(
+            self.p1_selector, self.player1.weapons, self.player1.defenses
+        )
         self.mainLayout.addWidget(self.P1Arsenal, row, colm, 16, 1)
 
         colm += 1
@@ -74,10 +68,8 @@ class FightScreen(QWidget):
 
         ####################
         # This is the middle section of the screen ##############
-        player1 = CharacterFactory.createTestChar()
-        player2 = CharacterFactory.createTestChar()
-        p1 = CharacterState(player1)
-        p2 = CharacterState(player2)
+        p1 = CharacterState(self.player1)
+        p2 = CharacterState(self.player2)
 
         innerCol = colm
         rightCol = colm + 4
@@ -131,7 +123,9 @@ class FightScreen(QWidget):
         colm += 1
 
         #############################################################
-        self.P2Arsenal = Arsenal(self.p2_selector)
+        self.P2Arsenal = Arsenal(
+            self.p2_selector, self.player2.weapons, self.player2.defenses
+        )
         self.mainLayout.addWidget(self.P2Arsenal, 1, colm, 16, 1)
 
         colm += 1
@@ -161,6 +155,8 @@ class FightScreen(QWidget):
             self.fight_Btn.setEnabled(True)
 
     def Fight(self):
+        pass
+        """
         if self.fightFlag:
             self.fight_Btn.setEnabled(False)
 
@@ -201,3 +197,4 @@ class FightScreen(QWidget):
                 self.attack1_Btn.setEnabled(True)
                 self.attack2_Btn.setEnabled(True)
                 self.defend_Btn.setEnabled(True)
+                """
