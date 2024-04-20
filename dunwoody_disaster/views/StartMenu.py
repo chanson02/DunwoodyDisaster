@@ -21,7 +21,7 @@ from dunwoody_disaster import ASSETS, unimplemented
 class StartMenu(QWidget):
     def __init__(self):
         super().__init__()
-        self._callback = unimplemented
+        #self._callback = unimplemented
         self.background_pixmap = QPixmap(ASSETS["TitleScreen"])
         self.initUI()
 
@@ -45,7 +45,7 @@ class StartMenu(QWidget):
         button_layout = QHBoxLayout()
 
         self.startButton = QPushButton("Start Game")
-        self.startButton.clicked.connect(self._callback)
+        self.startButton.clicked.connect(unimplemented)
 
         button_layout.addWidget(self.startButton)
 
@@ -64,7 +64,7 @@ class StartMenu(QWidget):
         """
         A callback function that executes when the user presses start
         """
-        self._callback = callback
+        self.startButton.clicked.connect(callback)
 
     def paintEvent(self, event):
         _ = event  # silence unused warning
