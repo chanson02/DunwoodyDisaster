@@ -11,6 +11,9 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("Dunwoody-Disaster")
         self.setStyleSheet("background-color: #2f2f2f;")
+        dimensions = QApplication.primaryScreen().size()
+        self.setMaximumWidth(dimensions.width())
+        self.setMaximumHeight(dimensions.height())
 
         player1 = CharacterFactory.createTestChar()
         player2 = CharacterFactory.createTestChar()
