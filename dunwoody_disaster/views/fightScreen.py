@@ -1,4 +1,4 @@
-from random import choice as randChoice
+# from random import choice as randChoice
 from PySide6.QtCore import QTimer
 
 # from PySide6.QtGui import QMovie
@@ -12,6 +12,7 @@ from PySide6.QtWidgets import (
 )
 from dunwoody_disaster.views.arsenal import Arsenal
 import dunwoody_disaster as DD
+from dunwoody_disaster.CharacterFactory import CharacterFactory
 from dunwoody_disaster.CharacterFactory import Character
 from dunwoody_disaster.views.characterState import CharacterState
 from dunwoody_disaster.views.action_selector import ActionSelector
@@ -21,6 +22,7 @@ from dunwoody_disaster.views.victoryScreen import VictoryScreen
 
 class FightScreen(QWidget):
     def __init__(self, player1: Character, player2: Character):
+        self.fightFlag = False
         super().__init__()
         self.stacked_layout = QStackedLayout()
 
@@ -30,6 +32,7 @@ class FightScreen(QWidget):
         # kick = QMovie(DD.ASSETS["P1Attack2"])
         # defense = QMovie(DD.ASSETS["P1Defense"])
         self.timer = QTimer()
+        self.doneFlag = False
 
         self.setStyleSheet("background-color: black;")
         self.mainWidget = QWidget()
@@ -148,30 +151,20 @@ class FightScreen(QWidget):
         self.timer.timeout.connect(self.Fight)
 
     def SetFightFlag(self):
-        self.fightFlag = True
+        if self.CanFight(self.p1_selector) and self.CanFight(self.p2_selector):
+            self.fightFlag = True
+        else:
+            print("You must select 2 actions to fight!")
 
-    def AddToQueue(self, action):
-        if not len(self.userActionArray) >= 3:
-            self.userActionArray.append(action)
-            self.compActionArray.append(randChoice(self.actionArray))
-            self.player1Lineup_Lbl.setText(
-                "Action Lineup: " + str(self.userActionArray)
-            )
-        if len(self.userActionArray) == 3:
-            self.attack1_Btn.setEnabled(False)
-            self.attack2_Btn.setEnabled(False)
-            self.defend_Btn.setEnabled(False)
-            self.fight_Btn.setEnabled(True)
+    def CanFight(self, actionSelector: ActionSelector):
+        return (actionSelector.attack and actionSelector.defense) is not None
 
     def Fight(self):
         if self.fightFlag:
             self.fight_Btn.setEnabled(False)
-
             self.player1, self.player2 = self.fightSequence.Fight(
-                self.p1_selector.attack,
-                self.p2_selector.attack,
-                self.p1_selector.defense,
-                self.p2_selector.defense,
+                self.p1_selector,
+                self.p2_selector,
             )
             self.player1.set_health(self.player1.curHealth)
             self.player1.set_magic(self.player1.curMagic)
@@ -180,7 +173,15 @@ class FightScreen(QWidget):
             self.player2.set_health(self.player2.curHealth)
             self.player2.set_magic(self.player2.curMagic)
             self.player2.set_stamina(self.player2.curStamina)
-
+            if self.player1.curHealth <= 0 or self.player2.curHealth <= 0:
+                self.doneFlag = True
+                self.timer.stop()
+                if self.player1.curHealth == 0:
+                    print("Player 2 Wins!")
+                else:
+                    print("Player 1 Wins!")
+            self.fightFlag = False
+            self.fight_Btn.setEnabled(True)
             self.fightFlag = False
             self.fight_Btn.setEnabled(True)
 

@@ -3,6 +3,7 @@ from dunwoody_disaster import ASSETS
 from PySide6.QtGui import QColor, QPixmap
 from PySide6.QtWidgets import QLabel
 from dunwoody_disaster import Item
+from dunwoody_disaster import ASSETS
 
 
 class Character:
@@ -21,6 +22,7 @@ class Character:
         self.maxMagic = 0
         self.curStamina = 0
         self.maxStamina = 0
+        self.mapImageArray = []
 
         self.inventory_capacity = 100
 
@@ -48,7 +50,7 @@ class Character:
         return QPixmap(ASSETS["ready"])
 
     def set_health(self, health: int):
-        self.curHealth = health
+        self.curHealth = min(self.maxHealth, max(0, health))
         if self.maxHealth == 0:
             percentage = 0
         else:
@@ -57,7 +59,7 @@ class Character:
         self.health_meter.setPercentage(percentage)
 
     def set_magic(self, magic: int):
-        self.curMagic = magic
+        self.curMagic = min(self.maxMagic, max(0, magic))
         if self.maxMagic == 0:
             percentage = 0
         else:
@@ -66,7 +68,7 @@ class Character:
         self.magic_meter.setPercentage(percentage)
 
     def set_stamina(self, stamina: int):
-        self.curStamina = stamina
+        self.curStamina = min(self.maxStamina, max(0, stamina))
         if self.maxStamina == 0:
             percentage = 0
         else:
@@ -141,6 +143,15 @@ class CharacterFactory:
             "level": 1,
             "loot": [],
             "food": [],
+            "mapImageArray": [
+                ASSETS[img]
+                for img in [
+                    "MainMap_Coop_bus",
+                    "MainMap_Coop_Classroom1",
+                    "MainMap_Coop_Classroom2",
+                    "MainMap_Coop_Courtyard",
+                ]
+            ],
         },
         "warrior": {
             "health": 100,
@@ -201,6 +212,7 @@ class CharacterFactory:
         character.maxHealth = data["health"]
         character.maxMagic = data["magic"]
         character.maxStamina = data["stamina"]
+        character.mapImageArray = data["mapImageArray"]
 
         character.strength = data["strength"]
         character.intelligence = data["intelligence"]

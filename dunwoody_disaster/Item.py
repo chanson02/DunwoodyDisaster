@@ -82,9 +82,10 @@ class Food(Item):
 
 
 class Armor(Item):
-    def __init__(self, name: str, armorVal: int, *args):
+    def __init__(self, name: str, armorVal: int, magicDefense: int, *args):
         super().__init__(name)
         self.stats = ArmorStats[name]
+        self.magicDefense = magicDefense
         self.armorVal = armorVal
 
 
