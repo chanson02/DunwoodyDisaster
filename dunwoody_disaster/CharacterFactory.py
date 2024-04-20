@@ -1,5 +1,6 @@
 from dunwoody_disaster.views.meter import Meter
-from dunwoody_disaster import ASSETS
+#from dunwoody_disaster import ASSETS
+import dunwoody_disaster as DD
 from PySide6.QtGui import QColor, QPixmap
 from PySide6.QtWidgets import QLabel
 from dunwoody_disaster import Item
@@ -13,7 +14,7 @@ class Character:
         self.classType = ""
         self.strength = 0
         self.intelligence = 0
-        self.image_path = ASSETS['no_texture']
+        self.image_path = DD.ASSETS['no_texture']
 
         # Meteres
         self.curHealth = 0
@@ -49,6 +50,7 @@ class Character:
         return {
                 'level': self.level,
                 'name': self.name,
+                'asset': DD.asset(self.image_path),
                 'class': self.classType,
                 'strength': self.strength,
                 'intelligence': self.intelligence,
@@ -254,6 +256,7 @@ class CharacterFactory:
     def createFromJson(json: dict) -> Character:
         char = Character()
         char.name = json['name']
+        char.image_path = DD.ASSETS[json['asset']]
         char.level = json['level']
         char.classType = json['class']
         char.strength = json['strength']
