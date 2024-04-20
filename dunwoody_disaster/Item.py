@@ -64,6 +64,9 @@ class Item:
         widget.setMinimumWidth(min_width)
         return widget
 
+    def to_dict(self) -> dict:
+        raise Exception('unimplemented')
+
 
 class Weapon(Item):
     def __init__(self, name, magic, damage, magicCost, staminaCost):
@@ -73,6 +76,19 @@ class Weapon(Item):
         self.damage = damage
         self.magicReq = magicCost
         self.staminaCost = staminaCost
+
+    @staticmethod
+    def from_json(json: dict) -> "Weapon":
+        return Weapon(json['name'], json['is_magical'], json['damage'], json['magicCost'], json['staminaCost'])
+
+    def to_dict(self) -> dict:
+        return {
+                'name': self.name,
+                'is_magical': self.magic,
+                'damage': self.damage,
+                'magicCost': self.magicReq,
+                'staminaCost': self.staminaCost
+                }
 
 
 class Food(Item):
@@ -87,6 +103,17 @@ class Armor(Item):
         self.stats = ArmorStats[name]
         self.magicDefense = magicDefense
         self.armorVal = armorVal
+
+    @staticmethod
+    def from_json(json: dict) -> "Armor":
+        return Armor(json['name'], json['armorVal'], json['magicDefense'])
+
+    def to_dict(self) -> dict:
+        return {
+                'name': self.name,
+                'armorVal': self.armorVal,
+                'magicDefense': self.magicDefense
+                }
 
 
 weapons = [Weapon("sword", False, 30, 0, 10), Weapon("spear", False, 30, 0, 20)]
