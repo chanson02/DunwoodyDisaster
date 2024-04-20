@@ -2,7 +2,7 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel
 from PySide6.QtGui import QPixmap
 from PySide6.QtCore import Qt
 
-from dunwoody_disaster import ASSETS
+import dunwoody_disaster as DD
 
 # Stats for the items
 # Add items as needed under its respective category
@@ -18,10 +18,10 @@ class Item:
         self.name = name
         self.stats = {}
 
-        if name in ASSETS:
-            self.image = ASSETS[name]
+        if name in DD.ASSETS:
+            self.image = DD.ASSETS[name]
         else:
-            self.image = ASSETS["no_texture"]
+            self.image = DD.ASSETS["no_texture"]
 
     def __str__(self) -> str:
         return f"Item({self.name}, {self.stats})"
@@ -65,7 +65,8 @@ class Item:
         return widget
 
     def to_dict(self) -> dict:
-        raise Exception('unimplemented')
+        DD.unimplemented()
+        return {}
 
 
 class Weapon(Item):
