@@ -1,27 +1,23 @@
 from typing import Callable
-from dunwoody_disaster.CharacterFactory import CharacterFactory
-from dunwoody_disaster.views.fightScreen import FightScreen
-from PySide6.QtWidgets import (
-    QApplication,
-    QWidget,
-    QVBoxLayout,
-    QHBoxLayout,
-    QPushButton,
-    QLabel,
-    QMessageBox,
-)
 
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QPixmap, QPainter
+from PySide6.QtGui import QPainter, QPixmap
+from PySide6.QtWidgets import (
+    QApplication,
+    QHBoxLayout,
+    QLabel,
+    QMessageBox,
+    QPushButton,
+    QVBoxLayout,
+    QWidget,
+)
 
-# from dunwoody_disaster.views.MapScreen import MapScreen
 from dunwoody_disaster import ASSETS, unimplemented
 
 
 class StartMenu(QWidget):
     def __init__(self):
         super().__init__()
-        #self._callback = unimplemented
         self.background_pixmap = QPixmap(ASSETS["TitleScreen"])
         self.initUI()
 
