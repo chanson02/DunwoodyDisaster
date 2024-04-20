@@ -1,4 +1,3 @@
-import sys
 from dunwoody_disaster.CharacterFactory import CharacterFactory
 from dunwoody_disaster.views.fightScreen import FightScreen
 from PySide6.QtWidgets import (

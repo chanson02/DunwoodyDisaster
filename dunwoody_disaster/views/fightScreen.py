@@ -12,7 +12,6 @@ from PySide6.QtWidgets import (
 )
 from dunwoody_disaster.views.arsenal import Arsenal
 import dunwoody_disaster as DD
-from dunwoody_disaster.CharacterFactory import CharacterFactory
 from dunwoody_disaster.CharacterFactory import Character
 from dunwoody_disaster.views.characterState import CharacterState
 from dunwoody_disaster.views.action_selector import ActionSelector

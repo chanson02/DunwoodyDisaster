@@ -3,7 +3,6 @@ from dunwoody_disaster import ASSETS
 from PySide6.QtGui import QColor, QPixmap
 from PySide6.QtWidgets import QLabel
 from dunwoody_disaster import Item
-from dunwoody_disaster import ASSETS
 
 
 class Character:
