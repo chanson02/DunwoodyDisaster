@@ -140,15 +140,15 @@ class MapScreen(QWidget):
 
     @staticmethod
     def build_map(char: Character) -> "MapScreen":
-        test_enemey = CharacterFactory.createTestChar()
-        test_enemey.name = "test enemy"
+        test_enemy = CharacterFactory.createTestChar()
+        test_enemy.name = "test enemy"
         ms = MapScreen(char, None)
         ms.setAsset("MainMap")
-        ms.addRoom("Bus Stop", (419, 700), test_enemey, "no_texture")
-        ms.addRoom("Court Yard", (693, 559), test_enemey, "no_texture")
-        ms.addRoom("Commons", (451, 449), test_enemey, "no_texture")
-        ms.addRoom("Math", (236, 359), test_enemey, "no_texture")
-        ms.addRoom("English", (770, 366), test_enemey, "no_texture")
-        ms.addRoom("Science", (490, 217), test_enemey, "no_texture")
-        ms.addRoom("Dean's Office", (90, 589), test_enemey, "no_texture")
+        ms.addRoom("Bus Stop", (419, 700), test_enemy, "no_texture")
+        ms.addRoom("Court Yard", (693, 559), test_enemy, "no_texture")
+        ms.addRoom("Commons", (451, 449), test_enemy, "no_texture")
+        ms.addRoom("Math", (236, 359), test_enemy, "no_texture")
+        ms.addRoom("English", (770, 366), test_enemy, "no_texture")
+        ms.addRoom("Science", (490, 217), test_enemy, "no_texture")
+        ms.addRoom("Dean's Office", (90, 589), test_enemy, "no_texture")
         return ms
