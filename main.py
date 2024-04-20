@@ -11,7 +11,6 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("Dunwoody-Disaster")
         self.setStyleSheet("background-color: #2f2f2f;")
-        # self.setGeometry(100, 100, 800, 600)
 
         player1 = CharacterFactory.createTestChar()
         player2 = CharacterFactory.createTestChar()
@@ -32,7 +31,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.stack)
 
     def showMapScreen(self):
-        self.stack.setCurrentIndex(1)
+        self.stack.setCurrentWidget(self.mapScreen)
         print("passed")
 
 
