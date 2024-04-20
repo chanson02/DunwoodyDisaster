@@ -1,3 +1,4 @@
+from typing import Callable
 from PySide6.QtWidgets import (
     QApplication,
     QWidget,
@@ -12,16 +13,16 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap, QPainter
 
 # from dunwoody_disaster.views.MapScreen import MapScreen
-from dunwoody_disaster import ASSETS
+from dunwoody_disaster import ASSETS, unimplemeneted
 
 
 class StartMenu(QWidget):
-    def __init__(self, showMapScreen):
-        super().__init__()  # Call the constructor of the parent class (QWidget)
+    def __init__(self):
+        super().__init__()
+        self._callback = unimplemented
         self.background_pixmap = QPixmap(
             ASSETS["TitleScreen"]
         )  # Load the image as a QPixmap
-        self.showMapScreen = showMapScreen
         self.initUI()  # Initialize the user interface
 
     def initUI(self):
@@ -44,7 +45,7 @@ class StartMenu(QWidget):
         button_layout = QHBoxLayout()
 
         self.startButton = QPushButton("Start Game")
-        self.startButton.clicked.connect(self.showMapScreen)
+        self.startButton.clicked.connect(self._callback)
 
         button_layout.addWidget(self.startButton)
 
@@ -58,6 +59,12 @@ class StartMenu(QWidget):
             1
         )  # Add a stretchable space to push the buttons to the bottom
         main_layout.addLayout(button_layout)  # Add the button layout to the main layout
+
+    def onStart(self, callback: Callable):
+        """
+        A callback function that executes when the user presses start
+        """
+        self._callback = callback
 
     def paintEvent(self, event):
         painter = QPainter(self)  # Create a QPainter object for drawing

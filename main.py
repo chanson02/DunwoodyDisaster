@@ -16,7 +16,8 @@ class MainWindow(QMainWindow):
         player1 = CharacterFactory.createTestChar()
         player2 = CharacterFactory.createTestChar()
 
-        self.startMenu = StartMenu(self.showMapScreen)
+        self.startMenu = StartMenu()
+        self.startMenu.onStart(self.showMapScreen)
 
         self.mapScreen = MapScreen(player1)
 
