@@ -51,7 +51,7 @@ class MapScreen(QWidget):
             print("right")
 
     def move_character(self, x: int, y: int):
-        map_pixmap = QPixmap(DD.ASSETS['MainMap_Coop_bus'])
+        self.map_pixmap = QPixmap(DD.ASSETS['MainMap_Coop_bus'])
         painter = QPainter(self.map_pixmap)
         overlay = QPixmap(DD.ASSETS['cooper']).scaledToWidth(80)
         painter.drawPixmap(x, y, overlay)
