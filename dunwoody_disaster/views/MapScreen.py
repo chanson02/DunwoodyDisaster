@@ -16,46 +16,30 @@ class MapScreen(QWidget):
         self.mainLayout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(self.mainLayout)
 
-        self.map_pixmap = QPixmap(DD.ASSETS['MainMap_Coop_bus'])
-        self.map_widget = QLabel()
-        self.map_widget.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
-        self.mainLayout.addWidget(self.map_widget)
-        # overlay = QPixmap(DD.ASSETS['cooper']).scaledToWidth(80)
-        # self.mainLayout.addWidget(lbl)
-        #
-        # painter = QPainter(map)
-        # painter.setCompositionMode(QPainter.CompositionMode_SourceOver)
-        # x = 100
-        # y = 100
-        # painter.drawPixmap(x, y, overlay)
-        # painter.end()
-        # lbl.setPixmap(map)
-
-
-        # self.mapPic = QLabel("")
-        # self.mapPic.setPixmap(QPixmap(self.imagePaths[0]))
-        # self.mainLayout.addWidget(self.mapPic, 0, 0)
-
-        # self.currImgIndex = 0
+        self.map = QLabel()
+        self.map.setPixmap(self.pixmap())
+        self.map.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
+        self.mainLayout.addWidget(self.map)
 
     def keyPressEvent(self, event: QKeyEvent):
         print("entering")
         if event.key() == Qt.Key.Key_Left:
-            self.currImgIndex = (self.currImgIndex - 1) % len(self.imagePaths)
-            self.mapPic.setPixmap(QPixmap(self.imagePaths[self.currImgIndex]))
+            # self.currImgIndex = (self.currImgIndex - 1) % len(self.imagePaths)
+            # self.mapPic.setPixmap(QPixmap(self.imagePaths[self.currImgIndex]))
             print("left")
 
         elif event.key() == Qt.Key.Key_Right:
-            self.currImgIndex = (self.currImgIndex + 1) % len(self.imagePaths)
-            self.mapPic.setPixmap(QPixmap(self.imagePaths[self.currImgIndex]))
+            # self.currImgIndex = (self.currImgIndex + 1) % len(self.imagePaths)
+            # self.mapPic.setPixmap(QPixmap(self.imagePaths[self.currImgIndex]))
             print("right")
 
     def move_character(self, x: int, y: int):
-        self.map_pixmap = QPixmap(DD.ASSETS['MainMap_Coop_bus'])
-        painter = QPainter(self.map_pixmap)
+        map_pixmap = self.pixmap()
+        painter = QPainter(map_pixmap)
         overlay = QPixmap(DD.ASSETS['cooper']).scaledToWidth(80)
         painter.drawPixmap(x, y, overlay)
-        self.map_widget.setPixmap(self.map_pixmap)
+        painter.end()
+        self.map.setPixmap(map_pixmap)
         self.repaint()
 
 
@@ -63,4 +47,6 @@ class MapScreen(QWidget):
         point = event.pos()
         print(point)
         self.move_character(point.x(), point.y())
-        #import pdb; pdb.set_trace()
+
+    def pixmap(self):
+        return QPixmap(DD.ASSETS['MainMap_Coop_bus'])
