@@ -1,7 +1,8 @@
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QGridLayout, QWidget, QLabel
+from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout
 from PySide6.QtGui import QPixmap, QKeyEvent, QPainter, QMouseEvent
 
+from dunwoody_disaster.views.FightPreview import FightPreview
 import dunwoody_disaster as DD
 from dunwoody_disaster.CharacterFactory import Character, CharacterFactory
 from typing import Optional
@@ -24,7 +25,8 @@ class MapScreen(QWidget):
         self.init_ui()
 
     def init_ui(self):
-        layout = QGridLayout()
+        # layout = QGridLayout()
+        layout = QHBoxLayout()
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(layout)
@@ -33,6 +35,10 @@ class MapScreen(QWidget):
         self.map.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
         self.move_character(-1, 0)
         layout.addWidget(self.map)
+
+        self.preview = FightPreview()
+        # self.preview.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignRight)
+        layout.addWidget(self.preview)
 
     def setAsset(self, asset: str):
         self.image = DD.ASSETS[asset]
@@ -98,6 +104,7 @@ class MapScreen(QWidget):
         if self.current_room:
             pos = self.current_room["coordinate"]
             self.move_character(pos[0], pos[1])
+            self.preview.set_room(self.current_room)
 
     def pixmap(self):
         return QPixmap(self.image)

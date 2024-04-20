@@ -1,4 +1,11 @@
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QGroupBox, QScrollArea, QHBoxLayout
+from PySide6.QtWidgets import (
+    QWidget,
+    QVBoxLayout,
+    QLabel,
+    QGroupBox,
+    QScrollArea,
+    QHBoxLayout,
+)
 from PySide6.QtGui import QPixmap, QPainter
 from dunwoody_disaster.CharacterFactory import Character
 from PySide6.QtCore import Qt
@@ -16,12 +23,13 @@ class FightPreview(QWidget):
         layout.addWidget(self.room_lbl)
 
         self.battlefield = QLabel()
+        self.battlefield.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(self.battlefield)
 
         self.stats = QLabel()
         layout.addWidget(self.stats)
 
-        layout.addWidget(QLabel('Inventory'))
+        layout.addWidget(QLabel("Inventory"))
 
         self.weapons = QHBoxLayout()
         scroll_area = QScrollArea()
@@ -46,12 +54,14 @@ class FightPreview(QWidget):
         scroll_area.setLayout(self.defenses)
 
     def set_room(self, room_info: dict):
-        NPC = room_info['NPC']
+        NPC = room_info["NPC"]
         lbl = f"{room_info['name']}: {NPC.name}"
         self.room_lbl.setText(lbl)
 
-        bkg = QPixmap(room_info['battlefield']).scaledToWidth(400)
-        self.battlefield.setPixmap(self.center_overlay(bkg, NPC.image().scaledToWidth(50)))
+        bkg = QPixmap(room_info["battlefield"]).scaledToWidth(400)
+        self.battlefield.setPixmap(
+            self.center_overlay(bkg, NPC.image().scaledToWidth(50))
+        )
 
         self.stats.setText(self.stat_text(NPC))
 
