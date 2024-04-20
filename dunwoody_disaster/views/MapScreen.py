@@ -13,7 +13,8 @@ from PySide6.QtGui import QPixmap, QKeyEvent
 class MapScreen(QWidget):
     def __init__(self, character):
         super().__init__()
-        self.mainLayout = QGridLayout(spacing=0)
+        self.mainLayout = QGridLayout()
+        self.mainLayout.setSpacing(0)
         self.mainLayout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(self.mainLayout)
 
@@ -27,12 +28,12 @@ class MapScreen(QWidget):
 
     def keyPressEvent(self, event: QKeyEvent):
         print("entering")
-        if event.key() == Qt.Key_Left:
+        if event.key() == Qt.Key.Key_Left:
             self.currImgIndex = (self.currImgIndex - 1) % len(self.imagePaths)
             self.mapPic.setPixmap(QPixmap(self.imagePaths[self.currImgIndex]))
             print("left")
 
-        elif event.key() == Qt.Key_Right:
+        elif event.key() == Qt.Key.Key_Right:
             self.currImgIndex = (self.currImgIndex + 1) % len(self.imagePaths)
             self.mapPic.setPixmap(QPixmap(self.imagePaths[self.currImgIndex]))
             print("right")
