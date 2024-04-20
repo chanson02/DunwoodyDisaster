@@ -1,5 +1,12 @@
 from typing import Callable
-from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLabel, QPushButton, QScrollArea
+from PySide6.QtWidgets import (
+    QWidget,
+    QHBoxLayout,
+    QVBoxLayout,
+    QLabel,
+    QPushButton,
+    QScrollArea,
+)
 from PySide6.QtCore import Qt
 from dunwoody_disaster.CharacterFactory import Character
 import dunwoody_disaster as DD
