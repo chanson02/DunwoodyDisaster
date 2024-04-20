@@ -4,7 +4,7 @@ The entry point for the game
 
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QGridLayout, QWidget, QLabel
-from PySide6.QtGui import QPixmap, QKeyEvent, QPainter
+from PySide6.QtGui import QPixmap, QKeyEvent, QPainter, QMouseEvent
 
 import dunwoody_disaster as DD
 
@@ -48,3 +48,6 @@ class MapScreen(QWidget):
             self.currImgIndex = (self.currImgIndex + 1) % len(self.imagePaths)
             self.mapPic.setPixmap(QPixmap(self.imagePaths[self.currImgIndex]))
             print("right")
+
+    def mousePressEvent(self, event: QMouseEvent):
+        print('You clicked on ', event.pos())
