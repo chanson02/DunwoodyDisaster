@@ -5,6 +5,7 @@ from PySide6.QtGui import QPixmap, QKeyEvent, QPainter, QMouseEvent
 import dunwoody_disaster as DD
 from dunwoody_disaster.CharacterFactory import Character, CharacterFactory
 from typing import Optional
+from math import sqrt
 
 
 class MapScreen(QWidget):
@@ -45,6 +46,20 @@ class MapScreen(QWidget):
                 }
         self.rooms.append(room)
 
+    def findClosestRoom(self, x: int, y: int) -> Optional[dict]:
+        closest = None
+        min_dist = float('inf')
+
+        for room in self.rooms:
+            room_pos = room['coordinate']
+            distance = sqrt((x - room_pos[0]) ** 2 + (y - room_pos[1]) ** 2)
+            if distance < min_dist:
+                min_dist = distance
+                closest = room
+
+        return closest
+
+
     def keyPressEvent(self, event: QKeyEvent):
         print("entering")
         if event.key() == Qt.Key.Key_Left:
@@ -73,8 +88,9 @@ class MapScreen(QWidget):
 
     def mousePressEvent(self, event: QMouseEvent):
         point = event.pos()
-        print(point)
-        self.move_character(point.x(), point.y())
+        self.current_room = self.findClosestRoom(point.x(), point.y())
+        pos = self.current_room['coordinate']
+        self.move_character(pos[0], pos[1])
 
     def pixmap(self):
         return QPixmap(self.image)
