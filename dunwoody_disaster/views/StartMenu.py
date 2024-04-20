@@ -72,14 +72,6 @@ class StartMenu(QWidget):
         pixmap = self.background_pixmap.scaledToWidth(400)
         painter.drawPixmap(self.rect(), pixmap)  # Draw the scaled pixmap on the window
 
-    def startGame(self):
-        print("clicked")
-        # self.game_page = MapScreen()  # Create an instance of the GamePage
-        player1 = CharacterFactory.createTestChar()
-        player2 = CharacterFactory.createTestChar()
-        self.game_page = FightScreen(player1, player2)
-        self.game_page.show()  # Show a message box when the start game button is clicked
-
     def exitGame(self):
         reply = QMessageBox.question(
             self,
@@ -87,6 +79,6 @@ class StartMenu(QWidget):
             "Are you sure you want to exit?",
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
             QMessageBox.StandardButton.No,
-        )  # Ask for confirmation before exiting
+        )
         if reply == QMessageBox.StandardButton.Yes:
-            self.close()  # Close the window if the user confirms t
+            self.close()
