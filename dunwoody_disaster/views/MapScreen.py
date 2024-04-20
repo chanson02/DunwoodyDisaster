@@ -7,9 +7,6 @@ from PySide6.QtWidgets import QGridLayout, QWidget, QLabel
 from PySide6.QtGui import QPixmap, QKeyEvent
 
 
-# from dunwoody_disaster import Assets
-
-
 class MapScreen(QWidget):
     def __init__(self, character):
         super().__init__()
