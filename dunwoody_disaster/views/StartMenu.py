@@ -1,4 +1,3 @@
-import sys
 from dunwoody_disaster.CharacterFactory import CharacterFactory
 from dunwoody_disaster.views.fightScreen import FightScreen
 from PySide6.QtWidgets import (
@@ -17,11 +16,12 @@ from dunwoody_disaster import ASSETS
 
 
 class StartMenu(QWidget):
-    def __init__(self):
+    def __init__(self, showMapScreen):
         super().__init__()  # Call the constructor of the parent class (QWidget)
         self.background_pixmap = QPixmap(
             ASSETS["TitleScreen"]
         )  # Load the image as a QPixmap
+        self.showMapScreen = showMapScreen
         self.initUI()  # Initialize the user interface
 
     def initUI(self):
@@ -37,16 +37,15 @@ class StartMenu(QWidget):
         main_layout = QVBoxLayout(self)
 
         title = QLabel("Dunwoody Disaster")
-        title.setAlignment(Qt.AlignCenter)
+        title.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         main_layout.addWidget(title)
 
         button_layout = QHBoxLayout()
 
         self.startButton = QPushButton("Start Game")
-        self.startButton.clicked.connect(
-            self.startGame
-        )  # Connect to startGame function
+        self.startButton.clicked.connect(self.showMapScreen)
+
         button_layout.addWidget(self.startButton)
 
         self.exitButton = QPushButton("Exit")
@@ -82,11 +81,4 @@ class StartMenu(QWidget):
             QMessageBox.No,
         )  # Ask for confirmation before exiting
         if reply == QMessageBox.Yes:
-            self.close()  # Close the window if the user confirms
-
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)  # Create an instance of QApplication
-    startMenu = StartMenu()  # Create an instance of StartMenu
-    startMenu.show()  # Show the StartMenu window in windowed mode
-    sys.exit(app.exec())  # Start the application's event loop and exit when it finishes
+            self.close()  # Close the window if the user confirms t

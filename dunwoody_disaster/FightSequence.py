@@ -1,5 +1,6 @@
 from dunwoody_disaster import CharacterFactory, Item
 from dunwoody_disaster.CharacterFactory import Character
+from dunwoody_disaster.views import action_selector
 
 
 class FightSequence:
@@ -11,18 +12,24 @@ class FightSequence:
 
     def Fight(
         self,
-        playerWeapon: Item.Weapon,
-        enemyWeapon: Item.Weapon,
-        playerDefense: Item.Armor,
-        enemyDefense: Item.Armor,
+        playerActions: action_selector.ActionSelector,
+        enemyActions: action_selector.ActionSelector,
     ) -> tuple[CharacterFactory.Character, CharacterFactory.Character]:
         """
         Simulates a fight between player and enemy
-        :param playerAttack: The attack the player is using
-        :param enemyAttack: The attack the enemy is using
-        :return: The stat changes for the player and enemy
+        :param playerActions: The actions the player is using
+        :param enemyActions: The actions the enemy is using
+        :return: The updated player and enemy characters
         """
-        print("Fighting")
+        playerWeapon = playerActions.attack
+        enemyWeapon = enemyActions.attack
+        playerDefense = playerActions.defense
+        enemyDefense = enemyActions.defense
+
+        # putting this here so the typechecker shuts up --Cooper
+        if not (playerWeapon and enemyWeapon and playerDefense and enemyDefense):
+            raise Exception("Players did not select items")
+
         canPlayerAttack = self.CanAttack(self.player, playerWeapon)
         canEnemyAttack = self.CanAttack(self.enemy, enemyWeapon)
 
