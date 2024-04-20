@@ -179,7 +179,7 @@ class FightScreen(QWidget):
                 if self.player1.curHealth == 0:
                     print("Player 2 Wins!")
                 else:
-                    print("Player 1 Wins!")
+                    self.onWin()
             self.fightFlag = False
             self.fight_Btn.setEnabled(True)
             self.fightFlag = False
