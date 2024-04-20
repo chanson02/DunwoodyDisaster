@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QGroupBox, QScrollArea, QHBoxLayout
 from PySide6.QtGui import QPixmap, QPainter
 from dunwoody_disaster.CharacterFactory import Character
+from PySide6.QtCore import Qt
 
 
 class FightPreview(QWidget):
@@ -10,6 +11,8 @@ class FightPreview(QWidget):
         self.setLayout(layout)
 
         self.room_lbl = QLabel()
+        self.room_lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.room_lbl.setStyleSheet("font-size: 24px;")
         layout.addWidget(self.room_lbl)
 
         self.battlefield = QLabel()
