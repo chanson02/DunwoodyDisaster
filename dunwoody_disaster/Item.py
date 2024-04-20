@@ -80,16 +80,22 @@ class Weapon(Item):
 
     @staticmethod
     def from_json(json: dict) -> "Weapon":
-        return Weapon(json['name'], json['is_magical'], json['damage'], json['magicCost'], json['staminaCost'])
+        return Weapon(
+            json["name"],
+            json["is_magical"],
+            json["damage"],
+            json["magicCost"],
+            json["staminaCost"],
+        )
 
     def to_dict(self) -> dict:
         return {
-                'name': self.name,
-                'is_magical': self.magic,
-                'damage': self.damage,
-                'magicCost': self.magicReq,
-                'staminaCost': self.staminaCost
-                }
+            "name": self.name,
+            "is_magical": self.magic,
+            "damage": self.damage,
+            "magicCost": self.magicReq,
+            "staminaCost": self.staminaCost,
+        }
 
 
 class Food(Item):
@@ -107,14 +113,14 @@ class Armor(Item):
 
     @staticmethod
     def from_json(json: dict) -> "Armor":
-        return Armor(json['name'], json['armorVal'], json['magicDefense'])
+        return Armor(json["name"], json["armorVal"], json["magicDefense"])
 
     def to_dict(self) -> dict:
         return {
-                'name': self.name,
-                'armorVal': self.armorVal,
-                'magicDefense': self.magicDefense
-                }
+            "name": self.name,
+            "armorVal": self.armorVal,
+            "magicDefense": self.magicDefense,
+        }
 
 
 weapons = [Weapon("sword", False, 30, 0, 10), Weapon("spear", False, 30, 0, 20)]

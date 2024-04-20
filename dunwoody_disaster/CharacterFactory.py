@@ -1,5 +1,5 @@
 from dunwoody_disaster.views.meter import Meter
-#from dunwoody_disaster import ASSETS
+
 import dunwoody_disaster as DD
 from PySide6.QtGui import QColor, QPixmap
 from PySide6.QtWidgets import QLabel
@@ -14,7 +14,7 @@ class Character:
         self.classType = ""
         self.strength = 0
         self.intelligence = 0
-        self.image_path = DD.ASSETS['no_texture']
+        self.image_path = DD.ASSETS["no_texture"]
 
         # Meteres
         self.curHealth = 0
@@ -48,22 +48,22 @@ class Character:
 
     def serialize(self) -> dict:
         return {
-                'level': self.level,
-                'name': self.name,
-                'asset': DD.asset(self.image_path),
-                'class': self.classType,
-                'strength': self.strength,
-                'intelligence': self.intelligence,
-                'health': self.maxHealth,
-                'magic': self.maxMagic,
-                'stamina': self.maxStamina,
-                'defense': self.defense,
-                'magicDefense': self.magicDefense,
-                'inventory': {
-                    'weapons': [i.to_dict() for i in self.weapons],
-                    'armor': [i.to_dict() for i in self.defenses]
-                    }
-                }
+            "level": self.level,
+            "name": self.name,
+            "asset": DD.asset(self.image_path),
+            "class": self.classType,
+            "strength": self.strength,
+            "intelligence": self.intelligence,
+            "health": self.maxHealth,
+            "magic": self.maxMagic,
+            "stamina": self.maxStamina,
+            "defense": self.defense,
+            "magicDefense": self.magicDefense,
+            "inventory": {
+                "weapons": [i.to_dict() for i in self.weapons],
+                "armor": [i.to_dict() for i in self.defenses],
+            },
+        }
 
     def image(self) -> QPixmap:
         return QPixmap(self.image_path)
@@ -255,25 +255,25 @@ class CharacterFactory:
     @staticmethod
     def createFromJson(json: dict) -> Character:
         char = Character()
-        char.name = json['name']
-        char.image_path = DD.ASSETS[json['asset']]
-        char.level = json['level']
-        char.classType = json['class']
-        char.strength = json['strength']
-        char.intelligence = json['intelligence']
-        char.maxHealth = json['health']
-        char.maxMagic = json['magic']
-        char.maxStamina = json['stamina']
-        char.defense = json['defense']
-        char.magicDefense = json['magicDefense']
+        char.name = json["name"]
+        char.image_path = DD.ASSETS[json["asset"]]
+        char.level = json["level"]
+        char.classType = json["class"]
+        char.strength = json["strength"]
+        char.intelligence = json["intelligence"]
+        char.maxHealth = json["health"]
+        char.maxMagic = json["magic"]
+        char.maxStamina = json["stamina"]
+        char.defense = json["defense"]
+        char.magicDefense = json["magicDefense"]
 
-        char.set_health(json['health'])
-        char.set_magic(json['magic'])
-        char.set_stamina(json['stamina'])
+        char.set_health(json["health"])
+        char.set_magic(json["magic"])
+        char.set_stamina(json["stamina"])
 
-        for item in json['inventory']['weapons']:
+        for item in json["inventory"]["weapons"]:
             char.add_item(Item.Weapon.from_json(item))
-        for item in json['inventory']['defenses']:
+        for item in json["inventory"]["defenses"]:
             char.add_item(Item.Armor.from_json(item))
 
         return char
