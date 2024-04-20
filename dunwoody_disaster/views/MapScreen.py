@@ -36,10 +36,11 @@ class MapScreen(QWidget):
         self.image = DD.ASSETS[asset]
         self.move_character(self.char_pos[0], self.char_pos[1])
 
-    def addRoom(self, name: Optional[str], pos: tuple[int, int], NPC: Character):
+    def addRoom(self, name: Optional[str], pos: tuple[int, int], NPC: Character, battlefield: str):
         room = {
                 'name': name,
                 'coordinate': pos,
+                'battlefield': DD.ASSETS[battlefield],
                 'NPC': NPC
                 }
         self.rooms.append(room)
@@ -90,6 +91,7 @@ class MapScreen(QWidget):
             result['rooms'].append({
                 'name': room['name'],
                 'coordinate': room['coordinate'],
+                'battlefield': room['battlefield'],
                 'NPC': NPC
                 })
 
@@ -104,6 +106,21 @@ class MapScreen(QWidget):
         for room in json['rooms']:
             NPC = CharacterFactory.createFromJson(room['NPC'])
             point = (room['coordinate'][0], room['coordinate'][1])
-            map.addRoom(room['name'], point, NPC)
+            map.addRoom(room['name'], point, NPC, room['battlefield'])
 
         return map
+
+    @staticmethod
+    def build_map(char: Character) -> "MapScreen":
+        test_enemey = CharacterFactory.createTestChar()
+        test_enemey.name = 'test enemy'
+        ms = MapScreen(char, None)
+        ms.setAsset('MainMap')
+        ms.addRoom('Bus Stop', (419, 700), test_enemey, 'no_texture')
+        ms.addRoom('Court Yard', (693, 559), test_enemey, 'no_texture')
+        ms.addRoom('Commons', (451, 449), test_enemey, 'no_texture')
+        ms.addRoom('Math', (236, 359), test_enemey, 'no_texture')
+        ms.addRoom('English', (770, 366), test_enemey, 'no_texture')
+        ms.addRoom('Science', (490, 217), test_enemey, 'no_texture')
+        ms.addRoom("Dean's Office", (90, 589), test_enemey, 'no_texture')
+        return ms
