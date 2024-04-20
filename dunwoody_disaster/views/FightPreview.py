@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QGroupBox, QScrollArea, QHBoxLayout
 from PySide6.QtGui import QPixmap, QPainter
-# from dunwoody_disaster.CharacterFactory import Character
+from dunwoody_disaster.CharacterFactory import Character
 
 
 class FightPreview(QWidget):
@@ -14,6 +14,9 @@ class FightPreview(QWidget):
 
         self.battlefield = QLabel()
         layout.addWidget(self.battlefield)
+
+        self.stats = QLabel()
+        layout.addWidget(self.stats)
 
         layout.addWidget(QLabel('Inventory'))
 
@@ -47,6 +50,8 @@ class FightPreview(QWidget):
         bkg = QPixmap(room_info['battlefield']).scaledToWidth(400)
         self.battlefield.setPixmap(self.center_overlay(bkg, NPC.image().scaledToWidth(50)))
 
+        self.stats.setText(self.stat_text(NPC))
+
         for i in reversed(range(self.weapons.count())):
             widget = self.weapons.itemAt(i).widget()
             self.weapons.removeWidget(widget)
@@ -70,3 +75,10 @@ class FightPreview(QWidget):
         painter.drawPixmap(x, y, foreground)
         painter.end()
         return background
+
+    def stat_text(self, char: Character) -> str:
+        result = ""
+        result += f"Health: {char.maxHealth}\n"
+        result += f"Magic: {char.maxMagic}\n"
+        result += f"Stamina: {char.maxStamina}\n"
+        return result
