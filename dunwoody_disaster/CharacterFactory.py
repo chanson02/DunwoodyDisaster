@@ -142,15 +142,6 @@ class CharacterFactory:
             "level": 1,
             "loot": [],
             "food": [],
-            "mapImageArray": [
-                ASSETS[img]
-                for img in [
-                    "MainMap_Coop_bus",
-                    "MainMap_Coop_Classroom1",
-                    "MainMap_Coop_Classroom2",
-                    "MainMap_Coop_Courtyard",
-                ]
-            ],
         },
         "warrior": {
             "health": 100,
@@ -211,7 +202,6 @@ class CharacterFactory:
         character.maxHealth = data["health"]
         character.maxMagic = data["magic"]
         character.maxStamina = data["stamina"]
-        character.mapImageArray = data["mapImageArray"]
 
         character.strength = data["strength"]
         character.intelligence = data["intelligence"]

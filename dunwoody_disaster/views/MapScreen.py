@@ -56,4 +56,4 @@ class MapScreen(QWidget):
         self.move_character(point.x(), point.y())
 
     def pixmap(self):
-        return QPixmap(DD.ASSETS["MainMap_Coop_bus"])
+        return QPixmap(DD.ASSETS["MainMap"])
