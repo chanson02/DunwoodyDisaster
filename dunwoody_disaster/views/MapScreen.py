@@ -16,19 +16,20 @@ class MapScreen(QWidget):
         self.mainLayout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(self.mainLayout)
 
-        map = QPixmap(DD.ASSETS['MainMap_Coop_bus'])
-        overlay = QPixmap(DD.ASSETS['cooper']).scaledToWidth(80)
-        lbl = QLabel()
-        lbl.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
-        self.mainLayout.addWidget(lbl)
-
-        painter = QPainter(map)
-        painter.setCompositionMode(QPainter.CompositionMode_SourceOver)
-        x = 100
-        y = 100
-        painter.drawPixmap(x, y, overlay)
-        painter.end()
-        lbl.setPixmap(map)
+        self.map_pixmap = QPixmap(DD.ASSETS['MainMap_Coop_bus'])
+        self.map_widget = QLabel()
+        self.map_widget.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
+        self.mainLayout.addWidget(self.map_widget)
+        # overlay = QPixmap(DD.ASSETS['cooper']).scaledToWidth(80)
+        # self.mainLayout.addWidget(lbl)
+        #
+        # painter = QPainter(map)
+        # painter.setCompositionMode(QPainter.CompositionMode_SourceOver)
+        # x = 100
+        # y = 100
+        # painter.drawPixmap(x, y, overlay)
+        # painter.end()
+        # lbl.setPixmap(map)
 
 
         # self.mapPic = QLabel("")
@@ -49,5 +50,17 @@ class MapScreen(QWidget):
             self.mapPic.setPixmap(QPixmap(self.imagePaths[self.currImgIndex]))
             print("right")
 
+    def move_character(self, x: int, y: int):
+        map_pixmap = QPixmap(DD.ASSETS['MainMap_Coop_bus'])
+        painter = QPainter(self.map_pixmap)
+        overlay = QPixmap(DD.ASSETS['cooper']).scaledToWidth(80)
+        painter.drawPixmap(x, y, overlay)
+        self.map_widget.setPixmap(self.map_pixmap)
+        self.repaint()
+
+
     def mousePressEvent(self, event: QMouseEvent):
-        print('You clicked on ', event.pos())
+        point = event.pos()
+        print(point)
+        self.move_character(point.x(), point.y())
+        #import pdb; pdb.set_trace()
