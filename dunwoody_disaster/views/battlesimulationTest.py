@@ -1,83 +1,160 @@
 import pygame
 import sys
 
-# Initialize Pygame
-pygame.init()
 
-# Set initial screen dimensions
-SCREEN_WIDTH, SCREEN_HEIGHT = 800, 600  # Set default dimensions if needed
-# Create a resizable screen with the default dimensions
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.RESIZABLE)
-pygame.display.set_caption("Pokémon Battle Simulator")
+class Game:
+    def __init__(self):
+        pygame.init()
+        self.setup_screen()
+        self.load_resources()
+        self.clock = pygame.time.Clock()
+        self.running = True
+        self.FPS = 60
+        self.player_health = 100
+        self.enemy_health = 100
+        self.player_turn = True
 
-# Load images after initializing the screen
-background_img = pygame.image.load(
-    "DunwoodyDisaster/dunwoody_disaster/assets/background.jpg"
-).convert()
+    def load_resources(self):
+        self.background_img = pygame.image.load(
+            "Class/DunwoodyDisaster/dunwoody_disaster/assets/background.jpg"
+        ).convert()
 
-# Optionally, adjust the screen size to match the background image dimensions
-SCREEN_WIDTH, SCREEN_HEIGHT = background_img.get_width(), background_img.get_height()
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.RESIZABLE)
+    def setup_screen(self):
+        self.screen = pygame.display.set_mode((800, 600), pygame.RESIZABLE)
+        pygame.display.set_caption("Pokémon Battle Simulator")
 
-# Game variables
-player_health = 100
-enemy_health = 100
-clock = pygame.time.Clock()  # Create a clock object
-FPS = 60  # Frames per second
+    def draw_battle(self):
+        # Scale the background
+        scaled_bg = pygame.transform.scale(
+            self.background_img, (self.screen.get_width(), self.screen.get_height())
+        )
+        self.screen.blit(scaled_bg, (0, 0))
 
+        User_Sprite_x = 0.23
+        User_Sprite_y = 0.60
 
-def draw_battle(screen, background_img):
-    # Redraw background to fit the new window size
-    scaled_bg = pygame.transform.scale(
-        background_img, (screen.get_width(), screen.get_height())
-    )
-    screen.blit(scaled_bg, (0, 0))
-    pygame.display.flip()  # Update display after drawing
+        Enemy_Sprite_x = 0.90
+        Enemy_Sprite_y = 0.25
 
+        # Calculate the position of the user sprite on current screen size
+        UserSprite_pos_x = int(self.screen.get_width() * User_Sprite_x)
+        UserSprite_pos_y = int(self.screen.get_height() * User_Sprite_y)
 
-def attack(target):
-    return max(target - 20, 0)
+        # Calculate the position of the enemy sprite on current screen size
+        EnemySprite_pos_x = int(self.screen.get_height() * Enemy_Sprite_x)
+        EnemySprite_pos_y = int(self.screen.get_height() * Enemy_Sprite_y)
 
+        # User Sprite Loadout
+        sprite_image_user = pygame.image.load(
+            "Class/DunwoodyDisaster/dunwoody_disaster/assets/CooperModel.png"
+        ).convert_alpha()
+        sprite_image_user = pygame.transform.scale(
+            sprite_image_user, (100, 100)
+        )  # Scaling sprite to a fixed size, adjust as needed
 
-def heal(target):
-    # Function to heal the target, increasing health by 15 points, up to a maximum of 100.
-    return min(target + 15, 100)  # Ensure health does not exceed 100
+        # Draw the sprite at the calculated position
+        self.screen.blit(sprite_image_user, (UserSprite_pos_x, UserSprite_pos_y))
 
+        # Enemy Sprite Loadout
+        sprite_image_enemy = pygame.image.load(
+            "Class/DunwoodyDisaster/dunwoody_disaster/assets/RyanRengo.jpg"
+        ).convert_alpha()
+        sprite_image_enemy = pygame.transform.scale(
+            sprite_image_enemy, (100, 100)
+        )  # Scaling sprite to a fixed size, adjust as needed
 
-def main():
-    global screen  # Declare global if screen might be reassigned within this function
-    running = True
-    player_turn = True
+        # Draw enemy sprite at calculated location
+        self.screen.blit(sprite_image_enemy, (EnemySprite_pos_x, EnemySprite_pos_y))
 
-    while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    # Attack and switch turns
-                    global enemy_health, player_health
-                    if player_turn:
-                        enemy_health = attack(enemy_health)
-                    else:
-                        player_health = attack(player_health)
-                    player_turn = not player_turn  # Switch turn after action
-                elif event.key == pygame.K_h:
-                    # Heal the player if it's their turn
-                    if player_turn:
-                        player_health = heal(player_health)
-            elif event.type is pygame.VIDEORESIZE:
-                # Update the screen object to new size
-                screen = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
-                draw_battle(screen, background_img)
-
-        draw_battle(screen, background_img)
+        # Update the display
         pygame.display.flip()
-        clock.tick(FPS)
 
-    pygame.quit()
-    sys.exit()
+    def run(self):
+        while self.running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.running = False
+                elif event.type == pygame.VIDEORESIZE:
+                    self.screen = pygame.display.set_mode(
+                        (event.w, event.h), pygame.RESIZABLE
+                    )
+                self.handle_events(event)
+            self.draw_battle()
+            self.clock.tick(self.FPS)
+        pygame.quit()
+        sys.exit()
+
+    def handle_events(self, event):
+        # Handle keypresses and other events
+        pass
+
+
+class Battle(Game):
+    def __init__(self):
+        super().__init__()
+        self.player_health = 100
+        self.enemy_health = 100
+        self.player_turn = True
+
+    def draw_battle(self):
+        # Draw the background
+        self.screen.blit(self.background_img, (0, 0))
+
+        # Draw the player's health bar
+        player_health_bar_width = int(self.screen.get_width() * 0.2)
+        player_health_bar_height = 20
+        player_health_bar_x = self.screen.get_width() - player_health_bar_width - 10
+        player_health_bar_y = self.screen.get_height() - player_health_bar_height - 10
+        pygame.draw.rect(
+            self.screen,
+            (0, 255, 0),
+            (
+                player_health_bar_x,
+                player_health_bar_y,
+                player_health_bar_width,
+                player_health_bar_height,
+            ),
+        )
+        pygame.draw.rect(
+            self.screen,
+            (255, 0, 0),
+            (
+                player_health_bar_x,
+                player_health_bar_y,
+                player_health_bar_width * (self.player_health / 100),
+                player_health_bar_height,
+            ),
+        )
+
+        # Draw the enemy's health bar
+        enemy_health_bar_width = int(self.screen.get_width() * 0.2)
+        enemy_health_bar_height = 20
+        enemy_health_bar_x = 10
+        enemy_health_bar_y = self.screen.get_height() - enemy_health_bar_height - 10
+        pygame.draw.rect(
+            self.screen,
+            (0, 255, 0),
+            (
+                enemy_health_bar_x,
+                enemy_health_bar_y,
+                enemy_health_bar_width,
+                enemy_health_bar_height,
+            ),
+        )
+        pygame.draw.rect(
+            self.screen,
+            (255, 0, 0),
+            (
+                enemy_health_bar_x,
+                enemy_health_bar_y,
+                enemy_health_bar_width * (self.enemy_health / 100),
+                enemy_health_bar_height,
+            ),
+        )
+
+        # Draw the player's and
 
 
 if __name__ == "__main__":
-    main()
+    game = Game()
+    game.run()
