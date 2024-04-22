@@ -12,7 +12,7 @@ pygame.display.set_caption("Pokémon Battle Simulator")
 
 # Load images after initializing the screen
 background_img = pygame.image.load(
-    "DunwoodyDisaster/dunwoody_disaster/assets/background.jpg"
+    "Class/DunwoodyDisaster/dunwoody_disaster/assets/background.jpg"
 ).convert()
 
 # Optionally, adjust the screen size to match the background image dimensions
