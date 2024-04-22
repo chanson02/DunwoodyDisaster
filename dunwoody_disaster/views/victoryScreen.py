@@ -15,7 +15,7 @@ class VictoryScreen(QWidget):
         layout.setAlignment(Qt.AlignmentFlag.AlignTop)
         self.setLayout(layout)
 
-        lbl = QLabel(f"Congradulations {fight_controller.player.name}! You Win!")
+        lbl = QLabel(f"Congratulations {fight_controller.player.name}! You Win!")
         lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(lbl)
 
