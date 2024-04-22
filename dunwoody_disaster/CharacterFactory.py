@@ -1,5 +1,6 @@
 from dunwoody_disaster.views.meter import Meter
-from dunwoody_disaster import ASSETS
+
+import dunwoody_disaster as DD
 from PySide6.QtGui import QColor, QPixmap
 from PySide6.QtWidgets import QLabel
 from dunwoody_disaster import Item
@@ -13,6 +14,7 @@ class Character:
         self.classType = ""
         self.strength = 0
         self.intelligence = 0
+        self.image_path = DD.ASSETS["no_texture"]
 
         # Meteres
         self.curHealth = 0
@@ -21,7 +23,6 @@ class Character:
         self.maxMagic = 0
         self.curStamina = 0
         self.maxStamina = 0
-        self.mapImageArray = []
 
         self.inventory_capacity = 100
 
@@ -45,8 +46,27 @@ class Character:
         self.weapons = []
         self.defenses = []
 
+    def serialize(self) -> dict:
+        return {
+            "level": self.level,
+            "name": self.name,
+            "asset": DD.asset(self.image_path),
+            "class": self.classType,
+            "strength": self.strength,
+            "intelligence": self.intelligence,
+            "health": self.maxHealth,
+            "magic": self.maxMagic,
+            "stamina": self.maxStamina,
+            "defense": self.defense,
+            "magicDefense": self.magicDefense,
+            "inventory": {
+                "weapons": [i.to_dict() for i in self.weapons],
+                "armor": [i.to_dict() for i in self.defenses],
+            },
+        }
+
     def image(self) -> QPixmap:
-        return QPixmap(ASSETS["ready"])
+        return QPixmap(self.image_path)
 
     def set_health(self, health: int):
         self.curHealth = min(self.maxHealth, max(0, health))
@@ -142,15 +162,6 @@ class CharacterFactory:
             "level": 1,
             "loot": [],
             "food": [],
-            "mapImageArray": [
-                ASSETS[img]
-                for img in [
-                    "MainMap_Coop_bus",
-                    "MainMap_Coop_Classroom1",
-                    "MainMap_Coop_Classroom2",
-                    "MainMap_Coop_Courtyard",
-                ]
-            ],
         },
         "warrior": {
             "health": 100,
@@ -211,7 +222,6 @@ class CharacterFactory:
         character.maxHealth = data["health"]
         character.maxMagic = data["magic"]
         character.maxStamina = data["stamina"]
-        character.mapImageArray = data["mapImageArray"]
 
         character.strength = data["strength"]
         character.intelligence = data["intelligence"]
@@ -241,3 +251,29 @@ class CharacterFactory:
         """
         character = CharacterFactory.createCharacter("Test-Char", "blank")
         return character
+
+    @staticmethod
+    def createFromJson(json: dict) -> Character:
+        char = Character()
+        char.name = json["name"]
+        char.image_path = DD.ASSETS[json["asset"]]
+        char.level = json["level"]
+        char.classType = json["class"]
+        char.strength = json["strength"]
+        char.intelligence = json["intelligence"]
+        char.maxHealth = json["health"]
+        char.maxMagic = json["magic"]
+        char.maxStamina = json["stamina"]
+        char.defense = json["defense"]
+        char.magicDefense = json["magicDefense"]
+
+        char.set_health(json["health"])
+        char.set_magic(json["magic"])
+        char.set_stamina(json["stamina"])
+
+        for item in json["inventory"]["weapons"]:
+            char.add_item(Item.Weapon.from_json(item))
+        for item in json["inventory"]["defenses"]:
+            char.add_item(Item.Armor.from_json(item))
+
+        return char

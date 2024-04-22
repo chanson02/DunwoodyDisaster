@@ -60,6 +60,7 @@ class StartMenu(QWidget):
         """
         A callback function that executes when the user presses start
         """
+        self.startButton.clicked.disconnect()
         self.startButton.clicked.connect(callback)
 
     def paintEvent(self, event):

@@ -13,6 +13,9 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Dunwoody-Disaster")
         self.setStyleSheet("background-color: #2f2f2f;")
         self.player = None
+        dimensions = QApplication.primaryScreen().size()
+        self.setMaximumWidth(dimensions.width())
+        self.setMaximumHeight(dimensions.height())
 
         player1 = CharacterFactory.createTestChar()
         player2 = CharacterFactory.createTestChar()
@@ -42,7 +45,7 @@ class MainWindow(QMainWindow):
 
     def userSelectedCharacter(self, character: Character):
         self.player = character
-        self.mapScreen = MapScreen(self.player)
+        self.mapScreen = MapScreen(self.player, None)
         self.stack.addWidget(self.mapScreen)
         self.showMapScreen()
 
