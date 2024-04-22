@@ -2,7 +2,7 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel
 from PySide6.QtGui import QPixmap
 from PySide6.QtCore import Qt
 
-from dunwoody_disaster import ASSETS
+import dunwoody_disaster as DD
 
 # Stats for the items
 # Add items as needed under its respective category
@@ -18,10 +18,10 @@ class Item:
         self.name = name
         self.stats = {}
 
-        if name in ASSETS:
-            self.image = ASSETS[name]
+        if name in DD.ASSETS:
+            self.image = DD.ASSETS[name]
         else:
-            self.image = ASSETS["no_texture"]
+            self.image = DD.ASSETS["no_texture"]
 
     def __str__(self) -> str:
         return f"Item({self.name}, {self.stats})"
@@ -64,6 +64,10 @@ class Item:
         widget.setMinimumWidth(min_width)
         return widget
 
+    def to_dict(self) -> dict:
+        DD.unimplemented()
+        return {}
+
 
 class Weapon(Item):
     def __init__(self, name, magic, damage, magicCost, staminaCost):
@@ -73,6 +77,25 @@ class Weapon(Item):
         self.damage = damage
         self.magicReq = magicCost
         self.staminaCost = staminaCost
+
+    @staticmethod
+    def from_json(json: dict) -> "Weapon":
+        return Weapon(
+            json["name"],
+            json["is_magical"],
+            json["damage"],
+            json["magicCost"],
+            json["staminaCost"],
+        )
+
+    def to_dict(self) -> dict:
+        return {
+            "name": self.name,
+            "is_magical": self.magic,
+            "damage": self.damage,
+            "magicCost": self.magicReq,
+            "staminaCost": self.staminaCost,
+        }
 
 
 class Food(Item):
@@ -87,6 +110,17 @@ class Armor(Item):
         self.stats = ArmorStats[name]
         self.magicDefense = magicDefense
         self.armorVal = armorVal
+
+    @staticmethod
+    def from_json(json: dict) -> "Armor":
+        return Armor(json["name"], json["armorVal"], json["magicDefense"])
+
+    def to_dict(self) -> dict:
+        return {
+            "name": self.name,
+            "armorVal": self.armorVal,
+            "magicDefense": self.magicDefense,
+        }
 
 
 weapons = [Weapon("sword", False, 30, 0, 10), Weapon("spear", False, 30, 0, 20)]

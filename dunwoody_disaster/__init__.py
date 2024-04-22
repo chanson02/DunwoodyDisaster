@@ -12,6 +12,13 @@ for fname in os.listdir(asset_dir):
         ASSETS[key] = path
 
 
+def asset(path: str) -> str:
+    """
+    Get an asset name from a path
+    """
+    return os.path.splitext(os.path.basename(path))[0]
+
+
 def spacer(height: int) -> QSpacerItem:
     """
     Create an invisible vertical spacer to separate UI elements.
