@@ -8,19 +8,22 @@ from PySide6.QtWidgets import (
     QSpacerItem,
     QSizePolicy,
     QPushButton,
+    QStackedLayout,
 )
 from dunwoody_disaster.views.arsenal import Arsenal
 import dunwoody_disaster as DD
-from dunwoody_disaster.CharacterFactory import CharacterFactory
 from dunwoody_disaster.CharacterFactory import Character
 from dunwoody_disaster.views.characterState import CharacterState
 from dunwoody_disaster.views.action_selector import ActionSelector
-from FightSequence import FightSequence
+from dunwoody_disaster.FightSequence import FightSequence
+from dunwoody_disaster.views.victoryScreen import VictoryScreen
 
 
 class FightScreen(QWidget):
     def __init__(self, player1: Character, player2: Character):
+        self.fightFlag = False
         super().__init__()
+        self.stacked_layout = QStackedLayout()
 
         self.player1 = player1
         self.player2 = player2
@@ -31,10 +34,14 @@ class FightScreen(QWidget):
         self.doneFlag = False
 
         self.setStyleSheet("background-color: black;")
+        self.mainWidget = QWidget()
         self.mainLayout = QGridLayout()
+        self.mainWidget.setLayout(self.mainLayout)
         self.mainLayout.setSpacing(0)
         self.mainLayout.setContentsMargins(0, 0, 0, 0)
-        self.setLayout(self.mainLayout)
+        # self.setLayout(self.mainLayout)
+        self.stacked_layout.addWidget(self.mainWidget)
+        self.setLayout(self.stacked_layout)
 
         row = 0
         colm = 0
@@ -71,8 +78,6 @@ class FightScreen(QWidget):
 
         ####################
         # This is the middle section of the screen ##############
-        self.player1 = CharacterFactory.createTestChar()
-        self.player2 = CharacterFactory.createTestChar()
         self.fightSequence = FightSequence(self.player1, self.player2)
         p1 = CharacterState(self.player1)
         p2 = CharacterState(self.player2)
@@ -173,6 +178,13 @@ class FightScreen(QWidget):
                 if self.player1.curHealth == 0:
                     print("Player 2 Wins!")
                 else:
-                    print("Player 1 Wins!")
+                    self.onWin()
             self.fightFlag = False
             self.fight_Btn.setEnabled(True)
+            self.fightFlag = False
+            self.fight_Btn.setEnabled(True)
+
+    def onWin(self):
+        vc = VictoryScreen(self.fightSequence)
+        self.stacked_layout.addWidget(vc)
+        self.stacked_layout.setCurrentWidget(vc)
