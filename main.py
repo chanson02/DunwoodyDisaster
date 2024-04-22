@@ -36,7 +36,7 @@ class MainWindow(QMainWindow):
 
 
 if __name__ == "__main__":
-    app = QApplication()  # Create an instance of QApplication
-    MainWindow = MainWindow()  # Create an instance of MainWindow
-    MainWindow.show()  # Show the Main window in windowed mode
-    sys.exit(app.exec())  # Start the application's event loop and exit when it finishes
+    app = QApplication()
+    mw = MainWindow()
+    mw.show()
+    sys.exit(app.exec())

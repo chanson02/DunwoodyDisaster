@@ -1,3 +1,5 @@
+from dunwoody_disaster.CharacterFactory import CharacterFactory
+from dunwoody_disaster.views.fightScreen import FightScreen
 from PySide6.QtWidgets import (
     QApplication,
     QWidget,
@@ -10,8 +12,6 @@ from PySide6.QtWidgets import (
 
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap, QPainter
-
-# from dunwoody_disaster.views.MapScreen import MapScreen
 from dunwoody_disaster import ASSETS
 
 
@@ -63,6 +63,14 @@ class StartMenu(QWidget):
         painter = QPainter(self)  # Create a QPainter object for drawing
         pixmap = self.background_pixmap.scaledToWidth(400)
         painter.drawPixmap(self.rect(), pixmap)  # Draw the scaled pixmap on the window
+
+    def startGame(self):
+        print("clicked")
+        # self.game_page = MapScreen()  # Create an instance of the GamePage
+        player1 = CharacterFactory.createTestChar()
+        player2 = CharacterFactory.createTestChar()
+        self.game_page = FightScreen(player1, player2)
+        self.game_page.show()  # Show a message box when the start game button is clicked
 
     def exitGame(self):
         reply = QMessageBox.question(

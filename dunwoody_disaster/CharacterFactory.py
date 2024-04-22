@@ -1,8 +1,8 @@
 from dunwoody_disaster.views.meter import Meter
-from PySide6.QtGui import QColor
+from dunwoody_disaster import ASSETS
+from PySide6.QtGui import QColor, QPixmap
 from PySide6.QtWidgets import QLabel
 from dunwoody_disaster import Item
-from dunwoody_disaster import ASSETS
 
 
 class Character:
@@ -44,6 +44,9 @@ class Character:
         self.food = []
         self.weapons = []
         self.defenses = []
+
+    def image(self) -> QPixmap:
+        return QPixmap(ASSETS["ready"])
 
     def set_health(self, health: int):
         self.curHealth = min(self.maxHealth, max(0, health))
