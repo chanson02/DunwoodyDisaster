@@ -97,11 +97,14 @@ class Game:
         )
 
     def draw_battle(self):
+        # Scale the background image to fit the current size of the screen.
         scaled_bg = pygame.transform.scale(
             self.background_img, (self.screen.get_width(), self.screen.get_height())
         )
+        # Blit (copy) the scaled background image onto the screen at position (0, 0).
         self.screen.blit(scaled_bg, (0, 0))
 
+        # Calculate positions for user and enemy sprites as a percentage of screen size.
         UserSprite_pos = (
             int(self.screen.get_width() * 0.23),
             int(self.screen.get_height() * 0.60),
@@ -111,12 +114,16 @@ class Game:
             int(self.screen.get_height() * 0.25),
         )
 
+        # Scale the user sprite image to a fixed size of (80, 100) pixels.
         user_sprite_scaled = pygame.transform.scale(self.sprite_image_user, (80, 100))
+        # Scale the enemy sprite image to a fixed size of (100, 100) pixels.
         enemy_sprite_scaled = pygame.transform.scale(
             self.sprite_image_enemy, (100, 100)
         )
 
+        # Blit the scaled user sprite to the calculated position on the screen.
         self.screen.blit(user_sprite_scaled, UserSprite_pos)
+        # Blit the scaled enemy sprite to the calculated position on the screen.
         self.screen.blit(enemy_sprite_scaled, EnemySprite_pos)
 
         self.draw_health_bars()
