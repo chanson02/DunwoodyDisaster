@@ -1,26 +1,28 @@
+from typing import Callable
+
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QPainter, QPixmap
 from PySide6.QtWidgets import (
     QApplication,
-    QWidget,
-    QVBoxLayout,
     QHBoxLayout,
-    QPushButton,
     QLabel,
+    QMessageBox,
+    QPushButton,
+    QVBoxLayout,
+    QWidget,
 )
-from PySide6.QtCore import Qt
-from PySide6.QtGui import QPixmap, QPainter
-from dunwoody_disaster import ASSETS
+
+from dunwoody_disaster import ASSETS, unimplemented
 
 
 class StartMenu(QWidget):
     def __init__(self):
-        super().__init__()  # Call the constructor of the parent class (QWidget)
-        self.background_pixmap = QPixmap(
-            ASSETS["TitleScreen"]
-        )  # Load the image as a QPixmap
-        self.initUI()  # Initialize the user interface
+        super().__init__()
+        self.background_pixmap = QPixmap(ASSETS["TitleScreen"])
+        self.initUI()
 
     def initUI(self):
-        self.setWindowTitle("Game Start Menu")  # Set the window title
+        self.setWindowTitle("Game Start Menu")
 
         screen_size = (
             QApplication.primaryScreen().size()
@@ -39,9 +41,12 @@ class StartMenu(QWidget):
         button_layout = QHBoxLayout()
 
         self.startButton = QPushButton("Start Game")
+        self.startButton.clicked.connect(unimplemented)
+
         button_layout.addWidget(self.startButton)
 
         self.exitButton = QPushButton("Exit")
+        self.exitButton.clicked.connect(self.exitGame)
         button_layout.addWidget(
             self.exitButton
         )  # Add the exit button to the button layout
@@ -51,11 +56,26 @@ class StartMenu(QWidget):
         )  # Add a stretchable space to push the buttons to the bottom
         main_layout.addLayout(button_layout)  # Add the button layout to the main layout
 
+    def onStart(self, callback: Callable):
+        """
+        A callback function that executes when the user presses start
+        """
+        self.startButton.clicked.disconnect()
+        self.startButton.clicked.connect(callback)
+
     def paintEvent(self, event):
+        _ = event  # silence unused warning
         painter = QPainter(self)  # Create a QPainter object for drawing
         pixmap = self.background_pixmap.scaledToWidth(400)
-        """pixmap = self.background_pixmap.scaled(
-            self.size(), Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation
-        )  # Scale the background image to fill the window """
-
         painter.drawPixmap(self.rect(), pixmap)  # Draw the scaled pixmap on the window
+
+    def exitGame(self):
+        reply = QMessageBox.question(
+            self,
+            "Exit",
+            "Are you sure you want to exit?",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+            QMessageBox.StandardButton.No,
+        )
+        if reply == QMessageBox.StandardButton.Yes:
+            self.close()

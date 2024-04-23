@@ -1,46 +1,151 @@
-"""
-The entry point for the game
-"""
-
+from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout
+from PySide6.QtGui import QPixmap, QKeyEvent, QPainter, QMouseEvent
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QGridLayout, QWidget, QLabel
-from PySide6.QtGui import QPixmap, QKeyEvent
-from typing import Callable
-from dunwoody_disaster import ASSETS
+
+from dunwoody_disaster.views.FightPreview import FightPreview
+import dunwoody_disaster as DD
+from dunwoody_disaster.CharacterFactory import Character, CharacterFactory
+from typing import Optional, Callable
+from math import sqrt
 
 
 class MapScreen(QWidget):
-    """ """
-
-    def __init__(self, callToMain: Callable):
+    def __init__(self, character: Character, entryPoint: Optional[tuple[int, int]]):
         super().__init__()
-        self.fighCallback = callToMain
-        self.mainLayout = QGridLayout(spacing=0)
-        self.mainLayout.setContentsMargins(0, 0, 0, 0)
-        self.setLayout(self.mainLayout)
+        self._callback = DD.unimplemented
+        self.character = character
+        self.image = DD.ASSETS["no_texture"]
+        self.rooms = []
+        self.current_room: Optional[dict] = None
 
-        self.mapPic = QLabel("")
-        self.mapPic.setPixmap(QPixmap(ASSETS["CourtYard"]))
-        self.mainLayout.addWidget(self.mapPic, 0, 0)
+        if entryPoint:
+            self.char_pos = entryPoint
+        else:
+            self.char_pos = (-1, 0)
 
-        self.imagePaths = [
-            ASSETS[img]
-            for img in ["CourtYard", "LectureHall", "Physics", "Science Lab"]
-        ]
+        self.init_ui()
 
-        self.currImgIndex = 0
+    def onEnter(self, callback: Callable):
+        self._callback = callback
+
+    def init_ui(self):
+        # layout = QGridLayout()
+        layout = QHBoxLayout()
+        layout.setSpacing(0)
+        layout.setContentsMargins(0, 0, 0, 0)
+        self.setLayout(layout)
+
+        self.map = QLabel()
+        self.map.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
+        self.move_character(-1, 0)
+        layout.addWidget(self.map)
+
+        self.preview = FightPreview()
+        # self.preview.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignRight)
+        layout.addWidget(self.preview)
+
+    def setAsset(self, asset: str):
+        self.image = DD.ASSETS[asset]
+        self.move_character(self.char_pos[0], self.char_pos[1])
+
+    def addRoom(
+        self,
+        name: Optional[str],
+        pos: tuple[int, int],
+        NPC: Character,
+        battlefield: str,
+    ):
+        room = {
+            "name": name,
+            "coordinate": pos,
+            "battlefield": DD.ASSETS[battlefield],
+            "NPC": NPC,
+        }
+        self.rooms.append(room)
+
+    def findClosestRoom(self, x: int, y: int) -> Optional[dict]:
+        closest = None
+        min_dist = float("inf")
+
+        for room in self.rooms:
+            room_pos = room["coordinate"]
+            distance = sqrt((x - room_pos[0]) ** 2 + (y - room_pos[1]) ** 2)
+            if distance < min_dist:
+                min_dist = distance
+                closest = room
+
+        return closest
 
     def keyPressEvent(self, event: QKeyEvent):
-        if event.key() == Qt.Key_Left:
-            self.currImgIndex = (self.currImgIndex - 1) % len(self.imagePaths)
-            self.mapPic.setPixmap(QPixmap(self.imagePaths[self.currImgIndex]))
-            print("left")
+        if event.key() == Qt.Key.Key_Return:
+            print('this ran')
+            self._callback()
 
-        elif event.key() == Qt.Key.Key_Right:
-            self.currImgIndex = (self.currImgIndex + 1) % len(self.imagePaths)
-            self.mapPic.setPixmap(QPixmap(self.imagePaths[self.currImgIndex]))
-            print("right")
+    def move_character(self, x: int, y: int):
+        self.char_pos = (x, y)
+        if x < 0:
+            self.map.setPixmap(self.pixmap())
+            return
 
-        elif event.key() == Qt.Key_Return:
-            self.fighCallback()
-            pass
+        map_pixmap = self.pixmap()
+        painter = QPainter(map_pixmap)
+        overlay = QPixmap(self.character.image()).scaledToWidth(80)
+        painter.drawPixmap(x, y, overlay)
+        painter.end()
+        self.map.setPixmap(map_pixmap)
+        self.repaint()
+
+    def mousePressEvent(self, event: QMouseEvent):
+        point = event.pos()
+        self.current_room = self.findClosestRoom(point.x(), point.y())
+        if self.current_room:
+            pos = self.current_room["coordinate"]
+            self.move_character(pos[0], pos[1])
+            self.preview.set_room(self.current_room)
+
+    def pixmap(self):
+        return QPixmap(self.image)
+
+    def serialize(self) -> dict:
+        result = {"asset": DD.asset(self.image), "entry_point": None, "rooms": []}
+
+        for room in self.rooms:
+            NPC = room["NPC"].serialize()
+            result["rooms"].append(
+                {
+                    "name": room["name"],
+                    "coordinate": room["coordinate"],
+                    "battlefield": room["battlefield"],
+                    "NPC": NPC,
+                }
+            )
+
+        return result
+
+    @staticmethod
+    def from_json(json: dict, char: Character) -> "MapScreen":
+        ep = (json["entry_point"][0], json["entry_point"][1])
+        map = MapScreen(char, ep)
+        map.setAsset(json["asset"])
+
+        for room in json["rooms"]:
+            NPC = CharacterFactory.createFromJson(room["NPC"])
+            point = (room["coordinate"][0], room["coordinate"][1])
+            map.addRoom(room["name"], point, NPC, room["battlefield"])
+
+        return map
+
+    @staticmethod
+    def build_map(char: Character) -> "MapScreen":
+        test_enemy = CharacterFactory.createTestChar()
+        test_enemy.name = "test enemy"
+        ms = MapScreen(char, None)
+        ms.setAsset("MainMap")
+        ms.addRoom("Bus Stop", (419, 700), test_enemy, "no_texture")
+        ms.addRoom("Court Yard", (693, 559), test_enemy, "no_texture")
+        ms.addRoom("Commons", (451, 449), test_enemy, "no_texture")
+        ms.addRoom("Math", (236, 359), test_enemy, "no_texture")
+        ms.addRoom("English", (770, 366), test_enemy, "no_texture")
+        ms.addRoom("Science", (490, 217), test_enemy, "no_texture")
+        ms.addRoom("Dean's Office", (90, 589), test_enemy, "no_texture")
+        return ms

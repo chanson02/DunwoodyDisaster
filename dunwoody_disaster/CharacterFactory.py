@@ -1,5 +1,7 @@
 from dunwoody_disaster.views.meter import Meter
-from PySide6.QtGui import QColor
+
+import dunwoody_disaster as DD
+from PySide6.QtGui import QColor, QPixmap
 from PySide6.QtWidgets import QLabel
 from dunwoody_disaster import Item
 
@@ -10,7 +12,11 @@ class Character:
         self.level = 0
         self.name = ""
         self.classType = ""
+        self.strength = 0
+        self.intelligence = 0
+        self.image_path = DD.ASSETS["no_texture"]
 
+        # Meteres
         self.curHealth = 0
         self.maxHealth = 0
         self.curMagic = 0
@@ -21,8 +27,11 @@ class Character:
         self.inventory_capacity = 100
 
         self.health_lbl = QLabel(f"Health: {self.curHealth}")
+        self.health_lbl.setStyleSheet("color: white; font-size: 24px;")
         self.magic_lbl = QLabel(f"Magic: {self.curMagic}")
+        self.magic_lbl.setStyleSheet("color: white; font-size: 24px;")
         self.stamina_lbl = QLabel(f"Stamina: {self.curStamina}")
+        self.stamina_lbl.setStyleSheet("color: white; font-size: 24px;")
         self.health_meter = Meter(QColor(255, 0, 0), 100)
         self.magic_meter = Meter(QColor(200, 0, 200), 100)
         self.stamina_meter = Meter(QColor(50, 50, 50), 100)
@@ -37,31 +46,53 @@ class Character:
         self.weapons = []
         self.defenses = []
 
+    def serialize(self) -> dict:
+        return {
+            "level": self.level,
+            "name": self.name,
+            "asset": DD.asset(self.image_path),
+            "class": self.classType,
+            "strength": self.strength,
+            "intelligence": self.intelligence,
+            "health": self.maxHealth,
+            "magic": self.maxMagic,
+            "stamina": self.maxStamina,
+            "defense": self.defense,
+            "magicDefense": self.magicDefense,
+            "inventory": {
+                "weapons": [i.to_dict() for i in self.weapons],
+                "armor": [i.to_dict() for i in self.defenses],
+            },
+        }
+
+    def image(self) -> QPixmap:
+        return QPixmap(self.image_path)
+
     def set_health(self, health: int):
-        self.curHealth = health
+        self.curHealth = min(self.maxHealth, max(0, health))
         if self.maxHealth == 0:
             percentage = 0
         else:
-            percentage = (health // self.maxHealth) * 100
-        self.health_lbl = QLabel(f"Health: {self.curHealth}")
+            percentage = (health / self.maxHealth) * 100
+        self.health_lbl.setText(f"Health: {self.curHealth}")
         self.health_meter.setPercentage(percentage)
 
     def set_magic(self, magic: int):
-        self.curMagic = magic
+        self.curMagic = min(self.maxMagic, max(0, magic))
         if self.maxMagic == 0:
             percentage = 0
         else:
-            percentage = (magic // self.maxMagic) * 100
-        self.magic_lbl = QLabel(f"Magic: {self.curMagic}")
+            percentage = (magic / self.maxMagic) * 100
+        self.magic_lbl.setText(f"Magic: {self.curMagic}")
         self.magic_meter.setPercentage(percentage)
 
     def set_stamina(self, stamina: int):
-        self.curStamina = stamina
+        self.curStamina = min(self.maxStamina, max(0, stamina))
         if self.maxStamina == 0:
             percentage = 0
         else:
-            percentage = (stamina // self.maxStamina) * 100
-        self.stamina_lbl = QLabel(f"Stamina: {self.curStamina}")
+            percentage = (stamina / self.maxStamina) * 100
+        self.stamina_lbl.setText(f"Stamina: {self.curStamina}")
         self.stamina_meter.setPercentage(percentage)
 
     def add_item(self, item: Item.Item):
@@ -124,6 +155,8 @@ class CharacterFactory:
             "health": 100,
             "magic": 100,
             "stamina": 100,
+            "strength": 10,
+            "intelligence": 10,
             "defense": 0,
             "magicDefense": 0,
             "level": 1,
@@ -134,6 +167,8 @@ class CharacterFactory:
             "health": 100,
             "magic": 0,
             "stamina": 15,
+            "strength": 15,
+            "intelligence": 5,
             "defense": 0,
             "magicDefense": 0,
             "level": 1,
@@ -144,6 +179,8 @@ class CharacterFactory:
             "health": 100,
             "magic": 15,
             "stamina": 0,
+            "strength": 5,
+            "intelligence": 15,
             "defense": 0,
             "magicDefense": 0,
             "level": 1,
@@ -154,6 +191,8 @@ class CharacterFactory:
             "health": 100,
             "magic": 0,
             "stamina": 10,
+            "strength": 8,
+            "intelligence": 8,
             "defense": 0,
             "magicDefense": 0,
             "level": 1,
@@ -184,7 +223,9 @@ class CharacterFactory:
         character.maxMagic = data["magic"]
         character.maxStamina = data["stamina"]
 
-        # What are these ? --Cooper
+        character.strength = data["strength"]
+        character.intelligence = data["intelligence"]
+
         character.defense = data["defense"]
         character.magicDefense = data["magicDefense"]
 
@@ -210,3 +251,29 @@ class CharacterFactory:
         """
         character = CharacterFactory.createCharacter("Test-Char", "blank")
         return character
+
+    @staticmethod
+    def createFromJson(json: dict) -> Character:
+        char = Character()
+        char.name = json["name"]
+        char.image_path = DD.ASSETS[json["asset"]]
+        char.level = json["level"]
+        char.classType = json["class"]
+        char.strength = json["strength"]
+        char.intelligence = json["intelligence"]
+        char.maxHealth = json["health"]
+        char.maxMagic = json["magic"]
+        char.maxStamina = json["stamina"]
+        char.defense = json["defense"]
+        char.magicDefense = json["magicDefense"]
+
+        char.set_health(json["health"])
+        char.set_magic(json["magic"])
+        char.set_stamina(json["stamina"])
+
+        for item in json["inventory"]["weapons"]:
+            char.add_item(Item.Weapon.from_json(item))
+        for item in json["inventory"]["defenses"]:
+            char.add_item(Item.Armor.from_json(item))
+
+        return char

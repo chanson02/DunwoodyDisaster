@@ -1,46 +1,44 @@
-"""
-The entry point for the game
-"""
-
 import sys
-from PySide6.QtWidgets import QApplication, QMainWindow, QStackedWidget
+from PySide6.QtWidgets import QMainWindow, QStackedWidget, QApplication
 from dunwoody_disaster.views.fightScreen import FightScreen
-from dunwoody_disaster.CharacterFactory import CharacterFactory
-
 from dunwoody_disaster.views.StartMenu import StartMenu
 from dunwoody_disaster.views.MapScreen import MapScreen
+from dunwoody_disaster.views.CharacterSelector import CharacterSelector
+from dunwoody_disaster.CharacterFactory import CharacterFactory, Character
 
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Dunwoody-Disaster")
-        # self.setGeometry(100, 100, 800, 600)
         self.setStyleSheet("background-color: #2f2f2f;")
+        self.player = None
+        dimensions = QApplication.primaryScreen().size()
+        self.setMaximumWidth(dimensions.width())
+        self.setMaximumHeight(dimensions.height())
 
-        self.player1 = CharacterFactory.createCharacter("Player", "blank")
-        self.testChar = CharacterFactory.createTestChar()
-        # Enemies
-        self.courtChar = CharacterFactory.createCharacter("Court", "blank")
-        self.lectChar = CharacterFactory.createCharacter("Lecture", "blank")
-        self.phyLabChar = CharacterFactory.createTestChar()
-        self.sciLabChar = CharacterFactory.createTestChar()
+        player1 = CharacterFactory.createTestChar()
+        player2 = CharacterFactory.createTestChar()
+        playable_characters = [player1]
 
         self.startMenu = StartMenu()
-        self.startMenu.startButton.clicked.connect(self.showMapScreen)
-        self.mapScreen = MapScreen(self.EnterFight)
-        self.fightScreen = FightScreen(self.player1, self.testChar)
+        self.startMenu.onStart(self.startBtnClicked)
+
+        self.selector = CharacterSelector(playable_characters)
+        self.selector.onSelect(self.userSelectedCharacter)
+
+        self.fightScreen = FightScreen(player1, player2)
 
         self.stack = QStackedWidget()
         self.stack.addWidget(self.startMenu)
-        self.stack.addWidget(self.mapScreen)
+        self.stack.addWidget(self.selector)
         self.stack.addWidget(self.fightScreen)
 
         # Set the stacked widget as the central widget of the main window
         self.setCentralWidget(self.stack)
 
     def showMapScreen(self):
-        self.stack.setCurrentIndex(1)
+        self.stack.setCurrentWidget(self.mapScreen)
 
     def EnterFight(self):
         """
@@ -48,39 +46,30 @@ class MainWindow(QMainWindow):
         This will need to be changed to set the proper opponent per setting. Index 2 is the fight screen.
         """
         self.stack.removeWidget(self.fightScreen)
-        self.fightScreen.player1 = self.player1
+        self.fightScreen.player1 = self.player
 
-        if self.mapScreen.currImgIndex == 0:
-            self.fightScreen.player2 = self.courtChar
-        elif self.mapScreen.currImgIndex == 1:
-            self.fightScreen.player2 = self.lectChar
-        else:
-            self.fightScreen.player2 = self.testChar
-
+        print('entering fight')
+        player2 = CharacterFactory.createTestChar()
         self.fightScreen = FightScreen(
-            self.fightScreen.player1, self.fightScreen.player2
+            self.player, player2
         )
         self.stack.addWidget(self.fightScreen)
         self.fightScreen.init_UI()
-        self.stack.setCurrentIndex(2)
+        self.stack.setCurrentWidget(self.fightScreen)
 
-    """
-    TODO: Make sure this works
-    def exitGame(self):
-        reply = QMessageBox.question(
-            self,
-            "Exit",
-            "Are you sure you want to exit?",
-            QMessageBox.Yes | QMessageBox.No,
-            QMessageBox.No,
-        )  # Ask for confirmation before exiting
-        if reply == QMessageBox.Yes:
-            self.close()  # Close the window if the user confirms
-    """
+    def startBtnClicked(self):
+        self.stack.setCurrentWidget(self.selector)
+
+    def userSelectedCharacter(self, character: Character):
+        self.player = character
+        self.mapScreen = MapScreen(self.player, None)
+        self.mapScreen.onEnter(self.EnterFight)
+        self.stack.addWidget(self.mapScreen)
+        self.showMapScreen()
 
 
 if __name__ == "__main__":
     app = QApplication()
-    window = MainWindow()
-    window.show()
+    mw = MainWindow()
+    mw.show()
     sys.exit(app.exec())
