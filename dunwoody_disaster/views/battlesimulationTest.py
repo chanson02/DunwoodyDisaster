@@ -80,6 +80,8 @@ class Game:
                     )
                 self.handle_events(event)
             self.draw_battle()
+            # pygame.image.save(self.screen, '/home/chanson/Desktop/test.png')
+            print('saved')
             self.clock.tick(self.FPS)
         pygame.quit()
         sys.exit()

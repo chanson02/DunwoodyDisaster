@@ -39,10 +39,23 @@ class MainWindow(QMainWindow):
         print("passed")
 
     def start_pygame_battle(self):
-        self.hide()  # hide the main window
-        battle_game = Game()
+        # self.hide()  # hide the main window
+        battle_game = Game(self)
         battle_game.run()
         self.show()  # Show the main window
+
+    def test_update_pyside(self, bites: bytes):
+        from PySide6.QtGui import QPixmap, QImage
+        # imgimg = QImage(data=bites, width=400, height=300, format=QImage.Format.Format_RGB16)
+        # # QImage(self, data: Union\[bytes, bytearray, memoryview\], width: int, height: int, bytesPerLine: int, format: PySide6.QtGui.QImage.Format, cleanupFunction: Optional\[Callable\] = None, cleanupInfo: Optional\[int\] = None) -> None
+        # img = QPixmap.fromImage(imgimg)
+        # self.mapScreen.map.setPixmap(img)
+
+        #img = QImage(bites, 800, 600, QImage.Format.Format_RGB666)
+        img = QImage(bites, 800, 600, QImage.Format.Format_ARGB32)
+        pixmap = QPixmap.fromImage(img)
+        self.mapScreen.map.setPixmap(pixmap)
+        print('this ran')
 
 
 if __name__ == "__main__":

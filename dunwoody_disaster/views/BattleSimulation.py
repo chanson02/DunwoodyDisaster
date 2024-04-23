@@ -4,7 +4,9 @@ from dunwoody_disaster import ASSETS
 
 
 class Game:
-    def __init__(self):
+    def __init__(self, test):
+        self.test = test
+        self.should_render = False
         pygame.init()
         self.setup_screen()
         self.load_resources()
@@ -137,20 +139,31 @@ class Game:
                     )
                 self.handle_events(event)
             self.draw_battle()
+            # pygame.image.save(self.screen, '/home/chanson/Desktop/test.png')
+            # img_bytes = pygame.image.tobytes(self.screen, 'P')
+            if self.should_render:
+                #img_bytes = pygame.image.tobytes(self.screen, 'RGB')
+                img_bytes = pygame.image.tobytes(self.screen, 'ARGB')
+                #img_bytes = pygame.image.tostring(self.screen, 'RGB')
+                self.test.test_update_pyside(img_bytes)
+
             self.clock.tick(self.FPS)
         pygame.quit()
-        sys.exit()
+        #sys.exit()
 
     def handle_events(self, event):
+        self.should_render = False
         # Check if the event is a key press.
         if event.type == pygame.KEYDOWN:
             # If the spacebar is pressed, process an attack.
             if self.player_turn:
                 self.enemy_health = max(self.enemy_health - 20, 0)
                 print("Player attacked")
+                self.should_render = True
             else:
                 self.player_health = max(self.player_health - 20, 0)
                 print("Enemy Attacked")
+                self.should_render = True
             self.player_turn = not self.player_turn
 
 
