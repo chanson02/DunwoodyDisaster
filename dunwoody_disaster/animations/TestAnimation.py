@@ -14,6 +14,7 @@ class TestAnimation(PygameAnimation):
             pygame.draw.circle(self.surface, (255, 0, 0), (200, 150), 50)
             self.clock.tick(60)  # limit to 60 fps
 
+
 """
 class MainWindow(QMainWindow):
     def __init__(self):
