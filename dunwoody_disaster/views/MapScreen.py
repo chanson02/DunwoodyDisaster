@@ -1,4 +1,4 @@
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout
 from PySide6.QtGui import QPixmap, QKeyEvent, QPainter, QMouseEvent
 
@@ -10,8 +10,11 @@ from math import sqrt
 
 
 class MapScreen(QWidget):
+    battle_start = Signal(object)
+
     def __init__(self, character: Character, entryPoint: Optional[tuple[int, int]]):
         super().__init__()
+
         self.character = character
         self.image = DD.ASSETS["no_texture"]
         self.rooms = []
@@ -23,6 +26,12 @@ class MapScreen(QWidget):
             self.char_pos = (-1, 0)
 
         self.init_ui()
+
+    def keyPressEvent(self, event: QKeyEvent):
+        if event.key() == Qt.Key_Enter or event.key() == Qt.Key_Return:
+            if self.current_room:
+                self.battle_start.emit(self.current_room)
+                print("Battle starts!")
 
     def init_ui(self):
         # layout = QGridLayout()
@@ -72,8 +81,8 @@ class MapScreen(QWidget):
 
         return closest
 
-    def keyPressEvent(self, event: QKeyEvent):
-        print("entering")
+        """     def keyPressEvent(self, event: QKeyEvent):
+        #print("entering")
         if event.key() == Qt.Key.Key_Left:
             # self.currImgIndex = (self.currImgIndex - 1) % len(self.imagePaths)
             # self.mapPic.setPixmap(QPixmap(self.imagePaths[self.currImgIndex]))
@@ -82,7 +91,7 @@ class MapScreen(QWidget):
         elif event.key() == Qt.Key.Key_Right:
             # self.currImgIndex = (self.currImgIndex + 1) % len(self.imagePaths)
             # self.mapPic.setPixmap(QPixmap(self.imagePaths[self.currImgIndex]))
-            print("right")
+            print("right") """
 
     def move_character(self, x: int, y: int):
         self.char_pos = (x, y)
