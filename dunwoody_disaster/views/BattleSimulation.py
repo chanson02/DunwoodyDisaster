@@ -1,5 +1,6 @@
 import pygame
 import sys
+from dunwoody_disaster import ASSETS
 
 
 class Game:
@@ -15,15 +16,11 @@ class Game:
         self.player_turn = True
 
     def load_resources(self):
-        self.background_img = pygame.image.load(
-            "Class/DunwoodyDisaster/dunwoody_disaster/assets/background.jpg"
-        ).convert()
+        self.background_img = pygame.image.load(ASSETS["background"]).convert()
         self.sprite_image_user = pygame.image.load(
-            "Class/DunwoodyDisaster/dunwoody_disaster/assets/CooperModel.png"
+            ASSETS["CooperModel"]
         ).convert_alpha()
-        self.sprite_image_enemy = pygame.image.load(
-            "Class/DunwoodyDisaster/dunwoody_disaster/assets/RyanRengo.jpg"
-        ).convert_alpha()
+        self.sprite_image_enemy = pygame.image.load(ASSETS["RyanRengo"]).convert_alpha()
 
     def setup_screen(self):
         self.screen = pygame.display.set_mode((800, 600), pygame.RESIZABLE)
@@ -42,7 +39,7 @@ class Game:
             self.screen.get_height() - player_health_bar_height - 10
         )  # 10 pixels from the bottom
 
-        # Draw the full health background (green)
+        # Draw the full health background (Red)
         pygame.draw.rect(
             self.screen,
             (255, 0, 0),
@@ -53,7 +50,7 @@ class Game:
                 player_health_bar_height,
             ),
         )
-        # Draw the current health (red)
+        # Draw the current health (Green)
         pygame.draw.rect(
             self.screen,
             (0, 255, 0),
@@ -73,7 +70,7 @@ class Game:
         enemy_health_bar_x = 10  # 10 pixels from the left edge
         enemy_health_bar_y = 10  # 10 pixels from the top
 
-        # Draw the full health background (green)
+        # Draw the full health background (Red)
         pygame.draw.rect(
             self.screen,
             (255, 0, 0),
@@ -84,7 +81,7 @@ class Game:
                 enemy_health_bar_height,
             ),
         )
-        # Draw the current health (red)
+        # Draw the current health (Green)
         pygame.draw.rect(
             self.screen,
             (0, 255, 0),
@@ -145,13 +142,16 @@ class Game:
         sys.exit()
 
     def handle_events(self, event):
+        # Check if the event is a key press.
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                if self.player_turn:
-                    self.enemy_health = max(self.enemy_health - 20, 0)
-                else:
-                    self.player_health = max(self.player_health - 20, 0)
-                self.player_turn = not self.player_turn
+            # If the spacebar is pressed, process an attack.
+            if self.player_turn:
+                self.enemy_health = max(self.enemy_health - 20, 0)
+                print("Player attacked")
+            else:
+                self.player_health = max(self.player_health - 20, 0)
+                print("Enemy Attacked")
+            self.player_turn = not self.player_turn
 
 
 if __name__ == "__main__":
