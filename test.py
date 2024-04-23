@@ -78,15 +78,16 @@ class MainWindow(QMainWindow):
         self.start_pygame()
 
     def game_loop(self):
+        print('starting game loop')
         pygame.init()
-        screen = pygame.display.set_mode((800, 600))
+        screen = pygame.display.set_mode((800, 600), pygame.HIDDEN)
         clock = pygame.time.Clock()
         iter = 0
         while self.running:
             iter += 1
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.running = False
+            # for event in pygame.event.get():
+                #if event.type == pygame.QUIT:
+                    #self.running = False
             screen.fill((255, 255, 255))
             pygame.draw.circle(screen, (255, 0, 0), (200, 150), 50)
             pygame.display.flip()

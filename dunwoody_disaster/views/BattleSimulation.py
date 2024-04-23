@@ -4,8 +4,8 @@ from dunwoody_disaster import ASSETS
 
 
 class Game:
-    def __init__(self, test):
-        self.test = test
+    def __init__(self):
+        #self.test = test
         self.should_render = False
         pygame.init()
         self.setup_screen()
@@ -128,29 +128,40 @@ class Game:
         self.draw_health_bars()
         pygame.display.flip()
 
-    def run(self):
-        while self.running:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.running = False
-                elif event.type == pygame.VIDEORESIZE:
-                    self.screen = pygame.display.set_mode(
-                        (event.w, event.h), pygame.RESIZABLE
-                    )
-                self.handle_events(event)
-            self.draw_battle()
-            # pygame.image.save(self.screen, '/home/chanson/Desktop/test.png')
-            # img_bytes = pygame.image.tobytes(self.screen, 'P')
-            if self.should_render:
-                img_bytes = pygame.image.tobytes(self.screen, 'RGB')
-                #img_bytes = pygame.image.tobytes(self.screen, 'ARGB')
-                #img_bytes = pygame.image.tobytes(self.screen, 'RGBA')
-                #img_bytes = pygame.image.tostring(self.screen, 'RGB')
-                self.test.test_update_pyside(img_bytes)
+    def update(self):
+        for event in pygame.event.get():
+            self.handle_events(event)
+        self.draw_battle()
 
-            self.clock.tick(self.FPS)
+    def to_bytes(self):
+        return pygame.image.tobytes(self.screen, 'RGB')
+
+    def quit(self):
         pygame.quit()
-        #sys.exit()
+
+    # def run(self):
+    #     while self.running:
+    #         for event in pygame.event.get():
+    #             if event.type == pygame.QUIT:
+    #                 self.running = False
+    #             elif event.type == pygame.VIDEORESIZE:
+    #                 self.screen = pygame.display.set_mode(
+    #                     (event.w, event.h), pygame.RESIZABLE
+    #                 )
+    #             self.handle_events(event)
+    #         self.draw_battle()
+    #         # pygame.image.save(self.screen, '/home/chanson/Desktop/test.png')
+    #         # img_bytes = pygame.image.tobytes(self.screen, 'P')
+    #         if self.should_render:
+    #             img_bytes = pygame.image.tobytes(self.screen, 'RGB')
+    #             #img_bytes = pygame.image.tobytes(self.screen, 'ARGB')
+    #             #img_bytes = pygame.image.tobytes(self.screen, 'RGBA')
+    #             #img_bytes = pygame.image.tostring(self.screen, 'RGB')
+    #             self.test.test_update_pyside(img_bytes)
+    #
+    #         self.clock.tick(self.FPS)
+    #     pygame.quit()
+    #     #sys.exit()
 
     def handle_events(self, event):
         self.should_render = False
