@@ -40,9 +40,9 @@ class MainWindow(QMainWindow):
 
     def start_pygame_battle(self):
         self.hide()  # hide the main window
-        battle_game = Game()  # 
+        battle_game = Game()
         battle_game.run()
-        self.show()  # Show the main window 
+        self.show()  # Show the main window
 
 
 if __name__ == "__main__":
