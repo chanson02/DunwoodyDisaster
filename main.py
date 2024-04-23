@@ -28,15 +28,9 @@ class MainWindow(QMainWindow):
         self.selector.onSelect(self.userSelectedCharacter)
         self.fightScreen = None
 
-        #self.fightScreen = FightScreen(player1, player2)
-
-        # self.mapScreen.battle_start.connect(self.start_pygame_battle)
-        #self.mapScreen.battle_start.connect(self.showFightScreen)
-
         self.stack = QStackedWidget()
         self.stack.addWidget(self.startMenu)
         self.stack.addWidget(self.selector)
-        #self.stack.addWidget(self.fightScreen)
 
         # Set the stacked widget as the central widget of the main window
         self.setCentralWidget(self.stack)
@@ -67,9 +61,6 @@ class MainWindow(QMainWindow):
         self.mapScreen.onEnter(self.EnterFight)
         self.stack.addWidget(self.mapScreen)
         self.showMapScreen()
-
-    def showFightScreen(self):
-        self.stack.setCurrentWidget(self.fightScreen)
 
 
 if __name__ == "__main__":
