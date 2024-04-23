@@ -57,7 +57,9 @@ class MainWindow(QMainWindow):
         else:
             self.fightScreen.player2 = self.testChar
 
-        self.fightScreen = FightScreen(self.fightScreen.player1, self.fightScreen.player2)
+        self.fightScreen = FightScreen(
+            self.fightScreen.player1, self.fightScreen.player2
+        )
         self.stack.addWidget(self.fightScreen)
         self.fightScreen.init_UI()
         self.stack.setCurrentIndex(2)
