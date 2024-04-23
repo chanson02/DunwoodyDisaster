@@ -11,15 +11,17 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("Dunwoody-Disaster")
         self.setStyleSheet("background-color: #2f2f2f;")
-        # self.setGeometry(100, 100, 800, 600)
+        dimensions = QApplication.primaryScreen().size()
+        self.setMaximumWidth(dimensions.width())
+        self.setMaximumHeight(dimensions.height())
 
         player1 = CharacterFactory.createTestChar()
         player2 = CharacterFactory.createTestChar()
 
-        self.startMenu = StartMenu(self.showMapScreen)
+        self.startMenu = StartMenu()
+        self.startMenu.onStart(self.showMapScreen)
 
-        self.mapScreen = MapScreen(player1)
-
+        self.mapScreen = MapScreen.build_map(player1)
         self.fightScreen = FightScreen(player1, player2)
 
         self.stack = QStackedWidget()
@@ -31,12 +33,12 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.stack)
 
     def showMapScreen(self):
-        self.stack.setCurrentIndex(1)
+        self.stack.setCurrentWidget(self.mapScreen)
         print("passed")
 
 
 if __name__ == "__main__":
-    app = QApplication()  # Create an instance of QApplication
-    MainWindow = MainWindow()  # Create an instance of MainWindow
-    MainWindow.show()  # Show the Main window in windowed mode
-    sys.exit(app.exec())  # Start the application's event loop and exit when it finishes
+    app = QApplication()
+    mw = MainWindow()
+    mw.show()
+    sys.exit(app.exec())
