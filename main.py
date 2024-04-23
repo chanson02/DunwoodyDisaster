@@ -42,15 +42,17 @@ class MainWindow(QMainWindow):
         Enter fight screen by pointing stack at fight screen.
         This will need to be changed to set the proper opponent per setting. Index 2 is the fight screen.
         """
+        if not self.player:
+            raise Exception('Cannot enter fight when no player is selected')
+
         if self.fightScreen:
             self.stack.removeWidget(self.fightScreen)
 
-        if self.player:
-            player2 = CharacterFactory.createTestChar()
-            self.fightScreen = FightScreen(self.player, player2)
-            self.stack.addWidget(self.fightScreen)
-            self.fightScreen.init_UI()
-            self.stack.setCurrentWidget(self.fightScreen)
+        player2 = CharacterFactory.createTestChar()
+        self.fightScreen = FightScreen(self.player, player2)
+        self.stack.addWidget(self.fightScreen)
+        self.fightScreen.init_UI()
+        self.stack.setCurrentWidget(self.fightScreen)
 
     def startBtnClicked(self):
         self.stack.setCurrentWidget(self.selector)
