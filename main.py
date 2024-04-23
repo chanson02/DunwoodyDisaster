@@ -62,8 +62,7 @@ class MainWindow(QMainWindow):
 
     def userSelectedCharacter(self, character: Character):
         self.player = character
-        self.mapScreen = MapScreen(self.player, None)
-        self.mapScreen.setAsset('MainMap')
+        self.mapScreen = MapScreen.build_map(self.player)
         self.mapScreen.onEnter(self.EnterFight)
         self.stack.addWidget(self.mapScreen)
         self.showMapScreen()
