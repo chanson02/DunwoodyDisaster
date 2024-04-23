@@ -5,6 +5,7 @@ from dunwoody_disaster.views.StartMenu import StartMenu
 from dunwoody_disaster.views.MapScreen import MapScreen
 from dunwoody_disaster.views.CharacterSelector import CharacterSelector
 from dunwoody_disaster.CharacterFactory import CharacterFactory, Character
+import dunwoody_disaster as DD
 
 
 class MainWindow(QMainWindow):
@@ -17,25 +18,21 @@ class MainWindow(QMainWindow):
         self.setMaximumWidth(dimensions.width())
         self.setMaximumHeight(dimensions.height())
 
-        player1 = CharacterFactory.createTestChar()
-        player2 = CharacterFactory.createTestChar()
-        playable_characters = [player1]
-
         self.startMenu = StartMenu()
         self.startMenu.onStart(self.startBtnClicked)
 
-        self.selector = CharacterSelector(playable_characters)
+        self.selector = CharacterSelector(self.createPlayableCharacters())
         self.selector.onSelect(self.userSelectedCharacter)
 
-        self.fightScreen = FightScreen(player1, player2)
+        self.fightScreen = None
 
         self.stack = QStackedWidget()
         self.stack.addWidget(self.startMenu)
         self.stack.addWidget(self.selector)
-        self.stack.addWidget(self.fightScreen)
 
         # Set the stacked widget as the central widget of the main window
         self.setCentralWidget(self.stack)
+
 
     def showMapScreen(self):
         self.stack.setCurrentWidget(self.mapScreen)
@@ -65,6 +62,12 @@ class MainWindow(QMainWindow):
         self.stack.addWidget(self.mapScreen)
         self.showMapScreen()
 
+    def createPlayableCharacters(self) -> list[Character]:
+        cooper = CharacterFactory.createTestChar()
+        cooper.name = 'Cooper'
+        cooper.image_path = DD.ASSETS['cooper']
+
+        return [cooper]
 
 if __name__ == "__main__":
     app = QApplication()
