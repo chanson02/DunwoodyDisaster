@@ -1,5 +1,8 @@
 # from random import choice as randChoice
 from PySide6.QtCore import QTimer
+from PySide6.QtGui import QPixmap, QImage
+from dunwoody_disaster.views.BattleSimulation import Game
+import threading
 
 # from PySide6.QtGui import QMovie
 from PySide6.QtWidgets import (
@@ -9,6 +12,7 @@ from PySide6.QtWidgets import (
     QSizePolicy,
     QPushButton,
     QStackedLayout,
+    QLabel
 )
 from dunwoody_disaster.views.arsenal import Arsenal
 import dunwoody_disaster as DD
@@ -17,11 +21,13 @@ from dunwoody_disaster.views.characterState import CharacterState
 from dunwoody_disaster.views.action_selector import ActionSelector
 from dunwoody_disaster.FightSequence import FightSequence
 from dunwoody_disaster.views.victoryScreen import VictoryScreen
+from queue import Queue
 
 
 class FightScreen(QWidget):
     def __init__(self, player1: Character, player2: Character):
         self.fightFlag = False
+        self.running = True
         super().__init__()
         self.stacked_layout = QStackedLayout()
 
@@ -146,8 +152,37 @@ class FightScreen(QWidget):
             colm,
         )
 
+        colm += 1
+        self.pygame_window = QLabel()
+        self.mainLayout.addWidget(self.pygame_window, row, colm)
+        self.start_pygame()
+
         self.timer.start(2000)
         self.timer.timeout.connect(self.Fight)
+
+    def start_pygame(self):
+        self.pygame_queue = Queue()
+        self.game_thread = threading.Thread(target=self.game_loop)
+        self.game_thread.start()
+
+        self.pygame_timer = QTimer()
+        self.pygame_timer.timeout.connect(self.check_pygame_queue)
+        self.pygame_timer.start(100)
+
+    def game_loop(self):
+        game = Game()
+        while self.running:
+            game.update()
+            img_bytes = game.to_bytes()
+            self.pygame_queue.put(img_bytes)
+        game.quit()
+
+    def check_pygame_queue(self):
+        while not self.pygame_queue.empty():
+            img_bytes = self.pygame_queue.get()
+            img = QImage(img_bytes, 800, 600, QImage.Format.Format_RGB888)
+            pixmap = QPixmap.fromImage(img)
+            self.pygame_window.setPixmap(pixmap)
 
     def SetFightFlag(self):
         if self.CanFight(self.p1_selector) and self.CanFight(self.p2_selector):
