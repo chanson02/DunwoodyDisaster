@@ -78,7 +78,7 @@ class MapScreen(QWidget):
 
     def keyPressEvent(self, event: QKeyEvent):
         if event.key() == Qt.Key.Key_Return:
-            print('this ran')
+            print("this ran")
             self._callback()
 
     def move_character(self, x: int, y: int):

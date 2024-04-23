@@ -48,11 +48,9 @@ class MainWindow(QMainWindow):
         self.stack.removeWidget(self.fightScreen)
         self.fightScreen.player1 = self.player
 
-        print('entering fight')
+        print("entering fight")
         player2 = CharacterFactory.createTestChar()
-        self.fightScreen = FightScreen(
-            self.player, player2
-        )
+        self.fightScreen = FightScreen(self.player, player2)
         self.stack.addWidget(self.fightScreen)
         self.fightScreen.init_UI()
         self.stack.setCurrentWidget(self.fightScreen)
