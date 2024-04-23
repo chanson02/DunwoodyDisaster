@@ -37,7 +37,7 @@ class MainWindow(QMainWindow):
     def showMapScreen(self):
         self.stack.setCurrentWidget(self.mapScreen)
 
-    def EnterFight(self):
+    def EnterFight(self, room: dict):
         """
         Enter fight screen by pointing stack at fight screen.
         This will need to be changed to set the proper opponent per setting. Index 2 is the fight screen.
@@ -48,8 +48,7 @@ class MainWindow(QMainWindow):
         if self.fightScreen:
             self.stack.removeWidget(self.fightScreen)
 
-        player2 = CharacterFactory.createTestChar()
-        self.fightScreen = FightScreen(self.player, player2)
+        self.fightScreen = FightScreen(self.player, room['NPC'])
         self.stack.addWidget(self.fightScreen)
         self.fightScreen.init_UI()
         self.stack.setCurrentWidget(self.fightScreen)

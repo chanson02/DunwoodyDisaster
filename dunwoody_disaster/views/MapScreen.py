@@ -26,6 +26,10 @@ class MapScreen(QWidget):
         self.init_ui()
 
     def onEnter(self, callback: Callable):
+        """
+        :param callback: A callback function that takes the room info as a parameter
+        This callback will be triggered when the user selects which room to enter
+        """
         self._callback = callback
 
     def init_ui(self):
@@ -41,7 +45,6 @@ class MapScreen(QWidget):
         layout.addWidget(self.map)
 
         self.preview = FightPreview()
-        # self.preview.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignRight)
         layout.addWidget(self.preview)
 
     def setAsset(self, asset: str):
@@ -78,8 +81,8 @@ class MapScreen(QWidget):
 
     def keyPressEvent(self, event: QKeyEvent):
         if event.key() == Qt.Key.Key_Return:
-            print("this ran")
-            self._callback()
+            if self.current_room:
+                self._callback(self.current_room)
 
     def move_character(self, x: int, y: int):
         self.char_pos = (x, y)
