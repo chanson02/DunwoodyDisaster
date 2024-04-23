@@ -39,8 +39,10 @@ class AnimationWidget(QWidget):
             self.queue.put(img_bytes)
 
     def draw_frames(self):
+        width = self.animation.size[0]
+        height = self.animation.size[1]
         while not self.queue.empty():
             img_bytes = self.queue.get()
-            img = QImage(img_bytes, 800, 600, QImage.Format.Format_RGB888)
+            img = QImage(img_bytes, width, height, QImage.Format.Format_RGB888)
             pixmap = QPixmap.fromImage(img)
             self.frame.setPixmap(pixmap)
