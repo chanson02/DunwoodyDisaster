@@ -1,7 +1,6 @@
-from PySide6.QtCore import Qt, Signal
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout
 from PySide6.QtGui import QPixmap, QKeyEvent, QPainter, QMouseEvent
-from PySide6.QtCore import Qt
 
 from dunwoody_disaster.views.FightPreview import FightPreview
 import dunwoody_disaster as DD
@@ -11,8 +10,6 @@ from math import sqrt
 
 
 class MapScreen(QWidget):
-    battle_start = Signal(object)
-
     def __init__(self, character: Character, entryPoint: Optional[tuple[int, int]]):
         super().__init__()
         self.character = character

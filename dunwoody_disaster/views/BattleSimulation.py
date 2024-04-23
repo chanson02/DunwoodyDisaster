@@ -1,11 +1,10 @@
 import pygame
-import sys
 from dunwoody_disaster import ASSETS
 
 
 class Game:
     def __init__(self):
-        #self.test = test
+        # self.test = test
         self.should_render = False
         pygame.init()
         self.setup_screen()
@@ -134,7 +133,7 @@ class Game:
         self.draw_battle()
 
     def to_bytes(self):
-        return pygame.image.tobytes(self.screen, 'RGB')
+        return pygame.image.tobytes(self.screen, "RGB")
 
     def quit(self):
         pygame.quit()

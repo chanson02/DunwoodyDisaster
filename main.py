@@ -18,7 +18,6 @@ class MainWindow(QMainWindow):
         self.setMaximumHeight(dimensions.height())
 
         player1 = CharacterFactory.createTestChar()
-        player2 = CharacterFactory.createTestChar()
         playable_characters = [player1]
 
         self.startMenu = StartMenu()
@@ -55,7 +54,6 @@ class MainWindow(QMainWindow):
         self.stack.setCurrentWidget(self.selector)
 
     def userSelectedCharacter(self, character: Character):
-        print('userSelected has run')
         self.player = character
         self.mapScreen = MapScreen.build_map(self.player)
         self.mapScreen.onEnter(self.EnterFight)

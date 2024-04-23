@@ -10,7 +10,7 @@ class PygameAnimation:
         self.running = False
 
     def run(self) -> None:
-        raise Exception('Unimplemented')
+        raise Exception("Unimplemented")
 
     def to_bytes(self):
-        return pygame.image.tobytes(self.surface, 'RGB')
+        return pygame.image.tobytes(self.surface, "RGB")
