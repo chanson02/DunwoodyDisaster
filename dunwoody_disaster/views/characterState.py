@@ -30,7 +30,7 @@ class CharacterState(QWidget):
 
         layout.addItem(DD.spacer(30), row, 1)
         row += 1
-
+        
         layout.addWidget(self.character.health_lbl, row, 0)
         layout.addWidget(self.character.health_meter, row, 1, 1, 2)
         row += 1

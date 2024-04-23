@@ -50,7 +50,6 @@ class MainWindow(QMainWindow):
 
         self.fightScreen = FightScreen(self.player, room['NPC'])
         self.stack.addWidget(self.fightScreen)
-        self.fightScreen.init_UI()
         self.stack.setCurrentWidget(self.fightScreen)
 
     def startBtnClicked(self):
