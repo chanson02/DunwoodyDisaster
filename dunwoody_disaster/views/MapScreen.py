@@ -1,11 +1,12 @@
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout
 from PySide6.QtGui import QPixmap, QKeyEvent, QPainter, QMouseEvent
+from PySide6.QtCore import Qt
 
 from dunwoody_disaster.views.FightPreview import FightPreview
 import dunwoody_disaster as DD
 from dunwoody_disaster.CharacterFactory import Character, CharacterFactory
-from typing import Optional
+from typing import Optional, Callable
 from math import sqrt
 
 
@@ -14,8 +15,8 @@ class MapScreen(QWidget):
 
     def __init__(self, character: Character, entryPoint: Optional[tuple[int, int]]):
         super().__init__()
-
         self.character = character
+        self._callback = DD.unimplemented
         self.image = DD.ASSETS["no_texture"]
         self.rooms = []
         self.current_room: Optional[dict] = None
@@ -27,11 +28,13 @@ class MapScreen(QWidget):
 
         self.init_ui()
 
+    def onEnter(self, callback: Callable):
+        self._callback = callback
+
     def keyPressEvent(self, event: QKeyEvent):
         if event.key() == Qt.Key_Enter or event.key() == Qt.Key_Return:
             if self.current_room:
-                self.battle_start.emit(self.current_room)
-                print("Battle starts!")
+                self._callback()
 
     def init_ui(self):
         # layout = QGridLayout()
@@ -80,18 +83,6 @@ class MapScreen(QWidget):
                 closest = room
 
         return closest
-
-        """     def keyPressEvent(self, event: QKeyEvent):
-        #print("entering")
-        if event.key() == Qt.Key.Key_Left:
-            # self.currImgIndex = (self.currImgIndex - 1) % len(self.imagePaths)
-            # self.mapPic.setPixmap(QPixmap(self.imagePaths[self.currImgIndex]))
-            print("left")
-
-        elif event.key() == Qt.Key.Key_Right:
-            # self.currImgIndex = (self.currImgIndex + 1) % len(self.imagePaths)
-            # self.mapPic.setPixmap(QPixmap(self.imagePaths[self.currImgIndex]))
-            print("right") """
 
     def move_character(self, x: int, y: int):
         self.char_pos = (x, y)
