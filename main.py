@@ -51,8 +51,8 @@ class MainWindow(QMainWindow):
         # img = QPixmap.fromImage(imgimg)
         # self.mapScreen.map.setPixmap(img)
 
-        #img = QImage(bites, 800, 600, QImage.Format.Format_RGB666)
-        img = QImage(bites, 800, 600, QImage.Format.Format_ARGB32)
+        img = QImage(bites, 800, 600, QImage.Format.Format_RGB888)
+        #img = QImage(bites, 800, 600, QImage.Format.Format_ARGB32)
         pixmap = QPixmap.fromImage(img)
         self.mapScreen.map.setPixmap(pixmap)
         print('this ran')

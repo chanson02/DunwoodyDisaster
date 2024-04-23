@@ -142,8 +142,9 @@ class Game:
             # pygame.image.save(self.screen, '/home/chanson/Desktop/test.png')
             # img_bytes = pygame.image.tobytes(self.screen, 'P')
             if self.should_render:
-                #img_bytes = pygame.image.tobytes(self.screen, 'RGB')
-                img_bytes = pygame.image.tobytes(self.screen, 'ARGB')
+                img_bytes = pygame.image.tobytes(self.screen, 'RGB')
+                #img_bytes = pygame.image.tobytes(self.screen, 'ARGB')
+                #img_bytes = pygame.image.tobytes(self.screen, 'RGBA')
                 #img_bytes = pygame.image.tostring(self.screen, 'RGB')
                 self.test.test_update_pyside(img_bytes)
 
