@@ -22,7 +22,6 @@ from dunwoody_disaster.views.victoryScreen import VictoryScreen
 class FightScreen(QWidget):
     def __init__(self, player1: Character, player2: Character):
         self.fightFlag = False
-        self.running = True
         super().__init__()
         self.stacked_layout = QStackedLayout()
 
