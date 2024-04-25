@@ -62,6 +62,7 @@ class Item:
         widget.setLayout(layout)
         widget.setContentsMargins(0, 0, 0, 0)
         widget.setMinimumWidth(min_width)
+        widget.setMinimumHeight(250)
         return widget
 
     def to_dict(self) -> dict:
