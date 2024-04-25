@@ -14,9 +14,6 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Dunwoody-Disaster")
         self.setStyleSheet("background-color: #2f2f2f;")
         self.player = None
-        dimensions = QApplication.primaryScreen().size()
-        self.setMaximumWidth(dimensions.width())
-        self.setMaximumHeight(dimensions.height())
 
         self.startMenu = StartMenu()
         self.startMenu.onStart(self.startBtnClicked)
