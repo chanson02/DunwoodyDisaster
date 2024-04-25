@@ -2,7 +2,6 @@ from dunwoody_disaster import CharacterFactory, Item
 from dunwoody_disaster.CharacterFactory import Character
 from dunwoody_disaster.views import action_selector
 import random
-from typing import Optional
 
 
 class FightSequence:
