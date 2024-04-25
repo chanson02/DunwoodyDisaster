@@ -52,7 +52,6 @@ class MainWindow(QMainWindow):
         player2 = CharacterFactory.createTestChar()
         self.fightScreen = FightScreen(self.player, player2)
         self.stack.addWidget(self.fightScreen)
-        self.fightScreen.init_UI()
         self.stack.setCurrentWidget(self.fightScreen)
 
     def startBtnClicked(self):
