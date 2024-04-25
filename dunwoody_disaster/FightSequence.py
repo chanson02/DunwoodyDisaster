@@ -73,17 +73,16 @@ class FightSequence:
         if attackDamage > 0:
             return attackDamage
         return 0
-    
-    def EnemySelectArsenal(self, enemy: Character, selection: action_selector.ActionSelector):
+
+    def EnemySelectArsenal(
+        self, enemy: Character, selection: action_selector.ActionSelector
+    ):
         """
         Use this to make enemy select one weapon to use and one defensive item to use.
         """
-        #Random number based on number/length of enemy weapons. Same for defense
+        # Random number based on number/length of enemy weapons. Same for defense
         attackChoice = random.choice(enemy.weapons)
         defenseChoice = random.choice(enemy.defenses)
-        
+
         selection.set_attack(attackChoice)
         selection.set_defense(defenseChoice)
-        
-
-
