@@ -142,7 +142,7 @@ class MapScreen(QWidget):
     def build_map(char: Character) -> "MapScreen":
         test_enemy = CharacterFactory.createTestChar()
         test_enemy.name = "test enemy"
-        test_enemy.image_path = DD.ASSETS["ready"]
+        test_enemy.image_path = DD.ASSETS["cooper"]
         ms = MapScreen(char, None)
         ms.setAsset("MainMap")
         ms.addRoom("Bus Stop", (419, 700), test_enemy, "no_texture")
