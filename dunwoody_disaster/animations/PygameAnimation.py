@@ -1,4 +1,5 @@
 import pygame
+from typing import Optional
 
 
 class PygameAnimation:
@@ -50,6 +51,14 @@ class PygameAnimation:
         Check if the next frame is ready to be rendered based on frame duration
         """
         return pygame.time.get_ticks() - self.last_frame_time > self.frame_duration
+
+    def next_frame_if_ready(self, clear=True) -> Optional[pygame.Surface]:
+        """
+        Return a frame to render only if the previous frames duration is up
+        """
+        if self.should_render():
+            return self.next_frame(clear)
+        return None
 
     def load_frames(self) -> None:
         """
