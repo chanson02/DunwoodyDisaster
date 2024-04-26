@@ -8,14 +8,29 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtGui import QPixmap, QPainter
 from dunwoody_disaster.CharacterFactory import Character
+import dunwoody_disaster as DD
 from PySide6.QtCore import Qt
 
 
 class FightPreview(QWidget):
     def __init__(self):
         super().__init__()
+
+        self.room_lbl = QLabel()
+        self.weapons = QHBoxLayout()
+        self.defenses = QHBoxLayout()
+
+        self.init_ui()
+        self.setStyleSheet('border: 1px solid green;')
+
+    def init_ui(self):
         layout = QVBoxLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
         self.setLayout(layout)
+
+        self.weapons.setContentsMargins(0, 0, 0, 0)
+        self.defenses.setContentsMargins(0, 0, 0, 0)
 
         self.room_lbl = QLabel()
         self.room_lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -29,29 +44,21 @@ class FightPreview(QWidget):
         self.stats = QLabel()
         layout.addWidget(self.stats)
 
-        layout.addWidget(QLabel("Inventory"))
+        # layout.addWidget(QLabel("Inventory"))
 
-        self.weapons = QHBoxLayout()
-        scroll_area = QScrollArea()
-        scroll_area.setLayout(self.weapons)
-        container = QHBoxLayout()
-        container.addWidget(scroll_area)
         gb = QGroupBox("Weapons")
-        gb.setLayout(container)
-        layout.addWidget(gb)
-        gb.setMinimumHeight(250)
-        container.setContentsMargins(0, 0, 0, 0)
-
-        self.defenses = QHBoxLayout()
-        gb = QGroupBox("Defenses")
-        gb.setMinimumHeight(250)
         container = QHBoxLayout()
-        container.setContentsMargins(0, 0, 0, 0)
-        scroll_area = QScrollArea()
-        layout.addWidget(gb)
         gb.setLayout(container)
-        container.addWidget(scroll_area)
-        scroll_area.setLayout(self.defenses)
+        scroller = DD.scroller(self.weapons, True, False)
+        container.addWidget(scroller)
+        layout.addWidget(gb)
+
+        gb = QGroupBox("Defenses")
+        container = QHBoxLayout()
+        gb.setLayout(container)
+        scroller = DD.scroller(self.defenses, True, False)
+        container.addWidget(scroller)
+        layout.addWidget(gb)
 
     def set_room(self, room_info: dict):
         NPC = room_info["NPC"]

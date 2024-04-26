@@ -42,6 +42,8 @@ class Item:
         :param min_width: the minimum amount of pixels to use when rendering
         """
         layout = QVBoxLayout()
+        layout.setSpacing(0)
+        layout.setContentsMargins(0, 0, 0, 0)
 
         name = QLabel(self.name)
         name.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -62,7 +64,6 @@ class Item:
         widget.setLayout(layout)
         widget.setContentsMargins(0, 0, 0, 0)
         widget.setMinimumWidth(min_width)
-        widget.setMinimumHeight(250)
         return widget
 
     def to_dict(self) -> dict:
