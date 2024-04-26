@@ -19,9 +19,11 @@ class FightPreview(QWidget):
         self.room_lbl = QLabel()
         self.weapons = QHBoxLayout()
         self.defenses = QHBoxLayout()
+        self.health = QLabel()
+        self.magic = QLabel()
+        self.stamina = QLabel()
 
         self.init_ui()
-        self.setStyleSheet('border: 1px solid green;')
 
     def init_ui(self):
         layout = QVBoxLayout()
@@ -41,8 +43,9 @@ class FightPreview(QWidget):
         self.battlefield.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(self.battlefield)
 
-        self.stats = QLabel()
-        layout.addWidget(self.stats)
+        layout.addLayout(self.stat_layout())
+        # self.stats = QLabel()
+        # layout.addWidget(self.stats)
 
         # layout.addWidget(QLabel("Inventory"))
 
@@ -60,6 +63,22 @@ class FightPreview(QWidget):
         container.addWidget(scroller)
         layout.addWidget(gb)
 
+    def stat_layout(self) -> QHBoxLayout:
+        layout = QHBoxLayout()
+        # Yes this is how much I hate grid layout --Cooper
+        layout.addItem(DD.expander(True, False))
+        layout.addItem(DD.expander(True, False))
+        layout.addItem(DD.expander(True, False))
+        layout.addWidget(self.health)
+        layout.addItem(DD.expander(True, False))
+        layout.addWidget(self.magic)
+        layout.addItem(DD.expander(True, False))
+        layout.addWidget(self.stamina)
+        layout.addItem(DD.expander(True, False))
+        layout.addItem(DD.expander(True, False))
+        layout.addItem(DD.expander(True, False))
+        return layout
+
     def set_room(self, room_info: dict):
         NPC = room_info["NPC"]
         lbl = f"{room_info['name']}: {NPC.name}"
@@ -70,7 +89,10 @@ class FightPreview(QWidget):
             self.center_overlay(bkg, NPC.image().scaledToWidth(50))
         )
 
-        self.stats.setText(self.stat_text(NPC))
+        #self.stats.setText(self.stat_text(NPC))
+        self.health.setText(f"Health: {NPC.maxHealth}")
+        self.magic.setText(f"Magic: {NPC.maxMagic}")
+        self.stamina.setText(f"Stamina: {NPC.maxStamina}")
 
         for i in reversed(range(self.weapons.count())):
             widget = self.weapons.itemAt(i).widget()
@@ -96,9 +118,9 @@ class FightPreview(QWidget):
         painter.end()
         return background
 
-    def stat_text(self, char: Character) -> str:
-        result = ""
-        result += f"Health: {char.maxHealth}\n"
-        result += f"Magic: {char.maxMagic}\n"
-        result += f"Stamina: {char.maxStamina}"
-        return result
+    # def stat_text(self, char: Character) -> str:
+    #     result = ""
+    #     result += f"Health: {char.maxHealth}\n"
+    #     result += f"Magic: {char.maxMagic}\n"
+    #     result += f"Stamina: {char.maxStamina}"
+    #     return result
