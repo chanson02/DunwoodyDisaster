@@ -18,7 +18,8 @@ pygame.init()
 screen = pygame.display.set_mode((800, 600))
 
 # Define the base path and filename prefix for the animation frames
-animation_base_path = r"C:/Users/vuejohw/OneDrive - Dunwoody College of Technology/Documents/Data Structures/Class/DunwoodyDisaster/dunwoody_disaster/animations/Animation_Assets/idle"
+#animation_base_path = r"C:/Users/vuejohw/OneDrive - Dunwoody College of Technology/Documents/Data Structures/Class/DunwoodyDisaster/dunwoody_disaster/animations/Animation_Assets/idle"
+animation_base_path = r"/home/chanson/Documents/ds_algs/SENG3340/dunwoody_disaster/animations/Animation_Assets/Idle"
 
 # Load animation frames
 animation_frames = load_animation(
