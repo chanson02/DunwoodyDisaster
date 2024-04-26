@@ -123,8 +123,3 @@ class FightScreen(QWidget):
     def onWin(self, callback: Callable):
         self._winCallback = callback
 
-    #
-    # def onWin(self):
-    #     vc = VictoryScreen(self.fightSequence)
-    #     self.stacked_layout.addWidget(vc)
-    #     self.stacked_layout.setCurrentWidget(vc)
