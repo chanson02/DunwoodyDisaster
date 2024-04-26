@@ -1,58 +1,41 @@
 import pygame
-import sys
 
+class PygameAnimation:
+    def __init__(self, size: tuple[int, int] = (800, 600)):
+        pygame.init()
+        self.size = size
+        self.clock = pygame.time.Clock()
+        self.surface = pygame.display.set_mode(size, pygame.HIDDEN)
+        self.running = False
 
-def load_animation(path, frame_count):
-    frames = []
-    for i in range(frame_count):
-        # Frame files are named like 'sprite_01.png', 'sprite_02.png', etc.
-        frame_path = f"{path}_{str(i+1).zfill(2)}.png"
-        frames.append(pygame.image.load(frame_path).convert_alpha())
-    return frames
+        self.frames: list[pygame.Surface] = []
+        self.frame_index = -1
+        self.frame_count = 0
+        self.frame_duration = 0
+        self.last_frame_time = pygame.time.get_ticks()
 
+    def current_frame(self) -> pygame.Surface:
+        if self.frame_index == -1:
+            raise Exception('No frames loaded')
 
-# Initialize Pygame
-pygame.init()
+        return self.frames[self.frame_index]
 
-# Set up the display
-screen = pygame.display.set_mode((800, 600))
+    def next_frame(self, clear=True) -> pygame.Surface:
+        if clear:
+            self.surface.fill((0, 0, 0))
 
-# Define the base path and filename prefix for the animation frames
-#animation_base_path = r"C:/Users/vuejohw/OneDrive - Dunwoody College of Technology/Documents/Data Structures/Class/DunwoodyDisaster/dunwoody_disaster/animations/Animation_Assets/idle"
-animation_base_path = r"/home/chanson/Documents/ds_algs/SENG3340/dunwoody_disaster/animations/Animation_Assets/Idle"
+        self.frame_index = (self.frame_index + 1) % self.frame_count
+        self.last_frame_time = pygame.time.get_ticks()
+        return self.current_frame()
 
-# Load animation frames
-animation_frames = load_animation(
-    animation_base_path, 8
-)  # Adjust the number of frames as needed
+    def should_render(self) -> bool:
+        return pygame.time.get_ticks() - self.last_frame_time > self.frame_duration
 
-# Animation variables
-current_frame = 0
-frame_count = len(animation_frames)
-frame_duration = 100  # Duration each frame is displayed, in milliseconds
-last_frame_time = pygame.time.get_ticks()
+    def load_frames(self) -> None:
+        raise Exception("Unimplemented")
 
-# Main game loop
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type is pygame.QUIT:
-            running = False
+    def run(self) -> None:
+        raise Exception("Unimplemented")
 
-    # Update the frame based on time
-    if pygame.time.get_ticks() - last_frame_time > frame_duration:
-        current_frame = (current_frame + 1) % frame_count
-        last_frame_time = pygame.time.get_ticks()
-
-    # Clear the screen
-    screen.fill((0, 0, 0))
-
-    # Draw the current frame
-    screen.blit(animation_frames[current_frame], (350, 250))
-
-    # Update the display
-    pygame.display.flip()
-
-# Quit Pygame
-pygame.quit()
-sys.exit()
+    def to_bytes(self):
+        return pygame.image.tobytes(self.surface, "RGB")
