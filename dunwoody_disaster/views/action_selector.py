@@ -1,7 +1,8 @@
-from PySide6.QtWidgets import QWidget, QLayout, QGridLayout, QLabel
+from PySide6.QtWidgets import QWidget, QLayout, QGridLayout, QLabel, QHBoxLayout
 from PySide6.QtGui import QPixmap
 from typing import Optional
 from dunwoody_disaster import Item
+import dunwoody_disaster as DD
 
 
 class ActionSelector(QWidget):
@@ -26,13 +27,15 @@ class ActionSelector(QWidget):
             self.defend_pic.setPixmap(QPixmap(self.defense.image).scaledToWidth(50))
 
     def create_layout(self) -> QLayout:
-        layout = QGridLayout()
+        layout = QHBoxLayout()
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
 
         self.attack_pic = QLabel("")
         self.defend_pic = QLabel("")
 
-        layout.addWidget(self.attack_pic, 0, 0)
-        layout.addWidget(self.defend_pic, 0, 1)
+        layout.addItem(DD.expander(True, False, 0))
+        layout.addWidget(self.attack_pic)
+        layout.addWidget(self.defend_pic)
+        layout.addItem(DD.expander(True, False, 0))
         return layout
