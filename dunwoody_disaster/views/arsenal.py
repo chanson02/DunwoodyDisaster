@@ -56,6 +56,7 @@ class Arsenal(QWidget):
             DD.clickable(gbox).connect(self.select_item_lambda(item))
             gbox.setLayout(container)
             item_layout.addWidget(gbox)
+        item_layout.addItem(DD.expander(False, True, 0))
 
         scroll_area = DD.scroller(item_layout, False, True)
         layout.addWidget(scroll_area)
