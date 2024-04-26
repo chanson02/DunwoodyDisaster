@@ -19,7 +19,7 @@ class AnimationWidget(QWidget):
 
     def start(self):
         if self.animation.running:
-            raise Exception(f'{self.animation} already running.')
+            raise Exception(f"{self.animation} already running.")
         self.animation.start()
         self.engine_thread.start()
         self.timer.start(100)

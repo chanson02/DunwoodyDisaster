@@ -2,6 +2,7 @@
 import pygame
 import sys
 
+
 class Animation:
     def __init__(self, path, frame_count):
         self.frames = self.load_animation(path, frame_count)
@@ -13,7 +14,7 @@ class Animation:
     def load_animation(self, path, frame_count):
         frames = []
         for i in range(frame_count):
-            frame_path = f"{path}_{str(i+1).zfill(2)}.png"
+            frame_path = f"{path}_{str(i + 1).zfill(2)}.png"
             try:
                 frames.append(pygame.image.load(frame_path).convert_alpha())
             except pygame.error as e:
