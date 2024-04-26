@@ -2,9 +2,11 @@ from PySide6.QtWidgets import QSpacerItem, QSizePolicy, QWidget
 from PySide6.QtCore import QObject, Signal, QEvent, SignalInstance
 import os
 
+BASE_PATH = os.path.dirname(__file__)
+ANIMATION_PATH = f"{BASE_PATH}/animations/Animation_Assets"
 ASSETS = {}
 # I think this will make it so you can run main.py from anywhere --Cooper
-asset_dir = os.path.join(os.path.dirname(__file__), "assets")
+asset_dir = os.path.join(BASE_PATH, "assets")
 for fname in os.listdir(asset_dir):
     path = os.path.join(asset_dir, fname)
     if os.path.isfile(path) and "." in fname:
