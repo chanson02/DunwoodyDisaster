@@ -1,8 +1,12 @@
 import pygame
+import sys
 from dunwoody_disaster.animations.PygameAnimation import PygameAnimation
+from dunwoody_disaster.views.AnimationWidget import AnimationWidget
+from PySide6.QtWidgets import QApplication, QMainWindow
+
 from typing import override
 
-
+print(sys.path)
 class TestAnimation(PygameAnimation):
     def __init__(self):
         super().__init__()
@@ -15,7 +19,6 @@ class TestAnimation(PygameAnimation):
             self.clock.tick(60)  # limit to 60 fps
 
 
-"""
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -30,9 +33,9 @@ class MainWindow(QMainWindow):
     def closeEvent(self, event):
         self.animation.stop()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     app = QApplication()
     mw = MainWindow()
     mw.show()
     sys.exit(app.exec())
-"""
