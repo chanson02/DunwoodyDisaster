@@ -20,6 +20,8 @@ class MainWindow(QMainWindow):
         player1 = CharacterFactory.createTestChar()
         playable_characters = [player1]
 
+        CharacterFactory.SaveCharacter(player1)
+
         self.startMenu = StartMenu()
         self.startMenu.onStart(self.startBtnClicked)
 
@@ -46,6 +48,7 @@ class MainWindow(QMainWindow):
             self.stack.removeWidget(self.fightScreen)
 
         player2 = CharacterFactory.createTestChar()
+
         self.fightScreen = FightScreen(self.player, player2)
         self.stack.addWidget(self.fightScreen)
         self.stack.setCurrentWidget(self.fightScreen)

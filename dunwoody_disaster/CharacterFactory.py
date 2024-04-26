@@ -255,24 +255,26 @@ class CharacterFactory:
         return character
 
     @staticmethod
-    def saveCharacter(character: Character) -> None:
+    def SaveCharacter(character: Character) -> None:
         """
         Saves a character to a json file
         :param character: The character to save
         """
-        with open(f"{character.name}.json", "w") as f:
+        with open(f"dunwoody_disaster/saves/{character.name}.json", "w") as f:
             json.dump(character.serialize(), f)
 
+
+
     @staticmethod
-    def loadCharacter(name: str) -> Character:
+    def LoadCharacter(name: str) -> Character:
         """
         Loads a character from a json file
         :param name: The name of the character to load
         :return: The loaded character object
         """
-        if not os.path.exists(f"{name}.json"):
+        if not os.path.exists(f"dunwoody_disaster/saves/{name}.json"):
             raise FileNotFoundError(f"Character file {name}.json not found")
-        with open(f"{name}.json", "r") as f:
+        with open(f"dunwoody_disaster/saves/{name}.json", "r") as f:
             data = json.loads(f.read())
             character = CharacterFactory.createFromJson(data)
             return character
@@ -282,5 +284,4 @@ class CharacterFactory:
         char = Character()
         for key, value in json.items():
             setattr(char, key, value)
-
         return char
