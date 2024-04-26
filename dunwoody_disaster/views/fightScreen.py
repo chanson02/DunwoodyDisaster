@@ -13,7 +13,6 @@ from dunwoody_disaster.views.characterState import CharacterState
 from dunwoody_disaster.views.action_selector import ActionSelector
 from dunwoody_disaster.FightSequence import FightSequence
 
-# from dunwoody_disaster.views.victoryScreen import VictoryScreen
 from typing import Callable
 
 
