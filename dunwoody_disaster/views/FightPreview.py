@@ -93,5 +93,5 @@ class FightPreview(QWidget):
         result = ""
         result += f"Health: {char.maxHealth}\n"
         result += f"Magic: {char.maxMagic}\n"
-        result += f"Stamina: {char.maxStamina}\n"
+        result += f"Stamina: {char.maxStamina}"
         return result
