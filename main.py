@@ -2,7 +2,7 @@ import sys
 from PySide6.QtWidgets import QMainWindow, QStackedWidget, QApplication
 from dunwoody_disaster.views.fightScreen import FightScreen
 from dunwoody_disaster.views.StartMenu import StartMenu
-from dunwoody_disaster.views.MapScreen import MapScreen
+from dunwoody_disaster.views.MapScreen import MapScreen, Map
 from dunwoody_disaster.views.CharacterSelector import CharacterSelector
 from dunwoody_disaster.CharacterFactory import CharacterFactory, Character
 import dunwoody_disaster as DD
@@ -56,7 +56,7 @@ class MainWindow(QMainWindow):
 
     def userSelectedCharacter(self, character: Character):
         self.player = character
-        self.mapScreen = MapScreen.build_map(self.player)
+        self.mapScreen = MapScreen(Map.build_map(self.player))
         self.mapScreen.onEnter(self.EnterFight)
         self.stack.addWidget(self.mapScreen)
         self.showMapScreen()
