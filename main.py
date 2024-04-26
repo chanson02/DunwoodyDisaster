@@ -3,6 +3,7 @@ from PySide6.QtWidgets import QMainWindow, QStackedWidget, QApplication
 from dunwoody_disaster.views.fightScreen import FightScreen
 from dunwoody_disaster.views.StartMenu import StartMenu
 from dunwoody_disaster.views.MapScreen import MapScreen
+from dunwoody_disaster.views.openingCrawl import Crawl
 from dunwoody_disaster.views.CharacterSelector import CharacterSelector
 from dunwoody_disaster.CharacterFactory import CharacterFactory, Character
 
@@ -28,17 +29,21 @@ class MainWindow(QMainWindow):
         self.selector.onSelect(self.userSelectedCharacter)
 
         self.fightScreen = FightScreen(player1, player2)
+        
+        self.crawl = Crawl()
 
         self.stack = QStackedWidget()
         self.stack.addWidget(self.startMenu)
         self.stack.addWidget(self.selector)
         self.stack.addWidget(self.fightScreen)
+        self.stack.addWidget(self.crawl)
 
         # Set the stacked widget as the central widget of the main window
         self.setCentralWidget(self.stack)
 
     def showMapScreen(self):
         self.stack.setCurrentWidget(self.mapScreen)
+        
 
     def EnterFight(self):
         """
@@ -56,7 +61,8 @@ class MainWindow(QMainWindow):
         self.stack.setCurrentWidget(self.fightScreen)
 
     def startBtnClicked(self):
-        self.stack.setCurrentWidget(self.selector)
+        #self.stack.setCurrentWidget(self.selector)
+        self.stack.setCurrentWidget(self.crawl)
 
     def userSelectedCharacter(self, character: Character):
         self.player = character
