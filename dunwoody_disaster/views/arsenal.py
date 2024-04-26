@@ -1,6 +1,6 @@
 from typing import Sequence
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QGridLayout, QLabel, QWidget, QScrollArea, QVBoxLayout
+from PySide6.QtWidgets import QGridLayout, QLabel, QWidget, QScrollArea, QVBoxLayout, QGroupBox
 import dunwoody_disaster as DD
 from dunwoody_disaster.views.action_selector import ActionSelector
 from dunwoody_disaster import Item
@@ -60,9 +60,13 @@ class Arsenal(QWidget):
         scroll_area.setWidget(wid)
 
         for item in items:
+            gbox = QGroupBox()
+            container = QVBoxLayout()
             item_widget = item.widget()
             DD.clickable(item_widget).connect(self.select_item_lambda(item))
-            lyt.addWidget(item_widget)
+            container.addWidget(item_widget)
+            gbox.setLayout(container)
+            lyt.addWidget(gbox)
 
         widget = QWidget()
         widget.setLayout(layout)
