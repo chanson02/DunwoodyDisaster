@@ -1,15 +1,10 @@
-from PySide6.QtCore import QTimer, Qt
+from PySide6.QtCore import Qt
 
 from PySide6.QtWidgets import (
     QWidget,
     QGridLayout,
-    QSpacerItem,
-    QSizePolicy,
     QPushButton,
     QHBoxLayout,
-    QVBoxLayout,
-    QLabel,
-    QLayout
 )
 from dunwoody_disaster.views.arsenal import Arsenal
 import dunwoody_disaster as DD
@@ -33,9 +28,6 @@ class FightScreen(QWidget):
         self.init_ui()
 
     def init_ui(self):
-        p1 = CharacterState(self.player1)
-        p2 = CharacterState(self.player2)
-
         layout = QHBoxLayout()
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -71,18 +63,21 @@ class FightScreen(QWidget):
         layout.addWidget(self.p2_selector, CHAR_STATE_ROWS + 1, 5, 1, 4)
 
         fight_btn = QPushButton("FIGHT!")
-        fight_btn.setStyleSheet("""
+        fight_btn.setStyleSheet(
+            """
                                 border-radius: 25px;
                                 min-width: 150px;
                                 height: 50px;
                                 background-color: green;
                                 color: white;
                                 font-size: 36px;
-                                """)
-        layout.addWidget(fight_btn, CHAR_STATE_ROWS + 2, 2, 1, 5, Qt.AlignmentFlag.AlignCenter)
+                                """
+        )
+        layout.addWidget(
+            fight_btn, CHAR_STATE_ROWS + 2, 2, 1, 5, Qt.AlignmentFlag.AlignCenter
+        )
 
         return layout
-
 
     # def SetFightFlag(self):
     #     if self.CanFight(self.p1_selector) and self.CanFight(self.p2_selector):

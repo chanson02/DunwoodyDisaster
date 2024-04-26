@@ -3,11 +3,9 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QLabel,
     QGroupBox,
-    QScrollArea,
     QHBoxLayout,
 )
 from PySide6.QtGui import QPixmap, QPainter
-from dunwoody_disaster.CharacterFactory import Character
 import dunwoody_disaster as DD
 from PySide6.QtCore import Qt
 
@@ -89,7 +87,7 @@ class FightPreview(QWidget):
             self.center_overlay(bkg, NPC.image().scaledToWidth(50))
         )
 
-        #self.stats.setText(self.stat_text(NPC))
+        # self.stats.setText(self.stat_text(NPC))
         self.health.setText(f"Health: {NPC.maxHealth}")
         self.magic.setText(f"Magic: {NPC.maxMagic}")
         self.stamina.setText(f"Stamina: {NPC.maxStamina}")

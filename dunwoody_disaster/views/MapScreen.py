@@ -10,7 +10,9 @@ from math import sqrt
 
 
 class Map(QLabel):
-    def __init__(self, character: Character, entryPoint: Optional[tuple[int, int]] = None):
+    def __init__(
+        self, character: Character, entryPoint: Optional[tuple[int, int]] = None
+    ):
         super().__init__()
         self.character = character
         self.image = DD.ASSETS["no_texture"]
@@ -92,7 +94,7 @@ class Map(QLabel):
     def build_map(char: Character) -> "Map":
         test_enemy = CharacterFactory.createTestChar()
         test_enemy.name = "test enemy"
-        test_enemy.image_path = DD.ASSETS['cooper']
+        test_enemy.image_path = DD.ASSETS["cooper"]
         map = Map(char)
         map.setAsset("MainMap")
         map.addRoom("Bus Stop", (419, 700), test_enemy, "no_texture")

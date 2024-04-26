@@ -1,6 +1,12 @@
 from typing import Sequence
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QGridLayout, QLabel, QWidget, QScrollArea, QVBoxLayout, QGroupBox
+from PySide6.QtWidgets import (
+    QGridLayout,
+    QLabel,
+    QWidget,
+    QVBoxLayout,
+    QGroupBox,
+)
 import dunwoody_disaster as DD
 from dunwoody_disaster.views.action_selector import ActionSelector
 from dunwoody_disaster import Item
@@ -45,7 +51,7 @@ class Arsenal(QWidget):
         lbl = QLabel(label)
         lbl.setMinimumHeight(50)
         lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        lbl.setStyleSheet('color: white; font-size: 50px;')
+        lbl.setStyleSheet("color: white; font-size: 50px;")
         layout.addWidget(lbl)
 
         item_layout = QVBoxLayout()
