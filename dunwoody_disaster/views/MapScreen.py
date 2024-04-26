@@ -38,7 +38,6 @@ class Map(QLabel):
             pos = self.current_room["coordinate"]
             self.move_character(pos[0], pos[1])
             self.room_changed(self.current_room)
-    #         self.preview.set_room(self.current_room)
 
     def findClosestRoom(self, x: int, y: int) -> Optional[dict]:
         closest = None
@@ -105,6 +104,35 @@ class Map(QLabel):
         map.addRoom("Dean's Office", (90, 589), test_enemy, "no_texture")
         return map
 
+    def serialize(self) -> dict:
+        result = {"asset": DD.asset(self.image), "entry_point": None, "rooms": []}
+
+        for room in self.rooms:
+            NPC = room["NPC"].serialize()
+            result["rooms"].append(
+                {
+                    "name": room["name"],
+                    "coordinate": room["coordinate"],
+                    "battlefield": room["battlefield"],
+                    "NPC": NPC,
+                }
+            )
+
+        return result
+
+    @staticmethod
+    def from_json(json: dict, char: Character) -> "Map":
+        ep = (json["entry_point"][0], json["entry_point"][1])
+        map = Map(char, ep)
+        map.setAsset(json["asset"])
+
+        for room in json["rooms"]:
+            NPC = CharacterFactory.createFromJson(room["NPC"])
+            point = (room["coordinate"][0], room["coordinate"][1])
+            map.addRoom(room["name"], point, NPC, room["battlefield"])
+
+        return map
+
 
 class MapScreen(QWidget):
     def __init__(self, map: Map):
@@ -140,32 +168,3 @@ class MapScreen(QWidget):
         self.preview = FightPreview()
         self.map.onRoomChange(self.preview.set_room)
         layout.addWidget(self.preview)
-
-    def serialize(self) -> dict:
-        result = {"asset": DD.asset(self.image), "entry_point": None, "rooms": []}
-
-        for room in self.rooms:
-            NPC = room["NPC"].serialize()
-            result["rooms"].append(
-                {
-                    "name": room["name"],
-                    "coordinate": room["coordinate"],
-                    "battlefield": room["battlefield"],
-                    "NPC": NPC,
-                }
-            )
-
-        return result
-
-    @staticmethod
-    def from_json(json: dict, char: Character) -> "MapScreen":
-        ep = (json["entry_point"][0], json["entry_point"][1])
-        map = MapScreen(char, ep)
-        map.setAsset(json["asset"])
-
-        for room in json["rooms"]:
-            NPC = CharacterFactory.createFromJson(room["NPC"])
-            point = (room["coordinate"][0], room["coordinate"][1])
-            map.addRoom(room["name"], point, NPC, room["battlefield"])
-
-        return map
