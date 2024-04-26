@@ -48,25 +48,17 @@ class Arsenal(QWidget):
         lbl.setStyleSheet('color: white; font-size: 50px;')
         layout.addWidget(lbl)
 
-        scroll_area = QScrollArea()
-        scroll_area.setWidgetResizable(True)
-        scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
-        scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-        layout.addWidget(scroll_area)
-
-        wid = QWidget()
-        lyt = QVBoxLayout()
-        wid.setLayout(lyt)
-        scroll_area.setWidget(wid)
-
+        item_layout = QVBoxLayout()
         for item in items:
             gbox = QGroupBox()
             container = QVBoxLayout()
-            item_widget = item.widget()
-            DD.clickable(item_widget).connect(self.select_item_lambda(item))
-            container.addWidget(item_widget)
+            container.addWidget(item.widget())
+            DD.clickable(gbox).connect(self.select_item_lambda(item))
             gbox.setLayout(container)
-            lyt.addWidget(gbox)
+            item_layout.addWidget(gbox)
+
+        scroll_area = DD.scroller(item_layout, False, True)
+        layout.addWidget(scroll_area)
 
         widget = QWidget()
         widget.setLayout(layout)
