@@ -15,6 +15,9 @@ class MainWindow(QMainWindow):
         self.setStyleSheet("background-color: #2f2f2f;")
         self.player = None
 
+        player1 = CharacterFactory.createTestChar()
+        playable_characters = [player1]
+
         self.startMenu = StartMenu()
         self.startMenu.onStart(self.startBtnClicked)
 
