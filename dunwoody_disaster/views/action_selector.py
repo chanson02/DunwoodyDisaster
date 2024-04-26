@@ -10,23 +10,23 @@ class ActionSelector(QWidget):
         super().__init__()
         self.attack: Optional[Item.Weapon] = None
         self.defense: Optional[Item.Armor] = None
-        self.setLayout(self.create_layout())
+        self.setLayout(self.createLayout())
 
-    def set_attack(self, item: Optional[Item.Weapon]):
+    def setAttack(self, item: Optional[Item.Weapon]):
         self.attack = item
-        self.update_ui()
+        self.updateUI()
 
-    def set_defense(self, item: Optional[Item.Armor]):
+    def setDefense(self, item: Optional[Item.Armor]):
         self.defense = item
-        self.update_ui()
+        self.updateUI()
 
-    def update_ui(self):
+    def updateUI(self):
         if self.attack:
             self.attack_pic.setPixmap(QPixmap(self.attack.image).scaledToWidth(50))
         if self.defense:
             self.defend_pic.setPixmap(QPixmap(self.defense.image).scaledToWidth(50))
 
-    def create_layout(self) -> QLayout:
+    def createLayout(self) -> QLayout:
         layout = QHBoxLayout()
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)

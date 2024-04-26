@@ -19,7 +19,7 @@ class Map(QLabel):
         self.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
         self.rooms = []
         self.current_room: Optional[dict] = None
-        self.room_changed = DD.unimplemented
+        self.roomChanged = DD.unimplemented
 
         if entryPoint:
             self.char_pos = entryPoint
@@ -27,7 +27,7 @@ class Map(QLabel):
             self.char_pos = (-1, 0)
 
     def onRoomChange(self, callback: Callable):
-        self.room_changed = callback
+        self.roomChanged = callback
 
     def mousePressEvent(self, ev: QMouseEvent):
         point = ev.pos()
@@ -38,8 +38,8 @@ class Map(QLabel):
         self.current_room = new_room
         if self.current_room:
             pos = self.current_room["coordinate"]
-            self.move_character(pos[0], pos[1])
-            self.room_changed(self.current_room)
+            self.moveCharacter(pos[0], pos[1])
+            self.roomChanged(self.current_room)
 
     def findClosestRoom(self, x: int, y: int) -> Optional[dict]:
         closest = None
@@ -54,7 +54,7 @@ class Map(QLabel):
 
         return closest
 
-    def move_character(self, x: int, y: int):
+    def moveCharacter(self, x: int, y: int):
         self.char_pos = (x, y)
         if x < 0:
             self.setPixmap(self.pixmap())
@@ -88,10 +88,10 @@ class Map(QLabel):
 
     def setAsset(self, asset: str):
         self.image = DD.ASSETS[asset]
-        self.move_character(self.char_pos[0], self.char_pos[1])
+        self.moveCharacter(self.char_pos[0], self.char_pos[1])
 
     @staticmethod
-    def build_map(char: Character) -> "Map":
+    def buildMap(char: Character) -> "Map":
         test_enemy = CharacterFactory.createTestChar()
         test_enemy.name = "test enemy"
         test_enemy.image_path = DD.ASSETS["cooper"]
@@ -123,7 +123,7 @@ class Map(QLabel):
         return result
 
     @staticmethod
-    def from_json(json: dict, char: Character) -> "Map":
+    def fromJson(json: dict, char: Character) -> "Map":
         ep = (json["entry_point"][0], json["entry_point"][1])
         map = Map(char, ep)
         map.setAsset(json["asset"])
@@ -142,7 +142,7 @@ class MapScreen(QWidget):
         self.map = map
         self._callback = DD.unimplemented
 
-        self.init_ui()
+        self.initUI()
 
     def onEnter(self, callback: Callable):
         """
@@ -156,7 +156,7 @@ class MapScreen(QWidget):
             if self.map.current_room:
                 self._callback(self.map.current_room)
 
-    def init_ui(self):
+    def initUI(self):
         layout = QHBoxLayout()
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -168,5 +168,5 @@ class MapScreen(QWidget):
         map_container_layout.addWidget(self.map)
 
         self.preview = FightPreview()
-        self.map.onRoomChange(self.preview.set_room)
+        self.map.onRoomChange(self.preview.setRoom)
         layout.addWidget(self.preview)

@@ -28,24 +28,24 @@ class Arsenal(QWidget):
         layout = QGridLayout()
         layout.setContentsMargins(0, 0, 0, 0)
 
-        weapons_widget = self.create_inventory("Weapons", weapons)
-        armor_widget = self.create_inventory("Armor", armors)
+        weapons_widget = self.createInventory("Weapons", weapons)
+        armor_widget = self.createInventory("Armor", armors)
 
         layout.addWidget(weapons_widget, 0, 0)
         layout.addWidget(armor_widget, 0, 1)
         self.setLayout(layout)
 
-    def select_item(self, item: Item.Item):
+    def selectItem(self, item: Item.Item):
         if type(item) is Item.Weapon:
-            self.selector.set_attack(item)
+            self.selector.setAttack(item)
         elif type(item) is Item.Armor:
-            self.selector.set_defense(item)
+            self.selector.setDefense(item)
         return
 
-    def select_item_lambda(self, item: Item.Item):
-        return lambda: self.select_item(item)
+    def selectItemLambda(self, item: Item.Item):
+        return lambda: self.selectItem(item)
 
-    def create_inventory(self, label: str, items: Sequence[Item.Item]) -> QWidget:
+    def createInventory(self, label: str, items: Sequence[Item.Item]) -> QWidget:
         layout = QVBoxLayout()
 
         lbl = QLabel(label)
@@ -59,7 +59,7 @@ class Arsenal(QWidget):
             gbox = QGroupBox()
             container = QVBoxLayout()
             container.addWidget(item.widget())
-            DD.clickable(gbox).connect(self.select_item_lambda(item))
+            DD.clickable(gbox).connect(self.selectItemLambda(item))
             gbox.setLayout(container)
             item_layout.addWidget(gbox)
         item_layout.addItem(DD.expander(False, True, 0))

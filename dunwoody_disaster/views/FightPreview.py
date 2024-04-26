@@ -21,9 +21,9 @@ class FightPreview(QWidget):
         self.magic = QLabel()
         self.stamina = QLabel()
 
-        self.init_ui()
+        self.initUI()
 
-    def init_ui(self):
+    def initUI(self):
         layout = QVBoxLayout()
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(0)
@@ -41,11 +41,7 @@ class FightPreview(QWidget):
         self.battlefield.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(self.battlefield)
 
-        layout.addLayout(self.stat_layout())
-        # self.stats = QLabel()
-        # layout.addWidget(self.stats)
-
-        # layout.addWidget(QLabel("Inventory"))
+        layout.addLayout(self.statLayout())
 
         gb = QGroupBox("Weapons")
         container = QHBoxLayout()
@@ -61,7 +57,7 @@ class FightPreview(QWidget):
         container.addWidget(scroller)
         layout.addWidget(gb)
 
-    def stat_layout(self) -> QHBoxLayout:
+    def statLayout(self) -> QHBoxLayout:
         layout = QHBoxLayout()
         # Yes this is how much I hate grid layout --Cooper
         layout.addItem(DD.expander(True, False))
@@ -77,17 +73,16 @@ class FightPreview(QWidget):
         layout.addItem(DD.expander(True, False))
         return layout
 
-    def set_room(self, room_info: dict):
+    def setRoom(self, room_info: dict):
         NPC = room_info["NPC"]
         lbl = f"{room_info['name']}: {NPC.name}"
         self.room_lbl.setText(lbl)
 
         bkg = QPixmap(room_info["battlefield"]).scaledToWidth(400)
         self.battlefield.setPixmap(
-            self.center_overlay(bkg, NPC.image().scaledToWidth(50))
+            self.centerOverlay(bkg, NPC.image().scaledToWidth(50))
         )
 
-        # self.stats.setText(self.stat_text(NPC))
         self.health.setText(f"Health: {NPC.maxHealth}")
         self.magic.setText(f"Magic: {NPC.maxMagic}")
         self.stamina.setText(f"Stamina: {NPC.maxStamina}")
@@ -108,7 +103,7 @@ class FightPreview(QWidget):
         for defense in NPC.defenses:
             self.defenses.addWidget(defense.widget())
 
-    def center_overlay(self, background: QPixmap, foreground: QPixmap) -> QPixmap:
+    def centerOverlay(self, background: QPixmap, foreground: QPixmap) -> QPixmap:
         x = (background.width() - foreground.width()) // 2
         y = (background.height() - foreground.height()) // 2
         painter = QPainter(background)
