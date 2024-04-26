@@ -115,4 +115,3 @@ class FightPreview(QWidget):
         painter.drawPixmap(x, y, foreground)
         painter.end()
         return background
-

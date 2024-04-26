@@ -122,4 +122,3 @@ class FightScreen(QWidget):
 
     def onWin(self, callback: Callable):
         self._winCallback = callback
-
