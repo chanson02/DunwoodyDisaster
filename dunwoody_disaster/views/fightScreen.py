@@ -1,4 +1,4 @@
-from PySide6.QtCore import QTimer
+from PySide6.QtCore import QTimer, Qt
 
 from PySide6.QtWidgets import (
     QWidget,
@@ -6,7 +6,10 @@ from PySide6.QtWidgets import (
     QSpacerItem,
     QSizePolicy,
     QPushButton,
-    QStackedLayout,
+    QHBoxLayout,
+    QVBoxLayout,
+    QLabel,
+    QLayout
 )
 from dunwoody_disaster.views.arsenal import Arsenal
 import dunwoody_disaster as DD
@@ -26,74 +29,48 @@ class FightScreen(QWidget):
 
         self.p1_selector = ActionSelector()
         self.p2_selector = ActionSelector()
+        self.setStyleSheet('border: 1px solid green;')
 
         self.init_ui()
 
     def init_ui(self):
-        layout = QGridLayout()
+        p1 = CharacterState(self.player1)
+        p2 = CharacterState(self.player2)
+
+        layout = QHBoxLayout()
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(layout)
 
-        row = 0
-        colm = 0
-
-        layout.addItem(
-                QSpacerItem(30, 50, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed),
-                #QSpacerItem(30, 50, QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.MinimumExpanding),
-                row,
-                colm,
-                )
-        colm += 1
+        layout.addItem(DD.expander(True, False, 0))
 
         arsenal = Arsenal(self.p1_selector, self.player1.weapons, self.player1.defenses)
-        col_size = 2
-        layout.addWidget(arsenal, row, colm, 1, col_size)
-        colm += col_size
+        layout.addWidget(arsenal)
 
-        layout.addItem(
-                DD.expander(True, False),
-                row,
-                colm
-                )
-        colm += 1
-
-        col_size = 4
-        p1 = CharacterState(self.player1)
-        p2 = CharacterState(self.player2)
-        layout.addWidget(p1, row, colm, 1, col_size)
-        layout.addWidget(self.p1_selector, row+1, colm)
-        colm += col_size
-
-        layout.addItem(DD.expander(True, False), row, colm)
-        colm += 1
-
-        layout.addWidget(p2, row, colm, 1, col_size)
-        layout.addWidget(self.p2_selector, row+1, colm)
-        colm += col_size
-
-        layout.addItem(
-                DD.expander(True, False),
-                row,
-                colm
-                )
-        colm += 1
+        layout.addItem(DD.expander(True, False))
+        # layout.addLayout(self.center_layout(), stretch=1)
+        layout.addLayout(self.center_layout())
+        layout.addItem(DD.expander(True, False))
 
         arsenal = Arsenal(self.p2_selector, self.player2.weapons, self.player2.defenses)
-        col_size = 2
-        layout.addWidget(arsenal, row, colm, 1, col_size)
-        colm += col_size
+        layout.addWidget(arsenal)
+        layout.addItem(DD.expander(True, False, 0))
 
-        layout.addItem(
-                QSpacerItem(30, 50, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed),
-                row,
-                colm,
-                )
-        colm += 1
+    def center_layout(self) -> QGridLayout:
+        p1 = CharacterState(self.player1)
+        p2 = CharacterState(self.player2)
+        layout = QGridLayout()
+        CHAR_STATE_ROWS = 16
 
-        row += 3
-        max_cols = colm
-        colm = 0
+        # row, column, rowSpan, columnSpan
+        layout.addWidget(p1, 0, 0, CHAR_STATE_ROWS, 4)
+        layout.addWidget(self.p1_selector, CHAR_STATE_ROWS + 1, 0, 1, 4)
+
+        layout.addItem(DD.expander(True, False, 25), 0, 4, CHAR_STATE_ROWS + 1, 1)
+
+        layout.addWidget(p2, 0, 5, CHAR_STATE_ROWS, 4)
+        layout.addWidget(self.p2_selector, CHAR_STATE_ROWS + 1, 5, 1, 4)
+
         fight_btn = QPushButton("FIGHT!")
         fight_btn.setStyleSheet("""
                                 border-radius: 25px;
@@ -103,12 +80,47 @@ class FightScreen(QWidget):
                                 color: white;
                                 font-size: 36px;
                                 """)
-        #fight_btn.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        layout.addWidget(fight_btn, row, max_cols // 2 - 1, 1, 3)
+        layout.addWidget(fight_btn, CHAR_STATE_ROWS + 2, 2, 1, 5, Qt.AlignmentFlag.AlignCenter)
 
-        layout.addItem(
-                QSpacerItem(10, 10, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.MinimumExpanding),
-                row+1,
-                colm
-                )
+        return layout
 
+
+    # def SetFightFlag(self):
+    #     if self.CanFight(self.p1_selector) and self.CanFight(self.p2_selector):
+    #         self.fightFlag = True
+    #     else:
+    #         print("You must select 2 actions to fight!")
+    #
+    # def CanFight(self, actionSelector: ActionSelector):
+    #     return (actionSelector.attack and actionSelector.defense) is not None
+    #
+    # def Fight(self):
+    #     if self.fightFlag:
+    #         self.fight_Btn.setEnabled(False)
+    #         self.player1, self.player2 = self.fightSequence.Fight(
+    #             self.p1_selector,
+    #             self.p2_selector,
+    #         )
+    #         self.player1.set_health(self.player1.curHealth)
+    #         self.player1.set_magic(self.player1.curMagic)
+    #         self.player1.set_stamina(self.player1.curStamina)
+    #
+    #         self.player2.set_health(self.player2.curHealth)
+    #         self.player2.set_magic(self.player2.curMagic)
+    #         self.player2.set_stamina(self.player2.curStamina)
+    #         if self.player1.curHealth <= 0 or self.player2.curHealth <= 0:
+    #             self.doneFlag = True
+    #             self.timer.stop()
+    #             if self.player1.curHealth == 0:
+    #                 print("Player 2 Wins!")
+    #             else:
+    #                 self.onWin()
+    #         self.fightFlag = False
+    #         self.fight_Btn.setEnabled(True)
+    #         self.fightFlag = False
+    #         self.fight_Btn.setEnabled(True)
+    #
+    # def onWin(self):
+    #     vc = VictoryScreen(self.fightSequence)
+    #     self.stacked_layout.addWidget(vc)
+    #     self.stacked_layout.setCurrentWidget(vc)
