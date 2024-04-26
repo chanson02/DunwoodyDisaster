@@ -26,19 +26,23 @@ def spacer(height: int) -> QSpacerItem:
     return QSpacerItem(0, height, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
 
 
-def expander(horizontal: bool, vertical: bool) -> QSpacerItem:
+def expander(horizontal: bool, vertical: bool, min=10) -> QSpacerItem:
     """
     Create a spacer that will grow as large as possible horizontally or vertically
+    :param min: Minimum distance to space
     """
+    h_policy = QSizePolicy.Policy.Fixed
+    width = 0
+    v_policy = QSizePolicy.Policy.Fixed
+    height = 0
     if horizontal:
         h_policy = QSizePolicy.Policy.MinimumExpanding
-    else:
-        h_policy = QSizePolicy.Policy.Fixed
+        width = min
     if vertical:
         v_policy = QSizePolicy.Policy.MinimumExpanding
-    else:
-        v_policy = QSizePolicy.Policy.Fixed
-    return QSpacerItem(0, 0, h_policy, v_policy)
+        height = min
+
+    return QSpacerItem(width, height, h_policy, v_policy)
 
 def unimplemented(*_, **k):
     _ = k
