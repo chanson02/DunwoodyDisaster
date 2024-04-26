@@ -17,7 +17,7 @@ class IdleAnimation(PygameAnimation):
         animation_base_path = f"{DD.ANIMATION_PATH}/Idle"
 
         for i in range(self.frame_count):
-            path = f"{animation_base_path}_{str(i+1).zfill(2)}.png"
+            path = f"{animation_base_path}_{str(i + 1).zfill(2)}.png"
             self.frames.append(pygame.image.load(path).convert_alpha())
 
     @override

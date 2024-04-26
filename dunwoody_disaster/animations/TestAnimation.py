@@ -7,6 +7,8 @@ from PySide6.QtWidgets import QApplication, QMainWindow
 from typing import override
 
 print(sys.path)
+
+
 class TestAnimation(PygameAnimation):
     def __init__(self):
         super().__init__()

@@ -1,5 +1,6 @@
 import pygame
 
+
 class PygameAnimation:
     def __init__(self, size: tuple[int, int] = (800, 600)):
         pygame.init()
@@ -16,7 +17,7 @@ class PygameAnimation:
 
     def current_frame(self) -> pygame.Surface:
         if self.frame_index == -1:
-            raise Exception('No frames loaded')
+            raise Exception("No frames loaded")
 
         return self.frames[self.frame_index]
 
