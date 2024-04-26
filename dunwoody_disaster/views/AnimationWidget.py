@@ -18,7 +18,7 @@ class AnimationWidget(QWidget):
         self.timer.timeout.connect(self.draw_frames)
 
     def start(self):
-        self.animation.running = True
+        self.animation.start()
         self.engine_thread.start()
         self.timer.start(100)
 

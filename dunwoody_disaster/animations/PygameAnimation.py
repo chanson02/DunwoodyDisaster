@@ -20,6 +20,14 @@ class PygameAnimation:
         self.frame_index = 0
         self.frame_count = 0
         self.frame_duration = 0
+        self.last_frame_time = 0
+
+    def start(self):
+        """
+        Start the animation, at the first frame
+        """
+        self.running = True
+        self.frame_index = 0
         self.last_frame_time = pygame.time.get_ticks()
 
     def current_frame(self) -> pygame.Surface:
