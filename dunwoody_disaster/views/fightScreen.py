@@ -29,7 +29,6 @@ class FightScreen(QWidget):
 
         self.p1_selector = ActionSelector()
         self.p2_selector = ActionSelector()
-        self.setStyleSheet('border: 1px solid green;')
 
         self.init_ui()
 
