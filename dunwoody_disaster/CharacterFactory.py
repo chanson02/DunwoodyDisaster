@@ -263,8 +263,6 @@ class CharacterFactory:
         with open(f"dunwoody_disaster/saves/{character.name}.json", "w") as f:
             json.dump(character.serialize(), f)
 
-
-
     @staticmethod
     def LoadCharacter(name: str) -> Character:
         """
