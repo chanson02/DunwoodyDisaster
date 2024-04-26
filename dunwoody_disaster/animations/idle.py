@@ -23,6 +23,4 @@ class IdleAnimation(PygameAnimation):
     @override
     def run(self) -> None:
         if self.running and self.should_render():
-            self.surface.blit
-            self.surface.fill((0, 0, 0))
             self.surface.blit(self.next_frame(), (350, 250))
