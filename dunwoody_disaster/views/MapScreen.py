@@ -26,12 +26,11 @@ class MapScreen(QWidget):
         self.init_ui()
 
     def onEnter(self, callback: Callable):
+        """
+        :param callback: A callback function that takes the room info as a parameter
+        This callback will be triggered when the user selects which room to enter
+        """
         self._callback = callback
-
-    def keyPressEvent(self, event: QKeyEvent):
-        if event.key() == Qt.Key_Enter or event.key() == Qt.Key_Return:
-            if self.current_room:
-                self._callback()
 
     def init_ui(self):
         # layout = QGridLayout()
@@ -46,7 +45,6 @@ class MapScreen(QWidget):
         layout.addWidget(self.map)
 
         self.preview = FightPreview()
-        # self.preview.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignRight)
         layout.addWidget(self.preview)
 
     def setAsset(self, asset: str):
@@ -80,6 +78,11 @@ class MapScreen(QWidget):
                 closest = room
 
         return closest
+
+    def keyPressEvent(self, event: QKeyEvent):
+        if event.key() == Qt.Key.Key_Return:
+            if self.current_room:
+                self._callback(self.current_room)
 
     def move_character(self, x: int, y: int):
         self.char_pos = (x, y)
@@ -139,6 +142,7 @@ class MapScreen(QWidget):
     def build_map(char: Character) -> "MapScreen":
         test_enemy = CharacterFactory.createTestChar()
         test_enemy.name = "test enemy"
+        test_enemy.image_path = DD.ASSETS['cooper']
         ms = MapScreen(char, None)
         ms.setAsset("MainMap")
         ms.addRoom("Bus Stop", (419, 700), test_enemy, "no_texture")
