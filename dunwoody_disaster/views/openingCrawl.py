@@ -10,27 +10,30 @@ class MovingTextWidget(QMainWindow):
         self.setWindowTitle("Moving Text Example")
         self.setGeometry(100, 100, 1280, 720)  # Adjusted for 1080p monitor
 
-        self.text = "Scrolling Text. Lorem ipsum dolor sit amet, consectetur adipiscing elit. " \
-                    "Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi."
-        self.set_text("Filled with hope and the dream of becoming software engineers, four students will undertake a new journey each excited at the prospect of starting a new chapter in their lives.\n"
-                      "\nDuring their time at Dunwoody, they will experience a new form of education. An education devoid of thought, planning, or reason whose sole purpose is to burden unsuspecting students with financial strife while providing few avenues for employment. \nNow, these four students must band together, united under one front, to dismantle the system that has crippled them financially, but provided so little in return. This is their story…")
+        self.paragraphs = [
+            "Paragraph 1: Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            "Paragraph 2: Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            "Paragraph 3: Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            "Paragraph 4: Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+            "Paragraph 5: Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        ]
+
         self.text_speed = 4  # Adjusted for faster scrolling on larger resolution
 
         self.text_y = self.height()  # Initialize text_y to the height of the window
+        self.current_paragraph = 0  # Index of the current paragraph being displayed
 
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.move_text)
         self.timer.start(20)
 
-    def set_text(self, textInput: str):
-        self.text = textInput
-
     def move_text(self):
-        text_height = QFontMetrics(QFont("Arial", 24)).boundingRect(QRect(0, 0, self.width(), self.height()), Qt.TextWordWrap, self.text).height()
+        text_height = QFontMetrics(QFont("Arial", 24)).boundingRect(QRect(0, 0, self.width(), self.height()), Qt.TextWordWrap, self.paragraphs[self.current_paragraph]).height()
 
         self.text_y -= self.text_speed
         if self.text_y < -text_height:
             self.text_y = self.height()
+            self.current_paragraph = (self.current_paragraph + 1) % len(self.paragraphs)
 
         self.update()
 
@@ -43,11 +46,11 @@ class MovingTextWidget(QMainWindow):
         painter.setFont(font)
 
         text_rect = QRect(0, 0, self.width(), self.height())
-        bounding_rect = QFontMetrics(font).boundingRect(text_rect, Qt.TextWordWrap, self.text)
+        bounding_rect = QFontMetrics(font).boundingRect(text_rect, Qt.TextWordWrap, self.paragraphs[self.current_paragraph])
 
         text_x = (self.width() - bounding_rect.width()) / 2
 
-        painter.drawText(text_x, self.text_y, bounding_rect.width(), bounding_rect.height(), Qt.AlignCenter, self.text)
+        painter.drawText(text_x, self.text_y, bounding_rect.width(), bounding_rect.height(), Qt.AlignCenter, self.paragraphs[self.current_paragraph])
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
