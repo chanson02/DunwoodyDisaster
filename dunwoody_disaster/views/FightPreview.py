@@ -116,9 +116,3 @@ class FightPreview(QWidget):
         painter.end()
         return background
 
-    # def stat_text(self, char: Character) -> str:
-    #     result = ""
-    #     result += f"Health: {char.maxHealth}\n"
-    #     result += f"Magic: {char.maxMagic}\n"
-    #     result += f"Stamina: {char.maxStamina}"
-    #     return result
