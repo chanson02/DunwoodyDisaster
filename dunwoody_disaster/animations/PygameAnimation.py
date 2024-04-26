@@ -50,7 +50,7 @@ class PygameAnimation:
         self.frame_count
         self.frame_duration
         """
-        raise Exception("Unimplemented")
+        raise NotImplementedError("load_frames must be implemented in subclass")
 
     def run(self) -> None:
         """
@@ -64,7 +64,7 @@ class PygameAnimation:
                 pygame.draw.circiel(self.surface, (255, 0, 0), (200, 150), 50)
                 self.clock.tick(60)
         """
-        raise Exception("Unimplemented")
+        raise NotImplementedError("run method must be implemented in subclass")
 
     def to_bytes(self) -> bytes:
         return pygame.image.tobytes(self.surface, "RGB")
