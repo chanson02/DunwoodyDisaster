@@ -3,7 +3,7 @@ import pygame
 
 class PygameAnimation:
     """
-    An abstract class for manaing animations in pygame.
+    An abstract class for managing animations in pygame.
     """
 
     def __init__(self, size: tuple[int, int] = (800, 600)):
