@@ -23,7 +23,6 @@ class MainWindow(QMainWindow):
 
         self.selector = CharacterSelector(self.createPlayableCharacters())
         self.selector.onSelect(self.userSelectedCharacter)
-
         self.fightScreen = None
 
         self.stack = QStackedWidget()
@@ -50,7 +49,6 @@ class MainWindow(QMainWindow):
 
         self.fightScreen = FightScreen(self.player, room['NPC'])
         self.stack.addWidget(self.fightScreen)
-        self.fightScreen.init_UI()
         self.stack.setCurrentWidget(self.fightScreen)
 
     def startBtnClicked(self):
