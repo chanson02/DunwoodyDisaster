@@ -33,7 +33,6 @@ class FightScreen(QWidget):
         self.fightFlag = False
         self.doneFlag = False
         self.fight_Btn = QPushButton("FIGHT!")
-        self.fight_Btn.clicked.connect(self.SetFightFlag)
 
         self.init_ui()
 
@@ -49,7 +48,6 @@ class FightScreen(QWidget):
         layout.addWidget(arsenal)
 
         layout.addItem(DD.expander(True, False))
-        # layout.addLayout(self.center_layout(), stretch=1)
         layout.addLayout(self.center_layout())
         layout.addItem(DD.expander(True, False))
 
@@ -82,45 +80,47 @@ class FightScreen(QWidget):
                                 font-size: 36px;
                                 """
         )
+        self.fight_Btn.clicked.connect(self.fightClicked)
         layout.addWidget(
             self.fight_Btn, CHAR_STATE_ROWS + 2, 2, 1, 5, Qt.AlignmentFlag.AlignCenter
         )
 
         return layout
 
-    def SetFightFlag(self):
-        if self.CanFight(self.p1_selector) and self.CanFight(self.p2_selector):
-            self.fightFlag = True
-        else:
+    def fightClicked(self):
+        if not self.p1_selector.ready():
             print("You must select 2 actions to fight!")
+            return
+        
+        self.controller.takeTurn(self.p1_selector, self.p2_selector)
 
-    def CanFight(self, actionSelector: ActionSelector):
-        return (actionSelector.attack and actionSelector.defense) is not None
-
-    def Fight(self):
-        if self.fightFlag:
-            self.fight_Btn.setEnabled(False)
-            self.player1, self.player2 = self.fightSequence.Fight(
-                self.p1_selector,
-                self.p2_selector,
-            )
-            self.player1.set_health(self.player1.curHealth)
-            self.player1.set_magic(self.player1.curMagic)
-            self.player1.set_stamina(self.player1.curStamina)
-
-            self.player2.set_health(self.player2.curHealth)
-            self.player2.set_magic(self.player2.curMagic)
-            self.player2.set_stamina(self.player2.curStamina)
-            if self.player1.curHealth <= 0 or self.player2.curHealth <= 0:
-                self.doneFlag = True
-                if self.player1.curHealth == 0:
-                    print("Player 2 Wins!")
-                else:
-                    self._winCallback()
-            self.fightFlag = False
-            self.fight_Btn.setEnabled(True)
-            self.fightFlag = False
-            self.fight_Btn.setEnabled(True)
+    # def canFight(self, actionSelector: ActionSelector):
+    #     return (actionSelector.attack and actionSelector.defense) is not None
+    #
+    # def Fight(self):
+    #     if self.fightFlag:
+    #         self.fight_Btn.setEnabled(False)
+    #         self.player1, self.player2 = self.fightSequence.Fight(
+    #             self.p1_selector,
+    #             self.p2_selector,
+    #         )
+    #         self.player1.set_health(self.player1.curHealth)
+    #         self.player1.set_magic(self.player1.curMagic)
+    #         self.player1.set_stamina(self.player1.curStamina)
+    #
+    #         self.player2.set_health(self.player2.curHealth)
+    #         self.player2.set_magic(self.player2.curMagic)
+    #         self.player2.set_stamina(self.player2.curStamina)
+    #         if self.player1.curHealth <= 0 or self.player2.curHealth <= 0:
+    #             self.doneFlag = True
+    #             if self.player1.curHealth == 0:
+    #                 print("Player 2 Wins!")
+    #             else:
+    #                 self._winCallback()
+    #         self.fightFlag = False
+    #         self.fight_Btn.setEnabled(True)
+    #         self.fightFlag = False
+    #         self.fight_Btn.setEnabled(True)
 
     def onWin(self, callback: Callable):
         self._winCallback = callback
