@@ -2,7 +2,9 @@ from PySide6.QtWidgets import QWidget, QLayout, QLabel, QHBoxLayout
 from PySide6.QtGui import QPixmap
 from typing import Optional
 from dunwoody_disaster import Item
+from dunwoody_disaster.CharacterFactory import Character
 import dunwoody_disaster as DD
+import random
 
 
 class ActionSelector(QWidget):
@@ -22,13 +24,16 @@ class ActionSelector(QWidget):
 
     def updateUI(self):
         if self.attack:
-            print(self)
             self.attack_pic.setPixmap(QPixmap(self.attack.image).scaledToWidth(50))
         if self.defense:
             self.defend_pic.setPixmap(QPixmap(self.defense.image).scaledToWidth(50))
 
     def ready(self) -> bool:
         return (self.attack and self.defense) is not None
+
+    def selectRandom(self, character: Character):
+        self.setAttack(random.choice(character.weapons))
+        self.setDefense(random.choice(character.defenses))
 
     def createLayout(self) -> QLayout:
         layout = QHBoxLayout()

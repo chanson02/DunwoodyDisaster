@@ -27,6 +27,7 @@ class FightScreen(QWidget):
 
         self.p1_selector = ActionSelector()
         self.p2_selector = ActionSelector()
+        self.p2_selector.selectRandom(self.player2)
 
         self._winCallback = DD.unimplemented
         self._loseCallback = DD.unimplemented
@@ -91,7 +92,7 @@ class FightScreen(QWidget):
         if not self.p1_selector.ready():
             print("You must select 2 actions to fight!")
             return
-        
+
         self.controller.takeTurn(self.p1_selector, self.p2_selector)
 
     # def canFight(self, actionSelector: ActionSelector):
