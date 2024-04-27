@@ -1,5 +1,5 @@
-from PySide6.QtWidgets import QSpacerItem, QSizePolicy, QWidget
-from PySide6.QtCore import QObject, Signal, QEvent, SignalInstance
+from PySide6.QtWidgets import QSpacerItem, QSizePolicy, QWidget, QScrollArea, QLayout
+from PySide6.QtCore import QObject, Signal, QEvent, SignalInstance, Qt
 import os
 
 ASSETS = {}
@@ -24,6 +24,44 @@ def spacer(height: int) -> QSpacerItem:
     Create an invisible vertical spacer to separate UI elements.
     """
     return QSpacerItem(0, height, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+
+
+def expander(horizontal: bool, vertical: bool, min=10) -> QSpacerItem:
+    """
+    Create a spacer that will grow as large as possible horizontally or vertically
+    :param min: Minimum distance to space
+    """
+    h_policy = QSizePolicy.Policy.Fixed
+    width = 0
+    v_policy = QSizePolicy.Policy.Fixed
+    height = 0
+    if horizontal:
+        h_policy = QSizePolicy.Policy.MinimumExpanding
+        width = min
+    if vertical:
+        v_policy = QSizePolicy.Policy.MinimumExpanding
+        height = min
+
+    return QSpacerItem(width, height, h_policy, v_policy)
+
+
+def scroller(child: QLayout, horizontal: bool, vertical: bool) -> QScrollArea:
+    h_policy = Qt.ScrollBarPolicy.ScrollBarAlwaysOff
+    v_policy = Qt.ScrollBarPolicy.ScrollBarAlwaysOff
+    if horizontal:
+        h_policy = Qt.ScrollBarPolicy.ScrollBarAsNeeded
+    if vertical:
+        v_policy = Qt.ScrollBarPolicy.ScrollBarAsNeeded
+
+    result = QScrollArea()
+    result.setWidgetResizable(True)
+    result.setHorizontalScrollBarPolicy(h_policy)
+    result.setVerticalScrollBarPolicy(v_policy)
+
+    widget = QWidget()
+    widget.setLayout(child)
+    result.setWidget(widget)
+    return result
 
 
 def unimplemented(*_, **k):

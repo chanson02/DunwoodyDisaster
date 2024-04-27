@@ -1,6 +1,12 @@
 from typing import Sequence
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QGridLayout, QLabel, QWidget, QScrollArea
+from PySide6.QtWidgets import (
+    QGridLayout,
+    QLabel,
+    QWidget,
+    QVBoxLayout,
+    QGroupBox,
+)
 import dunwoody_disaster as DD
 from dunwoody_disaster.views.action_selector import ActionSelector
 from dunwoody_disaster import Item
@@ -19,51 +25,48 @@ class Arsenal(QWidget):
     ):
         super().__init__()
         self.selector = selector
-        self.setStyleSheet("background-color: black;")
         layout = QGridLayout()
         layout.setContentsMargins(0, 0, 0, 0)
 
-        weapons_widget = self.create_inventory("Weapons", weapons)
-        armor_widget = self.create_inventory("Armor", armors)
+        weapons_widget = self.createInventory("Weapons", weapons)
+        armor_widget = self.createInventory("Armor", armors)
 
         layout.addWidget(weapons_widget, 0, 0)
         layout.addWidget(armor_widget, 0, 1)
         self.setLayout(layout)
 
-    def select_item(self, item: Item.Item):
+    def selectItem(self, item: Item.Item):
         if type(item) is Item.Weapon:
-            self.selector.set_attack(item)
+            self.selector.setAttack(item)
         elif type(item) is Item.Armor:
-            self.selector.set_defense(item)
+            self.selector.setDefense(item)
         return
 
-    def select_item_lambda(self, item: Item.Item):
-        return lambda: self.select_item(item)
+    def selectItemLambda(self, item: Item.Item):
+        return lambda: self.selectItem(item)
 
-    def create_inventory(self, label: str, items: Sequence[Item.Item]) -> QWidget:
-        layout = QGridLayout()
-        layout.setSpacing(0)
-        layout.setContentsMargins(0, 0, 0, 0)
-        row = 1
+    def createInventory(self, label: str, items: Sequence[Item.Item]) -> QWidget:
+        layout = QVBoxLayout()
 
         lbl = QLabel(label)
+        lbl.setMinimumHeight(50)
         lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        lbl.setStyleSheet("color: white; font-size: 24px;")
-        layout.addWidget(lbl, row, 1)
-        row += 1
+        lbl.setStyleSheet("color: white; font-size: 50px;")
+        layout.addWidget(lbl)
 
+        item_layout = QVBoxLayout()
         for item in items:
-            item_widget = item.widget()
-            DD.clickable(item_widget).connect(self.select_item_lambda(item))
-            layout.addWidget(item_widget, row, 1)
-            row += 1
+            gbox = QGroupBox()
+            container = QVBoxLayout()
+            container.addWidget(item.widget())
+            DD.clickable(gbox).connect(self.selectItemLambda(item))
+            gbox.setLayout(container)
+            item_layout.addWidget(gbox)
+        item_layout.addItem(DD.expander(False, True, 0))
+
+        scroll_area = DD.scroller(item_layout, False, True)
+        layout.addWidget(scroll_area)
 
         widget = QWidget()
         widget.setLayout(layout)
-        scroll_area = QScrollArea()
-        scroll_area.setWidgetResizable(True)
-        scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
-        scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-        scroll_area.setWidget(widget)
-        scroll_area.setMinimumWidth(150)
-        return scroll_area
+        return widget
