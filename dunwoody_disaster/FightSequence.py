@@ -44,12 +44,3 @@ class FightSequence:
             dmg = attack.damage + player.strength - defense.armorVal
 
         return max(0, dmg)
-
-    # def CanAttack(self, player: Character, attack: Item.Weapon) -> bool:
-    #     """
-    #     Checks to see if character has enough stamina or magic to attack with.
-    #     """
-    #     return (
-    #         player.curStamina - attack.staminaCost >= 0
-    #         and player.curMagic >= attack.magicReq
-    #     )

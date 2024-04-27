@@ -25,9 +25,9 @@ class FightScreen(QWidget):
         self.player1 = self.controller.player
         self.player2 = self.controller.enemy
 
-        self.p1_selector = ActionSelector()
-        self.p2_selector = ActionSelector()
-        self.p2_selector.selectRandom(self.player2)
+        self.p1_selector = ActionSelector(self.player1)
+        self.p2_selector = ActionSelector(self.player2)
+        self.p2_selector.selectRandom()
 
         self._winCallback = DD.unimplemented
         self._loseCallback = DD.unimplemented

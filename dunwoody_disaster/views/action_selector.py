@@ -8,14 +8,42 @@ import random
 
 
 class ActionSelector(QWidget):
-    def __init__(self):
+    def __init__(self, character: Character):
         super().__init__()
+        self.character = character
         self.attack: Optional[Item.Weapon] = None
         self.defense: Optional[Item.Armor] = None
         self.setLayout(self.createLayout())
 
     def setAttack(self, item: Optional[Item.Weapon]):
+        if item is not None:
+            staminaCost = item.staminaCost
+            magicCost = item.magicReq
+            # TODO: Implement
+            # if self.defense:
+            #     staminaCost += self.defense.staminaCost
+            #     magicCost += self.defense.magicReq
+
+            if staminaCost > self.character.curStamina or magicCost > self.character.curMagic:
+                # Do not let them select if they can't
+                item = None
+
         self.attack = item
+        self.updateUI()
+
+    def setDefense(self, item: Optional[Item.Armor]):
+        # if item is not None:
+        #     staminaCost = item.staminaCost
+        #     magicCost = item.magicReq
+        #     if self.attack:
+        #         staminaCost += self.self.attack.staminaCost
+        #         magicCost += self.self.attack.magicReq
+        #
+        #     if staminaCost > self.character.curStamina or magicCost > self.character.curMagic:
+        #         # Do not let them select if they can't
+        #         item = None
+
+        self.defense = item
         self.updateUI()
 
     def getAttack(self) -> Item.Weapon:
@@ -28,10 +56,6 @@ class ActionSelector(QWidget):
             raise Exception("Defense not set")
         return self.defense
 
-    def setDefense(self, item: Optional[Item.Armor]):
-        self.defense = item
-        self.updateUI()
-
     def updateUI(self):
         if self.attack:
             self.attack_pic.setPixmap(QPixmap(self.attack.image).scaledToWidth(50))
@@ -41,9 +65,9 @@ class ActionSelector(QWidget):
     def ready(self) -> bool:
         return (self.attack and self.defense) is not None
 
-    def selectRandom(self, character: Character):
-        self.setAttack(random.choice(character.weapons))
-        self.setDefense(random.choice(character.defenses))
+    def selectRandom(self):
+        self.setAttack(random.choice(self.character.weapons))
+        self.setDefense(random.choice(self.character.defenses))
 
     def createLayout(self) -> QLayout:
         layout = QHBoxLayout()
