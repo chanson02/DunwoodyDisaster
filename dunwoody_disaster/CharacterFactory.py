@@ -277,3 +277,43 @@ class CharacterFactory:
             char.add_item(Item.Armor.from_json(item))
 
         return char
+
+    @staticmethod
+    def BillHudson() -> Character:
+        char = CharacterFactory.createTestChar()
+        char.name = 'Bill Hudson'
+        return char
+
+    @staticmethod
+    def LeAnnSimonson() -> Character:
+        char = CharacterFactory.createTestChar()
+        char.name = 'LeAnn Simonson'
+        return char
+
+    @staticmethod
+    def RyanRengo() -> Character:
+        char = CharacterFactory.createTestChar()
+        char.name = 'Ryan Rengo'
+        return char
+
+    @staticmethod
+    def NoureenSajid() -> Character:
+        char = CharacterFactory.createTestChar()
+        char.name = 'Noureen Sajid'
+        return char
+
+    @staticmethod
+    def JoeAxberg() -> Character:
+        char = CharacterFactory.createTestChar()
+        char.name = 'Joe Axberg'
+        return char
+
+    @staticmethod
+    def enemy1() -> Character:
+        char = CharacterFactory.createTestChar()
+        return char
+
+    @staticmethod
+    def enemy2() -> Character:
+        char = CharacterFactory.createTestChar()
+        return char
