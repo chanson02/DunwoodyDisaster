@@ -281,31 +281,31 @@ class CharacterFactory:
     @staticmethod
     def BillHudson() -> Character:
         char = CharacterFactory.createTestChar()
-        char.name = 'Bill Hudson'
+        char.name = "Bill Hudson"
         return char
 
     @staticmethod
     def LeAnnSimonson() -> Character:
         char = CharacterFactory.createTestChar()
-        char.name = 'LeAnn Simonson'
+        char.name = "LeAnn Simonson"
         return char
 
     @staticmethod
     def RyanRengo() -> Character:
         char = CharacterFactory.createTestChar()
-        char.name = 'Ryan Rengo'
+        char.name = "Ryan Rengo"
         return char
 
     @staticmethod
     def NoureenSajid() -> Character:
         char = CharacterFactory.createTestChar()
-        char.name = 'Noureen Sajid'
+        char.name = "Noureen Sajid"
         return char
 
     @staticmethod
     def JoeAxberg() -> Character:
         char = CharacterFactory.createTestChar()
-        char.name = 'Joe Axberg'
+        char.name = "Joe Axberg"
         return char
 
     @staticmethod
