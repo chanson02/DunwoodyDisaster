@@ -10,6 +10,7 @@ from PySide6.QtWidgets import (
 import dunwoody_disaster as DD
 from dunwoody_disaster.views.action_selector import ActionSelector
 from dunwoody_disaster import Item
+from typing import Optional
 
 
 class Arsenal(QWidget):
@@ -35,10 +36,14 @@ class Arsenal(QWidget):
         layout.addWidget(armor_widget, 0, 1)
         self.setLayout(layout)
 
-    def selectItem(self, item: Item.Item):
+    def selectItem(self, item: Optional[Item.Item]):
         if type(item) is Item.Weapon:
+            if item == self.selector.attack:
+                item = None
             self.selector.setAttack(item)
         elif type(item) is Item.Armor:
+            if item == self.selector.defense:
+                item = None
             self.selector.setDefense(item)
         return
 

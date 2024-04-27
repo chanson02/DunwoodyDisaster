@@ -32,6 +32,7 @@ class ActionSelector(QWidget):
         self.updateUI()
 
     def setDefense(self, item: Optional[Item.Armor]):
+        # TODO: Implement
         # if item is not None:
         #     staminaCost = item.staminaCost
         #     magicCost = item.magicReq
@@ -59,8 +60,12 @@ class ActionSelector(QWidget):
     def updateUI(self):
         if self.attack:
             self.attack_pic.setPixmap(QPixmap(self.attack.image).scaledToWidth(50))
+        else:
+            self.attack_pic.setPixmap(QPixmap())
         if self.defense:
             self.defend_pic.setPixmap(QPixmap(self.defense.image).scaledToWidth(50))
+        else:
+            self.defend_pic.setPixmap(QPixmap())
 
     def ready(self) -> bool:
         return (self.attack and self.defense) is not None
