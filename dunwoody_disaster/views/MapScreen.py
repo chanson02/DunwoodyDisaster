@@ -139,17 +139,17 @@ class MapScreen(QWidget):
         return map
 
     @staticmethod
-    def build_map(char: Character) -> "MapScreen":
-        test_enemy = CharacterFactory.createTestChar()
-        test_enemy.name = "test enemy"
-        test_enemy.image_path = DD.ASSETS['cooper']
+    def defaultMap(char: Character) -> "MapScreen":
         ms = MapScreen(char, None)
+        chars = CharacterFactory
+
         ms.setAsset("MainMap")
-        ms.addRoom("Bus Stop", (419, 700), test_enemy, "no_texture")
-        ms.addRoom("Court Yard", (693, 559), test_enemy, "no_texture")
-        ms.addRoom("Commons", (451, 449), test_enemy, "no_texture")
-        ms.addRoom("Math", (236, 359), test_enemy, "no_texture")
-        ms.addRoom("English", (770, 366), test_enemy, "no_texture")
-        ms.addRoom("Science", (490, 217), test_enemy, "no_texture")
-        ms.addRoom("Dean's Office", (90, 589), test_enemy, "no_texture")
+        ms.addRoom("Bus Stop", (419, 700), chars.JoeAxberg(), "no_texture")
+        ms.addRoom("Court Yard", (693, 559), chars.LeAnnSimonson(), "no_texture")
+        ms.addRoom("Commons", (451, 449), chars.RyanRengo(), "no_texture")
+        ms.addRoom("Math", (236, 359), chars.NoureenSajid(), "no_texture")
+        ms.addRoom("English", (770, 366), chars.enemy1(), "no_texture")
+        ms.addRoom("Science", (490, 217), chars.enemy2(), "no_texture")
+        ms.addRoom("Dean's Office", (90, 589), chars.BillHudson(), "no_texture")
+
         return ms
