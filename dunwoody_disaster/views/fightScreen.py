@@ -95,9 +95,6 @@ class FightScreen(QWidget):
 
         self.controller.takeTurn(self.p1_selector, self.p2_selector)
 
-    # def canFight(self, actionSelector: ActionSelector):
-    #     return (actionSelector.attack and actionSelector.defense) is not None
-    #
     # def Fight(self):
     #     if self.fightFlag:
     #         self.fight_Btn.setEnabled(False)

@@ -18,6 +18,16 @@ class ActionSelector(QWidget):
         self.attack = item
         self.updateUI()
 
+    def getAttack(self) -> Item.Weapon:
+        if self.attack is None:
+            raise Exception("Attack not set")
+        return self.attack
+
+    def getDefense(self) -> Item.Armor:
+        if self.defense is None:
+            raise Exception("Defense not set")
+        return self.defense
+
     def setDefense(self, item: Optional[Item.Armor]):
         self.defense = item
         self.updateUI()
