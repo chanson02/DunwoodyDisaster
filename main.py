@@ -20,7 +20,6 @@ class MainWindow(QMainWindow):
 
         self.selector = CharacterSelector(self.createPlayableCharacters())
         self.selector.onSelect(self.userSelectedCharacter)
-
         self.fightScreen = None
 
         self.stack = QStackedWidget()
