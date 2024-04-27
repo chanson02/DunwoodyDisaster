@@ -22,6 +22,15 @@ class FightSequence:
         playerDmg = self.calculateDamage(self.player, enemyActions.getAttack(), playerActions.getDefense())
         enemyDmg = self.calculateDamage(self.enemy, playerActions.getAttack(), enemyActions.getDefense())
 
+        self.player.set_health(self.player.curHealth - playerDmg)
+        self.player.set_magic(self.player.curMagic - playerActions.getAttack().magicReq)
+        self.player.set_stamina(self.player.curStamina - playerActions.getAttack().staminaCost)
+        # Do defenses also cost stamina ??? -- Cooper
+
+        self.enemy.set_health(self.enemy.curHealth - enemyDmg)
+        self.enemy.set_magic(self.enemy.curMagic - enemyActions.getAttack().magicReq)
+        self.enemy.set_stamina(self.enemy.curStamina - enemyActions.getAttack().staminaCost)
+
     def calculateDamage(self, player: Character, attack: Item.Weapon, defense: Item.Armor):
         """
         :param player: The player being attacked
@@ -36,25 +45,6 @@ class FightSequence:
 
         return max(0, dmg)
 
-
-    #     # putting this here so the typechecker shuts up --Cooper
-    #     if not (playerWeapon and enemyWeapon and playerDefense and enemyDefense):
-    #         raise Exception("Players did not select items")
-    #
-    #     canPlayerAttack = self.CanAttack(self.player, playerWeapon)
-    #     canEnemyAttack = self.CanAttack(self.enemy, enemyWeapon)
-    #
-    #     if canPlayerAttack:
-    #         playerDamage = self.CalculateDamage(self.player, playerWeapon, enemyDefense)
-    #         self.player.curStamina -= playerWeapon.staminaCost
-    #         self.enemy.curHealth -= playerDamage
-    #     if canEnemyAttack:
-    #         enemyDamage = self.CalculateDamage(self.enemy, enemyWeapon, playerDefense)
-    #         self.enemy.curStamina -= enemyWeapon.staminaCost
-    #         self.player.curHealth -= enemyDamage
-    #
-    #     return self.player, self.enemy
-    #
     # def CanAttack(self, player: Character, attack: Item.Weapon) -> bool:
     #     """
     #     Checks to see if character has enough stamina or magic to attack with.
