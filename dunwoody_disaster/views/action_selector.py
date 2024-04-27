@@ -26,6 +26,9 @@ class ActionSelector(QWidget):
         if self.defense:
             self.defend_pic.setPixmap(QPixmap(self.defense.image).scaledToWidth(50))
 
+    def ready(self) -> bool:
+        return (self.attack and self.defense) is not None
+
     def createLayout(self) -> QLayout:
         layout = QHBoxLayout()
         layout.setSpacing(0)
