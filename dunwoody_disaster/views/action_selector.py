@@ -22,6 +22,7 @@ class ActionSelector(QWidget):
 
     def updateUI(self):
         if self.attack:
+            print(self)
             self.attack_pic.setPixmap(QPixmap(self.attack.image).scaledToWidth(50))
         if self.defense:
             self.defend_pic.setPixmap(QPixmap(self.defense.image).scaledToWidth(50))
