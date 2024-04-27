@@ -2,6 +2,7 @@ from PySide6.QtWidgets import QSpacerItem, QSizePolicy, QWidget, QScrollArea, QL
 from PySide6.QtCore import QObject, Signal, QEvent, SignalInstance, Qt
 import os
 
+
 ASSETS = {}
 # I think this will make it so you can run main.py from anywhere --Cooper
 asset_dir = os.path.join(os.path.dirname(__file__), "assets")

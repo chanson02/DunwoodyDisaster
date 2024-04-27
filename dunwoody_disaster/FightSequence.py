@@ -1,6 +1,7 @@
 from dunwoody_disaster import CharacterFactory, Item
 from dunwoody_disaster.CharacterFactory import Character
 from dunwoody_disaster.views import action_selector
+from dunwoody_disaster.views.fightScreen import FightScreen
 
 
 class FightSequence:
@@ -9,6 +10,7 @@ class FightSequence:
     ):
         self.player = player
         self.enemy = enemy
+        self.widget = FightScreen(self)
 
     def Fight(
         self,

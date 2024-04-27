@@ -11,17 +11,19 @@ import dunwoody_disaster as DD
 from dunwoody_disaster.CharacterFactory import Character
 from dunwoody_disaster.views.characterState import CharacterState
 from dunwoody_disaster.views.action_selector import ActionSelector
-from dunwoody_disaster.FightSequence import FightSequence
 
-from typing import Callable
+from typing import Callable, TYPE_CHECKING
+if TYPE_CHECKING:
+    # avoid circular import
+    from dunwoody_disaster.FightSequence import FightSequence
 
 
 class FightScreen(QWidget):
-    def __init__(self, player1: Character, player2: Character):
+    def __init__(self, controller: 'FightSequence'):
         super().__init__()
-        self.player1 = player1
-        self.player2 = player2
-        self.fightSequence = FightSequence(self.player1, self.player2)
+        self.controller = controller
+        self.player1 = self.controller.player
+        self.player2 = self.controller.enemy
 
         self.p1_selector = ActionSelector()
         self.p2_selector = ActionSelector()
