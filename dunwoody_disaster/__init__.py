@@ -83,6 +83,16 @@ def layout(widget: QWidget) -> QLayout:
     return layout
 
 
+def clear_layout(layout: QLayout):
+    """
+    Clear all widgets inside layout from screen
+    """
+    for i in reversed(range(layout.count())):
+        widget = layout.itemAt(i).widget()
+        layout.removeWidget(widget)
+        widget.setParent(None)
+
+
 def unimplemented(*_, **k):
     _ = k
     """
