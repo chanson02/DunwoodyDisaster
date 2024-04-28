@@ -94,6 +94,3 @@ class FightScreen(QWidget):
             return
 
         self.controller.takeTurn(self.p1_selector, self.p2_selector)
-
-    def onWin(self, callback: Callable):
-        self._winCallback = callback
