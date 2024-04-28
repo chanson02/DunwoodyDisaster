@@ -15,6 +15,10 @@ class ActionSelector(QWidget):
         self.defense: Optional[Item.Armor] = None
         self.setLayout(self.createLayout())
 
+    def clear(self):
+        self.setAttack(None)
+        self.setDefense(None)
+
     def setAttack(self, item: Optional[Item.Weapon]):
         if item is not None:
             staminaCost = item.staminaCost

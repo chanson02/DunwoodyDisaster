@@ -31,6 +31,9 @@ class FightSequence:
         self.enemy.set_magic(self.enemy.curMagic - enemyActions.getAttack().magicReq)
         self.enemy.set_stamina(self.enemy.curStamina - enemyActions.getAttack().staminaCost)
 
+        playerActions.clear()
+        enemyActions.selectRandom()
+
     def calculateDamage(self, player: Character, attack: Item.Weapon, defense: Item.Armor):
         """
         :param player: The player being attacked
