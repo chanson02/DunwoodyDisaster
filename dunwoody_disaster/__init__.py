@@ -50,6 +50,9 @@ def scroller(child: QLayout, horizontal: bool, vertical: bool) -> QScrollArea:
     """
     :return: a QScrollArea(QWidget)
     """
+    child.setSpacing(0)
+    child.setContentsMargins(0, 0, 0, 0)
+
     h_policy = Qt.ScrollBarPolicy.ScrollBarAlwaysOff
     v_policy = Qt.ScrollBarPolicy.ScrollBarAlwaysOff
     if horizontal:
@@ -58,6 +61,7 @@ def scroller(child: QLayout, horizontal: bool, vertical: bool) -> QScrollArea:
         v_policy = Qt.ScrollBarPolicy.ScrollBarAsNeeded
 
     result = QScrollArea()
+    result.setContentsMargins(0, 0, 0, 0)
     result.setWidgetResizable(True)
     result.setHorizontalScrollBarPolicy(h_policy)
     result.setVerticalScrollBarPolicy(v_policy)
