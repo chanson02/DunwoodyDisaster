@@ -33,6 +33,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.stack)
 
     def showMapScreen(self):
+        self.mapScreen.map.setRoom(None)
         self.stack.setCurrentWidget(self.mapScreen)
 
     def EnterFight(self, room: dict):

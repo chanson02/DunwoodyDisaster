@@ -8,6 +8,7 @@ from PySide6.QtWidgets import (
 from PySide6.QtGui import QPixmap, QPainter
 import dunwoody_disaster as DD
 from PySide6.QtCore import Qt
+from typing import Optional
 
 
 class FightPreview(QWidget):
@@ -73,7 +74,21 @@ class FightPreview(QWidget):
         layout.addItem(DD.expander(True, False))
         return layout
 
-    def setRoom(self, room_info: dict):
+    def clear(self):
+        self.room_lbl.setText("")
+        self.health.setText("")
+        self.magic.setText("")
+        self.stamina.setText("")
+        self.battlefield.setPixmap(QPixmap())
+        return
+
+    def setRoom(self, room_info: Optional[dict]):
+        DD.clear_layout(self.weapons)
+        DD.clear_layout(self.defenses)
+        if room_info is None:
+            self.clear()
+            return
+
         NPC = room_info["NPC"]
         lbl = f"{room_info['name']}: {NPC.name}"
         self.room_lbl.setText(lbl)
@@ -87,19 +102,11 @@ class FightPreview(QWidget):
         self.magic.setText(f"Magic: {NPC.maxMagic}")
         self.stamina.setText(f"Stamina: {NPC.maxStamina}")
 
-        for i in reversed(range(self.weapons.count())):
-            widget = self.weapons.itemAt(i).widget()
-            self.weapons.removeWidget(widget)
-            widget.setParent(None)
-
+        DD.clear_layout(self.weapons)
         for weapon in NPC.weapons:
             self.weapons.addWidget(weapon.widget())
 
-        for i in reversed(range(self.defenses.count())):
-            widget = self.defenses.itemAt(i).widget()
-            self.defenses.removeWidget(widget)
-            widget.setParent(None)
-
+        DD.clear_layout(self.defenses)
         for defense in NPC.defenses:
             self.defenses.addWidget(defense.widget())
 
