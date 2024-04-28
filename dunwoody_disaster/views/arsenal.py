@@ -41,10 +41,12 @@ class Arsenal(QWidget):
             if item == self.selector.attack:
                 item = None
             self.selector.setAttack(item)
+
         elif type(item) is Item.Armor:
             if item == self.selector.defense:
                 item = None
             self.selector.setDefense(item)
+
         return
 
     def selectItemLambda(self, item: Item.Item):

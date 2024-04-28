@@ -71,7 +71,21 @@ class ActionSelector(QWidget):
         return (self.attack and self.defense) is not None
 
     def selectRandom(self):
-        self.setAttack(random.choice(self.character.weapons))
+        weapons = [
+                w for w in self.character.weapons
+                if self.character.curMagic >= w.magicReq and self.character.curStamina >= w.staminaCost
+                ]
+
+        chosen_weapon = random.choice(weapons)
+        self.setAttack(chosen_weapon)
+
+        # TODO: Implement
+        # adjustedMagic = self.character.curMagic - chosen_weapon.magicReq
+        # adjustedStamina = self.character.curStamina - chosen_weapon.staminaCost
+        # defenses = [
+        #         w for w in self.character.defenses
+        #         if adjustedMagic >= w.magicReq and adjustedStamina >= w.staminaCost
+        #         ]
         self.setDefense(random.choice(self.character.defenses))
 
     def createLayout(self) -> QLayout:
