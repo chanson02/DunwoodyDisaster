@@ -8,8 +8,8 @@ from PySide6.QtWidgets import (
     QCheckBox,
     QPushButton,
     QHBoxLayout,
-    QScrollArea,
     QGroupBox,
+    QLayout
 )
 from dunwoody_disaster.CharacterFactory import Character
 from dunwoody_disaster import Item
@@ -28,58 +28,59 @@ class CollectLootScreen(QWidget):
         self._callback = DD.unimplemented
         self.player = player
         self.items = available
+        self.boxes: dict[QCheckBox, Item.Item] = {}
+
+        self.capacity = Meter(QColor("white"), 0)
+        self.capacity.setEndColor(QColor("red"))
+        self.capacity.setStyleSheet("min-height: 50px;")
 
         layout = QVBoxLayout()
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
+        self.setLayout(layout)
 
-        container = QHBoxLayout()
-        capacity_label = QLabel("Inventory capacity used: ")
-        capacity_label.setFixedWidth(200)
-        self.capacity = Meter(QColor("white"), 0)
-        self.capacity.setEndColor(QColor("red"))
-        self.capacity.setStyleSheet("min-height: 50px;")
-        container.addWidget(capacity_label)
-        container.addWidget(self.capacity)
-        layout.addLayout(container)
+        layout.addLayout(self.capacity_meter())
 
-        loot_container = QGroupBox("Loot Dropped")
+        # Loot that was dropped
+        drops = QGroupBox("Loot Dropped")
         loot = QHBoxLayout()
-        loot_container.setLayout(loot)
-        layout.addWidget(loot_container)
+        drops.setLayout(DD.layout(DD.scroller(loot, True, False)))
+        layout.addWidget(drops)
 
-        self.boxes: dict[QCheckBox, Item.Item] = {}
         for item in self.items:
             widget, box = self.create_inventory_slot(item)
             loot.addWidget(widget)
             self.boxes[box] = item
 
-        inventory_container = QGroupBox("Inventory")
-        inventory_container.setMinimumHeight(350)
-        scroll_area = QScrollArea()
-        scroll_container = QHBoxLayout()
+        # Loot that was already in inventory
+        inventory_box = QGroupBox("Inventory")
         inventory = QHBoxLayout()
-        scroll_area.setLayout(inventory)
-        scroll_container.addWidget(scroll_area)
-        inventory_container.setLayout(scroll_container)
-        layout.addWidget(inventory_container)
+        inventory_box.setLayout(DD.layout(DD.scroller(inventory, True, False)))
+        layout.addWidget(inventory_box)
 
         box = None
         for item in self.player.get_items():
             widget, box = self.create_inventory_slot(item)
             inventory.addWidget(widget)
-            inventory.addSpacing(10)
             self.boxes[box] = item
             box.setChecked(True)
         if box is not None:
             self.select_item(box)
 
+        # Confirm button
         btn = QPushButton("Confirm")
-        btn.clicked.connect(self.confirm)
+        btn.clicked.connect(self.confirmClicked)
         layout.addWidget(btn)
 
-        self.setLayout(layout)
         return
+
+    def capacity_meter(self) -> QLayout:
+        layout = QHBoxLayout()
+        lbl = QLabel("Inventory capacity used: ")
+        lbl.setFixedWidth(200)
+        layout.addWidget(lbl)
+        layout.addWidget(self.capacity)
+        return layout
 
     def unset_callback(self):
         raise Exception("Callback never assigned")
@@ -144,7 +145,7 @@ class CollectLootScreen(QWidget):
 
         return
 
-    def confirm(self):
+    def confirmClicked(self):
         self.player.clear_items()
         for box, item in self.boxes.items():
             box.setEnabled(False)
