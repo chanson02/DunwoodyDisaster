@@ -22,7 +22,7 @@ class VictoryScreen(QWidget):
         pic = QLabel("")
         pic.setAlignment(Qt.AlignmentFlag.AlignCenter)
         pic.setStyleSheet("min-width: 380px;")
-        pic.setPixmap(fight_controller.player.image())
+        pic.setPixmap(fight_controller.player.image().scaledToWidth(300))
         layout.addWidget(pic)
 
         lbl = QLabel("Manage your inventory: ")
