@@ -46,6 +46,11 @@ class FightSequence:
         playerActions.clear()
         enemyActions.selectRandom()
 
+        if self.enemy.curHealth <= 0:
+            self._winCallback()
+        elif self.player.curHealth <= 0:
+            self._loseCallback()
+
     def calculateDamage(
         self, player: Character, attack: Item.Weapon, defense: Item.Armor
     ):
