@@ -82,9 +82,6 @@ class CollectLootScreen(QWidget):
         layout.addWidget(self.capacity)
         return layout
 
-    def unset_callback(self):
-        raise Exception("Callback never assigned")
-
     def set_callback(self, callback: Callable):
         """
         Call this function when the loot has been confirmed
