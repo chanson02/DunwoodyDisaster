@@ -35,7 +35,7 @@ class VictoryScreen(QWidget):
         loot_screen.set_callback(self.loot_selected_event)
         layout.addWidget(loot_screen)
 
-    def set_callback(self, callback: Callable):
+    def onClose(self, callback: Callable):
         self._callback = callback
 
     def loot_selected_event(self):
