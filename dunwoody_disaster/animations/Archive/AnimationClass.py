@@ -1,6 +1,7 @@
 import pygame
 from dunwoody_disaster.animations import animation
 
+
 class AnimationClass:
     def __init__(self):
         pygame.init()
@@ -8,7 +9,10 @@ class AnimationClass:
         self.clock = pygame.time.Clock()
         self.fps = 60
         self.running = True
-        self.animation = animation.Animation(r"C:/Users/vuejohw/OneDrive - Dunwoody College of Technology/Documents/Data Structures/Class/DunwoodyDisaster/dunwoody_disaster/animations/Animation_Assets/idle", 8)
+        self.animation = animation.Animation(
+            r"C:/Users/vuejohw/OneDrive - Dunwoody College of Technology/Documents/Data Structures/Class/DunwoodyDisaster/dunwoody_disaster/animations/Animation_Assets/idle",
+            8,
+        )
 
     def run(self):
         while self.running:

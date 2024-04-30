@@ -55,6 +55,7 @@ class PygameAnimation:
     def next_frame_if_ready(self, clear=True) -> Optional[pygame.Surface]:
         """
         Return a frame to render only if the previous frames duration is up
+        :param clear:Whether to clear the display before drawing
         """
         if self.should_render():
             return self.next_frame(clear)
@@ -62,7 +63,7 @@ class PygameAnimation:
 
     def load_frames(self) -> None:
         """
-        This method should be overridden by subclasses to load
+        This method should be overridden by subclasses to load:
         self.frames
         self.frame_count
         self.frame_duration
@@ -73,10 +74,10 @@ class PygameAnimation:
         """
         This method should be overridden by subclasses to define behavior
         It's responsible for drawing the frames to the surface and loops
-        :example:
+        :frame example:
             if self.running and self.should_render():
                 self.surface.blit(self.next_frame(), (1, 1))
-        :example:
+        :draw example:
             if self.running:
                 pygame.draw.circiel(self.surface, (255, 0, 0), (200, 150), 50)
                 self.clock.tick(60)

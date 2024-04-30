@@ -17,6 +17,7 @@ class IdleAnimation(PygameAnimation):
         self.load_frames()
 
     # @override
+    # @override
     def load_frames(self):
         self.frames = []
         self.frame_count = 8
@@ -28,6 +29,7 @@ class IdleAnimation(PygameAnimation):
             path = f"{animation_base_path}_{str(i + 1).zfill(2)}.png"
             self.frames.append(pygame.image.load(path).convert_alpha())
 
+    # @override
     # @override
     def run(self) -> None:
         if self.running and self.should_render():
