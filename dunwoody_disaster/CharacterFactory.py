@@ -4,6 +4,8 @@ import dunwoody_disaster as DD
 from PySide6.QtGui import QColor, QPixmap
 from PySide6.QtWidgets import QLabel
 from dunwoody_disaster import Item
+import json
+import os
 
 
 class Character:
@@ -253,27 +255,73 @@ class CharacterFactory:
         return character
 
     @staticmethod
+    def SaveCharacter(character: Character) -> None:
+        """
+        Saves a character to a json file
+        :param character: The character to save
+        """
+        with open(f"dunwoody_disaster/saves/{character.name}.json", "w") as f:
+            json.dump(character.serialize(), f)
+
+    @staticmethod
+    def LoadCharacter(name: str) -> Character:
+        """
+        Loads a character from a json file
+        :param name: The name of the character to load
+        :return: The loaded character object
+        """
+        if not os.path.exists(f"dunwoody_disaster/saves/{name}.json"):
+            raise FileNotFoundError(f"Character file {name}.json not found")
+        with open(f"dunwoody_disaster/saves/{name}.json", "r") as f:
+            data = json.loads(f.read())
+            character = CharacterFactory.createFromJson(data)
+            return character
+
+    @staticmethod
     def createFromJson(json: dict) -> Character:
         char = Character()
-        char.name = json["name"]
-        char.image_path = DD.ASSETS[json["asset"]]
-        char.level = json["level"]
-        char.classType = json["class"]
-        char.strength = json["strength"]
-        char.intelligence = json["intelligence"]
-        char.maxHealth = json["health"]
-        char.maxMagic = json["magic"]
-        char.maxStamina = json["stamina"]
-        char.defense = json["defense"]
-        char.magicDefense = json["magicDefense"]
+        for key, value in json.items():
+            setattr(char, key, value)
+        return char
 
-        char.set_health(json["health"])
-        char.set_magic(json["magic"])
-        char.set_stamina(json["stamina"])
+    @staticmethod
+    def BillHudson() -> Character:
+        char = CharacterFactory.createTestChar()
+        char.name = "Bill Hudson"
+        return char
 
-        for item in json["inventory"]["weapons"]:
-            char.add_item(Item.Weapon.from_json(item))
-        for item in json["inventory"]["defenses"]:
-            char.add_item(Item.Armor.from_json(item))
+    @staticmethod
+    def LeAnnSimonson() -> Character:
+        char = CharacterFactory.createTestChar()
+        char.name = "LeAnn Simonson"
+        return char
 
+    @staticmethod
+    def RyanRengo() -> Character:
+        char = CharacterFactory.createTestChar()
+        char.name = "Ryan Rengo"
+        return char
+
+    @staticmethod
+    def NoureenSajid() -> Character:
+        char = CharacterFactory.createTestChar()
+        char.name = "Noureen Sajid"
+        return char
+
+    @staticmethod
+    def JoeAxberg() -> Character:
+        char = CharacterFactory.createTestChar()
+        char.name = "Joe Axberg"
+        return char
+
+    @staticmethod
+    def AmalanPulendran() -> Character:
+        char = CharacterFactory.createTestChar()
+        char.name = "Amalan Pulendran"
+        return char
+
+    @staticmethod
+    def MatthewBeckler() -> Character:
+        char = CharacterFactory.createTestChar()
+        char.name = "Matthew Beckler"
         return char

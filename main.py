@@ -1,9 +1,8 @@
 import sys
 from PySide6.QtWidgets import QMainWindow, QStackedWidget, QApplication
-from dunwoody_disaster.views.fightScreen import FightScreen
+from dunwoody_disaster.FightSequence import FightSequence
 from dunwoody_disaster.views.StartMenu import StartMenu
-from dunwoody_disaster.views.MapScreen import MapScreen
-from dunwoody_disaster.views.openingCrawl import Crawl
+from dunwoody_disaster.views.MapScreen import MapScreen, Map
 from dunwoody_disaster.views.CharacterSelector import CharacterSelector
 from dunwoody_disaster.CharacterFactory import CharacterFactory, Character
 import dunwoody_disaster as DD
@@ -21,10 +20,7 @@ class MainWindow(QMainWindow):
 
         self.selector = CharacterSelector(self.createPlayableCharacters())
         self.selector.onSelect(self.userSelectedCharacter)
-
-        self.crawl = Crawl()
-
-        self.fightScreen = None
+        self.fight = None
 
         self.stack = QStackedWidget()
         self.stack.addWidget(self.startMenu)
@@ -47,19 +43,19 @@ class MainWindow(QMainWindow):
         if not self.player:
             raise Exception("Cannot enter fight when no player is selected")
 
-        if self.fightScreen:
-            self.stack.removeWidget(self.fightScreen)
+        if self.fight:
+            self.stack.removeWidget(self.fight.widget)
 
-        self.fightScreen = FightScreen(self.player, room["NPC"])
-        self.stack.addWidget(self.fightScreen)
-        self.stack.setCurrentWidget(self.fightScreen)
+        self.fight = FightSequence(self.player, room["NPC"])
+        self.stack.addWidget(self.fight.widget)
+        self.stack.setCurrentWidget(self.fight.widget)
 
     def startBtnClicked(self):
         self.stack.setCurrentWidget(self.selector)
 
     def userSelectedCharacter(self, character: Character):
         self.player = character
-        self.mapScreen = MapScreen.build_map(self.player)
+        self.mapScreen = MapScreen(Map.buildMap(self.player))
         self.mapScreen.onEnter(self.EnterFight)
         self.stack.addWidget(self.mapScreen)
         self.showMapScreen()
