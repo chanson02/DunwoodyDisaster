@@ -33,12 +33,11 @@ class MapScreen(QWidget):
         self._callback = callback
 
     def keyPressEvent(self, event: QKeyEvent):
-        if event.key() == Qt.Key_Enter or event.key() == Qt.Key_Return:
+        if event.key() == Qt.Key.Key_Enter or event.key() == Qt.Key.Key_Return:
             if self.current_room:
                 self._callback(self.current_room)
 
     def init_ui(self):
-        # layout = QGridLayout()
         layout = QHBoxLayout()
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
