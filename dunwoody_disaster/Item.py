@@ -42,6 +42,8 @@ class Item:
         :param min_width: the minimum amount of pixels to use when rendering
         """
         layout = QVBoxLayout()
+        layout.setSpacing(0)
+        layout.setContentsMargins(0, 0, 0, 0)
 
         name = QLabel(self.name)
         name.setAlignment(Qt.AlignmentFlag.AlignCenter)

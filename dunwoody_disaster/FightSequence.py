@@ -1,6 +1,8 @@
 from dunwoody_disaster import CharacterFactory, Item
 from dunwoody_disaster.CharacterFactory import Character
-from dunwoody_disaster.views import action_selector
+from dunwoody_disaster.views.action_selector import ActionSelector
+from dunwoody_disaster.views.fightScreen import FightScreen
+import random
 
 
 class FightSequence:
@@ -9,65 +11,39 @@ class FightSequence:
     ):
         self.player = player
         self.enemy = enemy
+        self.widget = FightScreen(self)
 
-    def Fight(
-        self,
-        playerActions: action_selector.ActionSelector,
-        enemyActions: action_selector.ActionSelector,
-    ) -> tuple[CharacterFactory.Character, CharacterFactory.Character]:
+    def takeTurn(self, playerActions: ActionSelector, enemyActions: ActionSelector):
         """
-        Simulates a fight between player and enemy
+        Update the characters after using a move
         :param playerActions: The actions the player is using
         :param enemyActions: The actions the enemy is using
-        :return: The updated player and enemy characters
         """
-        playerWeapon = playerActions.attack
-        enemyWeapon = enemyActions.attack
-        playerDefense = playerActions.defense
-        enemyDefense = enemyActions.defense
+        playerDmg = self.calculateDamage(self.player, enemyActions.getAttack(), playerActions.getDefense())
+        enemyDmg = self.calculateDamage(self.enemy, playerActions.getAttack(), enemyActions.getDefense())
 
-        # putting this here so the typechecker shuts up --Cooper
-        if not (playerWeapon and enemyWeapon and playerDefense and enemyDefense):
-            raise Exception("Players did not select items")
+        self.player.set_health(self.player.curHealth - playerDmg)
+        self.player.set_magic(self.player.curMagic - playerActions.getAttack().magicReq)
+        self.player.set_stamina(self.player.curStamina - playerActions.getAttack().staminaCost)
+        # Do defenses also cost stamina ??? -- Cooper
 
-        canPlayerAttack = self.CanAttack(self.player, playerWeapon)
-        canEnemyAttack = self.CanAttack(self.enemy, enemyWeapon)
+        self.enemy.set_health(self.enemy.curHealth - enemyDmg)
+        self.enemy.set_magic(self.enemy.curMagic - enemyActions.getAttack().magicReq)
+        self.enemy.set_stamina(self.enemy.curStamina - enemyActions.getAttack().staminaCost)
 
-        if canPlayerAttack:
-            playerDamage = self.CalculateDamage(self.player, playerWeapon, enemyDefense)
-            self.player.curStamina -= playerWeapon.staminaCost
-            self.enemy.curHealth -= playerDamage
-        if canEnemyAttack:
-            enemyDamage = self.CalculateDamage(self.enemy, enemyWeapon, playerDefense)
-            self.enemy.curStamina -= enemyWeapon.staminaCost
-            self.player.curHealth -= enemyDamage
+        playerActions.clear()
+        enemyActions.selectRandom()
 
-        return self.player, self.enemy
-
-    def CanAttack(self, player: Character, attack: Item.Weapon) -> bool:
+    def calculateDamage(self, player: Character, attack: Item.Weapon, defense: Item.Armor):
         """
-        Checks to see if character has enough stamina or magic to attack with.
+        :param player: The player being attacked
+        :param attack: The attack the opponent is using
+        :param defense: The defense the player is using
+        :return: A positive integer representing the damage done to the player
         """
-        return (
-            player.curStamina - attack.staminaCost >= 0
-            and player.curMagic >= attack.magicReq
-        )
-
-    def CalculateDamage(
-        self, player: Character, playerAttack: Item.Weapon, targetDefense: Item.Armor
-    ):
-        """
-        Calculates damage based on playerAttack vs the targets defensive item.
-        """
-        if playerAttack.magic:
-            attackDamage = (
-                playerAttack.damage + player.intelligence
-            ) - targetDefense.magicDefense
+        if attack.magic:
+            dmg = attack.damage + player.intelligence - defense.magicDefense
         else:
-            attackDamage = (
-                playerAttack.damage + player.strength
-            ) - targetDefense.armorVal
-        print("attack damage: ", attackDamage)
-        if attackDamage > 0:
-            return attackDamage
-        return 0
+            dmg = attack.damage + player.strength - defense.armorVal
+
+        return max(0, dmg)
