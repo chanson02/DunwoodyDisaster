@@ -28,7 +28,10 @@ class ActionSelector(QWidget):
             #     staminaCost += self.defense.staminaCost
             #     magicCost += self.defense.magicReq
 
-            if staminaCost > self.character.curStamina or magicCost > self.character.curMagic:
+            if (
+                staminaCost > self.character.curStamina
+                or magicCost > self.character.curMagic
+            ):
                 # Do not let them select if they can't
                 item = None
 
@@ -76,9 +79,11 @@ class ActionSelector(QWidget):
 
     def selectRandom(self):
         weapons = [
-                w for w in self.character.weapons
-                if self.character.curMagic >= w.magicReq and self.character.curStamina >= w.staminaCost
-                ]
+            w
+            for w in self.character.weapons
+            if self.character.curMagic >= w.magicReq
+            and self.character.curStamina >= w.staminaCost
+        ]
 
         chosen_weapon = random.choice(weapons)
         self.setAttack(chosen_weapon)
