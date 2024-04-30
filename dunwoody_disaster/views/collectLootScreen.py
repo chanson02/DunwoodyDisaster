@@ -32,7 +32,7 @@ class CollectLootScreen(QWidget):
 
         self.capacity = Meter(QColor("white"), 0)
         self.capacity.setEndColor(QColor("red"))
-        self.capacity.setStyleSheet("min-height: 50px;")
+        self.capacity.setMinimumHeight(50)
 
         layout = QVBoxLayout()
         layout.setSpacing(0)
