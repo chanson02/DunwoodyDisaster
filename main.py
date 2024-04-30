@@ -3,6 +3,7 @@ from PySide6.QtWidgets import QMainWindow, QStackedWidget, QApplication
 from dunwoody_disaster.FightSequence import FightSequence
 from dunwoody_disaster.views.StartMenu import StartMenu
 from dunwoody_disaster.views.MapScreen import MapScreen, Map
+from dunwoody_disaster.views.openingCrawl import Crawl
 from dunwoody_disaster.views.CharacterSelector import CharacterSelector
 from dunwoody_disaster.CharacterFactory import CharacterFactory, Character
 import dunwoody_disaster as DD
@@ -21,12 +22,11 @@ class MainWindow(QMainWindow):
         self.selector = CharacterSelector(self.createPlayableCharacters())
         self.selector.onSelect(self.userSelectedCharacter)
         self.fight = None
-
+        self.crawl = Crawl()
         self.stack = QStackedWidget()
         self.stack.addWidget(self.startMenu)
         self.stack.addWidget(self.selector)
 
-        self.stack.addWidget(self.fightScreen)
         self.stack.addWidget(self.crawl)
 
         # Set the stacked widget as the central widget of the main window

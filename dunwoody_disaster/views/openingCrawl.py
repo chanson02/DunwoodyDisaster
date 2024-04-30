@@ -1,10 +1,9 @@
-import sys
 from PySide6.QtCore import Qt, QTimer
 from PySide6.QtGui import QColor, QFont, QPainter
-from PySide6.QtWidgets import QApplication, QWidget
+from PySide6.QtWidgets import QWidget
 
 
-class StarWarsCrawl(QWidget):
+class Crawl(QWidget):
     def __init__(self):
         super().__init__()
 
@@ -65,9 +64,3 @@ class StarWarsCrawl(QWidget):
             x = (self.width() - text_width) / 2
             painter.drawText(x, y, line)
             y += self.line_spacing
-
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = StarWarsCrawl()
-    sys.exit(app.exec())
