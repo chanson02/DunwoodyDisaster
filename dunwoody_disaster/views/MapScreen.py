@@ -1,6 +1,6 @@
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout
 from PySide6.QtGui import QPixmap, QKeyEvent, QPainter, QMouseEvent
-from PySide6.QtCore import Qt
 
 from dunwoody_disaster.views.FightPreview import FightPreview
 import dunwoody_disaster as DD
@@ -12,8 +12,8 @@ from math import sqrt
 class MapScreen(QWidget):
     def __init__(self, character: Character, entryPoint: Optional[tuple[int, int]]):
         super().__init__()
-        self._callback = DD.unimplemented
         self.character = character
+        self._callback = DD.unimplemented
         self.image = DD.ASSETS["no_texture"]
         self.rooms = []
         self.current_room: Optional[dict] = None
@@ -26,7 +26,16 @@ class MapScreen(QWidget):
         self.init_ui()
 
     def onEnter(self, callback: Callable):
+        """
+        :param callback: A callback function that takes the room info as a parameter
+        This callback will be triggered when the user selects which room to enter
+        """
         self._callback = callback
+
+    def keyPressEvent(self, event: QKeyEvent):
+        if event.key() == Qt.Key.Key_Enter or event.key() == Qt.Key.Key_Return:
+            if self.current_room:
+                self._callback(self.current_room)
 
     def init_ui(self):
         # layout = QGridLayout()
@@ -41,7 +50,6 @@ class MapScreen(QWidget):
         layout.addWidget(self.map)
 
         self.preview = FightPreview()
-        # self.preview.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignRight)
         layout.addWidget(self.preview)
 
     def setAsset(self, asset: str):
@@ -75,11 +83,6 @@ class MapScreen(QWidget):
                 closest = room
 
         return closest
-
-    def keyPressEvent(self, event: QKeyEvent):
-        if event.key() == Qt.Key.Key_Return:
-            print("this ran")
-            self._callback()
 
     def move_character(self, x: int, y: int):
         self.char_pos = (x, y)
@@ -139,6 +142,7 @@ class MapScreen(QWidget):
     def build_map(char: Character) -> "MapScreen":
         test_enemy = CharacterFactory.createTestChar()
         test_enemy.name = "test enemy"
+        test_enemy.image_path = DD.ASSETS["cooper"]
         ms = MapScreen(char, None)
         ms.setAsset("MainMap")
         ms.addRoom("Bus Stop", (419, 700), test_enemy, "no_texture")
