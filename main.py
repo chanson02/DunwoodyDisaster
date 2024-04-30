@@ -15,8 +15,6 @@ class MainWindow(QMainWindow):
         self.setStyleSheet("background-color: #2f2f2f;")
         self.player = None
 
-        CharacterFactory.SaveCharacter(player1)
-
         self.startMenu = StartMenu()
         self.startMenu.onStart(self.startBtnClicked)
 
@@ -45,17 +43,9 @@ class MainWindow(QMainWindow):
         if self.fight:
             self.stack.removeWidget(self.fight.widget)
 
-
-        player2 = CharacterFactory.createTestChar()
-
-        self.fightScreen = FightScreen(self.player, player2)
-        self.stack.addWidget(self.fightScreen)
-        self.stack.setCurrentWidget(self.fightScreen)
-
         self.fight = FightSequence(self.player, room["NPC"])
         self.stack.addWidget(self.fight.widget)
         self.stack.setCurrentWidget(self.fight.widget)
-
 
     def startBtnClicked(self):
         self.stack.setCurrentWidget(self.selector)
