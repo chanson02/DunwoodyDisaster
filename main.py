@@ -33,6 +33,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.stack)
 
     def showMapScreen(self):
+        self.mapScreen.map.setRoom(None)
         self.stack.setCurrentWidget(self.mapScreen)
 
     def EnterFight(self, room: dict):
@@ -79,7 +80,6 @@ class MainWindow(QMainWindow):
         def loot_collected():
             self.stack.removeWidget(victory)
             self.showMapScreen()
-            print('The loot was collected')
 
         victory.onClose(loot_collected)
         self.stack.addWidget(victory)
