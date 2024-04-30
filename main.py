@@ -22,8 +22,6 @@ class MainWindow(QMainWindow):
         self.selector = CharacterSelector(self.createPlayableCharacters())
         self.selector.onSelect(self.userSelectedCharacter)
 
-        self.fightScreen = FightScreen(player1, player2)
-
         self.crawl = Crawl()
 
         self.fightScreen = None
