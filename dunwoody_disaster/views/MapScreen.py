@@ -97,18 +97,16 @@ class Map(QLabel):
 
     @staticmethod
     def buildMap(char: Character) -> "Map":
-        test_enemy = CharacterFactory.createTestChar()
-        test_enemy.name = "test enemy"
-        test_enemy.image_path = DD.ASSETS["cooper"]
+        chars = CharacterFactory
         map = Map(char)
         map.setAsset("MainMap")
-        map.addRoom("Bus Stop", (419, 700), test_enemy, "no_texture")
-        map.addRoom("Court Yard", (693, 559), test_enemy, "no_texture")
-        map.addRoom("Commons", (451, 449), test_enemy, "no_texture")
-        map.addRoom("Math", (236, 359), test_enemy, "no_texture")
-        map.addRoom("English", (770, 366), test_enemy, "no_texture")
-        map.addRoom("Science", (490, 217), test_enemy, "no_texture")
-        map.addRoom("Dean's Office", (90, 589), test_enemy, "no_texture")
+        map.addRoom("Bus Stop", (419, 700), chars.JoeAxberg(), "no_texture")
+        map.addRoom("Court Yard", (693, 559), chars.LeAnnSimonson(), "CourtYard")
+        map.addRoom("Commons", (451, 449), chars.RyanRengo(), "no_texture")
+        map.addRoom("Math", (236, 359), chars.NoureenSajid(), "Physics")
+        map.addRoom("English", (770, 366), chars.AmalanPulendran(), "LectureHall")
+        map.addRoom("Science", (490, 217), chars.MatthewBeckler(), "Science Lab")
+        map.addRoom("Dean's Office", (90, 589), chars.BillHudson(), "no_texture")
         return map
 
     def serialize(self) -> dict:
