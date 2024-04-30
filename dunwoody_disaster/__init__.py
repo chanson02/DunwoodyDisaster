@@ -1,4 +1,11 @@
-from PySide6.QtWidgets import QSpacerItem, QSizePolicy, QWidget, QScrollArea, QLayout, QVBoxLayout
+from PySide6.QtWidgets import (
+    QSpacerItem,
+    QSizePolicy,
+    QWidget,
+    QScrollArea,
+    QLayout,
+    QVBoxLayout,
+)
 from PySide6.QtCore import QObject, Signal, QEvent, SignalInstance, Qt
 import os
 

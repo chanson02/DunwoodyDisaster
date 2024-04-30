@@ -9,7 +9,7 @@ from PySide6.QtWidgets import (
     QPushButton,
     QHBoxLayout,
     QGroupBox,
-    QLayout
+    QLayout,
 )
 from dunwoody_disaster.CharacterFactory import Character
 from dunwoody_disaster import Item

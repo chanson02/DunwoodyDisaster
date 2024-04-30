@@ -11,6 +11,7 @@ import dunwoody_disaster as DD
 
 from dunwoody_disaster.views.victoryScreen import VictoryScreen
 
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -49,7 +50,6 @@ class MainWindow(QMainWindow):
 
         self.fight = FightSequence(self.player, room["NPC"])
         self.fight.onWin(self.showVictoryScreen)
-
 
         self.stack.addWidget(self.fight.widget)
         self.stack.setCurrentWidget(self.fight.widget)
