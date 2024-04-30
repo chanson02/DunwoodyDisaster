@@ -148,8 +148,8 @@ class MapScreen(QWidget):
         ms.addRoom("Court Yard", (693, 559), chars.LeAnnSimonson(), "no_texture")
         ms.addRoom("Commons", (451, 449), chars.RyanRengo(), "no_texture")
         ms.addRoom("Math", (236, 359), chars.NoureenSajid(), "no_texture")
-        ms.addRoom("English", (770, 366), chars.enemy1(), "no_texture")
-        ms.addRoom("Science", (490, 217), chars.enemy2(), "no_texture")
+        ms.addRoom("English", (770, 366), chars.AmalanPulendran(), "no_texture")
+        ms.addRoom("Science", (490, 217), chars.MatthewBeckler(), "no_texture")
         ms.addRoom("Dean's Office", (90, 589), chars.BillHudson(), "no_texture")
 
         return ms

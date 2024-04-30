@@ -309,11 +309,13 @@ class CharacterFactory:
         return char
 
     @staticmethod
-    def enemy1() -> Character:
+    def AmalanPulendran() -> Character:
         char = CharacterFactory.createTestChar()
+        char.name = "Amalan Pulendran"
         return char
 
     @staticmethod
-    def enemy2() -> Character:
+    def MatthewBeckler() -> Character:
         char = CharacterFactory.createTestChar()
+        char.name = "Matthew Beckler"
         return char
