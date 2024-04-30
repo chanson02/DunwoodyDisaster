@@ -95,30 +95,5 @@ class FightScreen(QWidget):
 
         self.controller.takeTurn(self.p1_selector, self.p2_selector)
 
-    # def Fight(self):
-    #     if self.fightFlag:
-    #         self.fight_Btn.setEnabled(False)
-    #         self.player1, self.player2 = self.fightSequence.Fight(
-    #             self.p1_selector,
-    #             self.p2_selector,
-    #         )
-    #         self.player1.set_health(self.player1.curHealth)
-    #         self.player1.set_magic(self.player1.curMagic)
-    #         self.player1.set_stamina(self.player1.curStamina)
-    #
-    #         self.player2.set_health(self.player2.curHealth)
-    #         self.player2.set_magic(self.player2.curMagic)
-    #         self.player2.set_stamina(self.player2.curStamina)
-    #         if self.player1.curHealth <= 0 or self.player2.curHealth <= 0:
-    #             self.doneFlag = True
-    #             if self.player1.curHealth == 0:
-    #                 print("Player 2 Wins!")
-    #             else:
-    #                 self._winCallback()
-    #         self.fightFlag = False
-    #         self.fight_Btn.setEnabled(True)
-    #         self.fightFlag = False
-    #         self.fight_Btn.setEnabled(True)
-
     def onWin(self, callback: Callable):
         self._winCallback = callback
