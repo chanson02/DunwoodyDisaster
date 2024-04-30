@@ -22,13 +22,11 @@ class MainWindow(QMainWindow):
         self.selector = CharacterSelector(self.createPlayableCharacters())
         self.selector.onSelect(self.userSelectedCharacter)
 
-
         self.fightScreen = FightScreen(player1, player2)
-        
+
         self.crawl = Crawl()
 
         self.fightScreen = None
-
 
         self.stack = QStackedWidget()
         self.stack.addWidget(self.startMenu)
@@ -42,7 +40,6 @@ class MainWindow(QMainWindow):
 
     def showMapScreen(self):
         self.stack.setCurrentWidget(self.mapScreen)
-        
 
     def EnterFight(self, room: dict):
         """
@@ -60,8 +57,7 @@ class MainWindow(QMainWindow):
         self.stack.setCurrentWidget(self.fightScreen)
 
     def startBtnClicked(self):
-        #self.stack.setCurrentWidget(self.selector)
-        self.stack.setCurrentWidget(self.crawl)
+        self.stack.setCurrentWidget(self.selector)
 
     def userSelectedCharacter(self, character: Character):
         self.player = character

@@ -1,59 +1,73 @@
 import sys
-from PySide6.QtCore import Qt, QRect, QTimer
-from PySide6.QtGui import QColor, QFont, QFontMetrics, QPainter
-from PySide6.QtWidgets import QApplication, QMainWindow
+from PySide6.QtCore import Qt, QTimer
+from PySide6.QtGui import QColor, QFont, QPainter
+from PySide6.QtWidgets import QApplication, QWidget
 
-class MovingTextWidget(QMainWindow):
+
+class StarWarsCrawl(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("Moving Text Example")
-        self.setGeometry(100, 100, 1280, 720)  # Adjusted for 1080p monitor
-
-        self.paragraphs = [
-            "Paragraph 1: Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            "Paragraph 2: Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-            "Paragraph 3: Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-            "Paragraph 4: Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-            "Paragraph 5: Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        self.text_lines = [
+            "In a distant galaxy, in an era of peace and prosperity...",
+            "",
+            "Unexpected turmoil has emerged.",
+            "Factions once united now stand divided,",
+            "threatening the stability of the galaxy.",
+            "",
+            "A small group of brave individuals",
+            "seeks to restore harmony and justice.",
+            "Their journey will test their resolve,",
+            "challenge their beliefs, and",
+            "shape the fate of the cosmos.",
+            "",
+            "This is their story...",
+            "",
         ]
 
-        self.text_speed = 4  # Adjusted for faster scrolling on larger resolution
+        self.line_spacing = 30
+        self.scroll_speed = 1  # Adjust the scrolling speed as needed
+        self.scroll_position = 0
+        self.initUI()
 
-        self.text_y = self.height()  # Initialize text_y to the height of the window
-        self.current_paragraph = 0  # Index of the current paragraph being displayed
-
+    def initUI(self):
+        self.setWindowTitle("Story Crawl")
+        self.setGeometry(100, 100, 1800, 720)
         self.timer = QTimer(self)
-        self.timer.timeout.connect(self.move_text)
-        self.timer.start(20)
+        self.timer.timeout.connect(self.updateScroll)
+        self.timer.start(10)  # Adjust the interval for smoother or faster scrolling
+        self.show()
 
-    def move_text(self):
-        text_height = QFontMetrics(QFont("Arial", 24)).boundingRect(QRect(0, 0, self.width(), self.height()), Qt.TextWordWrap, self.paragraphs[self.current_paragraph]).height()
-
-        self.text_y -= self.text_speed
-        if self.text_y < -text_height:
-            self.text_y = self.height()
-            self.current_paragraph = (self.current_paragraph + 1) % len(self.paragraphs)
-
+    def updateScroll(self):
+        self.scroll_position += self.scroll_speed
+        if (
+            self.scroll_position
+            >= len(self.text_lines) * self.line_spacing + self.height()
+        ):
+            self.scroll_position = -self.height()  # Restart from the top
         self.update()
 
     def paintEvent(self, event):
         painter = QPainter(self)
+        painter.setRenderHint(QPainter.Antialiasing)
+        painter.setBrush(Qt.black)
         painter.fillRect(self.rect(), Qt.black)
 
-        painter.setPen(QColor(Qt.yellow))
-        font = QFont("Arial", 24)
+        font = QFont("Arial", 20)
+        font.setBold(True)
         painter.setFont(font)
+        painter.setPen(QColor(255, 255, 255))
 
-        text_rect = QRect(0, 0, self.width(), self.height())
-        bounding_rect = QFontMetrics(font).boundingRect(text_rect, Qt.TextWordWrap, self.paragraphs[self.current_paragraph])
+        y = self.height() - self.scroll_position
 
-        text_x = (self.width() - bounding_rect.width()) / 2
+        for line in self.text_lines:
+            text_width = painter.fontMetrics().horizontalAdvance(line)
+            x = (self.width() - text_width) / 2
+            painter.drawText(x, y, line)
+            y += self.line_spacing
 
-        painter.drawText(text_x, self.text_y, bounding_rect.width(), bounding_rect.height(), Qt.AlignCenter, self.paragraphs[self.current_paragraph])
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = MovingTextWidget()
-    window.show()
+    window = StarWarsCrawl()
     sys.exit(app.exec())
