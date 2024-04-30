@@ -96,11 +96,11 @@ class Map(QLabel):
         map = Map(char)
         map.setAsset("MainMap")
         map.addRoom("Bus Stop", (419, 700), chars.JoeAxberg(), "no_texture")
-        map.addRoom("Court Yard", (693, 559), chars.LeAnnSimonson(), "no_texture")
+        map.addRoom("Court Yard", (693, 559), chars.LeAnnSimonson(), "CourtYard")
         map.addRoom("Commons", (451, 449), chars.RyanRengo(), "no_texture")
-        map.addRoom("Math", (236, 359), chars.NoureenSajid(), "no_texture")
-        map.addRoom("English", (770, 366), chars.AmalanPulendran(), "no_texture")
-        map.addRoom("Science", (490, 217), chars.MatthewBeckler(), "no_texture")
+        map.addRoom("Math", (236, 359), chars.NoureenSajid(), "Physics")
+        map.addRoom("English", (770, 366), chars.AmalanPulendran(), "LectureHall")
+        map.addRoom("Science", (490, 217), chars.MatthewBeckler(), "Science Lab")
         map.addRoom("Dean's Office", (90, 589), chars.BillHudson(), "no_texture")
         return map
 
