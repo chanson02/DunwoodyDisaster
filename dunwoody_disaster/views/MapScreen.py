@@ -9,52 +9,64 @@ from typing import Optional, Callable
 from math import sqrt
 
 
-class MapScreen(QWidget):
-    def __init__(self, character: Character, entryPoint: Optional[tuple[int, int]]):
+class Map(QLabel):
+    def __init__(
+        self, character: Character, entryPoint: Optional[tuple[int, int]] = None
+    ):
         super().__init__()
         self.character = character
-        self._callback = DD.unimplemented
         self.image = DD.ASSETS["no_texture"]
+        self.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
         self.rooms = []
         self.current_room: Optional[dict] = None
+        self.roomChanged = DD.unimplemented
 
         if entryPoint:
             self.char_pos = entryPoint
         else:
             self.char_pos = (-1, 0)
 
-        self.init_ui()
+    def onRoomChange(self, callback: Callable):
+        self.roomChanged = callback
 
-    def onEnter(self, callback: Callable):
-        """
-        :param callback: A callback function that takes the room info as a parameter
-        This callback will be triggered when the user selects which room to enter
-        """
-        self._callback = callback
+    def mousePressEvent(self, ev: QMouseEvent):
+        point = ev.pos()
+        new_room = self.findClosestRoom(point.x(), point.y())
+        if new_room == self.current_room:
+            return
 
-    def keyPressEvent(self, event: QKeyEvent):
-        if event.key() == Qt.Key.Key_Enter or event.key() == Qt.Key.Key_Return:
-            if self.current_room:
-                self._callback(self.current_room)
+        self.current_room = new_room
+        if self.current_room:
+            pos = self.current_room["coordinate"]
+            self.moveCharacter(pos[0], pos[1])
+            self.roomChanged(self.current_room)
 
-    def init_ui(self):
-        # layout = QGridLayout()
-        layout = QHBoxLayout()
-        layout.setSpacing(0)
-        layout.setContentsMargins(0, 0, 0, 0)
-        self.setLayout(layout)
+    def findClosestRoom(self, x: int, y: int) -> Optional[dict]:
+        closest = None
+        min_dist = float("inf")
 
-        self.map = QLabel()
-        self.map.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
-        self.move_character(-1, 0)
-        layout.addWidget(self.map)
+        for room in self.rooms:
+            room_pos = room["coordinate"]
+            distance = sqrt((x - room_pos[0]) ** 2 + (y - room_pos[1]) ** 2)
+            if distance < min_dist:
+                min_dist = distance
+                closest = room
 
-        self.preview = FightPreview()
-        layout.addWidget(self.preview)
+        return closest
 
-    def setAsset(self, asset: str):
-        self.image = DD.ASSETS[asset]
-        self.move_character(self.char_pos[0], self.char_pos[1])
+    def moveCharacter(self, x: int, y: int):
+        self.char_pos = (x, y)
+        if x < 0:
+            self.setPixmap(self.pixmap())
+            return
+
+        map_pixmap = self.pixmap()
+        painter = QPainter(map_pixmap)
+        overlay = QPixmap(self.character.image()).scaledToWidth(80)
+        painter.drawPixmap(x, y, overlay)
+        painter.end()
+        self.setPixmap(map_pixmap)
+        self.repaint()
 
     def addRoom(
         self,
@@ -71,43 +83,26 @@ class MapScreen(QWidget):
         }
         self.rooms.append(room)
 
-    def findClosestRoom(self, x: int, y: int) -> Optional[dict]:
-        closest = None
-        min_dist = float("inf")
-
-        for room in self.rooms:
-            room_pos = room["coordinate"]
-            distance = sqrt((x - room_pos[0]) ** 2 + (y - room_pos[1]) ** 2)
-            if distance < min_dist:
-                min_dist = distance
-                closest = room
-
-        return closest
-
-    def move_character(self, x: int, y: int):
-        self.char_pos = (x, y)
-        if x < 0:
-            self.map.setPixmap(self.pixmap())
-            return
-
-        map_pixmap = self.pixmap()
-        painter = QPainter(map_pixmap)
-        overlay = QPixmap(self.character.image()).scaledToWidth(80)
-        painter.drawPixmap(x, y, overlay)
-        painter.end()
-        self.map.setPixmap(map_pixmap)
-        self.repaint()
-
-    def mousePressEvent(self, event: QMouseEvent):
-        point = event.pos()
-        self.current_room = self.findClosestRoom(point.x(), point.y())
-        if self.current_room:
-            pos = self.current_room["coordinate"]
-            self.move_character(pos[0], pos[1])
-            self.preview.set_room(self.current_room)
-
     def pixmap(self):
         return QPixmap(self.image)
+
+    def setAsset(self, asset: str):
+        self.image = DD.ASSETS[asset]
+        self.moveCharacter(self.char_pos[0], self.char_pos[1])
+
+    @staticmethod
+    def buildMap(char: Character) -> "Map":
+        chars = CharacterFactory
+        map = Map(char)
+        map.setAsset("MainMap")
+        map.addRoom("Bus Stop", (419, 700), chars.JoeAxberg(), "no_texture")
+        map.addRoom("Court Yard", (693, 559), chars.LeAnnSimonson(), "no_texture")
+        map.addRoom("Commons", (451, 449), chars.RyanRengo(), "no_texture")
+        map.addRoom("Math", (236, 359), chars.NoureenSajid(), "no_texture")
+        map.addRoom("English", (770, 366), chars.AmalanPulendran(), "no_texture")
+        map.addRoom("Science", (490, 217), chars.MatthewBeckler(), "no_texture")
+        map.addRoom("Dean's Office", (90, 589), chars.BillHudson(), "no_texture")
+        return map
 
     def serialize(self) -> dict:
         result = {"asset": DD.asset(self.image), "entry_point": None, "rooms": []}
@@ -126,9 +121,9 @@ class MapScreen(QWidget):
         return result
 
     @staticmethod
-    def from_json(json: dict, char: Character) -> "MapScreen":
+    def fromJson(json: dict, char: Character) -> "Map":
         ep = (json["entry_point"][0], json["entry_point"][1])
-        map = MapScreen(char, ep)
+        map = Map(char, ep)
         map.setAsset(json["asset"])
 
         for room in json["rooms"]:
@@ -138,18 +133,38 @@ class MapScreen(QWidget):
 
         return map
 
-    @staticmethod
-    def build_map(char: Character) -> "MapScreen":
-        test_enemy = CharacterFactory.createTestChar()
-        test_enemy.name = "test enemy"
-        test_enemy.image_path = DD.ASSETS["cooper"]
-        ms = MapScreen(char, None)
-        ms.setAsset("MainMap")
-        ms.addRoom("Bus Stop", (419, 700), test_enemy, "no_texture")
-        ms.addRoom("Court Yard", (693, 559), test_enemy, "no_texture")
-        ms.addRoom("Commons", (451, 449), test_enemy, "no_texture")
-        ms.addRoom("Math", (236, 359), test_enemy, "no_texture")
-        ms.addRoom("English", (770, 366), test_enemy, "no_texture")
-        ms.addRoom("Science", (490, 217), test_enemy, "no_texture")
-        ms.addRoom("Dean's Office", (90, 589), test_enemy, "no_texture")
-        return ms
+
+class MapScreen(QWidget):
+    def __init__(self, map: Map):
+        super().__init__()
+        self.map = map
+        self._callback = DD.unimplemented
+
+        self.initUI()
+
+    def onEnter(self, callback: Callable):
+        """
+        :param callback: A callback function that takes the room info as a parameter
+        This callback will be triggered when the user selects which room to enter
+        """
+        self._callback = callback
+
+    def keyPressEvent(self, event: QKeyEvent):
+        if event.key() == Qt.Key.Key_Enter or event.key() == Qt.Key.Key_Return:
+            if self.map.current_room:
+                self._callback(self.map.current_room)
+
+    def initUI(self):
+        layout = QHBoxLayout()
+        layout.setSpacing(0)
+        layout.setContentsMargins(0, 0, 0, 0)
+        self.setLayout(layout)
+
+        map_container_layout = QHBoxLayout()
+        map_container = DD.scroller(map_container_layout, True, True)
+        layout.addWidget(map_container)
+        map_container_layout.addWidget(self.map)
+
+        self.preview = FightPreview()
+        self.map.onRoomChange(self.preview.setRoom)
+        layout.addWidget(self.preview)
