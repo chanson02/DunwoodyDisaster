@@ -283,3 +283,45 @@ class CharacterFactory:
         for key, value in json.items():
             setattr(char, key, value)
         return char
+
+    @staticmethod
+    def BillHudson() -> Character:
+        char = CharacterFactory.createTestChar()
+        char.name = "Bill Hudson"
+        return char
+
+    @staticmethod
+    def LeAnnSimonson() -> Character:
+        char = CharacterFactory.createTestChar()
+        char.name = "LeAnn Simonson"
+        return char
+
+    @staticmethod
+    def RyanRengo() -> Character:
+        char = CharacterFactory.createTestChar()
+        char.name = "Ryan Rengo"
+        return char
+
+    @staticmethod
+    def NoureenSajid() -> Character:
+        char = CharacterFactory.createTestChar()
+        char.name = "Noureen Sajid"
+        return char
+
+    @staticmethod
+    def JoeAxberg() -> Character:
+        char = CharacterFactory.createTestChar()
+        char.name = "Joe Axberg"
+        return char
+
+    @staticmethod
+    def AmalanPulendran() -> Character:
+        char = CharacterFactory.createTestChar()
+        char.name = "Amalan Pulendran"
+        return char
+
+    @staticmethod
+    def MatthewBeckler() -> Character:
+        char = CharacterFactory.createTestChar()
+        char.name = "Matthew Beckler"
+        return char
