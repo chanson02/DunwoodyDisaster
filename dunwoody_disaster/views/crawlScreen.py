@@ -8,7 +8,7 @@ from typing import Callable
 class Crawl(QWidget):
     def __init__(self):
         super().__init__()
-        self._finishCallback == DD.unimplemented
+        self._finishCallback = DD.unimplemented
         self.text_lines = [
             "In a distant galaxy, in an era of peace and prosperity...",
             "",
@@ -69,7 +69,7 @@ class Crawl(QWidget):
 
     def keyPressEvent(self, event: QKeyEvent):
         if event.key() == Qt.Key.Key_Enter or event.key() == Qt.Key.Key_Return:
-            self.onFinish()
+            self._finishCallback()
 
     def onFinish(self, callback: Callable):
         self._finishCallback = callback
