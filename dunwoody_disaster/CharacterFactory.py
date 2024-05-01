@@ -327,43 +327,164 @@ class CharacterFactory:
         return char
 
     @staticmethod
-    def BillHudson() -> Character:
+    def Cooper() -> Character:
+        """"""
         char = CharacterFactory.createTestChar()
-        char.name = "Bill Hudson"
+        char.name = "Cooper"
+        char.maxHealth = 120
+        char.maxMagic = 100
+        char.maxStamina = 75
+        char.strength = 20
+        char.intelligence = 20
+        char.defense = 20
+        char.magicDefense = 20
         return char
-
+    
+    @staticmethod
+    def John() -> Character:
+        """"""
+        char = CharacterFactory.createTestChar()
+        char.name = "John"
+        char.maxHealth = 120
+        char.maxMagic = 100
+        char.maxStamina = 75
+        char.strength = 20
+        char.intelligence = 20
+        char.defense = 20
+        char.magicDefense = 20
+        return char
+    
+    @staticmethod
+    def Noah() -> Character:
+        """"""
+        char = CharacterFactory.createTestChar()
+        char.name = "Noah"
+        char.maxHealth = 120
+        char.maxMagic = 100
+        char.maxStamina = 75
+        char.strength = 20
+        char.intelligence = 20
+        char.defense = 20
+        char.magicDefense = 20
+        return char
+    
+    @staticmethod
+    def Mitch() -> Character:
+        """Mitch is more strength and defense oriented. Weak to magic"""
+        char = CharacterFactory.createTestChar()
+        char.name = "Mitch"
+        char.maxHealth = 120
+        char.maxMagic = 40
+        char.maxStamina = 80
+        char.strength = 30
+        char.intelligence = 5
+        char.defense = 30
+        char.magicDefense = 5
+        return char
+    
     @staticmethod
     def LeAnnSimonson() -> Character:
+        """LeAnn is built as a magic character, but weaker than Matthew."""
         char = CharacterFactory.createTestChar()
         char.name = "LeAnn Simonson"
+        char.maxHealth = 70
+        char.maxMagic = 110
+        char.maxStamina = 65
+        char.strength = 1
+        char.intelligence = 25
+        char.defense = 0
+        char.magicDefense = 15
+        char.level = 1
+        return char
+    
+    @staticmethod
+    def AmalanPulendran() -> Character:
+        """Amalan is currently an all-around character."""
+        char = CharacterFactory.createTestChar()
+        char.name = "Amalan Pulendran"
+        char.maxHealth = 100
+        char.maxMagic = 70
+        char.maxStamina = 60
+        char.strength = 15
+        char.intelligence = 15
+        char.defense = 15
+        char.magicDefense = 15
+        char.level = 2
         return char
 
     @staticmethod
     def RyanRengo() -> Character:
+        """Ryan is a bit of a glass cannon. Strong attacks, but weaker durability.
+        I'm not sure if we want to keep it this way due to real-life situations..."""
         char = CharacterFactory.createTestChar()
         char.name = "Ryan Rengo"
+        char.maxHealth = 70
+        char.maxMagic = 70
+        char.maxStamina = 40
+        char.strength = 25
+        char.intelligence = 25
+        char.defense = 5
+        char.magicDefense = 5
+        char.level = 3
         return char
 
     @staticmethod
     def NoureenSajid() -> Character:
+        """Noureen is currently built as a stronger character, similar to Joe."""
         char = CharacterFactory.createTestChar()
         char.name = "Noureen Sajid"
+        char.maxHealth = 110
+        char.maxMagic = 50
+        char.maxStamina = 65
+        char.strength = 15
+        char.intelligence = 20
+        char.defense = 0
+        char.magicDefense = 15
+        char.level = 4
         return char
 
     @staticmethod
     def JoeAxberg() -> Character:
+        """Joe is currently built as a strong, brute character."""
         char = CharacterFactory.createTestChar()
         char.name = "Joe Axberg"
+        char.maxHealth = 130
+        char.maxMagic = 40
+        char.maxStamina = 50
+        char.strength = 20
+        char.intelligence = 5
+        char.defense = 15
+        char.magicDefense = 0
+        char.level = 5
         return char
 
-    @staticmethod
-    def AmalanPulendran() -> Character:
-        char = CharacterFactory.createTestChar()
-        char.name = "Amalan Pulendran"
-        return char
 
     @staticmethod
     def MatthewBeckler() -> Character:
+        """Matthew is currently the strongest magic caster."""
         char = CharacterFactory.createTestChar()
         char.name = "Matthew Beckler"
+        char.maxHealth = 80
+        char.maxMagic = 120
+        char.maxStamina = 60
+        char.strength = 5
+        char.intelligence = 30
+        char.defense = 0
+        char.magicDefense = 20
+        char.level = 6
+        return char
+    
+    @staticmethod
+    def BillHudson() -> Character:
+        """Bill is meant as a stronger version of Amalan. Strongest all-around stats."""
+        char = CharacterFactory.createTestChar()
+        char.name = "Bill Hudson"
+        char.maxHealth = 120
+        char.maxMagic = 100
+        char.maxStamina = 75
+        char.strength = 20
+        char.intelligence = 20
+        char.defense = 20
+        char.magicDefense = 20
+        char.level = 7
         return char
