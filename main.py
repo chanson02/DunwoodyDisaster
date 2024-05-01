@@ -58,11 +58,13 @@ class MainWindow(QMainWindow):
         self.showMapScreen()
 
     def createPlayableCharacters(self) -> list[Character]:
-        cooper = CharacterFactory.createCharacter()
-        cooper.name = "Cooper"
-        cooper.image_path = DD.ASSETS["cooper"]
-
-        return [cooper]
+        # cooper = CharacterFactory.Cooper()
+        return [
+            CharacterFactory.Cooper(),
+            CharacterFactory.Mitch(),
+            CharacterFactory.Noah(),
+            CharacterFactory.John(),
+        ]
 
 
 if __name__ == "__main__":
