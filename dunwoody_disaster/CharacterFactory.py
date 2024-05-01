@@ -331,13 +331,13 @@ class CharacterFactory:
         """"""
         char = CharacterFactory.createTestChar()
         char.name = "Cooper"
-        char.maxHealth = 120
+        char.maxHealth = 100
         char.maxMagic = 100
-        char.maxStamina = 75
-        char.strength = 20
-        char.intelligence = 20
-        char.defense = 20
-        char.magicDefense = 20
+        char.maxStamina = 100
+        char.strength = 1
+        char.intelligence = 1
+        char.defense = 1
+        char.magicDefense = 1
         return char
     
     @staticmethod
@@ -345,13 +345,13 @@ class CharacterFactory:
         """"""
         char = CharacterFactory.createTestChar()
         char.name = "John"
-        char.maxHealth = 120
+        char.maxHealth = 100
         char.maxMagic = 100
-        char.maxStamina = 75
-        char.strength = 20
-        char.intelligence = 20
-        char.defense = 20
-        char.magicDefense = 20
+        char.maxStamina = 100
+        char.strength = 1
+        char.intelligence = 1
+        char.defense = 1
+        char.magicDefense = 1
         return char
     
     @staticmethod
@@ -359,13 +359,13 @@ class CharacterFactory:
         """"""
         char = CharacterFactory.createTestChar()
         char.name = "Noah"
-        char.maxHealth = 120
+        char.maxHealth = 100
         char.maxMagic = 100
-        char.maxStamina = 75
-        char.strength = 20
-        char.intelligence = 20
-        char.defense = 20
-        char.magicDefense = 20
+        char.maxStamina = 100
+        char.strength = 1
+        char.intelligence = 1
+        char.defense = 1
+        char.magicDefense = 1
         return char
     
     @staticmethod
