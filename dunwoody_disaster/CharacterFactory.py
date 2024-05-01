@@ -162,95 +162,11 @@ class CharacterFactory:
             "level": 1,
             "loot": [],
             "food": [],
-        },
-        "warrior": {
-            "health": 100,
-            "magic": 0,
-            "stamina": 15,
-            "strength": 15,
-            "intelligence": 5,
-            "defense": 0,
-            "magicDefense": 0,
-            "level": 1,
-            "loot": [],
-            "food": [],
-        },
-        "mage": {
-            "health": 100,
-            "magic": 15,
-            "stamina": 0,
-            "strength": 5,
-            "intelligence": 15,
-            "defense": 0,
-            "magicDefense": 0,
-            "level": 1,
-            "loot": [],
-            "food": [],
-        },
-        "thief": {
-            "health": 100,
-            "magic": 0,
-            "stamina": 10,
-            "strength": 8,
-            "intelligence": 8,
-            "defense": 0,
-            "magicDefense": 0,
-            "level": 1,
-            "loot": [],
-            "food": [],
-        },
-        "Cooper": {
-            "health": 100,
-            "magic": 100,
-            "stamina": 100,
-            "strength": 10,
-            "intelligence": 10,
-            "defense": 0,
-            "magicDefense": 0,
-            "level": 1,
-            "loot": [],
-            "food": [],
-        },
-        "John": {
-            "health": 100,
-            "magic": 100,
-            "stamina": 100,
-            "strength": 10,
-            "intelligence": 10,
-            "defense": 0,
-            "magicDefense": 0,
-            "level": 1,
-            "loot": [],
-            "food": [],
-        },
-        "Noah": {
-            "health": 100,
-            "magic": 100,
-            "stamina": 100,
-            "strength": 10,
-            "intelligence": 10,
-            "defense": 0,
-            "magicDefense": 0,
-            "level": 1,
-            "loot": [],
-            "food": [],
-        },
-        "Mitch": {
-            "health": 100,
-            "magic": 100,
-            "stamina": 100,
-            "strength": 10,
-            "intelligence": 10,
-            "defense": 0,
-            "magicDefense": 0,
-            "level": 1,
-            "loot": [],
-            "food": [],
         }
     }
 
     @staticmethod
-    def createCharacter(name: str, classType: str) -> Character:
+    def createCharacter() -> Character:
         """
         Creates a character based on the given class type
         :param name: The name of the character
@@ -259,31 +175,28 @@ class CharacterFactory:
         :raises:
             ValueError: If the provided classType is not a member of CharacterFactory.class_types
         """
-        if classType not in CharacterFactory.class_types:
-            raise ValueError("Invalid class type")
-
-        data = CharacterFactory.class_types[classType]
+        
         character = Character()
 
-        character.name = name
-        character.classType = classType
-        character.maxHealth = data["health"]
-        character.maxMagic = data["magic"]
-        character.maxStamina = data["stamina"]
+        # character.name = character.name
+        
+        # character.maxHealth = character["health"]
+        # character.maxMagic = character["magic"]
+        # character.maxStamina = character["stamina"]
 
-        character.strength = data["strength"]
-        character.intelligence = data["intelligence"]
+        # character.strength = character["strength"]
+        # character.intelligence = character["intelligence"]
 
-        character.defense = data["defense"]
-        character.magicDefense = data["magicDefense"]
+        # character.defense = character["defense"]
+        # character.magicDefense = character["magicDefense"]
 
-        character.level = data["level"]
-        character.loot = data["loot"]
-        character.food = data["food"]
+        # character.level = character["level"]
+        # character.loot = character["loot"]
+        # character.food = character["food"]
 
-        character.set_health(data["health"])
-        character.set_magic(data["magic"])
-        character.set_stamina(data["stamina"])
+        # character.set_health(character["health"])
+        # character.set_magic(character["magic"])
+        # character.set_stamina(character["stamina"])
 
         for weapon in Item.weapons:
             character.add_item(weapon)
@@ -297,7 +210,7 @@ class CharacterFactory:
         """
         Creates a default character we can use for testing
         """
-        character = CharacterFactory.createCharacter("Test-Char", "blank")
+        character = CharacterFactory.createCharacter()
         return character
 
     @staticmethod
@@ -329,7 +242,7 @@ class CharacterFactory:
     @staticmethod
     def Cooper() -> Character:
         """"""
-        char = CharacterFactory.createTestChar()
+        char = CharacterFactory.createCharacter()
         char.name = "Cooper"
         char.maxHealth = 100
         char.maxMagic = 100
@@ -338,6 +251,11 @@ class CharacterFactory:
         char.intelligence = 1
         char.defense = 1
         char.magicDefense = 1
+
+        char.weapons = [Item.weapons]
+        char.defenses = [Item.armors]
+        char.loot = []
+        char.food = []
         return char
     
     @staticmethod
@@ -385,7 +303,7 @@ class CharacterFactory:
     @staticmethod
     def LeAnnSimonson() -> Character:
         """LeAnn is built as a magic character, but weaker than Matthew."""
-        char = CharacterFactory.createTestChar()
+        char = CharacterFactory.createCharacter()
         char.name = "LeAnn Simonson"
         char.maxHealth = 70
         char.maxMagic = 110
@@ -395,12 +313,17 @@ class CharacterFactory:
         char.defense = 0
         char.magicDefense = 15
         char.level = 1
+
+        char.weapons = []
+        char.defenses = []
+        char.loot = []
+        char.food = []
         return char
     
     @staticmethod
     def AmalanPulendran() -> Character:
         """Amalan is currently an all-around character."""
-        char = CharacterFactory.createTestChar()
+        char = CharacterFactory.createCharacter()
         char.name = "Amalan Pulendran"
         char.maxHealth = 100
         char.maxMagic = 70
@@ -410,13 +333,16 @@ class CharacterFactory:
         char.defense = 15
         char.magicDefense = 15
         char.level = 2
+
+        char.loot = []
+        char.food = []
         return char
 
     @staticmethod
     def RyanRengo() -> Character:
         """Ryan is a bit of a glass cannon. Strong attacks, but weaker durability.
         I'm not sure if we want to keep it this way due to real-life situations..."""
-        char = CharacterFactory.createTestChar()
+        char = CharacterFactory.createCharacter()
         char.name = "Ryan Rengo"
         char.maxHealth = 70
         char.maxMagic = 70
@@ -426,12 +352,15 @@ class CharacterFactory:
         char.defense = 5
         char.magicDefense = 5
         char.level = 3
+
+        char.loot = []
+        char.food = []
         return char
 
     @staticmethod
     def NoureenSajid() -> Character:
         """Noureen is currently built as a stronger character, similar to Joe."""
-        char = CharacterFactory.createTestChar()
+        char = CharacterFactory.createCharacter()
         char.name = "Noureen Sajid"
         char.maxHealth = 110
         char.maxMagic = 50
@@ -441,12 +370,15 @@ class CharacterFactory:
         char.defense = 0
         char.magicDefense = 15
         char.level = 4
+
+        char.loot = []
+        char.food = []
         return char
 
     @staticmethod
     def JoeAxberg() -> Character:
         """Joe is currently built as a strong, brute character."""
-        char = CharacterFactory.createTestChar()
+        char = CharacterFactory.createCharacter()
         char.name = "Joe Axberg"
         char.maxHealth = 130
         char.maxMagic = 40
@@ -456,13 +388,18 @@ class CharacterFactory:
         char.defense = 15
         char.magicDefense = 0
         char.level = 5
+
+        char.weapons = []
+        char.defenses = []
+        char.loot = []
+        char.food = []
         return char
 
 
     @staticmethod
     def MatthewBeckler() -> Character:
         """Matthew is currently the strongest magic caster."""
-        char = CharacterFactory.createTestChar()
+        char = CharacterFactory.createCharacter()
         char.name = "Matthew Beckler"
         char.maxHealth = 80
         char.maxMagic = 120
@@ -472,12 +409,15 @@ class CharacterFactory:
         char.defense = 0
         char.magicDefense = 20
         char.level = 6
+
+        char.loot = []
+        char.food = []
         return char
     
     @staticmethod
     def BillHudson() -> Character:
         """Bill is meant as a stronger version of Amalan. Strongest all-around stats."""
-        char = CharacterFactory.createTestChar()
+        char = CharacterFactory.createCharacter()
         char.name = "Bill Hudson"
         char.maxHealth = 120
         char.maxMagic = 100
@@ -487,4 +427,7 @@ class CharacterFactory:
         char.defense = 20
         char.magicDefense = 20
         char.level = 7
+
+        char.loot = []
+        char.food = []
         return char
