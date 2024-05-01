@@ -22,13 +22,12 @@ class MainWindow(QMainWindow):
         self.selector = CharacterSelector(self.createPlayableCharacters())
         self.selector.onSelect(self.userSelectedCharacter)
         self.fight = None
-        self.crawl = Crawl()
-        self.crawl.onFinish(self.showSelector)
+       
         self.stack = QStackedWidget()
         self.stack.addWidget(self.startMenu)
         self.stack.addWidget(self.selector)
 
-        self.stack.addWidget(self.crawl)
+        
 
         # Set the stacked widget as the central widget of the main window
         self.setCentralWidget(self.stack)
@@ -52,7 +51,10 @@ class MainWindow(QMainWindow):
         self.stack.setCurrentWidget(self.fight.widget)
 
     def startBtnClicked(self):
-        self.stack.setCurrentWidget(self.crawl)
+         self.crawl = Crawl()
+         self.crawl.onFinish(self.showSelector)
+         self.stack.addWidget(self.crawl)
+         self.stack.setCurrentWidget(self.crawl)
 
     def showSelector(self):
         self.stack.setCurrentWidget(self.selector)
