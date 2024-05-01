@@ -14,6 +14,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("Dunwoody-Disaster")
         self.setStyleSheet("background-color: #2f2f2f; color: #FFFFFF;")
+        self.setGeometry(100, 100, 1920, 1080)
         self.player = None
 
         self.startMenu = StartMenu()
@@ -22,12 +23,10 @@ class MainWindow(QMainWindow):
         self.selector = CharacterSelector(self.createPlayableCharacters())
         self.selector.onSelect(self.userSelectedCharacter)
         self.fight = None
-       
+
         self.stack = QStackedWidget()
         self.stack.addWidget(self.startMenu)
         self.stack.addWidget(self.selector)
-
-        
 
         # Set the stacked widget as the central widget of the main window
         self.setCentralWidget(self.stack)
@@ -51,10 +50,10 @@ class MainWindow(QMainWindow):
         self.stack.setCurrentWidget(self.fight.widget)
 
     def startBtnClicked(self):
-         self.crawl = Crawl()
-         self.crawl.onFinish(self.showSelector)
-         self.stack.addWidget(self.crawl)
-         self.stack.setCurrentWidget(self.crawl)
+        self.crawl = Crawl()
+        self.crawl.onFinish(self.showSelector)
+        self.stack.addWidget(self.crawl)
+        self.stack.setCurrentWidget(self.crawl)
 
     def showSelector(self):
         self.stack.setCurrentWidget(self.selector)

@@ -33,7 +33,7 @@ class Crawl(QWidget):
 
     def initUI(self):
         self.setWindowTitle("Story Crawl")
-        self.setGeometry(100, 100, 1800, 720)
+        self.setGeometry(100, 100, 1920, 1080)
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.updateScroll)
         self.timer.start(10)  # Adjust the interval for smoother or faster scrolling
@@ -45,7 +45,7 @@ class Crawl(QWidget):
             self.scroll_position
             >= len(self.text_lines) * self.line_spacing + self.height()
         ):
-            self.scroll_position = -self.height()  # Restart from the top
+            self._finishCallback()  # Once scrolling is done, callback and go to next screen.
         self.update()
 
     def paintEvent(self, event):
