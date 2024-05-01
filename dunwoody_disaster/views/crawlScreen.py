@@ -1,12 +1,14 @@
 from PySide6.QtCore import Qt, QTimer
-from PySide6.QtGui import QColor, QFont, QPainter
+from PySide6.QtGui import QColor, QFont, QPainter, QKeyEvent
 from PySide6.QtWidgets import QWidget
+import dunwoody_disaster as DD
+from typing import Callable
 
 
 class Crawl(QWidget):
     def __init__(self):
         super().__init__()
-
+        self._finishCallback == DD.unimplemented
         self.text_lines = [
             "In a distant galaxy, in an era of peace and prosperity...",
             "",
@@ -64,3 +66,10 @@ class Crawl(QWidget):
             x = (self.width() - text_width) / 2
             painter.drawText(x, y, line)
             y += self.line_spacing
+
+    def keyPressEvent(self, event: QKeyEvent):
+        if event.key() == Qt.Key.Key_Enter or event.key() == Qt.Key.Key_Return:
+            self.onFinish()
+
+    def onFinish(self, callback: Callable):
+        self._finishCallback = callback

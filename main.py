@@ -3,7 +3,7 @@ from PySide6.QtWidgets import QMainWindow, QStackedWidget, QApplication
 from dunwoody_disaster.FightSequence import FightSequence
 from dunwoody_disaster.views.StartMenu import StartMenu
 from dunwoody_disaster.views.MapScreen import MapScreen, Map
-from dunwoody_disaster.views.openingCrawl import Crawl
+from dunwoody_disaster.views.crawlScreen import Crawl
 from dunwoody_disaster.views.CharacterSelector import CharacterSelector
 from dunwoody_disaster.CharacterFactory import CharacterFactory, Character
 import dunwoody_disaster as DD
