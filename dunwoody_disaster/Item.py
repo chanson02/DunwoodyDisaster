@@ -78,13 +78,20 @@ class Item:
 
 
 class Weapon(Item):
-    def __init__(self, name: str, damage: int, stamina: int, magic: int):
+    def __init__(self, name: str, magical: bool, damage: int, stamina: int, magic: int):
         super().__init__(name, damage, stamina, magic)
+        self.magical = magical
+
+    def to_dict(self) -> dict:
+        result = super().to_dict()
+        result['magical'] = self.magical
+        return result
 
     @staticmethod
     def from_json(json: dict) -> "Weapon":
         return Weapon(
                 json["name"],
+                json["magical"],
                 json["damage"],
                 json["stamina"],
                 json["magic"]
@@ -92,7 +99,7 @@ class Weapon(Item):
 
     @staticmethod
     def default() -> "Weapon":
-        weapon = Weapon("Fist", 1, 0, 0)
+        weapon = Weapon("Fist", False, 1, 0, 0)
         return weapon
 
 # class Food(Item):
@@ -101,12 +108,18 @@ class Weapon(Item):
 
 
 class Armor(Item):
-    def __init__(self, name: str, armorVal: int, staminaCost: int, magicCost: int):
+    def __init__(self, name: str, armorVal: int, staminaCost: int, magicCost: int, magicDefense: int):
         super().__init__(name, armorVal, staminaCost, magicCost)
+        self.magicDefense = magicDefense
+
+    def to_dict(self) -> dict:
+        result = super().to_dict()
+        result['magicDefense'] = self.magicDefense
+        return result
 
     @staticmethod
     def default() -> "Armor":
-        armor = Armor("Absorb", 1, 0, 0)
+        armor = Armor("Absorb", 1, 0, 0, 0)
         return armor
 
     @staticmethod
@@ -115,15 +128,16 @@ class Armor(Item):
                 json["name"],
                 json["damage"],
                 json["stamina"],
-                json["magic"]
+                json["magic"],
+                json["magicDefense"]
                 )
 
 
 weapons = [
-        Weapon("sword", 30, 10, 0),
-        Weapon("spear", 30, 10, 0)
+        Weapon("sword", False, 30, 10, 0),
+        Weapon("spear", False, 30, 10, 0)
         ]
 armors = [
-        Armor("shield", 30, 10, 0),
-        Armor("gloves", 10, 5, 0)
+        Armor("shield", 30, 10, 0, 0),
+        Armor("gloves", 10, 5, 0, 0)
         ]
