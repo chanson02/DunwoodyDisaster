@@ -1,4 +1,11 @@
-from PySide6.QtWidgets import QSpacerItem, QSizePolicy, QWidget, QScrollArea, QLayout
+from PySide6.QtWidgets import (
+    QSpacerItem,
+    QSizePolicy,
+    QWidget,
+    QScrollArea,
+    QLayout,
+    QVBoxLayout,
+)
 from PySide6.QtCore import QObject, Signal, QEvent, SignalInstance, Qt
 import os
 
@@ -47,6 +54,12 @@ def expander(horizontal: bool, vertical: bool, min=10) -> QSpacerItem:
 
 
 def scroller(child: QLayout, horizontal: bool, vertical: bool) -> QScrollArea:
+    """
+    :return: a QScrollArea(QWidget)
+    """
+    child.setSpacing(0)
+    child.setContentsMargins(0, 0, 0, 0)
+
     h_policy = Qt.ScrollBarPolicy.ScrollBarAlwaysOff
     v_policy = Qt.ScrollBarPolicy.ScrollBarAlwaysOff
     if horizontal:
@@ -55,6 +68,7 @@ def scroller(child: QLayout, horizontal: bool, vertical: bool) -> QScrollArea:
         v_policy = Qt.ScrollBarPolicy.ScrollBarAsNeeded
 
     result = QScrollArea()
+    result.setContentsMargins(0, 0, 0, 0)
     result.setWidgetResizable(True)
     result.setHorizontalScrollBarPolicy(h_policy)
     result.setVerticalScrollBarPolicy(v_policy)
@@ -63,6 +77,27 @@ def scroller(child: QLayout, horizontal: bool, vertical: bool) -> QScrollArea:
     widget.setLayout(child)
     result.setWidget(widget)
     return result
+
+
+def layout(widget: QWidget) -> QLayout:
+    """
+    Convert a widget to a layout
+    """
+    layout = QVBoxLayout()
+    layout.setSpacing(0)
+    layout.setContentsMargins(0, 0, 0, 0)
+    layout.addWidget(widget)
+    return layout
+
+
+def clear_layout(layout: QLayout):
+    """
+    Clear all widgets inside layout from screen
+    """
+    for i in reversed(range(layout.count())):
+        widget = layout.itemAt(i).widget()
+        layout.removeWidget(widget)
+        widget.setParent(None)
 
 
 def unimplemented(*_, **k):

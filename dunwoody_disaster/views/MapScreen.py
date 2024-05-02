@@ -29,23 +29,28 @@ class Map(QLabel):
     def onRoomChange(self, callback: Callable):
         self.roomChanged = callback
 
-    def mousePressEvent(self, ev: QMouseEvent):
-        point = ev.pos()
-        new_room = self.findClosestRoom(point.x(), point.y())
-        if new_room == self.current_room:
+    def setRoom(self, room: Optional[dict]):
+        if self.current_room == room:
             return
 
-        self.current_room = new_room
+        self.current_room = room
         if self.current_room:
             pos = self.current_room["coordinate"]
             self.moveCharacter(pos[0], pos[1])
-            self.roomChanged(self.current_room)
+
+        self.roomChanged(self.current_room)
+
+    def mousePressEvent(self, ev: QMouseEvent):
+        point = ev.pos()
+        new_room = self.findClosestRoom(point.x(), point.y())
+        self.setRoom(new_room)
 
     def findClosestRoom(self, x: int, y: int) -> Optional[dict]:
         closest = None
         min_dist = float("inf")
+        unbeaten = [r for r in self.rooms if r["NPC"].curHealth > 0]
 
-        for room in self.rooms:
+        for room in unbeaten:
             room_pos = room["coordinate"]
             distance = sqrt((x - room_pos[0]) ** 2 + (y - room_pos[1]) ** 2)
             if distance < min_dist:
