@@ -26,7 +26,9 @@ class FightSequence:
         )
 
         self.player.set_health(self.player.curHealth - playerDmg)
-        self.player.set_magic(self.player.curMagic - playerActions.getAttack().magicCost)
+        self.player.set_magic(
+            self.player.curMagic - playerActions.getAttack().magicCost
+        )
         self.player.set_stamina(
             self.player.curStamina - playerActions.getAttack().staminaCost
         )

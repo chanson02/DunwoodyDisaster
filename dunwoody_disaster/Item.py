@@ -70,11 +70,11 @@ class Item:
 
     def to_dict(self) -> dict:
         return {
-                "name": self.name,
-                "damage": self.damage,
-                "magic": self.magicCost,
-                "stamina": self.staminaCost
-                }
+            "name": self.name,
+            "damage": self.damage,
+            "magic": self.magicCost,
+            "stamina": self.staminaCost,
+        }
 
 
 class Weapon(Item):
@@ -84,23 +84,24 @@ class Weapon(Item):
 
     def to_dict(self) -> dict:
         result = super().to_dict()
-        result['magical'] = self.magical
+        result["magical"] = self.magical
         return result
 
     @staticmethod
     def from_json(json: dict) -> "Weapon":
         return Weapon(
-                json["name"],
-                json["magical"],
-                json["damage"],
-                json["stamina"],
-                json["magic"]
-                )
+            json["name"],
+            json["magical"],
+            json["damage"],
+            json["stamina"],
+            json["magic"],
+        )
 
     @staticmethod
     def default() -> "Weapon":
         weapon = Weapon("Fist", False, 1, 0, 0)
         return weapon
+
 
 # class Food(Item):
 #     def __init__(self, name):
@@ -108,13 +109,20 @@ class Weapon(Item):
 
 
 class Armor(Item):
-    def __init__(self, name: str, armorVal: int, staminaCost: int, magicCost: int, magicDefense: int):
+    def __init__(
+        self,
+        name: str,
+        armorVal: int,
+        staminaCost: int,
+        magicCost: int,
+        magicDefense: int,
+    ):
         super().__init__(name, armorVal, staminaCost, magicCost)
         self.magicDefense = magicDefense
 
     def to_dict(self) -> dict:
         result = super().to_dict()
-        result['magicDefense'] = self.magicDefense
+        result["magicDefense"] = self.magicDefense
         return result
 
     @staticmethod
@@ -125,19 +133,13 @@ class Armor(Item):
     @staticmethod
     def from_json(json: dict) -> "Armor":
         return Armor(
-                json["name"],
-                json["damage"],
-                json["stamina"],
-                json["magic"],
-                json["magicDefense"]
-                )
+            json["name"],
+            json["damage"],
+            json["stamina"],
+            json["magic"],
+            json["magicDefense"],
+        )
 
 
-weapons = [
-        Weapon("sword", False, 30, 10, 0),
-        Weapon("spear", False, 30, 10, 0)
-        ]
-armors = [
-        Armor("shield", 30, 10, 0, 0),
-        Armor("gloves", 10, 5, 0, 0)
-        ]
+weapons = [Weapon("sword", False, 30, 10, 0), Weapon("spear", False, 30, 10, 0)]
+armors = [Armor("shield", 30, 10, 0, 0), Armor("gloves", 10, 5, 0, 0)]
