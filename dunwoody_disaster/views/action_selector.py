@@ -79,7 +79,7 @@ class ActionSelector(QWidget):
         weapons = [
             w
             for w in self.character.weapons
-            if self.character.curMagic >= w.magicReq
+            if self.character.curMagic >= w.magicCost
             and self.character.curStamina >= w.staminaCost
         ]
 

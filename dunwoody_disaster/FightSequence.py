@@ -26,14 +26,14 @@ class FightSequence:
         )
 
         self.player.set_health(self.player.curHealth - playerDmg)
-        self.player.set_magic(self.player.curMagic - playerActions.getAttack().magicReq)
+        self.player.set_magic(self.player.curMagic - playerActions.getAttack().magicCost)
         self.player.set_stamina(
             self.player.curStamina - playerActions.getAttack().staminaCost
         )
         # Do defenses also cost stamina ??? -- Cooper
 
         self.enemy.set_health(self.enemy.curHealth - enemyDmg)
-        self.enemy.set_magic(self.enemy.curMagic - enemyActions.getAttack().magicReq)
+        self.enemy.set_magic(self.enemy.curMagic - enemyActions.getAttack().magicCost)
         self.enemy.set_stamina(
             self.enemy.curStamina - enemyActions.getAttack().staminaCost
         )
