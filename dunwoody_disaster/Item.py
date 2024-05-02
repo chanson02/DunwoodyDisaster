@@ -71,6 +71,9 @@ class Item:
 
 class Weapon(Item):
     def __init__(self, name: str, magical: bool, damage: int, stamina: int, magic: int):
+        """
+        :param magical: If true attack with intelligence, otherwise strength
+        """
         super().__init__(name, damage, stamina, magic)
         self.magical = magical
 
@@ -109,6 +112,10 @@ class Armor(Item):
         magicCost: int,
         magicDefense: int,
     ):
+        """
+        :param armorVal: Amount of damage to block if attack is not magical
+        :param magicDefense: Amount of damage to block if attack is magical
+        """
         super().__init__(name, armorVal, staminaCost, magicCost)
         self.magicDefense = magicDefense
 
