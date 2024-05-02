@@ -4,14 +4,6 @@ from PySide6.QtCore import Qt
 
 import dunwoody_disaster as DD
 
-# # Stats for the items
-# # Add items as needed under its respective category
-# WeaponStats = {"sword": [20, 30, 10], "spear": [30, 10, 20]}
-#
-# FoodStats = {}
-#
-# ArmorStats = {"shield": [30, 10, 20], "gloves": [10, 10, 10]}
-
 
 class Item:
     def __init__(self, name: str, damage: int, stamina: int, magic: int):
