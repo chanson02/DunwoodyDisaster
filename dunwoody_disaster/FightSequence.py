@@ -2,6 +2,8 @@ from dunwoody_disaster import CharacterFactory, Item
 from dunwoody_disaster.CharacterFactory import Character
 from dunwoody_disaster.views.action_selector import ActionSelector
 from dunwoody_disaster.views.fightScreen import FightScreen
+from typing import Callable
+import dunwoody_disaster as DD
 
 
 class FightSequence:
@@ -11,6 +13,9 @@ class FightSequence:
         self.player = player
         self.enemy = enemy
         self.widget = FightScreen(self)
+
+        self._winCallback = DD.unimplemented
+        self._loseCallback = DD.unimplemented
 
     def takeTurn(self, playerActions: ActionSelector, enemyActions: ActionSelector):
         """
@@ -41,6 +46,11 @@ class FightSequence:
         playerActions.clear()
         enemyActions.selectRandom()
 
+        if self.enemy.curHealth <= 0:
+            self._winCallback()
+        elif self.player.curHealth <= 0:
+            self._loseCallback()
+
     def calculateDamage(
         self, player: Character, attack: Item.Weapon, defense: Item.Armor
     ):
@@ -56,3 +66,9 @@ class FightSequence:
             dmg = attack.damage + player.strength - defense.armorVal
 
         return max(0, dmg)
+
+    def onWin(self, callback: Callable):
+        self._winCallback = callback
+
+    def onLose(self, callback: Callable):
+        self._loseCallback = callback

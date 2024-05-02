@@ -11,7 +11,7 @@ import dunwoody_disaster as DD
 from dunwoody_disaster.views.characterState import CharacterState
 from dunwoody_disaster.views.action_selector import ActionSelector
 
-from typing import Callable, TYPE_CHECKING
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     # avoid circular import
@@ -94,6 +94,3 @@ class FightScreen(QWidget):
             return
 
         self.controller.takeTurn(self.p1_selector, self.p2_selector)
-
-    def onWin(self, callback: Callable):
-        self._winCallback = callback
