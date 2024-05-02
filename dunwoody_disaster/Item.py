@@ -69,8 +69,12 @@ class Item:
         return widget
 
     def to_dict(self) -> dict:
-        DD.unimplemented()
-        return {}
+        return {
+                "name": self.name,
+                "damage": self.damage,
+                "magic": self.magicCost,
+                "stamina": self.staminaCost
+                }
 
 
 class Weapon(Item):
@@ -80,27 +84,16 @@ class Weapon(Item):
     @staticmethod
     def from_json(json: dict) -> "Weapon":
         return Weapon(
-            json["name"],
-            # json["is_magical"],
-            json["damage"],
-            json["magicCost"],
-            json["staminaCost"],
-        )
+                json["name"],
+                json["damage"],
+                json["stamina"],
+                json["magic"]
+                )
 
     @staticmethod
     def default() -> "Weapon":
         weapon = Weapon("Fist", 1, 0, 0)
         return weapon
-
-    def to_dict(self) -> dict:
-        return {
-            "name": self.name,
-            # "is_magical": self.magic,
-            "damage": self.damage,
-            "magicCost": self.magicCost,
-            "staminaCost": self.staminaCost,
-        }
-
 
 # class Food(Item):
 #     def __init__(self, name):
@@ -111,21 +104,19 @@ class Armor(Item):
     def __init__(self, name: str, armorVal: int, staminaCost: int, magicCost: int):
         super().__init__(name, armorVal, staminaCost, magicCost)
 
-    # @staticmethod
-    # def from_json(json: dict) -> "Armor":
-    #     return Armor(json["name"], json["armorVal"], json["magicDefense"])
-
     @staticmethod
     def default() -> "Armor":
         armor = Armor("Absorb", 1, 0, 0)
         return armor
 
-    # def to_dict(self) -> dict:
-    #     return {
-    #         "name": self.name,
-    #         "armorVal": self.armorVal,
-    #         "magicDefense": self.magicDefense,
-    #     }
+    @staticmethod
+    def from_json(json: dict) -> "Armor":
+        return Armor(
+                json["name"],
+                json["damage"],
+                json["stamina"],
+                json["magic"]
+                )
 
 
 weapons = [
