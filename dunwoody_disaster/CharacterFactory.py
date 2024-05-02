@@ -257,7 +257,7 @@ class CharacterFactory:
     @staticmethod
     def John() -> Character:
         """"""
-        char = CharacterFactory.createTestChar()
+        char = CharacterFactory.createCharacter()
         char.name = "John"
         char.maxHealth = 100
         char.maxMagic = 100
@@ -273,7 +273,7 @@ class CharacterFactory:
     @staticmethod
     def Noah() -> Character:
         """"""
-        char = CharacterFactory.createTestChar()
+        char = CharacterFactory.createCharacter()
         char.name = "Noah"
         char.maxHealth = 100
         char.maxMagic = 100
@@ -289,7 +289,7 @@ class CharacterFactory:
     @staticmethod
     def Mitch() -> Character:
         """Mitch is more strength and defense oriented. Weak to magic"""
-        char = CharacterFactory.createTestChar()
+        char = CharacterFactory.createCharacter()
         char.name = "Mitch"
         char.maxHealth = 120
         char.maxMagic = 40
