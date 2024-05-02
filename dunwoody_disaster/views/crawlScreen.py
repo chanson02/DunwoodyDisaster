@@ -45,7 +45,7 @@ class Crawl(QWidget):
             self.scroll_position
             >= len(self.text_lines) * self.line_spacing + self.height()
         ):
-            self._finishCallback()  # Once scrolling is done, callback and go to next screen.
+            self.endCrawlScreen()  # Once scrolling is done, callback and go to next screen.
         self.update()
 
     def paintEvent(self, event):
@@ -69,7 +69,12 @@ class Crawl(QWidget):
 
     def keyPressEvent(self, event: QKeyEvent):
         if event.key() == Qt.Key.Key_Enter or event.key() == Qt.Key.Key_Return:
-            self._finishCallback()
+            self.endCrawlScreen()
+
+    def endCrawlScreen(self):
+        self.timer.stop()
+        self._finishCallback
+        self.deleteLater()
 
     def onFinish(self, callback: Callable):
         self._finishCallback = callback
