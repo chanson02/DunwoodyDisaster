@@ -3,6 +3,7 @@ from PySide6.QtWidgets import QMainWindow, QStackedWidget, QApplication
 from dunwoody_disaster.FightSequence import FightSequence
 from dunwoody_disaster.views.StartMenu import StartMenu
 from dunwoody_disaster.views.MapScreen import MapScreen, Map
+from dunwoody_disaster.views.crawlScreen import Crawl
 from dunwoody_disaster.views.CharacterSelector import CharacterSelector
 from dunwoody_disaster.CharacterFactory import CharacterFactory, Character
 import dunwoody_disaster as DD
@@ -12,7 +13,8 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Dunwoody-Disaster")
-        self.setStyleSheet("background-color: #2f2f2f;")
+        self.setStyleSheet("background-color: #2f2f2f; color: #FFFFFF;")
+        self.setGeometry(100, 100, 1920, 1080)
         self.player = None
 
         self.startMenu = StartMenu()
@@ -48,6 +50,12 @@ class MainWindow(QMainWindow):
         self.stack.setCurrentWidget(self.fight.widget)
 
     def startBtnClicked(self):
+        self.crawl = Crawl()
+        self.crawl.onFinish(self.showSelector)
+        self.stack.addWidget(self.crawl)
+        self.stack.setCurrentWidget(self.crawl)
+
+    def showSelector(self):
         self.stack.setCurrentWidget(self.selector)
 
     def userSelectedCharacter(self, character: Character):
