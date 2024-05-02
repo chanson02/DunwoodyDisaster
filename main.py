@@ -7,7 +7,7 @@ from dunwoody_disaster.views.CharacterSelector import CharacterSelector
 from dunwoody_disaster.CharacterFactory import CharacterFactory, Character
 import dunwoody_disaster as DD
 
-
+from dunwoody_disaster.views.defeatScreen import DefeatScreen
 from dunwoody_disaster.views.victoryScreen import VictoryScreen
 
 
@@ -49,6 +49,7 @@ class MainWindow(QMainWindow):
 
         self.fight = FightSequence(self.player, room["NPC"])
         self.fight.onWin(self.showVictoryScreen)
+        self.fight.onLose(self.showDefeatScreen)
 
         self.stack.addWidget(self.fight.widget)
         self.stack.setCurrentWidget(self.fight.widget)
@@ -83,6 +84,20 @@ class MainWindow(QMainWindow):
         victory.onClose(loot_collected)
         self.stack.addWidget(victory)
         self.stack.setCurrentWidget(victory)
+
+    def showDefeatScreen(self):
+        if self.fight is None:
+            raise Exception("Defeat Screen expects a fight")
+        
+        defeat = DefeatScreen()
+
+        def return_to_map():
+            self.stack.removeWidget(defeat)
+            self.showMapScreen()
+
+        defeat.onClose(return_to_map)
+        self.stack.addWidget(defeat)
+        self.stack.setCurrentWidget(defeat)
 
 
 if __name__ == "__main__":
