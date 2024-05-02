@@ -88,7 +88,7 @@ class MainWindow(QMainWindow):
     def showDefeatScreen(self):
         if self.fight is None:
             raise Exception("Defeat Screen expects a fight")
-        
+
         defeat = DefeatScreen()
 
         def return_to_map():

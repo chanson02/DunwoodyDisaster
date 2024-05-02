@@ -23,9 +23,9 @@ class DefeatScreen(QWidget):
         :param image: the path to the image to display
         """
         super().__init__()
-        
+
         self._callback = DD.unimplemented
-        
+
         self.image = image
 
         layout = QVBoxLayout()
