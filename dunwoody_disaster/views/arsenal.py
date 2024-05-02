@@ -29,7 +29,9 @@ class Arsenal(QWidget):
         layout = QGridLayout()
         layout.setContentsMargins(0, 0, 0, 0)
 
-        weapons_widget = self.createInventory("Weapons", weapons + [Item.Weapon.default()])
+        weapons_widget = self.createInventory(
+            "Weapons", weapons + [Item.Weapon.default()]
+        )
         armor_widget = self.createInventory("Armor", armors + [Item.Armor.default()])
 
         layout.addWidget(weapons_widget, 0, 0)

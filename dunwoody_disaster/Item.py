@@ -95,7 +95,7 @@ class Weapon(Item):
 
     @staticmethod
     def default() -> "Weapon":
-        weapon = Weapon('Fist', 0, 1, 0, 0)
+        weapon = Weapon("Fist", 0, 1, 0, 0)
         return weapon
 
     def to_dict(self) -> dict:
@@ -130,7 +130,7 @@ class Armor(Item):
 
     @staticmethod
     def default() -> "Armor":
-        armor = Armor('Absorb', 1, 0)
+        armor = Armor("Absorb", 1, 0)
         return armor
 
     def to_dict(self) -> dict:
