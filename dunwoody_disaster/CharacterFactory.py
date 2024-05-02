@@ -247,10 +247,19 @@ class CharacterFactory:
         char.intelligence = 1
         char.defense = 1
         char.magicDefense = 1
+        char.weapons = [
+            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=True),
+            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False),
+            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False)
+        ]
 
+        char.defenses = [
+            Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=0),
+            Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
+        ]
         char.loot = []
         char.food = []
-
+        
         char.image_path = DD.ASSETS["cooper"]
         return char
 
@@ -268,6 +277,16 @@ class CharacterFactory:
         char.intelligence = 1
         char.defense = 1
         char.magicDefense = 1
+        char.weapons = [
+            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=True),
+            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False),
+            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False)
+        ]
+
+        char.defenses = [
+            Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=0),
+            Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
+        ]
         return char
 
     @staticmethod
@@ -284,6 +303,16 @@ class CharacterFactory:
         char.intelligence = 1
         char.defense = 1
         char.magicDefense = 1
+        char.weapons = [
+            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=True),
+            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False),
+            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False)
+        ]
+
+        char.defenses = [
+            Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=0),
+            Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
+        ]
         return char
 
     @staticmethod
@@ -300,6 +329,17 @@ class CharacterFactory:
         char.intelligence = 5
         char.defense = 30
         char.magicDefense = 5
+
+        char.weapons = [
+            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=True),
+            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False),
+            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False)
+        ]
+
+        char.defenses = [
+            Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=0),
+            Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
+        ]
         return char
 
     @staticmethod
@@ -317,7 +357,17 @@ class CharacterFactory:
         char.defense = 0
         char.magicDefense = 15
         char.level = 1
+        
+        char.weapons = [
+            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=True),
+            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False),
+            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False)
+        ]
 
+        char.defenses = [
+            Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=0),
+            Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
+        ]
         char.loot = []
         char.food = []
         return char
@@ -338,6 +388,16 @@ class CharacterFactory:
         char.magicDefense = 15
         char.level = 2
 
+        char.weapons = [
+            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=True),
+            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False),
+            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False)
+        ]
+
+        char.defenses = [
+            Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=0),
+            Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
+        ]
         char.loot = []
         char.food = []
         return char
@@ -359,6 +419,16 @@ class CharacterFactory:
         char.magicDefense = 5
         char.level = 3
 
+        char.weapons = [
+            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=True),
+            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False),
+            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False)
+        ]
+
+        char.defenses = [
+            Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=0),
+            Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
+        ]
         char.loot = []
         char.food = []
         return char
@@ -379,6 +449,16 @@ class CharacterFactory:
         char.magicDefense = 15
         char.level = 4
 
+        char.weapons = [
+            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=True),
+            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False),
+            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False)
+        ]
+
+        char.defenses = [
+            Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=0),
+            Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
+        ]
         char.loot = []
         char.food = []
         return char
@@ -399,8 +479,17 @@ class CharacterFactory:
         char.magicDefense = 0
         char.level = 5
 
-        char.weapons = []
-        char.defenses = []
+        char.weapons = [
+            Item.Weapon(name="SSH", damage=5, magic=15, stamina=5, magical=True),
+            Item.Weapon(name="Breadboard", damage=10, magic=0, stamina=5, magical=False),
+            Item.Weapon(name="Server Rack", damage=18, magic=5, stamina=10, magical=False)
+        ]
+
+        char.defenses = [
+            Item.Armor(name="Baby", armorVal=50, staminaCost=25, magicCost=0, magicDefense=0),
+            Item.Armor(name="Command Line", armorVal=25, staminaCost=10, magicCost=5, magicDefense=5)
+        ]
+
         char.loot = []
         char.food = []
         return char
@@ -420,6 +509,17 @@ class CharacterFactory:
         char.defense = 0
         char.magicDefense = 20
         char.level = 6
+
+        char.weapons = [
+            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=True),
+            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False),
+            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False)
+        ]
+
+        char.defenses = [
+            Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=0),
+            Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
+        ]
 
         char.loot = []
         char.food = []
@@ -441,6 +541,16 @@ class CharacterFactory:
         char.magicDefense = 20
         char.level = 7
 
+        char.weapons = [
+            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=True),
+            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False),
+            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False)
+        ]
+
+        char.defenses = [
+            Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=0),
+            Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
+        ]
         char.loot = []
         char.food = []
         return char
