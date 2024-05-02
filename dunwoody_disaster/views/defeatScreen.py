@@ -6,6 +6,8 @@ from PySide6.QtWidgets import (
     QLabel,
     QPushButton,
 )
+from typing import Callable
+import dunwoody_disaster as DD
 
 styles = {
     "title-text": "color: white; font-size: 24px;",
@@ -22,7 +24,7 @@ class DefeatScreen(QWidget):
         """
         super().__init__()
 
-        self.show = True
+        self._callback = DD.unimplemented
 
         self.image = image
 
@@ -60,8 +62,8 @@ class DefeatScreen(QWidget):
         """
         Returns the player to the map screen
         """
-        print("Returning to map")
-        self.show = False
+        self.deleteLater()
+        self._callback()
 
     def SetImage(self, image: str):
         """
@@ -70,3 +72,10 @@ class DefeatScreen(QWidget):
         """
         self.image = QPixmap(image)
         self.label.setPixmap(self.image)
+
+    def onClose(self, callback: Callable):
+        """
+        Sets the callback function to be called when the return button is clicked
+        :param callback: the function to be called
+        """
+        self._callback = callback
