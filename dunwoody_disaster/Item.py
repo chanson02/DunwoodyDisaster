@@ -4,19 +4,21 @@ from PySide6.QtCore import Qt
 
 import dunwoody_disaster as DD
 
-# Stats for the items
-# Add items as needed under its respective category
-WeaponStats = {"sword": [20, 30, 10], "spear": [30, 10, 20]}
-
-FoodStats = {}
-
-ArmorStats = {"shield": [30, 10, 20], "gloves": [10, 10, 10]}
+# # Stats for the items
+# # Add items as needed under its respective category
+# WeaponStats = {"sword": [20, 30, 10], "spear": [30, 10, 20]}
+#
+# FoodStats = {}
+#
+# ArmorStats = {"shield": [30, 10, 20], "gloves": [10, 10, 10]}
 
 
 class Item:
-    def __init__(self, name: str):
+    def __init__(self, name: str, damage: int, stamina: int, magic: int):
         self.name = name
-        self.stats = {}
+        self.damage = damage
+        self.staminaCost = stamina
+        self.magicCost = magic
 
         if name in DD.ASSETS:
             self.image = DD.ASSETS[name]
@@ -24,16 +26,16 @@ class Item:
             self.image = DD.ASSETS["no_texture"]
 
     def __str__(self) -> str:
-        return f"Item({self.name}, {self.stats})"
+        return f"Item({self.name}, dmg={self.damage}, stamina={self.staminaCost}, magic={self.magicCost})"
 
     def __repr__(self) -> str:
-        return f"Item({self.name}, {self.stats})"
+        return f"Item({self.name}, dmg={self.damage}, stamina={self.staminaCost}, magic={self.magicCost})"
 
     def serialize(self) -> dict:
         return {
-            "damage": self.stats[0],
-            "magic": self.stats[1],
-            "stamina": self.stats[2],
+            "damage": self.damage,
+            "magic": self.magicCost,
+            "stamina": self.staminaCost,
         }
 
     def widget(self, min_width=100) -> QWidget:
@@ -72,22 +74,14 @@ class Item:
 
 
 class Weapon(Item):
-    def __init__(self, name, magic, damage, magicCost, staminaCost):
-        super().__init__(name)
-        try:
-            self.stats = WeaponStats[name]
-        except KeyError:
-            self.stats = [0, 0, 0]
-        self.magic = magic
-        self.damage = damage
-        self.magicReq = magicCost
-        self.staminaCost = staminaCost
+    def __init__(self, name: str, damage: int, stamina: int, magic: int):
+        super().__init__(name, damage, stamina, magic)
 
     @staticmethod
     def from_json(json: dict) -> "Weapon":
         return Weapon(
             json["name"],
-            json["is_magical"],
+            # json["is_magical"],
             json["damage"],
             json["magicCost"],
             json["staminaCost"],
@@ -95,52 +89,50 @@ class Weapon(Item):
 
     @staticmethod
     def default() -> "Weapon":
-        weapon = Weapon("Fist", 0, 1, 0, 0)
+        weapon = Weapon("Fist", 1, 0, 0)
         return weapon
 
     def to_dict(self) -> dict:
         return {
             "name": self.name,
-            "is_magical": self.magic,
+            # "is_magical": self.magic,
             "damage": self.damage,
-            "magicCost": self.magicReq,
+            "magicCost": self.magicCost,
             "staminaCost": self.staminaCost,
         }
 
 
-class Food(Item):
-    def __init__(self, name):
-        super().__init__(name)
-        self.stats = FoodStats[name]
+# class Food(Item):
+#     def __init__(self, name):
+#         super().__init__(name)
 
 
 class Armor(Item):
-    def __init__(self, name: str, armorVal: int, magicDefense: int, *args):
-        super().__init__(name)
-        try:
-            self.stats = ArmorStats[name]
-        except KeyError:
-            self.stats = [0, 0, 0]
-        self.magicDefense = magicDefense
-        self.armorVal = armorVal
+    def __init__(self, name: str, armorVal: int, staminaCost: int, magicCost: int):
+        super().__init__(name, armorVal, staminaCost, magicCost)
 
-    @staticmethod
-    def from_json(json: dict) -> "Armor":
-        return Armor(json["name"], json["armorVal"], json["magicDefense"])
+    # @staticmethod
+    # def from_json(json: dict) -> "Armor":
+    #     return Armor(json["name"], json["armorVal"], json["magicDefense"])
 
     @staticmethod
     def default() -> "Armor":
-        armor = Armor("Absorb", 1, 0)
+        armor = Armor("Absorb", 1, 0, 0)
         return armor
 
-    def to_dict(self) -> dict:
-        return {
-            "name": self.name,
-            "armorVal": self.armorVal,
-            "magicDefense": self.magicDefense,
-        }
+    # def to_dict(self) -> dict:
+    #     return {
+    #         "name": self.name,
+    #         "armorVal": self.armorVal,
+    #         "magicDefense": self.magicDefense,
+    #     }
 
 
-weapons = [Weapon("sword", False, 30, 0, 10), Weapon("spear", False, 30, 0, 20)]
-
-armors = [Armor("shield", 30, 10, 20), Armor("gloves", 10, 10, 10)]
+weapons = [
+        Weapon("sword", 30, 10, 0),
+        Weapon("spear", 30, 10, 0)
+        ]
+armors = [
+        Armor("shield", 30, 10, 0),
+        Armor("gloves", 10, 5, 0)
+        ]
