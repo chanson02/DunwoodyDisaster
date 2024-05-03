@@ -99,7 +99,6 @@ class FightScreen(QWidget):
 
         self.animation_Object = AnimationWidget(animIdle)
         layout.addWidget(self.animation_Object, row, 0, 0, 3)
-        
         row += 1  
 
         layout.addItem(QSpacerItem(0, 30, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 0)
