@@ -4,17 +4,21 @@ from dunwoody_disaster.views.action_selector import ActionSelector
 from dunwoody_disaster.views.fightScreen import FightScreen
 from typing import Callable
 import dunwoody_disaster as DD
-from PySide6.QtCore import QTimer
+from PySide6.QtCore import QTimer, Signal
 from functools import partial
+from dunwoody_disaster.animations.basic_attack import AttackAnimation
+from PySide6.QtWidgets import QWidget
 
 
-class FightSequence:
+class FightSequence(QWidget):
+    signal = Signal()
     def __init__(
-        self, player: CharacterFactory.Character, enemy: CharacterFactory.Character
+            self, player: CharacterFactory.Character, enemy: CharacterFactory.Character, battlefield: str
     ):
+        super().__init__()
         self.player = player
         self.enemy = enemy
-        self.widget = FightScreen(self)
+        self.widget = FightScreen(self, battlefield)
         self._locked = False
 
         self._winCallback = DD.unimplemented
@@ -29,8 +33,13 @@ class FightSequence:
 
         self._locked = True
         enemyActions.show()
+
+        #self.signal = Signal()
         callback = partial(self.finishTurn, playerActions, enemyActions)
-        QTimer.singleShot(1000, callback)
+        self.signal.connect(callback)
+        animation = AttackAnimation(self.widget.background, self.player.image_path, self.enemy.image_path, playerActions.getAttack().image, self.signal)
+        self.widget.animation_Object.setAnimation(animation)
+        print('created attack animation')
 
     def finishTurn(self, playerActions: ActionSelector, enemyActions: ActionSelector):
         """
@@ -39,6 +48,8 @@ class FightSequence:
         :param enemyActions: The actions the enemy is using
         """
         enemyActions.hide()
+        self.widget.animation_Object.setAnimation(self.widget.idleAnimation)
+        print('calling finish turn')
 
         playerDmg = self.calculateDamage(
             self.player, enemyActions.getAttack(), playerActions.getDefense()
