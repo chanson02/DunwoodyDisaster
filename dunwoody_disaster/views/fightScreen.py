@@ -97,6 +97,14 @@ class FightScreen(QWidget):
                         QSizePolicy.Fixed), row, 0)
         row += 1  
 
+        # animation_Object = 
+        # layout.addWidget(animation_Object, row, 0, 0, 3)
+
+        layout.addItem(QSpacerItem(0, 30, 
+                        QSizePolicy.Fixed, 
+                        QSizePolicy.Fixed), row, 0)
+        row += 1  
+
         layout.addWidget(self.p1_selector, row, 0)
         layout.addWidget(self.p2_selector, row, 2)
         row += 1       

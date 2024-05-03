@@ -78,6 +78,7 @@ class FightPreview(QWidget):
         row += 1
 
         gb = QGroupBox("Weapons")
+        gb.setStyleSheet('max-width: 400px;')
         container = QHBoxLayout()
         gb.setLayout(container)
         scroller = DD.scroller(self.weapons, True, False)
@@ -92,6 +93,7 @@ class FightPreview(QWidget):
         row += 1
 
         gb = QGroupBox("Defenses")
+        gb.setStyleSheet('max-width: 400px;')
         container = QHBoxLayout()
         gb.setLayout(container)
         scroller = DD.scroller(self.defenses, True, False)

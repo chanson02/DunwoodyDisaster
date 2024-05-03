@@ -67,6 +67,7 @@ class MainWindow(QMainWindow):
     def userSelectedCharacter(self, character: Character):
         self.player = character
         self.mapScreen = MapScreen(Map.buildMap(self.player))
+        self.mapScreen.setStyleSheet('background-color: #41A392;')
         self.mapScreen.onEnter(self.EnterFight)
         self.stack.addWidget(self.mapScreen)
         self.showMapScreen()

@@ -61,13 +61,5 @@ class CharacterState(QWidget):
         layout.addItem(QSpacerItem(0, 50, 
                         QSizePolicy.Fixed, 
                         QSizePolicy.Fixed), row, 0)
-        row += 1  
-
-        pic = QLabel("")
-        pic.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        # pic.setStyleSheet("min-width: 380px;")
-        pic.setPixmap(self.character.image().scaledToWidth(200))
-        layout.addWidget(pic, row, 0, 1, 3)
-        row += 1
 
         return layout
