@@ -30,9 +30,7 @@ class CharacterSelector(QWidget):
         self.setLayout(layout)
 
         layout.addItem(
-            QSpacerItem(
-                50, 50, QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding
-            ),
+            DD.expander(True, True, 50)
             row,
             0,
         )
