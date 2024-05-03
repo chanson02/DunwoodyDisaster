@@ -74,7 +74,10 @@ class Item:
 class Weapon(Item):
     def __init__(self, name, magic, damage, magicCost, staminaCost):
         super().__init__(name)
-        self.stats = WeaponStats[name]
+        try:
+            self.stats = WeaponStats[name]
+        except KeyError:
+            self.stats = [0, 0, 0]
         self.magic = magic
         self.damage = damage
         self.magicReq = magicCost
@@ -89,6 +92,11 @@ class Weapon(Item):
             json["magicCost"],
             json["staminaCost"],
         )
+
+    @staticmethod
+    def default() -> "Weapon":
+        weapon = Weapon("Fist", 0, 1, 0, 0)
+        return weapon
 
     def to_dict(self) -> dict:
         return {
@@ -109,13 +117,21 @@ class Food(Item):
 class Armor(Item):
     def __init__(self, name: str, armorVal: int, magicDefense: int, *args):
         super().__init__(name)
-        self.stats = ArmorStats[name]
+        try:
+            self.stats = ArmorStats[name]
+        except KeyError:
+            self.stats = [0, 0, 0]
         self.magicDefense = magicDefense
         self.armorVal = armorVal
 
     @staticmethod
     def from_json(json: dict) -> "Armor":
         return Armor(json["name"], json["armorVal"], json["magicDefense"])
+
+    @staticmethod
+    def default() -> "Armor":
+        armor = Armor("Absorb", 1, 0)
+        return armor
 
     def to_dict(self) -> dict:
         return {
