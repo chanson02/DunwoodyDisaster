@@ -6,7 +6,6 @@ from dunwoody_disaster.views.MapScreen import MapScreen, Map
 from dunwoody_disaster.views.crawlScreen import Crawl
 from dunwoody_disaster.views.CharacterSelector import CharacterSelector
 from dunwoody_disaster.CharacterFactory import CharacterFactory, Character
-import dunwoody_disaster as DD
 
 from dunwoody_disaster.views.defeatScreen import DefeatScreen
 from dunwoody_disaster.views.victoryScreen import VictoryScreen
@@ -68,17 +67,19 @@ class MainWindow(QMainWindow):
     def userSelectedCharacter(self, character: Character):
         self.player = character
         self.mapScreen = MapScreen(Map.buildMap(self.player))
-        self.mapScreen.setStyleSheet('background-color: #41A392;')
+        self.mapScreen.setStyleSheet("background-color: #41A392;")
         self.mapScreen.onEnter(self.EnterFight)
         self.stack.addWidget(self.mapScreen)
         self.showMapScreen()
 
     def createPlayableCharacters(self) -> list[Character]:
-        cooper = CharacterFactory.createTestChar()
-        cooper.name = "Cooper"
-        cooper.image_path = DD.ASSETS["cooper"]
-
-        return [cooper]
+        # cooper = CharacterFactory.Cooper()
+        return [
+            CharacterFactory.Cooper(),
+            CharacterFactory.Mitch(),
+            CharacterFactory.Noah(),
+            CharacterFactory.John(),
+        ]
 
     def showVictoryScreen(self):
         if self.fight is None:
