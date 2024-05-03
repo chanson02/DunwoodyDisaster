@@ -5,6 +5,8 @@ from PySide6.QtWidgets import (
     QGridLayout,
     QLayout,
     QLabel,
+    QSpacerItem,
+    QSizePolicy
 )
 from PySide6.QtCore import Qt
 
@@ -29,22 +31,41 @@ class CharacterState(QWidget):
         layout.addWidget(name, row, 0, 1, 3)
         row += 1
 
+        layout.addItem(QSpacerItem(0, 50, 
+                        QSizePolicy.Fixed, 
+                        QSizePolicy.Fixed), row, 0)
+        row += 1  
+
         layout.addWidget(self.character.health_lbl, row, 0)
         layout.addWidget(self.character.health_meter, row, 1, 1, 2)
         row += 1
+
+        layout.addItem(QSpacerItem(0, 5, 
+                        QSizePolicy.Fixed, 
+                        QSizePolicy.Fixed), row, 0)
+        row += 1  
+
         layout.addWidget(self.character.magic_lbl, row, 0)
         layout.addWidget(self.character.magic_meter, row, 1, 1, 2)
         row += 1
+
+        layout.addItem(QSpacerItem(0, 5, 
+                        QSizePolicy.Fixed, 
+                        QSizePolicy.Fixed), row, 0)
+        row += 1  
+
         layout.addWidget(self.character.stamina_lbl, row, 0)
         layout.addWidget(self.character.stamina_meter, row, 1, 1, 2)
         row += 1
 
-        layout.addItem(DD.spacer(10), row, 0)
-        row += 1
+        layout.addItem(QSpacerItem(0, 50, 
+                        QSizePolicy.Fixed, 
+                        QSizePolicy.Fixed), row, 0)
+        row += 1  
 
         pic = QLabel("")
         pic.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        pic.setStyleSheet("min-width: 380px;")
+        # pic.setStyleSheet("min-width: 380px;")
         pic.setPixmap(self.character.image().scaledToWidth(200))
         layout.addWidget(pic, row, 0, 1, 3)
         row += 1

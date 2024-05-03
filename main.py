@@ -16,8 +16,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Dunwoody-Disaster")
-        self.setStyleSheet("background-color: #2f2f2f; color: #FFFFFF;")
-        self.setGeometry(100, 100, 1920, 1080)
+        self.setStyleSheet("background-color: black; color: #FFFFFF;")
         self.player = None
 
         self.startMenu = StartMenu()
@@ -111,5 +110,5 @@ class MainWindow(QMainWindow):
 if __name__ == "__main__":
     app = QApplication()
     mw = MainWindow()
-    mw.show()
+    mw.showMaximized()
     sys.exit(app.exec())
