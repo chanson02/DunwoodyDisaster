@@ -48,14 +48,15 @@ class FightSequence:
         )
 
         self.player.set_health(self.player.curHealth - playerDmg)
-        self.player.set_magic(self.player.curMagic - playerActions.getAttack().magicReq)
+        self.player.set_magic(
+            self.player.curMagic - playerActions.getAttack().magicCost
+        )
         self.player.set_stamina(
             self.player.curStamina - playerActions.getAttack().staminaCost
         )
-        # Do defenses also cost stamina ??? -- Cooper
 
         self.enemy.set_health(self.enemy.curHealth - enemyDmg)
-        self.enemy.set_magic(self.enemy.curMagic - enemyActions.getAttack().magicReq)
+        self.enemy.set_magic(self.enemy.curMagic - enemyActions.getAttack().magicCost)
         self.enemy.set_stamina(
             self.enemy.curStamina - enemyActions.getAttack().staminaCost
         )
@@ -66,6 +67,8 @@ class FightSequence:
         if self.enemy.curHealth <= 0:
             self._winCallback()
         elif self.player.curHealth <= 0:
+            self.player.reload()
+            self.enemy.reset()
             self._loseCallback()
 
         self._locked = False
@@ -80,10 +83,10 @@ class FightSequence:
         :param defense: The defense the player is using
         :return: A positive integer representing the damage done to the player
         """
-        if attack.magic:
+        if attack.magical:
             dmg = attack.damage + player.intelligence - defense.magicDefense
         else:
-            dmg = attack.damage + player.strength - defense.armorVal
+            dmg = attack.damage + player.strength - defense.damage
 
         return max(0, dmg)
 
