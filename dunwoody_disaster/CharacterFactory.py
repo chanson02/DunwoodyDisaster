@@ -248,7 +248,7 @@ class CharacterFactory:
         char.defense = 1
         char.magicDefense = 1
         char.weapons = [
-            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=True),
+            Item.Weapon(name="Keyboard", damage=5, magic=5, stamina=5, magical=True),
             Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False),
             Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False)
         ]
@@ -259,7 +259,7 @@ class CharacterFactory:
         ]
         char.loot = []
         char.food = []
-        
+
         char.image_path = DD.ASSETS["cooper"]
         return char
 
@@ -337,8 +337,8 @@ class CharacterFactory:
         ]
 
         char.defenses = [
-            Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=0),
-            Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
+            Item.Armor(name="Stress Ball", armorVal=1, staminaCost=10, magicCost=0, magicDefense=15),
+            Item.Armor(name="Spaghetti Code", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
         ]
         return char
 
@@ -359,7 +359,7 @@ class CharacterFactory:
         char.level = 1
         
         char.weapons = [
-            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=True),
+            Item.Weapon(name="Query", damage=5, magic=15, stamina=8, magical=True),
             Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False),
             Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False)
         ]
@@ -450,14 +450,14 @@ class CharacterFactory:
         char.level = 4
 
         char.weapons = [
-            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=True),
-            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False),
-            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False)
+            Item.Weapon(name="Short Circuit", damage=5, magic=15, stamina=8, magical=True),
+            Item.Weapon(name="Circuit Breaker", damage=5, magic=5, stamina=5, magical=False),
+            Item.Weapon(name="Voltage Spike", damage=5, magic=5, stamina=5, magical=False)
         ]
 
         char.defenses = [
-            Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=0),
-            Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
+            Item.Armor(name="Resistor", armorVal=5, staminaCost=5, magicCost=5, magicDefense=0),
+            Item.Armor(name="Diode Defense", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
         ]
         char.loot = []
         char.food = []
@@ -511,9 +511,9 @@ class CharacterFactory:
         char.level = 6
 
         char.weapons = [
-            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=True),
-            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False),
-            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False)
+            Item.Weapon(name="Compiler", damage=5, magic=20, stamina=12, magical=True),
+            Item.Weapon(name="Syntax Error", damage=5, magic=10, stamina=6, magical=True),
+            Item.Weapon(name="", damage=5, magic=0, stamina=15, magical=False)
         ]
 
         char.defenses = [
@@ -542,6 +542,7 @@ class CharacterFactory:
         char.level = 7
 
         char.weapons = [
+            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=True),
             Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=True),
             Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False),
             Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False)
