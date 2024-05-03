@@ -64,8 +64,11 @@ class Meter(QWidget):
         max_fill_width = w - 2 * border
         fill_h = int(h - 2 * border)
         fill_w = int(max_fill_width * self._percentage / 100)
+
         prev_w = int(max_fill_width * self._prevPercentage / 100)
+        prev_h = int(fill_h // 1.3)
+        prev_y = border + (fill_h - prev_h) // 2
 
         painter.fillRect(0, 0, w, h, bkg_color)
-        painter.fillRect(border, border, prev_w, fill_h, prev_color)
+        painter.fillRect(border, prev_y, prev_w, prev_h, prev_color)
         painter.fillRect(border, border, fill_w, fill_h, for_color)
