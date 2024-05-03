@@ -7,7 +7,7 @@ class PygameAnimation:
     An abstract class for managing animations in pygame.
     """
 
-    def __init__(self, size: tuple[int, int] = (800, 600)):
+    def __init__(self, size: tuple[int, int] = (680, 360)):
         """
         :param size: The size of the surface, in pixels
         """
