@@ -5,6 +5,7 @@ https://doc.qt.io/qtforpython-6/examples/example_widgets_painting_painter.html
 
 from PySide6.QtWidgets import QWidget
 from PySide6.QtGui import QPainter, QColor, QPaintEvent
+from PySide6.QtCore import QTimer
 from typing import Optional
 
 
@@ -13,10 +14,13 @@ class Meter(QWidget):
         super().__init__()
         self._endColor: Optional[QColor] = None
         self.setColor(color)
+        self.animationTimer = QTimer()
+        self.animationTimer.timeout.connect(self.nextFrame)
 
         self._prevPercentage = 0
         self._percentage = 0
         self.setPercentage(percentage)
+
 
     def setColor(self, color: QColor):
         self._color = color
@@ -27,7 +31,17 @@ class Meter(QWidget):
     def setPercentage(self, percentage: int | float):
         self._prevPercentage = self._percentage
         self._percentage = max(0, min(percentage, 100))
+        self.animationTimer.start(50)
+        return
+        # self.update()
+
+    def nextFrame(self):
+        if self._prevPercentage < self._percentage or self._prevPercentage == 1:
+            self.animationTimer.stop()
+
+        self._prevPercentage -= 1
         self.update()
+        return
 
     def interpolateColor(self, thresh: int = 80) -> QColor:
         """
