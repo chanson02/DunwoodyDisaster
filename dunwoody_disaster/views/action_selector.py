@@ -10,6 +10,7 @@ import random
 class ActionSelector(QWidget):
     def __init__(self, character: Character):
         super().__init__()
+        self._hidden = False
         self.character = character
         self.attack: Optional[Item.Weapon] = None
         self.defense: Optional[Item.Armor] = None
@@ -65,14 +66,27 @@ class ActionSelector(QWidget):
         return self.defense
 
     def updateUI(self):
+        attack = ""
         if self.attack:
-            self.attack_pic.setPixmap(QPixmap(self.attack.image).scaledToWidth(50))
+            attack = self.attack.image
+            if self._hidden:
+                attack = DD.ASSETS["no_texture"]
+
+        defense = ""
+        if self.defense:
+            defense = self.defense.image
+            if self._hidden:
+                defense = DD.ASSETS["no_texture"]
+
+        if attack:
+            self.attack_pic.setPixmap(QPixmap(attack).scaledToWidth(50))
         else:
             self.attack_pic.setPixmap(QPixmap())
-        if self.defense:
-            self.defend_pic.setPixmap(QPixmap(self.defense.image).scaledToWidth(50))
+        if defense:
+            self.defend_pic.setPixmap(QPixmap(defense).scaledToWidth(50))
         else:
             self.defend_pic.setPixmap(QPixmap())
+        return
 
     def ready(self) -> bool:
         return (self.attack and self.defense) is not None
@@ -113,3 +127,11 @@ class ActionSelector(QWidget):
         layout.addWidget(self.defend_pic)
         layout.addItem(DD.expander(True, False, 0))
         return layout
+
+    def hide(self):
+        self._hidden = True
+        self.updateUI()
+
+    def show(self):
+        self._hidden = False
+        self.updateUI()
