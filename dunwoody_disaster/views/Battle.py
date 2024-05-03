@@ -21,7 +21,9 @@ class Battle:
         user_animation_path = r"C:/Users/vuejohw/OneDrive - Dunwoody College of Technology/Documents/Data Structures/Class/DunwoodyDisaster/dunwoody_disaster/animations/Animation_Assets/idle"
         enemy_animation_path = r"C:/Users/vuejohw/OneDrive - Dunwoody College of Technology/Documents/Data Structures/Class/DunwoodyDisaster/dunwoody_disaster/animations/Animation_Assets/enemy_idle"
         # Replace static sprites with animations
-        self.sprite_animation_user = IdleAnimation(user_animation_path, 8)  # Correct usage
+        self.sprite_animation_user = IdleAnimation(
+            user_animation_path, 8
+        )  # Correct usage
         self.sprite_animation_enemy = IdleAnimation(enemy_animation_path, 8)
 
     def setup_screen(self):
