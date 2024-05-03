@@ -57,8 +57,11 @@ class Character:
             "strength": self.strength,
             "intelligence": self.intelligence,
             "health": self.maxHealth,
+            "curHealth": self.curHealth,
             "magic": self.maxMagic,
+            "curMagic": self.curMagic,
             "stamina": self.maxStamina,
+            "curStamina": self.curStamina,
             "defense": self.defense,
             "magicDefense": self.magicDefense,
             "inventory": {
@@ -275,6 +278,10 @@ class CharacterFactory:
         with open(f"dunwoody_disaster/saves/{name}.json", "r") as f:
             data = json.loads(f.read())
             character = CharacterFactory.createFromJson(data)
+            # character.image(character.image_path)
+            # character.set_health(character.curHealth)
+            # character.set_magic(character.curMagic)
+            # character.set_stamina(character.curStamina)
             return character
 
     @staticmethod
