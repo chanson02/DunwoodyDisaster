@@ -1,5 +1,5 @@
-from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QWidget, QLabel, QGridLayout, QSpacerItem, QSizePolicy
+from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QPixmap, QKeyEvent, QPainter, QMouseEvent
 
 from dunwoody_disaster.views.FightPreview import FightPreview
@@ -10,6 +10,9 @@ from math import sqrt
 
 
 class Map(QLabel):
+
+    backgroundImageChanged = Signal(str)
+
     def __init__(
         self, character: Character, entryPoint: Optional[tuple[int, int]] = None
     ):
@@ -94,6 +97,7 @@ class Map(QLabel):
     def setAsset(self, asset: str):
         self.image = DD.ASSETS[asset]
         self.moveCharacter(self.char_pos[0], self.char_pos[1])
+        self.backgroundImageChanged.emit(self.image)
 
     @staticmethod
     def buildMap(char: Character) -> "Map":
