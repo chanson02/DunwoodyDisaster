@@ -360,13 +360,13 @@ class CharacterFactory:
         
         char.weapons = [
             Item.Weapon(name="Query", damage=5, magic=15, stamina=8, magical=True),
-            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False),
-            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False)
+            Item.Weapon(name="Schema Smash", damage=5, magic=5, stamina=5, magical=False),
+            Item.Weapon(name="Index Impact", damage=5, magic=5, stamina=5, magical=False)
         ]
 
         char.defenses = [
-            Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=0),
-            Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
+            Item.Armor(name="Firewall Fortress", armorVal=5, staminaCost=5, magicCost=5, magicDefense=0),
+            Item.Armor(name="Query Validation", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
         ]
         char.loot = []
         char.food = []
@@ -389,14 +389,14 @@ class CharacterFactory:
         char.level = 2
 
         char.weapons = [
-            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=True),
-            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False),
-            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False)
+            Item.Weapon(name="API Ambush", damage=5, magic=5, stamina=5, magical=True),
+            Item.Weapon(name="Patch Pummel", damage=5, magic=5, stamina=5, magical=False),
+            Item.Weapon(name="DDoS Downpour", damage=5, magic=5, stamina=5, magical=False)
         ]
 
         char.defenses = [
-            Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=0),
-            Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
+            Item.Armor(name="Malware Moat", armorVal=5, staminaCost=5, magicCost=5, magicDefense=0),
+            Item.Armor(name="VPN Vigilance", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
         ]
         char.loot = []
         char.food = []
@@ -420,14 +420,14 @@ class CharacterFactory:
         char.level = 3
 
         char.weapons = [
-            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=True),
-            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False),
-            Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False)
+            Item.Weapon(name="API Avalanche", damage=5, magic=5, stamina=5, magical=True),
+            Item.Weapon(name="Cache Clash", damage=5, magic=5, stamina=5, magical=False),
+            Item.Weapon(name="Kubernetes Kick", damage=5, magic=5, stamina=5, magical=False)
         ]
 
         char.defenses = [
-            Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=0),
-            Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
+            Item.Armor(name="Lambda Leap", armorVal=5, staminaCost=5, magicCost=5, magicDefense=0),
+            Item.Armor(name="Docker Dash", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
         ]
         char.loot = []
         char.food = []
@@ -486,7 +486,7 @@ class CharacterFactory:
         ]
 
         char.defenses = [
-            Item.Armor(name="Baby", armorVal=50, staminaCost=25, magicCost=0, magicDefense=0),
+            Item.Armor(name="Virtualization Layer", armorVal=50, staminaCost=25, magicCost=0, magicDefense=0),
             Item.Armor(name="Command Line", armorVal=25, staminaCost=10, magicCost=5, magicDefense=5)
         ]
 
@@ -513,12 +513,12 @@ class CharacterFactory:
         char.weapons = [
             Item.Weapon(name="Compiler", damage=5, magic=20, stamina=12, magical=True),
             Item.Weapon(name="Syntax Error", damage=5, magic=10, stamina=6, magical=True),
-            Item.Weapon(name="", damage=5, magic=0, stamina=15, magical=False)
+            Item.Weapon(name="Neural Network Nightmare", damage=5, magic=0, stamina=15, magical=False)
         ]
 
         char.defenses = [
-            Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=0),
-            Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
+            Item.Armor(name="Overfitting Obstacle", armorVal=5, staminaCost=5, magicCost=5, magicDefense=0),
+            Item.Armor(name="Bias Blockade", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
         ]
 
         char.loot = []
