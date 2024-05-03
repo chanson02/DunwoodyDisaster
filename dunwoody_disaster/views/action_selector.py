@@ -23,11 +23,10 @@ class ActionSelector(QWidget):
     def setAttack(self, item: Optional[Item.Weapon]):
         if item is not None:
             staminaCost = item.staminaCost
-            magicCost = item.magicReq
-            # TODO: Implement
-            # if self.defense:
-            #     staminaCost += self.defense.staminaCost
-            #     magicCost += self.defense.magicReq
+            magicCost = item.magicCost
+            if self.defense:
+                staminaCost += self.defense.staminaCost
+                magicCost += self.defense.magicCost
 
             if (
                 staminaCost > self.character.curStamina
@@ -40,17 +39,19 @@ class ActionSelector(QWidget):
         self.updateUI()
 
     def setDefense(self, item: Optional[Item.Armor]):
-        # TODO: Implement
-        # if item is not None:
-        #     staminaCost = item.staminaCost
-        #     magicCost = item.magicReq
-        #     if self.attack:
-        #         staminaCost += self.self.attack.staminaCost
-        #         magicCost += self.self.attack.magicReq
-        #
-        #     if staminaCost > self.character.curStamina or magicCost > self.character.curMagic:
-        #         # Do not let them select if they can't
-        #         item = None
+        if item is not None:
+            staminaCost = item.staminaCost
+            magicCost = item.magicCost
+            if self.attack:
+                staminaCost += self.attack.staminaCost
+                magicCost += self.attack.magicCost
+
+            if (
+                staminaCost > self.character.curStamina
+                or magicCost > self.character.curMagic
+            ):
+                # Do not let them select if they can't
+                item = None
 
         self.defense = item
         self.updateUI()
@@ -91,7 +92,7 @@ class ActionSelector(QWidget):
         weapons = [
             w
             for w in self.character.weapons
-            if self.character.curMagic >= w.magicReq
+            if self.character.curMagic >= w.magicCost
             and self.character.curStamina >= w.staminaCost
         ]
 
@@ -101,14 +102,20 @@ class ActionSelector(QWidget):
             chosen_weapon = Item.Weapon.default()
         self.setAttack(chosen_weapon)
 
-        # TODO: Implement
-        # adjustedMagic = self.character.curMagic - chosen_weapon.magicReq
-        # adjustedStamina = self.character.curStamina - chosen_weapon.staminaCost
-        # defenses = [
-        #         w for w in self.character.defenses
-        #         if adjustedMagic >= w.magicReq and adjustedStamina >= w.staminaCost
-        #         ]
-        self.setDefense(random.choice(self.character.defenses))
+        adjustedMagic = self.character.curMagic - chosen_weapon.magicCost
+        adjustedStamina = self.character.curStamina - chosen_weapon.staminaCost
+        defenses = [
+            w
+            for w in self.character.defenses
+            if adjustedMagic >= w.magicCost and adjustedStamina >= w.staminaCost
+        ]
+
+        if len(defenses) > 0:
+            chosen_defense = random.choice(defenses)
+        else:
+            chosen_defense = Item.Armor.default()
+        self.setDefense(chosen_defense)
+        return
 
     def createLayout(self) -> QLayout:
         layout = QHBoxLayout()
