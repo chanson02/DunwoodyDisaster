@@ -2,7 +2,7 @@ import sys
 from dunwoody_disaster.views.AnimationWidget import AnimationWidget
 from PySide6.QtWidgets import QApplication, QMainWindow
 from dunwoody_disaster.animations.idle import IdleAnimation
-from BattleSimulation_copy import Battle
+from dunwoody_disaster.animations.basic_attack import AttackAnimation
 
 
 class MainWindow(QMainWindow):
@@ -10,7 +10,8 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("test")
 
-        idle = IdleAnimation()
+        #idle = IdleAnimation()
+        idle = AttackAnimation()
         self.animation = AnimationWidget(idle)
 
         self.setCentralWidget(self.animation)
