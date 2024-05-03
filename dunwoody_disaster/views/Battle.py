@@ -1,9 +1,9 @@
 import pygame
 from dunwoody_disaster import ASSETS
-from dunwoody_disaster.animations import AnimationClass
+from dunwoody_disaster.animations.idle import IdleAnimation
 
 
-class Game:
+class Battle:
     def __init__(self):
         pygame.init()
         self.setup_screen()
@@ -21,20 +21,14 @@ class Game:
         user_animation_path = r"C:/Users/vuejohw/OneDrive - Dunwoody College of Technology/Documents/Data Structures/Class/DunwoodyDisaster/dunwoody_disaster/animations/Animation_Assets/idle"
         enemy_animation_path = r"C:/Users/vuejohw/OneDrive - Dunwoody College of Technology/Documents/Data Structures/Class/DunwoodyDisaster/dunwoody_disaster/animations/Animation_Assets/enemy_idle"
         # Replace static sprites with animations
-        self.sprite_animation_user = AnimationClass(
-            user_animation_path, 8
-        )  # Assume 8 frames
-        self.sprite_animation_enemy = AnimationClass(
-            enemy_animation_path, 8
-        )  # Assume 8 frames
-        """         self.sprite_animation_user = AnimationClass(ASSETS["CooperModel"], 8)
-        self.sprite_animation_enemy = AnimationClass(ASSETS["RyanRengo"], 8) """
+        self.sprite_animation_user = IdleAnimation(user_animation_path, 8)  # Correct usage
+        self.sprite_animation_enemy = IdleAnimation(enemy_animation_path, 8)
 
     def setup_screen(self):
         self.screen = pygame.display.set_mode((800, 600), pygame.RESIZABLE)
         pygame.display.set_caption("Pokémon Battle Simulator")
 
-    def update(self):
+    def next_frame(self):
         for event in pygame.event.get():
             self.handle_events(event)
         # Update animations
@@ -130,30 +124,6 @@ class Game:
         self.draw_health_bars()
         pygame.display.flip()
 
-    # def run(self):
-    #     while self.running:
-    #         for event in pygame.event.get():
-    #             if event.type == pygame.QUIT:
-    #                 self.running = False
-    #             elif event.type == pygame.VIDEORESIZE:
-    #                 self.screen = pygame.display.set_mode(
-    #                     (event.w, event.h), pygame.RESIZABLE
-    #                 )
-    #             self.handle_events(event)
-    #         self.draw_battle()
-    #         # pygame.image.save(self.screen, '/home/chanson/Desktop/test.png')
-    #         # img_bytes = pygame.image.tobytes(self.screen, 'P')
-    #         if self.should_render:
-    #             img_bytes = pygame.image.tobytes(self.screen, 'RGB')
-    #             #img_bytes = pygame.image.tobytes(self.screen, 'ARGB')
-    #             #img_bytes = pygame.image.tobytes(self.screen, 'RGBA')
-    #             #img_bytes = pygame.image.tostring(self.screen, 'RGB')
-    #             self.test.test_update_pyside(img_bytes)
-    #
-    #         self.clock.tick(self.FPS)
-    #     pygame.quit()
-    #     #sys.exit()
-
     def handle_events(self, event):
         self.should_render = False
         # Check if the event is a key press.
@@ -169,7 +139,12 @@ class Game:
                 self.should_render = True
             self.player_turn = not self.player_turn
 
+    def run(self):
+        while self.running:
+            self.update()
+            pygame.time.Clock().tick(self.FPS)
+
 
 if __name__ == "__main__":
-    game = Game()
+    game = Battle()
     game.run()
