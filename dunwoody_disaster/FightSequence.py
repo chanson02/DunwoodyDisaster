@@ -15,6 +15,7 @@ class FightSequence:
         self.player = player
         self.enemy = enemy
         self.widget = FightScreen(self)
+        self._locked = False
 
         self._winCallback = DD.unimplemented
         self._loseCallback = DD.unimplemented
@@ -23,6 +24,10 @@ class FightSequence:
         """
         Show enemy actions, then pause.
         """
+        if self._locked:
+            return
+
+        self._locked = True
         enemyActions.show()
         callback = partial(self.finishTurn, playerActions, enemyActions)
         QTimer.singleShot(1000, callback)
@@ -62,6 +67,9 @@ class FightSequence:
             self._winCallback()
         elif self.player.curHealth <= 0:
             self._loseCallback()
+
+        self._locked = False
+        return
 
     def calculateDamage(
         self, player: Character, attack: Item.Weapon, defense: Item.Armor
