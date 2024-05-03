@@ -81,7 +81,6 @@ class MainWindow(QMainWindow):
         return CharacterFactory.LoadCharacter(name)
 
     def createPlayableCharacters(self) -> list[Character]:
-        # cooper = CharacterFactory.Cooper()
         return [
             CharacterFactory.Cooper(),
             CharacterFactory.Mitch(),
