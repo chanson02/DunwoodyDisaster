@@ -85,7 +85,10 @@ class ActionSelector(QWidget):
             and self.character.curStamina >= w.staminaCost
         ]
 
-        chosen_weapon = random.choice(weapons)
+        if len(weapons) > 0:
+            chosen_weapon = random.choice(weapons)
+        else:
+            chosen_weapon = Item.Weapon.default()
         self.setAttack(chosen_weapon)
 
         # TODO: Implement
