@@ -4,6 +4,8 @@ from dunwoody_disaster.views.action_selector import ActionSelector
 from dunwoody_disaster.views.fightScreen import FightScreen
 from typing import Callable
 import dunwoody_disaster as DD
+from PySide6.QtCore import QTimer
+from functools import partial
 
 
 class FightSequence:
@@ -19,10 +21,20 @@ class FightSequence:
 
     def takeTurn(self, playerActions: ActionSelector, enemyActions: ActionSelector):
         """
+        Show enemy actions, then pause.
+        """
+        enemyActions.show()
+        callback = partial(self.finishTurn, playerActions, enemyActions)
+        QTimer.singleShot(1000, callback)
+
+    def finishTurn(self, playerActions: ActionSelector, enemyActions: ActionSelector):
+        """
         Update the characters after using a move
         :param playerActions: The actions the player is using
         :param enemyActions: The actions the enemy is using
         """
+        enemyActions.hide()
+
         playerDmg = self.calculateDamage(
             self.player, enemyActions.getAttack(), playerActions.getDefense()
         )
