@@ -12,7 +12,7 @@ import os
 
 ASSETS = {}
 # I think this will make it so you can run main.py from anywhere --Cooper
-asset_dir = os.path.join(BASE_PATH, "assets")
+asset_dir = os.path.join(os.path.dirname(__file__), "assets")
 for fname in os.listdir(asset_dir):
     path = os.path.join(asset_dir, fname)
     if os.path.isfile(path) and "." in fname:

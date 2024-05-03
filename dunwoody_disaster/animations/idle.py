@@ -1,5 +1,6 @@
 import pygame
 from dunwoody_disaster.animations.PygameAnimation import PygameAnimation
+from dunwoody_disaster.views.MapScreen import Map
 import dunwoody_disaster as DD
 from dunwoody_disaster import ASSETS
 
@@ -11,19 +12,20 @@ class IdleAnimation(PygameAnimation):
         self,  # animation_path: str, frame_count: int = 8, frame_duration: int = 100#
     ):
         super().__init__()
-        """         self.animation_base_path = animation_path
-        self.frame_count = frame_count
-        self.frame_duration = frame_duration """
         self.load_frames()
 
+    def updateBackgroundImage(self, new_image_path):
+        print(f"Background image updated to: {new_image_path}")
+        self.background_img = pygame.image.load(new_image_path).convert()
+        # Assuming you might want to do more here, like update a display or handle changes
+
     # @override
-    # @override
-    def load_frames(self):
+    def load_frames(self, background_set):
         self.frames = []
         self.frame_count = 8
         self.frame_duration = 100
         animation_base_path = f"{DD.ANIMATION_PATH}/Idle"
-        self.background_img = pygame.image.load(ASSETS["background"]).convert()
+        self.background_img = pygame.image.load(ASSETS[background_set]).convert()
 
         for i in range(self.frame_count):
             path = f"{animation_base_path}_{str(i + 1).zfill(2)}.png"
@@ -44,3 +46,9 @@ class IdleAnimation(PygameAnimation):
         frame = self.current_frame()
         frame = pygame.transform.scale(frame, dimensions)
         screen.blit(frame, position)
+
+
+some_character = None  # Replace with actual character initialization
+some_entry_point = None  # Replace with actual entry point
+map_screen = Map(some_character, some_entry_point)
+idle_animation = IdleAnimation(map_screen)
