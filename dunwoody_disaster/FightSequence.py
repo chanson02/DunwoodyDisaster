@@ -4,6 +4,8 @@ from dunwoody_disaster.views.action_selector import ActionSelector
 from dunwoody_disaster.views.fightScreen import FightScreen
 from typing import Callable
 import dunwoody_disaster as DD
+from PySide6.QtCore import QTimer
+from functools import partial
 
 
 class FightSequence:
@@ -13,16 +15,31 @@ class FightSequence:
         self.player = player
         self.enemy = enemy
         self.widget = FightScreen(self)
+        self._locked = False
 
         self._winCallback = DD.unimplemented
         self._loseCallback = DD.unimplemented
 
     def takeTurn(self, playerActions: ActionSelector, enemyActions: ActionSelector):
         """
+        Show enemy actions, then pause.
+        """
+        if self._locked:
+            return
+
+        self._locked = True
+        enemyActions.show()
+        callback = partial(self.finishTurn, playerActions, enemyActions)
+        QTimer.singleShot(1000, callback)
+
+    def finishTurn(self, playerActions: ActionSelector, enemyActions: ActionSelector):
+        """
         Update the characters after using a move
         :param playerActions: The actions the player is using
         :param enemyActions: The actions the enemy is using
         """
+        enemyActions.hide()
+
         playerDmg = self.calculateDamage(
             self.player, enemyActions.getAttack(), playerActions.getDefense()
         )
@@ -50,7 +67,12 @@ class FightSequence:
         if self.enemy.curHealth <= 0:
             self._winCallback()
         elif self.player.curHealth <= 0:
+            self.player.reload()
+            self.enemy.reset()
             self._loseCallback()
+
+        self._locked = False
+        return
 
     def calculateDamage(
         self, player: Character, attack: Item.Weapon, defense: Item.Armor

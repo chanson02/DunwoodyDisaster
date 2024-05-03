@@ -66,13 +66,19 @@ class MainWindow(QMainWindow):
 
     def userSelectedCharacter(self, character: Character):
         self.player = character
+        self.saveCharacter(character)
         self.mapScreen = MapScreen(Map.buildMap(self.player))
         self.mapScreen.onEnter(self.EnterFight)
         self.stack.addWidget(self.mapScreen)
         self.showMapScreen()
 
+    def saveCharacter(self, character: Character):
+        CharacterFactory.SaveCharacter(character)
+
+    def loadCharacter(self, name: str) -> Character:
+        return CharacterFactory.LoadCharacter(name)
+
     def createPlayableCharacters(self) -> list[Character]:
-        # cooper = CharacterFactory.Cooper()
         return [
             CharacterFactory.Cooper(),
             CharacterFactory.Mitch(),
@@ -89,6 +95,7 @@ class MainWindow(QMainWindow):
         def loot_collected():
             self.stack.removeWidget(victory)
             self.showMapScreen()
+            self.saveCharacter(self.player)
 
         victory.onClose(loot_collected)
         self.stack.addWidget(victory)
@@ -97,7 +104,6 @@ class MainWindow(QMainWindow):
     def showDefeatScreen(self):
         if self.fight is None:
             raise Exception("Defeat Screen expects a fight")
-
         defeat = DefeatScreen()
 
         def return_to_map():

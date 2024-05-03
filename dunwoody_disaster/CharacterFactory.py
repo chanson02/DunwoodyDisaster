@@ -57,8 +57,11 @@ class Character:
             "strength": self.strength,
             "intelligence": self.intelligence,
             "health": self.maxHealth,
+            "curHealth": self.curHealth,
             "magic": self.maxMagic,
+            "curMagic": self.curMagic,
             "stamina": self.maxStamina,
+            "curStamina": self.curStamina,
             "defense": self.defense,
             "magicDefense": self.magicDefense,
             "inventory": {
@@ -118,6 +121,13 @@ class Character:
         self.set_health(self.maxHealth)
         self.set_magic(self.maxMagic)
         self.set_stamina(self.maxStamina)
+
+    def reload(self):
+        """Reloads the character's health, stamina, and magic from the last save point."""
+        char = CharacterFactory.LoadCharacter(self.name)
+        self.set_health(char.curHealth)
+        self.set_magic(char.curMagic)
+        self.set_stamina(char.curStamina)
 
     def PlotRisk(self, attacks: list) -> None:
         """

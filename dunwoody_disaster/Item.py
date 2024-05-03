@@ -4,14 +4,6 @@ from PySide6.QtCore import Qt
 
 import dunwoody_disaster as DD
 
-# # Stats for the items
-# # Add items as needed under its respective category
-# WeaponStats = {"sword": [20, 30, 10], "spear": [30, 10, 20]}
-#
-# FoodStats = {}
-#
-# ArmorStats = {"shield": [30, 10, 20], "gloves": [10, 10, 10]}
-
 
 class Item:
     def __init__(self, name: str, damage: int, stamina: int, magic: int):
@@ -79,6 +71,9 @@ class Item:
 
 class Weapon(Item):
     def __init__(self, name: str, magical: bool, damage: int, stamina: int, magic: int):
+        """
+        :param magical: If true attack with intelligence, otherwise strength
+        """
         super().__init__(name, damage, stamina, magic)
         self.magical = magical
 
@@ -117,6 +112,10 @@ class Armor(Item):
         magicCost: int,
         magicDefense: int,
     ):
+        """
+        :param armorVal: Amount of damage to block if attack is not magical
+        :param magicDefense: Amount of damage to block if attack is magical
+        """
         super().__init__(name, armorVal, staminaCost, magicCost)
         self.magicDefense = magicDefense
 
