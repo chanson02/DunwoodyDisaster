@@ -89,7 +89,7 @@ class Map(QLabel):
         self.rooms.append(room)
 
     def pixmap(self):
-        return QPixmap(self.image).scaledToWidth(750)
+        return QPixmap(self.image).scaledToWidth(750) # original size 1024x1024
 
     def setAsset(self, asset: str):
         self.image = DD.ASSETS[asset]
