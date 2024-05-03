@@ -4,10 +4,11 @@ import dunwoody_disaster as DD
 from typing import override
 from dunwoody_disaster.CharacterFactory import CharacterFactory
 from dunwoody_disaster import Item
+from PySide6.QtCore import Signal
 
 
 class AttackAnimation(PygameAnimation):
-    def __init__(self):
+    def __init__(self, onFinish: Signal):
         super().__init__()
         self.bkg = pygame.image.load(
             DD.ASSETS["LectureHall"]
@@ -24,6 +25,8 @@ class AttackAnimation(PygameAnimation):
         ).convert_alpha()
         self.weapon_x = 60
 
+        self.finished = onFinish
+
     @override
     def run(self):
         if self.running:
@@ -34,6 +37,6 @@ class AttackAnimation(PygameAnimation):
             self.surface.blit(self.enemy, (450, 200))
 
             self.clock.tick(20)
-            self.weapon_x += 4
+            self.weapon_x += 10
             if self.weapon_x > 500:
-                self.weapon_x = 60
+                self.finished.emit()

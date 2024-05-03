@@ -4,19 +4,21 @@ from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, QWidget, Q
 from dunwoody_disaster.animations.basic_attack import AttackAnimation
 from dunwoody_disaster.animations.idle import IdleAnimation
 import dunwoody_disaster as DD
+from PySide6.QtCore import QTimer
+from PySide6.QtCore import Signal
 
 
 class MainWindow(QMainWindow):
+    sig = Signal()
     def __init__(self):
         super().__init__()
         self.setWindowTitle("test")
         btn = QPushButton("Switch")
         btn.clicked.connect(self.switch)
 
-        idle = IdleAnimation(DD.ASSETS["CourtYard"], DD.ASSETS["cooper"], DD.ASSETS["no_texture"])
-        #self.animation = AnimationWidget(idle)
+        self.idle = IdleAnimation(DD.ASSETS["CourtYard"], DD.ASSETS["cooper"], DD.ASSETS["no_texture"])
         self.animation = AnimationWidget()
-        self.animation.setAnimation(idle)
+        self.animation.setAnimation(self.idle)
 
         layout = QVBoxLayout()
         layout.addWidget(btn)
@@ -24,11 +26,20 @@ class MainWindow(QMainWindow):
         wid = QWidget()
         wid.setLayout(layout)
         self.setCentralWidget(wid)
-        # self.animation.start()
 
     def switch(self):
-        self.animation.setAnimation(AttackAnimation())
+        attack = AttackAnimation(self.sig)
+        #attack.onFinish(self.switch_back)
+        #attack.finished.connect(self.perform_switch_back)
+        self.sig.connect(self.perform_switch_back)
+        self.animation.setAnimation(attack)
 
+    def switch_back(self):
+        #self.animation.setAnimation(self.idle)
+        QTimer.singleShot(0, self.perform_switch_back)
+
+    def perform_switch_back(self):
+        self.animation.setAnimation(self.idle)
 
     def closeEvent(self, event):
         _ = event  # silence unused warning
