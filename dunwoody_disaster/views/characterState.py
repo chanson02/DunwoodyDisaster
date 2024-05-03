@@ -1,5 +1,4 @@
 from dunwoody_disaster.CharacterFactory import Character
-import dunwoody_disaster as DD
 from PySide6.QtWidgets import (
     QWidget,
     QGridLayout,
