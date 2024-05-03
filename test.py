@@ -28,15 +28,9 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(wid)
 
     def switch(self):
-        attack = AttackAnimation(self.sig)
-        #attack.onFinish(self.switch_back)
-        #attack.finished.connect(self.perform_switch_back)
+        attack = AttackAnimation(DD.ASSETS["CourtYard"], DD.ASSETS["cooper"], DD.ASSETS["no_texture"], DD.ASSETS["no_texture"], self.sig)
         self.sig.connect(self.perform_switch_back)
         self.animation.setAnimation(attack)
-
-    def switch_back(self):
-        #self.animation.setAnimation(self.idle)
-        QTimer.singleShot(0, self.perform_switch_back)
 
     def perform_switch_back(self):
         self.animation.setAnimation(self.idle)

@@ -8,23 +8,13 @@ from PySide6.QtCore import Signal
 
 
 class AttackAnimation(PygameAnimation):
-    def __init__(self, onFinish: Signal):
+    def __init__(self, background: str, player: str, enemy: str, weapon: str, onFinish: Signal):
         super().__init__()
-        self.bkg = pygame.image.load(
-            DD.ASSETS["LectureHall"]
-        ).convert_alpha()  # 666x360 image
-        self.player = pygame.transform.scale(
-            pygame.image.load(CharacterFactory.Cooper().image_path), (100, 100)
-        ).convert_alpha()
-        self.enemy = pygame.transform.scale(
-            pygame.image.load(CharacterFactory.RyanRengo().image_path), (100, 100)
-        ).convert_alpha()
-
-        self.weapon = pygame.transform.scale(
-            pygame.image.load(Item.weapons[0].image), (100, 100)
-        ).convert_alpha()
+        self.bkg = pygame.image.load(background).convert_alpha()  # 666x360 image
+        self.player = pygame.transform.scale(pygame.image.load(player), (100, 100)).convert_alpha()
+        self.enemy = pygame.transform.scale(pygame.image.load(enemy), (100, 100)).convert_alpha()
+        self.weapon = pygame.transform.scale(pygame.image.load(weapon), (100, 100)).convert_alpha()
         self.weapon_x = 60
-
         self.finished = onFinish
 
     @override
