@@ -31,9 +31,10 @@ class Meter(QWidget):
     def setPercentage(self, percentage: int | float):
         self._prevPercentage = self._percentage
         self._percentage = max(0, min(percentage, 100))
-        self.animationTimer.start(50)
+
+        diff = max(1, self._prevPercentage - self._percentage)
+        self.animationTimer.start(int(500 // diff))
         return
-        # self.update()
 
     def nextFrame(self):
         if self._prevPercentage < self._percentage or self._prevPercentage == 1:
