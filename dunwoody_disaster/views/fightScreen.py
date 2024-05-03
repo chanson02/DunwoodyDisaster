@@ -28,6 +28,7 @@ class FightScreen(QWidget):
 
         self.p1_selector = ActionSelector(self.player1)
         self.p2_selector = ActionSelector(self.player2)
+        self.p2_selector.hide()
         self.p2_selector.selectRandom()
 
         self._winCallback = DD.unimplemented
