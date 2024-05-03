@@ -6,7 +6,6 @@ from PySide6.QtWidgets import (
     QLayout,
     QLabel,
 )
-from PySide6.QtGui import QPixmap
 from PySide6.QtCore import Qt
 
 
@@ -25,11 +24,9 @@ class CharacterState(QWidget):
         row = 0
 
         name = QLabel(self.character.name)
+        name.setAlignment(Qt.AlignmentFlag.AlignCenter)
         name.setStyleSheet("color: white; font-size: 30px;")
         layout.addWidget(name, row, 0, 1, 3)
-        row += 1
-
-        layout.addItem(DD.spacer(30), row, 1)
         row += 1
 
         layout.addWidget(self.character.health_lbl, row, 0)
@@ -48,11 +45,8 @@ class CharacterState(QWidget):
         pic = QLabel("")
         pic.setAlignment(Qt.AlignmentFlag.AlignCenter)
         pic.setStyleSheet("min-width: 380px;")
-        pic.setPixmap(QPixmap(DD.ASSETS["ready"]))
+        pic.setPixmap(self.character.image().scaledToWidth(200))
         layout.addWidget(pic, row, 0, 1, 3)
-        row += 1
-
-        layout.addItem(DD.spacer(30), row, 0)
         row += 1
 
         return layout

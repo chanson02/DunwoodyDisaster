@@ -1,7 +1,11 @@
 from dunwoody_disaster.views.meter import Meter
-from PySide6.QtGui import QColor
+
+import dunwoody_disaster as DD
+from PySide6.QtGui import QColor, QPixmap
 from PySide6.QtWidgets import QLabel
 from dunwoody_disaster import Item
+import json
+import os
 
 
 class Character:
@@ -12,6 +16,7 @@ class Character:
         self.classType = ""
         self.strength = 0
         self.intelligence = 0
+        self.image_path = DD.ASSETS["no_texture"]
 
         # Meteres
         self.curHealth = 0
@@ -42,6 +47,28 @@ class Character:
         self.food = []
         self.weapons = []
         self.defenses = []
+
+    def serialize(self) -> dict:
+        return {
+            "level": self.level,
+            "name": self.name,
+            "asset": DD.asset(self.image_path),
+            "class": self.classType,
+            "strength": self.strength,
+            "intelligence": self.intelligence,
+            "health": self.maxHealth,
+            "magic": self.maxMagic,
+            "stamina": self.maxStamina,
+            "defense": self.defense,
+            "magicDefense": self.magicDefense,
+            "inventory": {
+                "weapons": [i.to_dict() for i in self.weapons],
+                "armor": [i.to_dict() for i in self.defenses],
+            },
+        }
+
+    def image(self) -> QPixmap:
+        return QPixmap(self.image_path)
 
     def set_health(self, health: int):
         self.curHealth = min(self.maxHealth, max(0, health))
@@ -226,3 +253,75 @@ class CharacterFactory:
         """
         character = CharacterFactory.createCharacter("Test-Char", "blank")
         return character
+
+    @staticmethod
+    def SaveCharacter(character: Character) -> None:
+        """
+        Saves a character to a json file
+        :param character: The character to save
+        """
+        with open(f"dunwoody_disaster/saves/{character.name}.json", "w") as f:
+            json.dump(character.serialize(), f)
+
+    @staticmethod
+    def LoadCharacter(name: str) -> Character:
+        """
+        Loads a character from a json file
+        :param name: The name of the character to load
+        :return: The loaded character object
+        """
+        if not os.path.exists(f"dunwoody_disaster/saves/{name}.json"):
+            raise FileNotFoundError(f"Character file {name}.json not found")
+        with open(f"dunwoody_disaster/saves/{name}.json", "r") as f:
+            data = json.loads(f.read())
+            character = CharacterFactory.createFromJson(data)
+            return character
+
+    @staticmethod
+    def createFromJson(json: dict) -> Character:
+        char = Character()
+        for key, value in json.items():
+            setattr(char, key, value)
+        return char
+
+    @staticmethod
+    def BillHudson() -> Character:
+        char = CharacterFactory.createTestChar()
+        char.name = "Bill Hudson"
+        return char
+
+    @staticmethod
+    def LeAnnSimonson() -> Character:
+        char = CharacterFactory.createTestChar()
+        char.name = "LeAnn Simonson"
+        return char
+
+    @staticmethod
+    def RyanRengo() -> Character:
+        char = CharacterFactory.createTestChar()
+        char.name = "Ryan Rengo"
+        return char
+
+    @staticmethod
+    def NoureenSajid() -> Character:
+        char = CharacterFactory.createTestChar()
+        char.name = "Noureen Sajid"
+        return char
+
+    @staticmethod
+    def JoeAxberg() -> Character:
+        char = CharacterFactory.createTestChar()
+        char.name = "Joe Axberg"
+        return char
+
+    @staticmethod
+    def AmalanPulendran() -> Character:
+        char = CharacterFactory.createTestChar()
+        char.name = "Amalan Pulendran"
+        return char
+
+    @staticmethod
+    def MatthewBeckler() -> Character:
+        char = CharacterFactory.createTestChar()
+        char.name = "Matthew Beckler"
+        return char
