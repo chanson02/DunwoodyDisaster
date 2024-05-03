@@ -1,6 +1,5 @@
 import pygame
 from dunwoody_disaster.animations.PygameAnimation import PygameAnimation
-from dunwoody_disaster.views.MapScreen import Map
 import dunwoody_disaster as DD
 from dunwoody_disaster import ASSETS
 
@@ -48,7 +47,7 @@ class IdleAnimation(PygameAnimation):
         screen.blit(frame, position)
 
 
-""" 
+"""
 some_character = None  # Replace with actual character initialization
 some_entry_point = None  # Replace with actual entry point
 map_screen = Map(some_character, some_entry_point)
