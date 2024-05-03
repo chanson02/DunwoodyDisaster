@@ -8,9 +8,9 @@ from dunwoody_disaster.animations.PygameAnimation import PygameAnimation
 
 # Defines AnimationWidget as a subclass of QWidget, allowing it to inherit all methods and properties of a Qt widget.
 class AnimationWidget(QWidget):
-    def __init__(self, animation: PygameAnimation):
+    def __init__(self):
         super().__init__()
-        self.animation = animation
+        self.animation = None
         self.init_ui()
 
         self.queue = Queue()
@@ -18,17 +18,26 @@ class AnimationWidget(QWidget):
         self.timer = QTimer()
         self.timer.timeout.connect(self.draw_frames)
 
+    def setAnimation(self, animation: PygameAnimation):
+        self.stop()
+        self.animation = animation
+        self.start()
+
     def start(self):
+        if not self.animation:
+            raise Exception("No animation to start")
         if self.animation.running:
             raise Exception(f"{self.animation} already running.")
         self.setMinimumHeight(self.animation.size[1])
         self.setMinimumWidth(self.animation.size[0])
         self.animation.start()
-        self.engine_thread.start()
         self.timer.start(100)
+        if not self.engine_thread.is_alive():
+            self.engine_thread.start()
 
     def stop(self):
-        self.animation.running = False
+        if self.animation:
+            self.animation.running = False
         self.timer.stop()
 
     def init_ui(self):
@@ -38,12 +47,16 @@ class AnimationWidget(QWidget):
         self.setLayout(layout)
 
     def update_frame(self):
+        if not self.animation:
+            raise Exception("No animation to update")
         while self.animation.running:
             self.animation.run()
             img_bytes = self.animation.to_bytes()
             self.queue.put(img_bytes)
 
     def draw_frames(self):
+        if not self.animation:
+            raise Exception("No aniamtion to draw")
         width = self.animation.size[0]
         height = self.animation.size[1]
         while not self.queue.empty():
