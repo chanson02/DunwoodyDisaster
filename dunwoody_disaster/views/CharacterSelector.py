@@ -29,11 +29,7 @@ class CharacterSelector(QWidget):
         layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(layout)
 
-        layout.addItem(
-            DD.expander(True, True, 50)
-            row,
-            0,
-        )
+        layout.addItem(DD.expander(True, True, 50))
         row += 1
 
         titleLayout = QGridLayout()
