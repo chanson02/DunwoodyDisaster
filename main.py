@@ -34,7 +34,10 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.stack)
 
     def showMapScreen(self):
-        # self.mapScreen.map.setRoom(None) -- removed this to have room auto populate
+        self.mapScreen.map.setRoom(None)
+        unbeaten = self.mapScreen.map.unbeaten_rooms()
+        if len(unbeaten) > 0:
+            self.mapScreen.map.setRoom(unbeaten[0])
         self.stack.setCurrentWidget(self.mapScreen)
 
     def EnterFight(self, room: dict):
