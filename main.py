@@ -74,7 +74,6 @@ class MainWindow(QMainWindow):
 
     def saveCharacter(self, character: Character):
         CharacterFactory.SaveCharacter(character)
-        print(f"Saved {character.name}")
 
     def loadCharacter(self, name: str) -> Character:
         print(f"Loading {name}")
