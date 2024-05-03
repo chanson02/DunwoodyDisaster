@@ -5,8 +5,8 @@ from PySide6.QtWidgets import (
     QGridLayout,
     QPushButton,
     QHBoxLayout,
-    QSpacerItem, 
-    QSizePolicy
+    QSpacerItem,
+    QSizePolicy,
 )
 from dunwoody_disaster.views.arsenal import Arsenal
 import dunwoody_disaster as DD
@@ -49,32 +49,32 @@ class FightScreen(QWidget):
 
         row = 0
 
-        layout.addItem(QSpacerItem(50, 50, 
-                        QSizePolicy.Fixed, 
-                        QSizePolicy.Fixed), row, 0)
+        layout.addItem(
+            QSpacerItem(50, 50, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 0
+        )
         row += 1
 
         arsenal = Arsenal(self.p1_selector, self.player1.weapons, self.player1.defenses)
         layout.addWidget(arsenal, row, 1)
 
-        layout.addItem(QSpacerItem(5, 5, 
-                        QSizePolicy.MinimumExpanding, 
-                        QSizePolicy.Fixed), row, 2)
+        layout.addItem(
+            QSpacerItem(5, 5, QSizePolicy.MinimumExpanding, QSizePolicy.Fixed), row, 2
+        )
 
         layout.addLayout(self.center_layout(), row, 3)
 
-        layout.addItem(QSpacerItem(5, 0, 
-                        QSizePolicy.MinimumExpanding, 
-                        QSizePolicy.Fixed), row, 4)
+        layout.addItem(
+            QSpacerItem(5, 0, QSizePolicy.MinimumExpanding, QSizePolicy.Fixed), row, 4
+        )
 
         arsenal = Arsenal(self.p2_selector, self.player2.weapons, self.player2.defenses)
         layout.addWidget(arsenal, row, 5)
 
         row += 1
 
-        layout.addItem(QSpacerItem(50, 50, 
-                        QSizePolicy.Fixed, 
-                        QSizePolicy.Fixed), row, 6)
+        layout.addItem(
+            QSpacerItem(50, 50, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 6
+        )
 
     def center_layout(self) -> QGridLayout:
         p1 = CharacterState(self.player1)
@@ -83,39 +83,33 @@ class FightScreen(QWidget):
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
 
-        row = 0      
-        layout.addItem(QSpacerItem(0, 20, 
-                        QSizePolicy.Fixed, 
-                        QSizePolicy.MinimumExpanding), row, 0)
-        row += 1  
+        row = 0
+        layout.addItem(
+            QSpacerItem(0, 20, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding), row, 0
+        )
+        row += 1
         # row, column, rowSpan, columnSpan
         layout.addWidget(p1, row, 0)
         layout.addItem(DD.expander(True, False, 150), 0, 1)
         layout.addWidget(p2, row, 2)
-        row += 1 
+        row += 1
 
-        layout.addItem(QSpacerItem(0, 30, 
-                        QSizePolicy.Fixed, 
-                        QSizePolicy.Fixed), row, 0)
-        row += 1  
+        layout.addItem(QSpacerItem(0, 30, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 0)
+        row += 1
 
         animIdle = IdleAnimation()
         animation_Object = AnimationWidget(animIdle)
         layout.addWidget(animation_Object, row, 0, 0, 3)
 
-        layout.addItem(QSpacerItem(0, 30, 
-                        QSizePolicy.Fixed, 
-                        QSizePolicy.Fixed), row, 0)
-        row += 1  
+        layout.addItem(QSpacerItem(0, 30, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 0)
+        row += 1
 
         layout.addWidget(self.p1_selector, row, 0)
         layout.addWidget(self.p2_selector, row, 2)
-        row += 1       
-        
-        layout.addItem(QSpacerItem(0, 20, 
-                        QSizePolicy.Fixed, 
-                        QSizePolicy.Fixed), row, 0)
-        row += 1    
+        row += 1
+
+        layout.addItem(QSpacerItem(0, 20, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 0)
+        row += 1
 
         btnLayout = QGridLayout()
         btnLayout.setSpacing(0)
@@ -136,10 +130,10 @@ class FightScreen(QWidget):
         btnLayout.addItem(DD.expander(True, False, 25), 0, 2)
         layout.addLayout(btnLayout, row, 0, 1, 3)
         row += 1
-        
-        layout.addItem(QSpacerItem(0, 20, 
-                        QSizePolicy.Fixed, 
-                        QSizePolicy.MinimumExpanding), row, 0)
+
+        layout.addItem(
+            QSpacerItem(0, 20, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding), row, 0
+        )
 
         return layout
 

@@ -89,7 +89,7 @@ class Map(QLabel):
         self.rooms.append(room)
 
     def pixmap(self):
-        return QPixmap(self.image).scaledToWidth(750) # original size 1024x1024
+        return QPixmap(self.image).scaledToWidth(750)  # original size 1024x1024
 
     def setAsset(self, asset: str):
         self.image = DD.ASSETS[asset]
@@ -166,16 +166,24 @@ class MapScreen(QWidget):
         self.setLayout(layout)
 
         map_container_layout = QGridLayout()
-        map_container_layout.addItem(QSpacerItem(50, 0, 
-                        QSizePolicy.MinimumExpanding, 
-                        QSizePolicy.MinimumExpanding), 0, 0)
+        map_container_layout.addItem(
+            QSpacerItem(
+                50, 0, QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding
+            ),
+            0,
+            0,
+        )
         map_container = DD.scroller(map_container_layout, True, True)
-        map_container.setStyleSheet('background-color: #57D7C1;')
+        map_container.setStyleSheet("background-color: #57D7C1;")
         layout.addWidget(map_container, 0, 0)
         map_container_layout.addWidget(self.map, 1, 1)
-        map_container_layout.addItem(QSpacerItem(50, 0, 
-                        QSizePolicy.MinimumExpanding, 
-                        QSizePolicy.MinimumExpanding), 2, 2)
+        map_container_layout.addItem(
+            QSpacerItem(
+                50, 0, QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding
+            ),
+            2,
+            2,
+        )
 
         self.preview = FightPreview()
         self.map.onRoomChange(self.preview.setRoom)

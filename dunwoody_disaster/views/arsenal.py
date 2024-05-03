@@ -72,7 +72,7 @@ class Arsenal(QWidget):
         item_row = 0
         for item in items:
             gbox = QGroupBox()
-            gbox.setStyleSheet('border: none;')
+            gbox.setStyleSheet("border: none;")
             container = QVBoxLayout()
             container.addWidget(item.widget())
             DD.clickable(gbox).connect(self.selectItemLambda(item))
