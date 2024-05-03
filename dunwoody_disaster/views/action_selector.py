@@ -66,26 +66,22 @@ class ActionSelector(QWidget):
         return self.defense
 
     def updateUI(self):
-        attack = ""
         if self.attack:
             attack = self.attack.image
             if self._hidden:
                 attack = DD.ASSETS["no_texture"]
+            self.attack_pic.setPixmap(QPixmap(attack).scaledToWidth(50))
+        else:
+            self.attack_pic.setPixmap(QPixmap())
 
-        defense = ""
         if self.defense:
             defense = self.defense.image
             if self._hidden:
                 defense = DD.ASSETS["no_texture"]
-
-        if attack:
-            self.attack_pic.setPixmap(QPixmap(attack).scaledToWidth(50))
-        else:
-            self.attack_pic.setPixmap(QPixmap())
-        if defense:
             self.defend_pic.setPixmap(QPixmap(defense).scaledToWidth(50))
         else:
             self.defend_pic.setPixmap(QPixmap())
+
         return
 
     def ready(self) -> bool:
