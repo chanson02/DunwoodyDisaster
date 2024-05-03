@@ -122,6 +122,15 @@ class Character:
         self.set_magic(self.maxMagic)
         self.set_stamina(self.maxStamina)
 
+    def reload(self):
+        """Reloads the character's health, stamina, and magic."""
+        char = CharacterFactory.LoadCharacter(self.name)
+        self = char
+        self.set_health(char.curHealth)
+        self.set_magic(char.curMagic)
+        self.set_stamina(char.curStamina)
+        print(f"loading{self.name} health: {self.curHealth}")
+
     def PlotRisk(self, attacks: list) -> None:
         """
         Goes through enemeis potential attacks and damage according to our defense profile
@@ -226,10 +235,6 @@ class CharacterFactory:
         with open(f"dunwoody_disaster/saves/{name}.json", "r") as f:
             data = json.loads(f.read())
             character = CharacterFactory.createFromJson(data)
-            # character.image(character.image_path)
-            # character.set_health(character.curHealth)
-            # character.set_magic(character.curMagic)
-            # character.set_stamina(character.curStamina)
             return character
 
     @staticmethod

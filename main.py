@@ -112,9 +112,6 @@ class MainWindow(QMainWindow):
 
         def return_to_map():
             self.stack.removeWidget(defeat)
-            self.player = self.loadCharacter(self.player.name)
-            print(f"{self.player.name} health: {self.player.curHealth}")
-            self.mapScreen.setCharacter(self.player)
             self.showMapScreen()
 
         defeat.onClose(return_to_map)
