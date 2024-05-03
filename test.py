@@ -10,7 +10,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("test")
 
-        #idle = IdleAnimation()
+        # idle = IdleAnimation()
         idle = AttackAnimation()
         self.animation = AnimationWidget(idle)
 

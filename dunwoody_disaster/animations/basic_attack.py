@@ -5,14 +5,23 @@ from typing import override
 from dunwoody_disaster.CharacterFactory import CharacterFactory
 from dunwoody_disaster import Item
 
+
 class AttackAnimation(PygameAnimation):
     def __init__(self):
         super().__init__()
-        self.bkg = pygame.image.load(DD.ASSETS["LectureHall"]).convert() # 666x360 image
-        self.player = pygame.transform.scale(pygame.image.load(CharacterFactory.Cooper().image_path), (100, 100))
-        self.enemy = pygame.transform.scale(pygame.image.load(CharacterFactory.RyanRengo().image_path), (100, 100))
+        self.bkg = pygame.image.load(
+            DD.ASSETS["LectureHall"]
+        ).convert()  # 666x360 image
+        self.player = pygame.transform.scale(
+            pygame.image.load(CharacterFactory.Cooper().image_path), (100, 100)
+        )
+        self.enemy = pygame.transform.scale(
+            pygame.image.load(CharacterFactory.RyanRengo().image_path), (100, 100)
+        )
 
-        self.weapon = pygame.transform.scale(pygame.image.load(Item.weapons[0].image), (100, 100))
+        self.weapon = pygame.transform.scale(
+            pygame.image.load(Item.weapons[0].image), (100, 100)
+        )
         self.weapon_x = 60
 
     @override
