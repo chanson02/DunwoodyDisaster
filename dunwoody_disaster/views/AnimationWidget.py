@@ -21,6 +21,8 @@ class AnimationWidget(QWidget):
     def start(self):
         if self.animation.running:
             raise Exception(f"{self.animation} already running.")
+        self.setMinimumHeight(self.animation.size[1])
+        self.setMinimumWidth(self.animation.size[0])
         self.animation.start()
         self.engine_thread.start()
         self.timer.start(100)
