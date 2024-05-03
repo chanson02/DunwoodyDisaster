@@ -1,7 +1,5 @@
-import sys
 from PySide6.QtWidgets import (
     QWidget,
-    QVBoxLayout,
     QLabel,
     QGroupBox,
     QHBoxLayout,

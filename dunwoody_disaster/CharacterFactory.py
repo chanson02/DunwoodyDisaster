@@ -1,6 +1,5 @@
 from dunwoody_disaster.views.meter import Meter
 
-import dunwoody_disaster as DD
 from PySide6.QtGui import QColor, QPixmap
 from PySide6.QtWidgets import QLabel
 from dunwoody_disaster import Item

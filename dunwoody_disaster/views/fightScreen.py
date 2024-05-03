@@ -1,10 +1,7 @@
-from PySide6.QtCore import Qt
-import sys
 from PySide6.QtWidgets import (
     QWidget,
     QGridLayout,
     QPushButton,
-    QHBoxLayout,
     QSpacerItem,
     QSizePolicy,
 )
