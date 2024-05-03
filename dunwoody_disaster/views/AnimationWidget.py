@@ -6,6 +6,7 @@ from queue import Queue
 from dunwoody_disaster.animations.PygameAnimation import PygameAnimation
 
 
+# Defines AnimationWidget as a subclass of QWidget, allowing it to inherit all methods and properties of a Qt widget.
 class AnimationWidget(QWidget):
     def __init__(self, animation: PygameAnimation):
         super().__init__()
@@ -18,7 +19,9 @@ class AnimationWidget(QWidget):
         self.timer.timeout.connect(self.draw_frames)
 
     def start(self):
-        self.animation.running = True
+        if self.animation.running:
+            raise Exception(f"{self.animation} already running.")
+        self.animation.start()
         self.engine_thread.start()
         self.timer.start(100)
 

@@ -29,14 +29,17 @@ class Character:
         self.inventory_capacity = 100
 
         self.health_lbl = QLabel(f"Health: {self.curHealth}")
-        self.health_lbl.setStyleSheet("color: white; font-size: 24px;")
+        self.health_lbl.setStyleSheet("color: white; font-size: 14px;")
         self.magic_lbl = QLabel(f"Magic: {self.curMagic}")
-        self.magic_lbl.setStyleSheet("color: white; font-size: 24px;")
+        self.magic_lbl.setStyleSheet("color: white; font-size: 14px;")
         self.stamina_lbl = QLabel(f"Stamina: {self.curStamina}")
-        self.stamina_lbl.setStyleSheet("color: white; font-size: 24px;")
+        self.stamina_lbl.setStyleSheet("color: white; font-size: 14px;")
         self.health_meter = Meter(QColor(255, 0, 0), 100)
+        self.health_meter.setStyleSheet("height: 20px;")
         self.magic_meter = Meter(QColor(200, 0, 200), 100)
+        self.magic_meter.setStyleSheet("height: 20px;")
         self.stamina_meter = Meter(QColor(50, 50, 50), 100)
+        self.stamina_meter.setStyleSheet("height: 20px;")
 
         # What are these? --Cooper
         self.defense = 0

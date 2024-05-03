@@ -15,8 +15,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Dunwoody-Disaster")
-        self.setStyleSheet("background-color: #2f2f2f; color: #FFFFFF;")
-        self.setGeometry(100, 100, 1920, 1080)
+        self.setStyleSheet("background-color: black; color: #FFFFFF;")
         self.player = None
 
         self.startMenu = StartMenu()
@@ -53,6 +52,7 @@ class MainWindow(QMainWindow):
         self.fight.onLose(self.showDefeatScreen)
 
         self.stack.addWidget(self.fight.widget)
+        self.fight.widget.animation_Object.start()
         self.stack.setCurrentWidget(self.fight.widget)
 
     def startBtnClicked(self):
@@ -68,6 +68,7 @@ class MainWindow(QMainWindow):
         self.player = character
         self.saveCharacter(character)
         self.mapScreen = MapScreen(Map.buildMap(self.player))
+        self.mapScreen.setStyleSheet("background-color: #41A392;")
         self.mapScreen.onEnter(self.EnterFight)
         self.stack.addWidget(self.mapScreen)
         self.showMapScreen()
@@ -99,6 +100,7 @@ class MainWindow(QMainWindow):
 
         victory.onClose(loot_collected)
         self.stack.addWidget(victory)
+        self.fight.widget.animation_Object.stop()
         self.stack.setCurrentWidget(victory)
 
     def showDefeatScreen(self):
@@ -112,11 +114,16 @@ class MainWindow(QMainWindow):
 
         defeat.onClose(return_to_map)
         self.stack.addWidget(defeat)
+        self.fight.widget.animation_Object.stop()
         self.stack.setCurrentWidget(defeat)
+
+    def closeEvent(self, event):
+        _ = event  # silence unused warning
+        self.fight.widget.animation_Object.stop()
 
 
 if __name__ == "__main__":
     app = QApplication()
     mw = MainWindow()
-    mw.show()
+    mw.showMaximized()
     sys.exit(app.exec())
