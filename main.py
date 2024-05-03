@@ -52,7 +52,7 @@ class MainWindow(QMainWindow):
         self.fight = FightSequence(self.player, room["NPC"])
         self.fight.onWin(self.showVictoryScreen)
         self.fight.onLose(self.showDefeatScreen)
-
+        
         self.stack.addWidget(self.fight.widget)
         self.stack.setCurrentWidget(self.fight.widget)
 
@@ -67,10 +67,19 @@ class MainWindow(QMainWindow):
 
     def userSelectedCharacter(self, character: Character):
         self.player = character
+        self.saveCharacter(character)
         self.mapScreen = MapScreen(Map.buildMap(self.player))
         self.mapScreen.onEnter(self.EnterFight)
         self.stack.addWidget(self.mapScreen)
         self.showMapScreen()
+
+    def saveCharacter(self, character: Character):
+        CharacterFactory.SaveCharacter(character)
+        print(f"Saved {character.name}")
+
+    def loadCharacter(self, name: str) -> Character:
+        print(f"Loading {name}")
+        return CharacterFactory.LoadCharacter(name)
 
     def createPlayableCharacters(self) -> list[Character]:
         cooper = CharacterFactory.createTestChar()
@@ -88,6 +97,7 @@ class MainWindow(QMainWindow):
         def loot_collected():
             self.stack.removeWidget(victory)
             self.showMapScreen()
+            self.saveCharacter(self.player)
 
         victory.onClose(loot_collected)
         self.stack.addWidget(victory)
@@ -96,11 +106,14 @@ class MainWindow(QMainWindow):
     def showDefeatScreen(self):
         if self.fight is None:
             raise Exception("Defeat Screen expects a fight")
-
+        print("Defeat Screen")
         defeat = DefeatScreen()
 
         def return_to_map():
             self.stack.removeWidget(defeat)
+            self.player = self.loadCharacter(self.player.name)
+            print(f"{self.player.name} health: {self.player.curHealth}")
+            self.mapScreen.setCharacter(self.player)
             self.showMapScreen()
 
         defeat.onClose(return_to_map)
