@@ -13,6 +13,9 @@ class Meter(QWidget):
         super().__init__()
         self._endColor: Optional[QColor] = None
         self.setColor(color)
+
+        self._prevPercentage = 0
+        self._percentage = 0
         self.setPercentage(percentage)
 
     def setColor(self, color: QColor):
@@ -22,6 +25,7 @@ class Meter(QWidget):
         self._endColor = color
 
     def setPercentage(self, percentage: int | float):
+        self._prevPercentage = self._percentage
         self._percentage = max(0, min(percentage, 100))
         self.update()
 
@@ -48,6 +52,8 @@ class Meter(QWidget):
     def paintEvent(self, event: QPaintEvent):
         super().paintEvent(event)
         painter = QPainter(self)
+        prev_color = QColor(255, 165, 0)
+
         for_color = self.interpolateColor()
         bkg_color = QColor(20, 0, 20)
 
@@ -58,6 +64,8 @@ class Meter(QWidget):
         max_fill_width = w - 2 * border
         fill_h = int(h - 2 * border)
         fill_w = int(max_fill_width * self._percentage / 100)
+        prev_w = int(max_fill_width * self._prevPercentage / 100)
 
         painter.fillRect(0, 0, w, h, bkg_color)
+        painter.fillRect(border, border, prev_w, fill_h, prev_color)
         painter.fillRect(border, border, fill_w, fill_h, for_color)
