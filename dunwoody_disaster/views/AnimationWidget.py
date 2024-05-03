@@ -5,8 +5,9 @@ from PySide6.QtCore import QTimer
 from queue import Queue
 from dunwoody_disaster.animations.PygameAnimation import PygameAnimation
 
-#Defines AnimationWidget as a subclass of QWidget, allowing it to inherit all methods and properties of a Qt widget.
-class AnimationWidget(QWidget): 
+
+# Defines AnimationWidget as a subclass of QWidget, allowing it to inherit all methods and properties of a Qt widget.
+class AnimationWidget(QWidget):
     def __init__(self, animation: PygameAnimation):
         super().__init__()
         self.animation = animation
