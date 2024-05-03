@@ -173,3 +173,6 @@ class MapScreen(QWidget):
         self.preview = FightPreview()
         self.map.onRoomChange(self.preview.setRoom)
         layout.addWidget(self.preview)
+
+        if len(self.map.rooms) > 0 and not self.map.current_room:
+            self.map.setRoom(self.map.rooms[0])

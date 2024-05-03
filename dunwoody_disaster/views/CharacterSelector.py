@@ -44,6 +44,9 @@ class CharacterSelector(QWidget):
         btn.clicked.connect(self.confirm)
         layout.addWidget(btn)
 
+        if len(characters) > 0:
+            self.select(characters[0])
+
     def characterWidget(self, char: Character) -> QWidget:
         layout = QVBoxLayout()
         lbl = QLabel(char.name)
