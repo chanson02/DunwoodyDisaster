@@ -21,7 +21,6 @@ class Meter(QWidget):
         self._percentage = 0
         self.setPercentage(percentage)
 
-
     def setColor(self, color: QColor):
         self._color = color
 
@@ -33,7 +32,7 @@ class Meter(QWidget):
         self._percentage = max(0, min(percentage, 100))
 
         diff = max(1, self._prevPercentage - self._percentage)
-        self.animationTimer.start(int(500 // diff))
+        self.animationTimer.start(int(750 // diff))
         return
 
     def nextFrame(self):
@@ -80,8 +79,9 @@ class Meter(QWidget):
         fill_h = int(h - 2 * border)
         fill_w = int(max_fill_width * self._percentage / 100)
 
+        diff = 1 - abs(self._percentage - self._prevPercentage) / 100
         prev_w = int(max_fill_width * self._prevPercentage / 100)
-        prev_h = int(fill_h // 1.3)
+        prev_h = max(5, int(fill_h * diff))
         prev_y = border + (fill_h - prev_h) // 2
 
         painter.fillRect(0, 0, w, h, bkg_color)
