@@ -51,7 +51,7 @@ class MainWindow(QMainWindow):
         self.fight = FightSequence(self.player, room["NPC"])
         self.fight.onWin(self.showVictoryScreen)
         self.fight.onLose(self.showDefeatScreen)
-        
+
         self.stack.addWidget(self.fight.widget)
         self.stack.setCurrentWidget(self.fight.widget)
 
