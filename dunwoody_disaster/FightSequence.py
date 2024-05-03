@@ -67,6 +67,8 @@ class FightSequence:
         if self.enemy.curHealth <= 0:
             self._winCallback()
         elif self.player.curHealth <= 0:
+            self.player.reload()
+            self.enemy.reset()
             self._loseCallback()
 
         self._locked = False
