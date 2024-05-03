@@ -123,13 +123,11 @@ class Character:
         self.set_stamina(self.maxStamina)
 
     def reload(self):
-        """Reloads the character's health, stamina, and magic."""
+        """Reloads the character's health, stamina, and magic from the last save point."""
         char = CharacterFactory.LoadCharacter(self.name)
-        self = char
         self.set_health(char.curHealth)
         self.set_magic(char.curMagic)
         self.set_stamina(char.curStamina)
-        print(f"loading{self.name} health: {self.curHealth}")
 
     def PlotRisk(self, attacks: list) -> None:
         """
