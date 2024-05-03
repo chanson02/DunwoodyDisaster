@@ -76,7 +76,6 @@ class MainWindow(QMainWindow):
         CharacterFactory.SaveCharacter(character)
 
     def loadCharacter(self, name: str) -> Character:
-        print(f"Loading {name}")
         return CharacterFactory.LoadCharacter(name)
 
     def createPlayableCharacters(self) -> list[Character]:
