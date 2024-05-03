@@ -12,6 +12,8 @@ from dunwoody_disaster.views.arsenal import Arsenal
 import dunwoody_disaster as DD
 from dunwoody_disaster.views.characterState import CharacterState
 from dunwoody_disaster.views.action_selector import ActionSelector
+from dunwoody_disaster.views.AnimationWidget import AnimationWidget
+from dunwoody_disaster.animations.idle import IdleAnimation
 
 from typing import TYPE_CHECKING
 
@@ -97,8 +99,10 @@ class FightScreen(QWidget):
                         QSizePolicy.Fixed), row, 0)
         row += 1  
 
-        # animation_Object = 
-        # layout.addWidget(animation_Object, row, 0, 0, 3)
+        animIdle = IdleAnimation()
+        self.animation_Object = AnimationWidget(animIdle)
+        layout.addWidget(self.animation_Object, row, 0, 0, 3)
+        row += 1  
 
         layout.addItem(QSpacerItem(0, 30, 
                         QSizePolicy.Fixed, 

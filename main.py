@@ -53,6 +53,7 @@ class MainWindow(QMainWindow):
         self.fight.onLose(self.showDefeatScreen)
 
         self.stack.addWidget(self.fight.widget)
+        self.fight.widget.animation_Object.start()
         self.stack.setCurrentWidget(self.fight.widget)
 
     def startBtnClicked(self):
@@ -91,6 +92,7 @@ class MainWindow(QMainWindow):
 
         victory.onClose(loot_collected)
         self.stack.addWidget(victory)
+        self.fight.widget.animation_Object.stop()
         self.stack.setCurrentWidget(victory)
 
     def showDefeatScreen(self):
@@ -105,7 +107,12 @@ class MainWindow(QMainWindow):
 
         defeat.onClose(return_to_map)
         self.stack.addWidget(defeat)
+        self.fight.widget.animation_Object.stop()
         self.stack.setCurrentWidget(defeat)
+
+    def closeEvent(self, event):
+        _ = event  # silence unused warning
+        self.fight.widget.animation_Object.stop()
 
 
 if __name__ == "__main__":
