@@ -1,9 +1,13 @@
+import sys
 from PySide6.QtWidgets import (
     QWidget,
     QVBoxLayout,
     QLabel,
     QGroupBox,
     QHBoxLayout,
+    QGridLayout,
+    QSpacerItem,
+    QSizePolicy
 )
 from PySide6.QtGui import QPixmap, QPainter
 import dunwoody_disaster as DD
@@ -18,14 +22,18 @@ class FightPreview(QWidget):
         self.room_lbl = QLabel()
         self.weapons = QHBoxLayout()
         self.defenses = QHBoxLayout()
+        statsStyle = 'font-size: 14px; font-family: "Futura Bk BT";'
         self.health = QLabel()
+        self.health.setStyleSheet(statsStyle)
         self.magic = QLabel()
+        self.magic.setStyleSheet(statsStyle)
         self.stamina = QLabel()
+        self.stamina.setStyleSheet(statsStyle)
 
         self.initUI()
 
     def initUI(self):
-        layout = QVBoxLayout()
+        layout = QGridLayout()
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(0)
         self.setLayout(layout)
@@ -33,30 +41,70 @@ class FightPreview(QWidget):
         self.weapons.setContentsMargins(0, 0, 0, 0)
         self.defenses.setContentsMargins(0, 0, 0, 0)
 
+        row = 0
+
+        layout.addItem(QSpacerItem(20, 30, 
+                        QSizePolicy.Fixed, 
+                        QSizePolicy.Fixed), row, 0)
+        row += 1
+
         self.room_lbl = QLabel()
         self.room_lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.room_lbl.setStyleSheet("font-size: 24px;")
-        layout.addWidget(self.room_lbl)
+        self.room_lbl.setStyleSheet("font-size: 30px;")
+        layout.addWidget(self.room_lbl, row, 1)
+        row += 1
+
+        layout.addItem(QSpacerItem(0, 15, 
+                        QSizePolicy.Fixed, 
+                        QSizePolicy.MinimumExpanding), row, 1)
+        row += 1
 
         self.battlefield = QLabel()
         self.battlefield.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        layout.addWidget(self.battlefield)
+        layout.addWidget(self.battlefield, row, 1)
+        row += 1
 
-        layout.addLayout(self.statLayout())
+        layout.addItem(QSpacerItem(0, 15, 
+                        QSizePolicy.Fixed, 
+                        QSizePolicy.MinimumExpanding), row, 1)
+        row += 1
+
+        layout.addLayout(self.statLayout(), row, 1)
+        row += 1
+
+        layout.addItem(QSpacerItem(0, 15, 
+                        QSizePolicy.Fixed, 
+                        QSizePolicy.MinimumExpanding), row, 1)
+        row += 1
 
         gb = QGroupBox("Weapons")
+        gb.setStyleSheet('max-width: 400px;')
         container = QHBoxLayout()
         gb.setLayout(container)
         scroller = DD.scroller(self.weapons, True, False)
         container.addWidget(scroller)
-        layout.addWidget(gb)
+        gb.setStyleSheet('height: 100px; font-size: 14px;')
+        layout.addWidget(gb, row, 1)
+        row += 1
+
+        layout.addItem(QSpacerItem(0, 15, 
+                        QSizePolicy.Fixed, 
+                        QSizePolicy.MinimumExpanding), row, 1)
+        row += 1
 
         gb = QGroupBox("Defenses")
+        gb.setStyleSheet('max-width: 400px;')
         container = QHBoxLayout()
         gb.setLayout(container)
         scroller = DD.scroller(self.defenses, True, False)
         container.addWidget(scroller)
-        layout.addWidget(gb)
+        gb.setStyleSheet('height: 100px; font-size: 14px;')
+        layout.addWidget(gb, row, 1)
+        row += 1
+
+        layout.addItem(QSpacerItem(20, 15, 
+                        QSizePolicy.Fixed, 
+                        QSizePolicy.MinimumExpanding), row, 2)
 
     def statLayout(self) -> QHBoxLayout:
         layout = QHBoxLayout()

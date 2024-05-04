@@ -2,7 +2,6 @@ import sys
 from dunwoody_disaster.views.AnimationWidget import AnimationWidget
 from PySide6.QtWidgets import QApplication, QMainWindow
 from dunwoody_disaster.animations.idle import IdleAnimation
-from BattleSimulation_copy import Battle
 
 
 class MainWindow(QMainWindow):

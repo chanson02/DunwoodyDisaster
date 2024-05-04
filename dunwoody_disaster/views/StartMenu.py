@@ -4,12 +4,13 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QPainter, QPixmap
 from PySide6.QtWidgets import (
     QApplication,
-    QHBoxLayout,
+    QGridLayout,
     QLabel,
     QMessageBox,
     QPushButton,
-    QVBoxLayout,
-    QWidget,
+    QWidget,  
+    QSizePolicy, 
+    QSpacerItem    
 )
 
 from dunwoody_disaster import ASSETS, unimplemented
@@ -18,43 +19,59 @@ from dunwoody_disaster import ASSETS, unimplemented
 class StartMenu(QWidget):
     def __init__(self):
         super().__init__()
-        self.background_pixmap = QPixmap(ASSETS["TitleScreen"])
         self.initUI()
 
     def initUI(self):
-        self.setWindowTitle("Game Start Menu")
+        self.setStyleSheet('background-color: black;')
+        self.setWindowTitle("Dunwoody Disaster")
 
-        screen_size = (
-            QApplication.primaryScreen().size()
-        )  # Get the size of the primary screen
-        self.resize(
-            int(screen_size.width() * 0.8), int(screen_size.height() * 0.8)
-        )  # Set the window size to 80% of the screen size
+        main_layout = QGridLayout(self)
+        main_layout.setSpacing(0)
+        main_layout.setContentsMargins(0, 0, 0, 0)
 
-        main_layout = QVBoxLayout(self)
+        main_layout.addItem(QSpacerItem(5, 5, 
+                            QSizePolicy.MinimumExpanding, 
+                            QSizePolicy.MinimumExpanding), 0, 0)
+        
+        backgroundPic_Lbl = QLabel()
+        background_pixmap = QPixmap(ASSETS["TitleScreen"]).scaledToHeight(700)
+        backgroundPic_Lbl.setPixmap(background_pixmap)
+        
+        main_layout.addWidget(backgroundPic_Lbl, 1, 1)
 
-        title = QLabel("Dunwoody Disaster")
-        title.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
-        main_layout.addWidget(title)
-
-        button_layout = QHBoxLayout()
+        button_layout = QGridLayout(self)
+        button_layout.setContentsMargins(0, 0, 0, 0)
 
         self.startButton = QPushButton("Start Game")
+        self.startButton.setStyleSheet('background-color: gray;')
         self.startButton.clicked.connect(unimplemented)
 
-        button_layout.addWidget(self.startButton)
+        button_layout.addItem(QSpacerItem(5, 0, 
+                            QSizePolicy.Fixed, 
+                            QSizePolicy.Fixed), 0, 0)
+
+        button_layout.addWidget(self.startButton, 0, 1)
+
+        button_layout.addItem(QSpacerItem(20, 0, 
+                            QSizePolicy.Fixed, 
+                            QSizePolicy.Fixed), 0, 2)
 
         self.exitButton = QPushButton("Exit")
+        self.exitButton.setStyleSheet('background-color: gray;')
         self.exitButton.clicked.connect(self.exitGame)
         button_layout.addWidget(
-            self.exitButton
+            self.exitButton, 0, 3
         )  # Add the exit button to the button layout
 
-        main_layout.addStretch(
-            1
-        )  # Add a stretchable space to push the buttons to the bottom
-        main_layout.addLayout(button_layout)  # Add the button layout to the main layout
+        button_layout.addItem(QSpacerItem(5, 0, 
+                            QSizePolicy.Fixed, 
+                            QSizePolicy.Fixed), 0, 4)
+
+        main_layout.addLayout(button_layout, 2, 1)  # Add the button layout to the main layout
+
+        main_layout.addItem(QSpacerItem(5, 5, 
+                            QSizePolicy.MinimumExpanding, 
+                            QSizePolicy.MinimumExpanding), 3, 2)
 
     def onStart(self, callback: Callable):
         """
@@ -63,11 +80,11 @@ class StartMenu(QWidget):
         self.startButton.clicked.disconnect()
         self.startButton.clicked.connect(callback)
 
-    def paintEvent(self, event):
-        _ = event  # silence unused warning
-        painter = QPainter(self)  # Create a QPainter object for drawing
-        pixmap = self.background_pixmap.scaledToWidth(400)
-        painter.drawPixmap(self.rect(), pixmap)  # Draw the scaled pixmap on the window
+    # def paintEvent(self, event):
+    #     _ = event  # silence unused warning
+    #     painter = QPainter(self)  # Create a QPainter object for drawing
+    #     pixmap = self.background_pixmap.scaledToWidth(400)
+    #     painter.drawPixmap(self.rect(), pixmap)  # Draw the scaled pixmap on the window
 
     def exitGame(self):
         reply = QMessageBox.question(
