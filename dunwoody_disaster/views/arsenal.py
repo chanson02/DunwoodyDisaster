@@ -29,8 +29,10 @@ class Arsenal(QWidget):
         layout = QGridLayout()
         layout.setContentsMargins(0, 0, 0, 0)
 
-        weapons_widget = self.createInventory("Weapons", weapons)
-        armor_widget = self.createInventory("Armor", armors)
+        weapons_widget = self.createInventory(
+            "Weapons", weapons + [Item.Weapon.default()]
+        )
+        armor_widget = self.createInventory("Armor", armors + [Item.Armor.default()])
 
         layout.addWidget(weapons_widget, 0, 0)
         layout.addWidget(armor_widget, 0, 1)
@@ -72,7 +74,7 @@ class Arsenal(QWidget):
         item_row = 0
         for item in items:
             gbox = QGroupBox()
-            gbox.setStyleSheet('border: none;')
+            gbox.setStyleSheet("border: none;")
             container = QVBoxLayout()
             container.addWidget(item.widget())
             DD.clickable(gbox).connect(self.selectItemLambda(item))

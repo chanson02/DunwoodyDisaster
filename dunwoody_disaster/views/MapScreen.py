@@ -1,5 +1,5 @@
-from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import QWidget, QLabel, QGridLayout, QSpacerItem, QSizePolicy
+from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QPixmap, QKeyEvent, QPainter, QMouseEvent
 
 from dunwoody_disaster.views.FightPreview import FightPreview

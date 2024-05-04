@@ -6,7 +6,6 @@ from dunwoody_disaster.views.MapScreen import MapScreen, Map
 from dunwoody_disaster.views.crawlScreen import Crawl
 from dunwoody_disaster.views.CharacterSelector import CharacterSelector
 from dunwoody_disaster.CharacterFactory import CharacterFactory, Character
-import dunwoody_disaster as DD
 
 from dunwoody_disaster.views.defeatScreen import DefeatScreen
 from dunwoody_disaster.views.victoryScreen import VictoryScreen
@@ -48,11 +47,12 @@ class MainWindow(QMainWindow):
         if self.fight:
             self.stack.removeWidget(self.fight.widget)
 
-        self.fight = FightSequence(self.player, room["NPC"])
+        self.fight = FightSequence(self.player, room["NPC"], room["battlefield"])
         self.fight.onWin(self.showVictoryScreen)
         self.fight.onLose(self.showDefeatScreen)
 
         self.stack.addWidget(self.fight.widget)
+        self.fight.widget.animation_Object.start()
         self.stack.setCurrentWidget(self.fight.widget)
 
     def startBtnClicked(self):
@@ -66,18 +66,26 @@ class MainWindow(QMainWindow):
 
     def userSelectedCharacter(self, character: Character):
         self.player = character
+        self.saveCharacter(character)
         self.mapScreen = MapScreen(Map.buildMap(self.player))
         self.mapScreen.setStyleSheet("background-color: #41A392;")
         self.mapScreen.onEnter(self.EnterFight)
         self.stack.addWidget(self.mapScreen)
         self.showMapScreen()
 
-    def createPlayableCharacters(self) -> list[Character]:
-        cooper = CharacterFactory.createTestChar()
-        cooper.name = "Cooper"
-        cooper.image_path = DD.ASSETS["cooper"]
+    def saveCharacter(self, character: Character):
+        CharacterFactory.SaveCharacter(character)
 
-        return [cooper]
+    def loadCharacter(self, name: str) -> Character:
+        return CharacterFactory.LoadCharacter(name)
+
+    def createPlayableCharacters(self) -> list[Character]:
+        return [
+            CharacterFactory.Cooper(),
+            CharacterFactory.Mitch(),
+            CharacterFactory.Noah(),
+            CharacterFactory.John(),
+        ]
 
     def showVictoryScreen(self):
         if self.fight is None:
@@ -88,15 +96,16 @@ class MainWindow(QMainWindow):
         def loot_collected():
             self.stack.removeWidget(victory)
             self.showMapScreen()
+            self.saveCharacter(self.player)
 
         victory.onClose(loot_collected)
         self.stack.addWidget(victory)
+        self.fight.widget.animation_Object.stop()
         self.stack.setCurrentWidget(victory)
 
     def showDefeatScreen(self):
         if self.fight is None:
             raise Exception("Defeat Screen expects a fight")
-
         defeat = DefeatScreen()
 
         def return_to_map():
@@ -105,7 +114,12 @@ class MainWindow(QMainWindow):
 
         defeat.onClose(return_to_map)
         self.stack.addWidget(defeat)
+        self.fight.widget.animation_Object.stop()
         self.stack.setCurrentWidget(defeat)
+
+    def closeEvent(self, event):
+        _ = event  # silence unused warning
+        self.fight.widget.animation_Object.stop()
 
 
 if __name__ == "__main__":
