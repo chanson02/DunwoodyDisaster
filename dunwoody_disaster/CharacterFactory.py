@@ -303,7 +303,7 @@ class CharacterFactory:
         char.defense = 1
         char.magicDefense = 1
 
-        char.image_path = DD.ASSETS["noahRefined+"]
+        char.image_path = DD.ASSETS["NoahRefined+"]
         return char
 
     @staticmethod
@@ -342,6 +342,7 @@ class CharacterFactory:
 
         char.loot = []
         char.food = []
+        char.image_path = DD.ASSETS["LeAnn"]
         return char
 
     @staticmethod
@@ -362,6 +363,8 @@ class CharacterFactory:
 
         char.loot = []
         char.food = []
+
+        char.image_path = DD.ASSETS["Amalan"]
         return char
 
     @staticmethod
@@ -383,6 +386,8 @@ class CharacterFactory:
 
         char.loot = []
         char.food = []
+
+        char.image_path = DD.ASSETS["Ryan"]
         return char
 
     @staticmethod
@@ -403,6 +408,8 @@ class CharacterFactory:
 
         char.loot = []
         char.food = []
+
+        char.image_path = DD.ASSETS["Noureen"]
         return char
 
     @staticmethod
@@ -425,6 +432,8 @@ class CharacterFactory:
         char.defenses = []
         char.loot = []
         char.food = []
+
+        char.image_path = DD.ASSETS["Joe"]
         return char
 
     @staticmethod
@@ -465,4 +474,6 @@ class CharacterFactory:
 
         char.loot = []
         char.food = []
+
+        char.image_path = DD.ASSETS["Bill"]
         return char
