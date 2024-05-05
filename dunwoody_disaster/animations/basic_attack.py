@@ -1,7 +1,7 @@
 import pygame
 from dunwoody_disaster.animations.PygameAnimation import PygameAnimation
-from typing import override
 from PySide6.QtCore import SignalInstance
+import dunwoody_disaster as DD
 
 
 class AttackAnimation(PygameAnimation):
@@ -14,7 +14,7 @@ class AttackAnimation(PygameAnimation):
         self.weapon_x = 60
         self.finished = onFinish
 
-    @override
+    @DD.override
     def run(self):
         if self.running:
             self.surface.blit(self.bkg, (7, 0))
