@@ -29,4 +29,5 @@ class AttackAnimation(PygameAnimation):
             self.clock.tick(20)
             self.weapon_x += 10
             if self.weapon_x > 500:
+                self.running = False
                 self.finished.emit()
