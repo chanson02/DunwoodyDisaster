@@ -34,8 +34,11 @@ class FightSequence(QWidget):
         self._locked = True
         enemyActions.show()
 
-        #self.signal = Signal()
         callback = partial(self.finishTurn, playerActions, enemyActions)
+        try:
+            self.signal.disconnect()
+        except RuntimeError:
+            pass
         self.signal.connect(callback)
         animation = AttackAnimation(self.widget.background, self.player.image_path, self.enemy.image_path, playerActions.getAttack().image, self.signal)
         self.widget.animation_Object.setAnimation(animation)

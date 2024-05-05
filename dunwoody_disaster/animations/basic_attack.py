@@ -1,14 +1,11 @@
 import pygame
 from dunwoody_disaster.animations.PygameAnimation import PygameAnimation
-import dunwoody_disaster as DD
 from typing import override
-from dunwoody_disaster.CharacterFactory import CharacterFactory
-from dunwoody_disaster import Item
-from PySide6.QtCore import Signal
+from PySide6.QtCore import SignalInstance
 
 
 class AttackAnimation(PygameAnimation):
-    def __init__(self, background: str, player: str, enemy: str, weapon: str, onFinish: Signal):
+    def __init__(self, background: str, player: str, enemy: str, weapon: str, onFinish: SignalInstance):
         super().__init__()
         self.bkg = pygame.image.load(background).convert_alpha()  # 666x360 image
         self.player = pygame.transform.scale(pygame.image.load(player), (100, 100)).convert_alpha()
