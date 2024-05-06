@@ -10,7 +10,6 @@ from PySide6.QtWidgets import (
 from dunwoody_disaster.animations.basic_attack import AttackAnimation
 from dunwoody_disaster.animations.idle import IdleAnimation
 import dunwoody_disaster as DD
-from PySide6.QtCore import QTimer
 from PySide6.QtCore import Signal
 
 
