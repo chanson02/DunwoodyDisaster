@@ -3,7 +3,7 @@ import pygame
 from typing import Callable
 
 from PySide6.QtCore import QSize
-from PySide6.QtGui import QPixmap, QMovie
+from PySide6.QtGui import QMovie
 from PySide6.QtWidgets import (
     QGridLayout,
     QLabel,
@@ -28,8 +28,8 @@ class StartMenu(QWidget):
         pygame.mixer.init()
         # Load and play background music
         pygame.mixer.music.load(AUDIO["TitleScreenMusic"])
-        pygame.mixer.music.set_volume(0.75)  # Set volume from 0.0 to 1.0
-        pygame.mixer.music.play(-1)  # Play indefinitel
+        pygame.mixer.music.set_volume(1.0)  # Set volume from 0.0 to 1.0
+        pygame.mixer.music.play(-1)  # Play indefinitely
 
     def initUI(self):
         self.setStyleSheet("background-color: black;")
