@@ -10,6 +10,7 @@ import random
 class ActionSelector(QWidget):
     def __init__(self, character: Character):
         super().__init__()
+        self._hidden = False
         self.character = character
         self.attack: Optional[Item.Weapon] = None
         self.defense: Optional[Item.Armor] = None
@@ -22,11 +23,10 @@ class ActionSelector(QWidget):
     def setAttack(self, item: Optional[Item.Weapon]):
         if item is not None:
             staminaCost = item.staminaCost
-            magicCost = item.magicReq
-            # TODO: Implement
-            # if self.defense:
-            #     staminaCost += self.defense.staminaCost
-            #     magicCost += self.defense.magicReq
+            magicCost = item.magicCost
+            if self.defense:
+                staminaCost += self.defense.staminaCost
+                magicCost += self.defense.magicCost
 
             if (
                 staminaCost > self.character.curStamina
@@ -39,17 +39,19 @@ class ActionSelector(QWidget):
         self.updateUI()
 
     def setDefense(self, item: Optional[Item.Armor]):
-        # TODO: Implement
-        # if item is not None:
-        #     staminaCost = item.staminaCost
-        #     magicCost = item.magicReq
-        #     if self.attack:
-        #         staminaCost += self.self.attack.staminaCost
-        #         magicCost += self.self.attack.magicReq
-        #
-        #     if staminaCost > self.character.curStamina or magicCost > self.character.curMagic:
-        #         # Do not let them select if they can't
-        #         item = None
+        if item is not None:
+            staminaCost = item.staminaCost
+            magicCost = item.magicCost
+            if self.attack:
+                staminaCost += self.attack.staminaCost
+                magicCost += self.attack.magicCost
+
+            if (
+                staminaCost > self.character.curStamina
+                or magicCost > self.character.curMagic
+            ):
+                # Do not let them select if they can't
+                item = None
 
         self.defense = item
         self.updateUI()
@@ -66,13 +68,22 @@ class ActionSelector(QWidget):
 
     def updateUI(self):
         if self.attack:
-            self.attack_pic.setPixmap(QPixmap(self.attack.image).scaledToWidth(50))
+            attack = self.attack.image
+            if self._hidden:
+                attack = DD.ASSETS["no_texture"]
+            self.attack_pic.setPixmap(QPixmap(attack).scaledToWidth(50))
         else:
             self.attack_pic.setPixmap(QPixmap())
+
         if self.defense:
-            self.defend_pic.setPixmap(QPixmap(self.defense.image).scaledToWidth(50))
+            defense = self.defense.image
+            if self._hidden:
+                defense = DD.ASSETS["no_texture"]
+            self.defend_pic.setPixmap(QPixmap(defense).scaledToWidth(50))
         else:
             self.defend_pic.setPixmap(QPixmap())
+
+        return
 
     def ready(self) -> bool:
         return (self.attack and self.defense) is not None
@@ -81,7 +92,7 @@ class ActionSelector(QWidget):
         weapons = [
             w
             for w in self.character.weapons
-            if self.character.curMagic >= w.magicReq
+            if self.character.curMagic >= w.magicCost
             and self.character.curStamina >= w.staminaCost
         ]
 
@@ -91,14 +102,20 @@ class ActionSelector(QWidget):
             chosen_weapon = Item.Weapon.default()
         self.setAttack(chosen_weapon)
 
-        # TODO: Implement
-        # adjustedMagic = self.character.curMagic - chosen_weapon.magicReq
-        # adjustedStamina = self.character.curStamina - chosen_weapon.staminaCost
-        # defenses = [
-        #         w for w in self.character.defenses
-        #         if adjustedMagic >= w.magicReq and adjustedStamina >= w.staminaCost
-        #         ]
-        self.setDefense(random.choice(self.character.defenses))
+        adjustedMagic = self.character.curMagic - chosen_weapon.magicCost
+        adjustedStamina = self.character.curStamina - chosen_weapon.staminaCost
+        defenses = [
+            w
+            for w in self.character.defenses
+            if adjustedMagic >= w.magicCost and adjustedStamina >= w.staminaCost
+        ]
+
+        if len(defenses) > 0:
+            chosen_defense = random.choice(defenses)
+        else:
+            chosen_defense = Item.Armor.default()
+        self.setDefense(chosen_defense)
+        return
 
     def createLayout(self) -> QLayout:
         layout = QHBoxLayout()
@@ -113,3 +130,11 @@ class ActionSelector(QWidget):
         layout.addWidget(self.defend_pic)
         layout.addItem(DD.expander(True, False, 0))
         return layout
+
+    def hide(self):
+        self._hidden = True
+        self.updateUI()
+
+    def show(self):
+        self._hidden = False
+        self.updateUI()

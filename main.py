@@ -15,8 +15,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Dunwoody-Disaster")
-        self.setStyleSheet("background-color: #2f2f2f; color: #FFFFFF;")
-        self.setGeometry(100, 100, 1920, 1080)
+        self.setStyleSheet("background-color: black; color: #FFFFFF;")
         self.player = None
 
         self.startMenu = StartMenu()
@@ -56,6 +55,7 @@ class MainWindow(QMainWindow):
         self.fight.onLose(self.showDefeatScreen)
 
         self.stack.addWidget(self.fight.widget)
+        self.fight.widget.animation_Object.start()
         self.stack.setCurrentWidget(self.fight.widget)
 
     def startBtnClicked(self):
@@ -69,13 +69,20 @@ class MainWindow(QMainWindow):
 
     def userSelectedCharacter(self, character: Character):
         self.player = character
+        self.saveCharacter(character)
         self.mapScreen = MapScreen(Map.buildMap(self.player))
+        self.mapScreen.setStyleSheet("background-color: #41A392;")
         self.mapScreen.onEnter(self.EnterFight)
         self.stack.addWidget(self.mapScreen)
         self.showMapScreen()
 
+    def saveCharacter(self, character: Character):
+        CharacterFactory.SaveCharacter(character)
+
+    def loadCharacter(self, name: str) -> Character:
+        return CharacterFactory.LoadCharacter(name)
+
     def createPlayableCharacters(self) -> list[Character]:
-        # cooper = CharacterFactory.Cooper()
         return [
             CharacterFactory.Cooper(),
             CharacterFactory.Mitch(),
@@ -92,15 +99,16 @@ class MainWindow(QMainWindow):
         def loot_collected():
             self.stack.removeWidget(victory)
             self.showMapScreen()
+            self.saveCharacter(self.player)
 
         victory.onClose(loot_collected)
         self.stack.addWidget(victory)
+        self.fight.widget.animation_Object.stop()
         self.stack.setCurrentWidget(victory)
 
     def showDefeatScreen(self):
         if self.fight is None:
             raise Exception("Defeat Screen expects a fight")
-
         defeat = DefeatScreen()
 
         def return_to_map():
@@ -109,11 +117,16 @@ class MainWindow(QMainWindow):
 
         defeat.onClose(return_to_map)
         self.stack.addWidget(defeat)
+        self.fight.widget.animation_Object.stop()
         self.stack.setCurrentWidget(defeat)
+
+    def closeEvent(self, event):
+        _ = event  # silence unused warning
+        self.fight.widget.animation_Object.stop()
 
 
 if __name__ == "__main__":
     app = QApplication()
     mw = MainWindow()
-    mw.show()
+    mw.showMaximized()
     sys.exit(app.exec())
