@@ -3,7 +3,7 @@ import pygame
 from typing import Callable
 
 from PySide6.QtCore import QSize
-from PySide6.QtGui import QPixmap, QMovie
+from PySide6.QtGui import QMovie
 from PySide6.QtWidgets import (
     QGridLayout,
     QLabel,
@@ -14,6 +14,7 @@ from PySide6.QtWidgets import (
     QSpacerItem,
 )
 
+from dunwoody_disaster import ASSETS, AUDIO, unimplemented
 from dunwoody_disaster import ASSETS, AUDIO, unimplemented
 
 
@@ -28,8 +29,8 @@ class StartMenu(QWidget):
         pygame.mixer.init()
         # Load and play background music
         pygame.mixer.music.load(AUDIO["TitleScreenMusic"])
-        pygame.mixer.music.set_volume(0.75)  # Set volume from 0.0 to 1.0
-        pygame.mixer.music.play(-1)  # Play indefinitel
+        pygame.mixer.music.set_volume(1.0)  # Set volume from 0.0 to 1.0
+        pygame.mixer.music.play(-1)  # Play indefinitely
 
     def initUI(self):
         self.setStyleSheet("background-color: black;")
@@ -44,6 +45,7 @@ class StartMenu(QWidget):
         # Setup the QLabel to display the GIF
         backgroundPic_Lbl = QLabel(self)
         # Initialize QMovie with the path to the GIF
+        movie = QMovie(ASSETS["FinalTitle"])
         movie = QMovie(ASSETS["FinalTitle"])
         backgroundPic_Lbl.setMovie(movie)
         movie.setScaledSize(QSize(1280, 720))  # Optional: Scale the movie size
