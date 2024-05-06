@@ -9,6 +9,7 @@ from dunwoody_disaster.CharacterFactory import CharacterFactory, Character
 
 from dunwoody_disaster.views.defeatScreen import DefeatScreen
 from dunwoody_disaster.views.victoryScreen import VictoryScreen
+from dunwoody_disaster.views.dialogueScreen import DialogueScreen
 
 
 class MainWindow(QMainWindow):
@@ -46,7 +47,8 @@ class MainWindow(QMainWindow):
         self.saveCharacter(character)
         self.mapScreen = MapScreen(Map.buildMap(self.player))
         self.mapScreen.setStyleSheet("background-color: #41A392;")
-        self.mapScreen.onEnter(self.EnterFight)
+        #self.mapScreen.onEnter(self.EnterFight)
+        self.mapScreen.onEnter(self.playDialogue)
         self.stack.addWidget(self.mapScreen)
         self.showMapScreen()
 
@@ -56,6 +58,21 @@ class MainWindow(QMainWindow):
         if len(unbeaten) > 0:
             self.mapScreen.map.setRoom(unbeaten[0])
         self.stack.setCurrentWidget(self.mapScreen)
+
+    def playDialogue(self, room: dict):
+        if not self.player:
+            raise Exception("playDialogue expects a player")
+
+        screen = DialogueScreen(self.player, room["NPC"])
+
+        def dialogue_ended():
+            self.stack.removeWidget(screen)
+            self.EnterFight(room)
+
+        screen.onComplete(dialogue_ended)
+        self.stack.addWidget(screen)
+        self.stack.setCurrentWidget(screen)
+        return
 
     def EnterFight(self, room: dict):
         """
