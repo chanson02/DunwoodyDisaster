@@ -1,1 +1,13 @@
-{}
+{
+  "Cooper": {
+    "protagonist_lines": [
+      "I could easily flip your bits."                   ,
+      "I don't even need a compiler to dis-assemble you!",
+      "How about we goto the arena then?"
+    ],
+    "antagonist_lines": [
+      "You must not be managing your memory correctly if you think you can defeat me.",
+      "Your software is going to crash on my watch!"
+    ]
+  }
+}
