@@ -1,1 +1,9 @@
-{}
+{
+  "Cooper": {
+    "protagonist_lines": [
+      "I'm the master of drag-and-drop combat! Prepare to be dragged down!",
+      "How dare you! I'll Alt+F4 your chances of victory!"
+    ],
+    "antagonist_lines": ["Why don't you drag yourself into the recyle bin?"]
+  }
+}
