@@ -15,6 +15,7 @@ from PySide6.QtWidgets import (
 )
 
 from dunwoody_disaster import ASSETS, AUDIO, unimplemented
+from dunwoody_disaster import ASSETS, AUDIO, unimplemented
 
 
 class StartMenu(QWidget):
@@ -50,6 +51,7 @@ class StartMenu(QWidget):
         # Setup the QLabel to display the GIF
         backgroundPic_Lbl = QLabel(self)
         # Initialize QMovie with the path to the GIF
+        movie = QMovie(ASSETS["FinalTitle"])
         movie = QMovie(ASSETS["FinalTitle"])
         backgroundPic_Lbl.setMovie(movie)
         movie.setScaledSize(QSize(1280, 720))  # Optional: Scale the movie size
