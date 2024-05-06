@@ -1,6 +1,9 @@
+import pygame
+
 from typing import Callable
 
-from PySide6.QtGui import QPixmap
+from PySide6.QtCore import QSize
+from PySide6.QtGui import QPixmap, QMovie
 from PySide6.QtWidgets import (
     QGridLayout,
     QLabel,
@@ -18,6 +21,17 @@ class StartMenu(QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
+        self.setupMusicPlayer()
+
+    def setupMusicPlayer(self):
+        # Initialize Pygame mixer
+        pygame.mixer.init()
+        # Load and play background music
+        pygame.mixer.music.load(
+            "C:/Users/vuejo/OneDrive - Dunwoody College of Technology/Documents/Data Structures/Class/DunwoodyDisaster/dunwoody_disaster/audio/TitleScreenMusic.wav"
+        )
+        pygame.mixer.music.set_volume(0.75)  # Set volume from 0.0 to 1.0
+        pygame.mixer.music.play(-1)  # Play indefinitel
 
     def initUI(self):
         self.setStyleSheet("background-color: black;")
@@ -35,9 +49,15 @@ class StartMenu(QWidget):
             0,
         )
 
-        backgroundPic_Lbl = QLabel()
-        background_pixmap = QPixmap(ASSETS["TitleScreen"]).scaledToHeight(700)
-        backgroundPic_Lbl.setPixmap(background_pixmap)
+        # Setup the QLabel to display the GIF
+        backgroundPic_Lbl = QLabel(self)
+        # Initialize QMovie with the path to the GIF
+        movie = QMovie(
+            "C:/Users/vuejo/OneDrive - Dunwoody College of Technology/Documents/Data Structures/Class/DunwoodyDisaster/dunwoody_disaster/animations/Animation_Assets/TitleScreenFinal.gif"
+        )
+        backgroundPic_Lbl.setMovie(movie)
+        movie.setScaledSize(QSize(1280, 720))  # Optional: Scale the movie size
+        movie.start()  # Start playing the GIF
 
         main_layout.addWidget(backgroundPic_Lbl, 1, 1)
 
@@ -103,4 +123,5 @@ class StartMenu(QWidget):
             QMessageBox.StandardButton.No,
         )
         if reply == QMessageBox.StandardButton.Yes:
+            pygame.mixer.music.stop()  # Stop the music
             self.close()
