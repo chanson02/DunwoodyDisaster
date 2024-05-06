@@ -58,19 +58,21 @@ class DialogueScreen(QWidget):
     def loadDialogue(self):
         path = f"{DD.BASE_PATH}/dialogues/{self.char2.name}.json"
         try:
-            with open(path, 'r') as f:
+            with open(path, "r") as f:
                 dialogue = json.load(f)
         except FileNotFoundError:
-            print(f'Dialogue file {path} not found')
+            print(f"Dialogue file {path} not found")
             return
 
         try:
             lines = dialogue[self.char1.name]
         except KeyError:
-            print(f'Dialogue file {path} has no dialogue for character {self.char1.name}')
+            print(
+                f"Dialogue file {path} has no dialogue for character {self.char1.name}"
+            )
             return
 
-        self.set_dialogue(lines['protagonist_lines'], lines['antagonist_lines'])
+        self.set_dialogue(lines["protagonist_lines"], lines["antagonist_lines"])
         return
 
     def init_ui(self):

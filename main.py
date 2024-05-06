@@ -47,7 +47,7 @@ class MainWindow(QMainWindow):
         self.saveCharacter(character)
         self.mapScreen = MapScreen(Map.buildMap(self.player))
         self.mapScreen.setStyleSheet("background-color: #41A392;")
-        #self.mapScreen.onEnter(self.EnterFight)
+        # self.mapScreen.onEnter(self.EnterFight)
         self.mapScreen.onEnter(self.playDialogue)
         self.stack.addWidget(self.mapScreen)
         self.showMapScreen()
@@ -92,7 +92,6 @@ class MainWindow(QMainWindow):
         self.stack.addWidget(self.fight.widget)
         self.fight.widget.animation_Object.start()
         self.stack.setCurrentWidget(self.fight.widget)
-
 
     def saveCharacter(self, character: Character):
         CharacterFactory.SaveCharacter(character)
