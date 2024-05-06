@@ -14,7 +14,7 @@ from PySide6.QtWidgets import (
     QSpacerItem,
 )
 
-from dunwoody_disaster import ASSETS, unimplemented
+from dunwoody_disaster import ASSETS, AUDIO, unimplemented
 
 
 class StartMenu(QWidget):
@@ -27,9 +27,7 @@ class StartMenu(QWidget):
         # Initialize Pygame mixer
         pygame.mixer.init()
         # Load and play background music
-        pygame.mixer.music.load(
-            "C:/Users/vuejo/OneDrive - Dunwoody College of Technology/Documents/Data Structures/Class/DunwoodyDisaster/dunwoody_disaster/audio/TitleScreenMusic.wav"
-        )
+        pygame.mixer.music.load(AUDIO["TitleScreenMusic"])
         pygame.mixer.music.set_volume(0.75)  # Set volume from 0.0 to 1.0
         pygame.mixer.music.play(-1)  # Play indefinitel
 
@@ -52,9 +50,7 @@ class StartMenu(QWidget):
         # Setup the QLabel to display the GIF
         backgroundPic_Lbl = QLabel(self)
         # Initialize QMovie with the path to the GIF
-        movie = QMovie(
-            "C:/Users/vuejo/OneDrive - Dunwoody College of Technology/Documents/Data Structures/Class/DunwoodyDisaster/dunwoody_disaster/animations/Animation_Assets/FinalTitle.gif"
-        )
+        movie = QMovie(ASSETS["FinalTitle"])
         backgroundPic_Lbl.setMovie(movie)
         movie.setScaledSize(QSize(1280, 720))  # Optional: Scale the movie size
         movie.start()  # Start playing the GIF
