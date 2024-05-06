@@ -1,0 +1,12 @@
+{
+  "Cooper": {
+    "protagonist_lines": [
+      "My abilities are zipped and ready to be deployed on you!",
+      "My abilities scale big enough to crush you!"
+    ],
+    "antagonist_lines": [
+      "My microservices are always ready to PUT up a fight.",
+      "Prepare to be POST-ed into defeat!"
+    ]
+  }
+}

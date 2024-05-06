@@ -1,0 +1,12 @@
+{
+  "Cooper": {
+    "protagonist_lines": [
+      "Professor Simonson, my fighting moves are stored in a database. Dare to run a query?",
+      "I'll UPDATE your health bar and DELETE your chances of winning!"
+    ],
+    "antagonist_lines": [
+      "Haha! I doubt your data retreival will be quick enough to defeat me!",
+      "SELECT * FROM fight_schema.moves"
+    ]
+  }
+}
