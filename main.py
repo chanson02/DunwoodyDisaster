@@ -32,6 +32,24 @@ class MainWindow(QMainWindow):
         # Set the stacked widget as the central widget of the main window
         self.setCentralWidget(self.stack)
 
+    def startBtnClicked(self):
+        self.crawl = Crawl()
+        self.crawl.onFinish(self.showSelector)
+        self.stack.addWidget(self.crawl)
+        self.stack.setCurrentWidget(self.crawl)
+
+    def showSelector(self):
+        self.stack.setCurrentWidget(self.selector)
+
+    def userSelectedCharacter(self, character: Character):
+        self.player = character
+        self.saveCharacter(character)
+        self.mapScreen = MapScreen(Map.buildMap(self.player))
+        self.mapScreen.setStyleSheet("background-color: #41A392;")
+        self.mapScreen.onEnter(self.EnterFight)
+        self.stack.addWidget(self.mapScreen)
+        self.showMapScreen()
+
     def showMapScreen(self):
         self.mapScreen.map.setRoom(None)
         unbeaten = self.mapScreen.map.unbeaten_rooms()
@@ -58,23 +76,6 @@ class MainWindow(QMainWindow):
         self.fight.widget.animation_Object.start()
         self.stack.setCurrentWidget(self.fight.widget)
 
-    def startBtnClicked(self):
-        self.crawl = Crawl()
-        self.crawl.onFinish(self.showSelector)
-        self.stack.addWidget(self.crawl)
-        self.stack.setCurrentWidget(self.crawl)
-
-    def showSelector(self):
-        self.stack.setCurrentWidget(self.selector)
-
-    def userSelectedCharacter(self, character: Character):
-        self.player = character
-        self.saveCharacter(character)
-        self.mapScreen = MapScreen(Map.buildMap(self.player))
-        self.mapScreen.setStyleSheet("background-color: #41A392;")
-        self.mapScreen.onEnter(self.EnterFight)
-        self.stack.addWidget(self.mapScreen)
-        self.showMapScreen()
 
     def saveCharacter(self, character: Character):
         CharacterFactory.SaveCharacter(character)
@@ -114,7 +115,8 @@ class MainWindow(QMainWindow):
 
     def closeEvent(self, event):
         _ = event  # silence unused warning
-        self.fight.widget.animation_Object.stop()
+        if self.fight:
+            self.fight.widget.animation_Object.stop()
 
 
 if __name__ == "__main__":
