@@ -30,7 +30,13 @@ class StartMenu(QWidget):
         main_layout.setSpacing(0)
         main_layout.setContentsMargins(0, 0, 0, 0)
 
-        main_layout.addItem(QSpacerItem(5, 5, QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding), 0, 0)
+        main_layout.addItem(
+            QSpacerItem(
+                5, 5, QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding
+            ),
+            0,
+            0,
+        )
 
         # Setup the QLabel to display the GIF
         backgroundPic_Lbl = QLabel(self)
@@ -47,29 +53,45 @@ class StartMenu(QWidget):
         button_layout.setContentsMargins(0, 0, 0, 0)
 
         self.startButton = QPushButton("Start Game")
-        self.startButton.setStyleSheet("background-color: gray; min-width: 250px; font-size: 14px; font-weight: 600px;")
+        self.startButton.setStyleSheet(
+            "background-color: gray; min-width: 250px; font-size: 14px; font-weight: 600px;"
+        )
         self.startButton.clicked.connect(unimplemented)
 
-        button_layout.addItem(QSpacerItem(5, 0, QSizePolicy.Fixed, QSizePolicy.Fixed), 0, 0)
+        button_layout.addItem(
+            QSpacerItem(5, 0, QSizePolicy.Fixed, QSizePolicy.Fixed), 0, 0
+        )
 
         button_layout.addWidget(self.startButton, 0, 1)
 
-        button_layout.addItem(QSpacerItem(20, 0, QSizePolicy.Fixed, QSizePolicy.Fixed), 0, 2)
+        button_layout.addItem(
+            QSpacerItem(20, 0, QSizePolicy.Fixed, QSizePolicy.Fixed), 0, 2
+        )
 
         self.exitButton = QPushButton("Exit")
-        self.exitButton.setStyleSheet("background-color: gray; min-width: 250px; font-size: 14px; font-weight: 600px;")
+        self.exitButton.setStyleSheet(
+            "background-color: gray; min-width: 250px; font-size: 14px; font-weight: 600px;"
+        )
         self.exitButton.clicked.connect(self.exitGame)
         button_layout.addWidget(
             self.exitButton, 0, 3
         )  # Add the exit button to the button layout
 
-        button_layout.addItem(QSpacerItem(5, 0, QSizePolicy.Fixed, QSizePolicy.Fixed), 0, 4)
+        button_layout.addItem(
+            QSpacerItem(5, 0, QSizePolicy.Fixed, QSizePolicy.Fixed), 0, 4
+        )
 
         main_layout.addLayout(
             button_layout, 2, 1
         )  # Add the button layout to the main layout
 
-        main_layout.addItem(QSpacerItem(5, 5, QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding), 3, 2)
+        main_layout.addItem(
+            QSpacerItem(
+                5, 5, QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding
+            ),
+            3,
+            2,
+        )
 
     def onStart(self, callback: Callable):
         """

@@ -13,9 +13,9 @@ from PySide6.QtWidgets import (
     QPushButton,
     QHBoxLayout,
     QGroupBox,
-    QSpacerItem, 
+    QSpacerItem,
     QSizePolicy,
-    QVBoxLayout
+    QVBoxLayout,
 )
 
 
@@ -33,18 +33,28 @@ class VictoryScreen(QWidget):
         self.setLayout(layout)
 
         row = 0
-        layout.addItem(QSpacerItem(5, 5, QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding), row, 0)
+        layout.addItem(
+            QSpacerItem(
+                5, 5, QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding
+            ),
+            row,
+            0,
+        )
         row += 1
 
-        lbl = QLabel(f"Congratulations {fight_controller.player.name}!\nYou defeated {fight_controller.enemy.name}!\nCollect your loot.")
-        lbl.setStyleSheet('font-size: 20px; font-weight: 600; color: red;')
+        lbl = QLabel(
+            f"Congratulations {fight_controller.player.name}!\nYou defeated {fight_controller.enemy.name}!\nCollect your loot."
+        )
+        lbl.setStyleSheet("font-size: 20px; font-weight: 600; color: red;")
         lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(lbl, row, 1)
 
-        layout.addItem(QSpacerItem(250, 0, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 2)
+        layout.addItem(
+            QSpacerItem(250, 0, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 2
+        )
 
-        lbl = QLabel('LOOT!')
-        lbl.setStyleSheet('font-size: 18px; color: white;')
+        lbl = QLabel("LOOT!")
+        lbl.setStyleSheet("font-size: 18px; color: white;")
         lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(lbl, row, 3)
         row += 1
@@ -59,10 +69,10 @@ class VictoryScreen(QWidget):
         layout.addWidget(pic, row, 1)
 
         drops = QGroupBox("Loot Dropped")
-        drops.setStyleSheet('border: 1px solid red; color: white;')
+        drops.setStyleSheet("border: 1px solid red; color: white;")
         loot = QHBoxLayout()
         scroller = DD.scroller(loot, True, False)
-        scroller.setStyleSheet('border: none;')
+        scroller.setStyleSheet("border: none;")
         drops.setLayout(DD.layout(scroller))
         layout.addWidget(drops, row, 3)
 
@@ -89,7 +99,7 @@ class VictoryScreen(QWidget):
         cap_Layout.setContentsMargins(0, 0, 0, 0)
 
         lbl = QLabel("Inventory capacity: ")
-        lbl.setStyleSheet('font-size: 16px;')
+        lbl.setStyleSheet("font-size: 16px;")
         cap_Layout.addWidget(lbl, 0, 0)
 
         self.capacity = Meter(QColor("white"), 0)
@@ -105,10 +115,10 @@ class VictoryScreen(QWidget):
         row += 1
 
         inventory_box = QGroupBox("Inventory")
-        inventory_box.setStyleSheet('border: 1px solid red; color: white;')
+        inventory_box.setStyleSheet("border: 1px solid red; color: white;")
         inventory = QHBoxLayout()
         scroller = DD.scroller(inventory, True, False)
-        scroller.setStyleSheet('border: none;')
+        scroller.setStyleSheet("border: none;")
         inventory_box.setLayout(DD.layout(scroller))
         layout.addWidget(inventory_box, row, 1)
         row += 1
@@ -121,17 +131,25 @@ class VictoryScreen(QWidget):
             box.setChecked(True)
         if box is not None:
             self.select_item(box)
-        
-        layout.addItem(QSpacerItem(0, 20, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding), row, 1)
+
+        layout.addItem(
+            QSpacerItem(0, 20, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding), row, 1
+        )
         row += 1
 
         btn = QPushButton("Continue")
-        btn.setStyleSheet('font-size: 14px; font-weight: 600; background-color: gray;')
+        btn.setStyleSheet("font-size: 14px; font-weight: 600; background-color: gray;")
         btn.clicked.connect(self.confirmClicked)
         layout.addWidget(btn, row, 2)
         row += 1
 
-        layout.addItem(QSpacerItem(5, 5, QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding), row, 4)
+        layout.addItem(
+            QSpacerItem(
+                5, 5, QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding
+            ),
+            row,
+            4,
+        )
 
         # loot_screen = CollectLootScreen(
         #     fight_controller.player, fight_controller.enemy.get_items()

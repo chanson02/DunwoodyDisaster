@@ -76,11 +76,13 @@ class FightPreview(QWidget):
         row += 1
 
         gb = QGroupBox("Offense")
-        gb.setStyleSheet("max-width: 400px; max-height: 200px; height: 200px; font-size: 14px;")
+        gb.setStyleSheet(
+            "max-width: 400px; max-height: 200px; height: 200px; font-size: 14px;"
+        )
         container = QHBoxLayout()
         gb.setLayout(container)
         scroller = DD.scroller(self.weapons, True, False)
-        scroller.setStyleSheet('border: none;')
+        scroller.setStyleSheet("border: none;")
         container.addWidget(scroller)
         layout.addWidget(gb, row, 1)
         row += 1
@@ -91,11 +93,13 @@ class FightPreview(QWidget):
         row += 1
 
         gb = QGroupBox("Defense")
-        gb.setStyleSheet("max-width: 400px; max-height: 200px; height: 200px; font-size: 14px;")
+        gb.setStyleSheet(
+            "max-width: 400px; max-height: 200px; height: 200px; font-size: 14px;"
+        )
         container = QHBoxLayout()
         gb.setLayout(container)
         scroller = DD.scroller(self.defenses, True, False)
-        scroller.setStyleSheet('border: none;')
+        scroller.setStyleSheet("border: none;")
         container.addWidget(scroller)
         layout.addWidget(gb, row, 1)
         row += 1

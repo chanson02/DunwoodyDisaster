@@ -29,7 +29,7 @@ class Item:
             "magic": self.magicCost,
             "stamina": self.staminaCost,
         }
-    
+
     def preview_widget(self) -> QWidget:
         """
         Create a UI element to display the items properties

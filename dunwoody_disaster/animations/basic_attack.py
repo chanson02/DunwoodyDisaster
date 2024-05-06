@@ -1,10 +1,7 @@
 import pygame
 from dunwoody_disaster.animations.PygameAnimation import PygameAnimation
-import dunwoody_disaster as DD
 
 # from typing import override
-from dunwoody_disaster.CharacterFactory import CharacterFactory
-from dunwoody_disaster import Item
 from PySide6.QtCore import Signal
 
 

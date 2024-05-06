@@ -77,7 +77,7 @@ class CollectLootScreen(QWidget):
     def capacity_meter(self) -> QLayout:
         layout = QHBoxLayout()
         lbl = QLabel("Inventory capacity used: ")
-        lbl.setStyleSheet('font-size: 14px;')
+        lbl.setStyleSheet("font-size: 14px;")
         layout.addWidget(lbl)
         layout.addWidget(self.capacity)
         return layout

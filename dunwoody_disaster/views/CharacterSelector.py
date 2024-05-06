@@ -54,13 +54,13 @@ class CharacterSelector(QWidget):
         row += 1
 
         container = QWidget()
-        container.setStyleSheet('min-width: 0px;')
+        container.setStyleSheet("min-width: 0px;")
         hbox = QHBoxLayout()
         for character in characters:
             hbox.addWidget(self.characterWidget(character))
         container.setLayout(hbox)
         scroll_area = QScrollArea()
-        scroll_area.setStyleSheet('min-width: 800px;')
+        scroll_area.setStyleSheet("min-width: 800px;")
         scroll_area.setWidget(container)
         scroll_area.setWidgetResizable(True)
         scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
@@ -87,7 +87,9 @@ class CharacterSelector(QWidget):
             QSpacerItem(0, 30, QSizePolicy.Fixed, QSizePolicy.Fixed), 1, 0
         )
         btn = QPushButton("Confirm")
-        btn.setStyleSheet("background-color: gray; min-width: 250px; font-size: 14px; font-weight: 600px;")
+        btn.setStyleSheet(
+            "background-color: gray; min-width: 250px; font-size: 14px; font-weight: 600px;"
+        )
         btn.clicked.connect(self.confirm)
         btnLayout.addWidget(btn, 2, 1)
         btnLayout.addItem(

@@ -175,16 +175,23 @@ class MapScreen(QWidget):
 
         map_container_layout = QGridLayout()
         map_container_layout.addItem(
-            QSpacerItem(200, 0, QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding),
-            0,0)
+            QSpacerItem(
+                200, 0, QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding
+            ),
+            0,
+            0,
+        )
         map_container = DD.scroller(map_container_layout, True, True)
         map_container.setStyleSheet("background-color: #57D7C1; min-width: 1000px;")
         layout.addWidget(map_container, 0, 0)
         map_container_layout.addWidget(self.map, 1, 1)
         map_container_layout.addItem(
             QSpacerItem(
-                50, 0, QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding),
-            2,2)
+                50, 0, QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding
+            ),
+            2,
+            2,
+        )
 
         self.preview = FightPreview()
         self.preview.setStyleSheet("background-color: black;")

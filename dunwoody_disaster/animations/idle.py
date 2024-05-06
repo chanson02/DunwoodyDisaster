@@ -1,10 +1,9 @@
 import pygame
 import math
 from dunwoody_disaster.animations.PygameAnimation import PygameAnimation
-import dunwoody_disaster as DD
-from dunwoody_disaster import ASSETS
 
-#from typing import override
+# from typing import override
+
 
 class IdleAnimation(PygameAnimation):
     def __init__(self, background: str, player: str, enemy: str):
@@ -17,7 +16,7 @@ class IdleAnimation(PygameAnimation):
         self.bob_frequency = 0.1
         self.elapsed = 0
 
-    #@override
+    # @override
     def run(self) -> None:
         if self.running:
             self.draw()
