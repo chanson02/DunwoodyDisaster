@@ -31,6 +31,7 @@ for fname in os.listdir(audio_dir):
         key = os.path.splitext(fname)[0]
         AUDIO[key] = path
 
+
 def audio(path: str) -> str:
     """
     Get an audio name from a path
@@ -80,10 +81,10 @@ def scroller(child: QLayout, horizontal: bool, vertical: bool) -> QScrollArea:
 
     h_policy = Qt.ScrollBarPolicy.ScrollBarAlwaysOff
     v_policy = Qt.ScrollBarPolicy.ScrollBarAlwaysOff
-    if horizontal:
-        h_policy = Qt.ScrollBarPolicy.ScrollBarAsNeeded
-    if vertical:
-        v_policy = Qt.ScrollBarPolicy.ScrollBarAsNeeded
+    # if horizontal:
+    #     h_policy = Qt.ScrollBarPolicy.ScrollBarAsNeeded
+    # if vertical:
+    #     v_policy = Qt.ScrollBarPolicy.ScrollBarAsNeeded
 
     result = QScrollArea()
     result.setContentsMargins(0, 0, 0, 0)

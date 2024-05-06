@@ -11,7 +11,6 @@ from dunwoody_disaster.views.characterState import CharacterState
 from dunwoody_disaster.views.action_selector import ActionSelector
 from dunwoody_disaster.views.AnimationWidget import AnimationWidget
 from dunwoody_disaster.animations.idle import IdleAnimation
-from dunwoody_disaster.animations.basic_attack import AttackAnimation
 
 from typing import TYPE_CHECKING
 
@@ -58,7 +57,7 @@ class FightScreen(QWidget):
         layout.addWidget(arsenal, row, 1)
 
         layout.addItem(
-            QSpacerItem(5, 5, QSizePolicy.MinimumExpanding, QSizePolicy.Fixed), row, 2
+            QSpacerItem(5, 0, QSizePolicy.MinimumExpanding, QSizePolicy.Fixed), row, 2
         )
 
         layout.addLayout(self.center_layout(), row, 3)
@@ -84,20 +83,21 @@ class FightScreen(QWidget):
         layout.setContentsMargins(0, 0, 0, 0)
 
         row = 0
-        layout.addItem(
-            QSpacerItem(0, 20, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding), row, 0
-        )
+        layout.addItem(QSpacerItem(0, 50, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 0)
         row += 1
+
         # row, column, rowSpan, columnSpan
         layout.addWidget(p1, row, 0)
         layout.addItem(DD.expander(True, False, 150), 0, 1)
         layout.addWidget(p2, row, 2)
         row += 1
 
-        layout.addItem(QSpacerItem(0, 30, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 0)
-        row += 1
-        
-        self.idleAnimation = IdleAnimation(self.background, self.player1.image_path, self.player2.image_path)
+        # layout.addItem(QSpacerItem(0, 30, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 0)
+        # row += 1
+
+        self.idleAnimation = IdleAnimation(
+            self.background, self.player1.image_path, self.player2.image_path
+        )
         self.animation_Object = AnimationWidget(self.idleAnimation)
         layout.addWidget(self.animation_Object, row, 0, 0, 3)
         row += 1
@@ -109,7 +109,9 @@ class FightScreen(QWidget):
         layout.addWidget(self.p2_selector, row, 2)
         row += 1
 
-        layout.addItem(QSpacerItem(0, 20, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 0)
+        layout.addItem(
+            QSpacerItem(0, 20, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding), row, 0
+        )
         row += 1
 
         btnLayout = QGridLayout()
@@ -132,9 +134,7 @@ class FightScreen(QWidget):
         layout.addLayout(btnLayout, row, 0, 1, 3)
         row += 1
 
-        layout.addItem(
-            QSpacerItem(0, 20, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding), row, 0
-        )
+        # layout.addItem(QSpacerItem(0, 20, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding), row, 0)
 
         return layout
 
