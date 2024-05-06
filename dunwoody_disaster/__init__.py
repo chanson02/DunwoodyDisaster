@@ -8,7 +8,7 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import QObject, Signal, QEvent, SignalInstance, Qt
 import os
-from typing import Callable, Any  # for override decorator
+from typing import Callable
 
 BASE_PATH = os.path.dirname(__file__)
 ANIMATION_PATH = f"{BASE_PATH}/animations/Animation_Assets"

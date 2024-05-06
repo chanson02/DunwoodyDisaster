@@ -5,7 +5,14 @@ import dunwoody_disaster as DD
 
 
 class AttackAnimation(PygameAnimation):
-    def __init__(self, background: str, player: str, enemy: str, weapon: str, onFinish: SignalInstance):
+    def __init__(
+        self,
+        background: str,
+        player: str,
+        enemy: str,
+        weapon: str,
+        onFinish: SignalInstance,
+    ):
         super().__init__()
         self.bkg = pygame.image.load(background).convert_alpha()  # 666x360 image
         self.player = pygame.transform.scale(
