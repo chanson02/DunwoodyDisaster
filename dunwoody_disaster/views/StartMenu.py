@@ -14,23 +14,13 @@ from PySide6.QtWidgets import (
     QSpacerItem,
 )
 
-from dunwoody_disaster import ASSETS, AUDIO, unimplemented
-from dunwoody_disaster import ASSETS, AUDIO, unimplemented
+from dunwoody_disaster import ASSETS, unimplemented
 
 
 class StartMenu(QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
-        self.setupMusicPlayer()
-
-    def setupMusicPlayer(self):
-        # Initialize Pygame mixer
-        pygame.mixer.init()
-        # Load and play background music
-        pygame.mixer.music.load(AUDIO["TitleScreenMusic"])
-        pygame.mixer.music.set_volume(1.0)  # Set volume from 0.0 to 1.0
-        pygame.mixer.music.play(-1)  # Play indefinitely
 
     def initUI(self):
         self.setStyleSheet("background-color: black;")
