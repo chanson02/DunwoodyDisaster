@@ -5,10 +5,19 @@ from PySide6.QtCore import SignalInstance
 
 
 class LinearComponent(AnimationComponent):
-    def __init__(self, img: str, finish: SignalInstance, start: tuple[int, int], end: tuple[int, int], duration_ms = 0):
+    def __init__(
+        self,
+        img: str,
+        finish: SignalInstance,
+        start: tuple[int, int],
+        end: tuple[int, int],
+        duration_ms=0,
+    ):
         super().__init__(finish)
 
-        self.img = pygame.transform.scale(pygame.image.load(img).convert_alpha(), (100, 100))
+        self.img = pygame.transform.scale(
+            pygame.image.load(img).convert_alpha(), (100, 100)
+        )
         self.start = start
         self.end = end
         self.duration = duration_ms
@@ -26,9 +35,9 @@ class LinearComponent(AnimationComponent):
         elapsed = self.time_ms() - self.start_time
         progress = min(elapsed / self.duration, 1)
         pos = (
-                int(self.start[0] + (self.end[0] - self.start[0]) * progress),
-                int(self.start[1] + (self.end[1] - self.start[1]) * progress)
-                )
+            int(self.start[0] + (self.end[0] - self.start[0]) * progress),
+            int(self.start[1] + (self.end[1] - self.start[1]) * progress),
+        )
         surface.blit(self.img, pos)
 
         if elapsed >= self.duration:

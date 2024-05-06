@@ -5,7 +5,6 @@ from dunwoody_disaster.views.fightScreen import FightScreen
 from typing import Callable
 import dunwoody_disaster as DD
 from PySide6.QtCore import Signal
-from dunwoody_disaster.animations.basic_attack import AttackAnimation
 from PySide6.QtWidgets import QWidget
 
 from dunwoody_disaster.animations.LinearComponent import LinearComponent
@@ -46,20 +45,20 @@ class FightSequence(QWidget):
         enemyActions.show()
 
         playerAnimation = LinearComponent(
-                playerActions.getAttack().image,
-                self.signal,
-                self.widget.animation.player_pos,
-                self.widget.animation.enemy_pos,
-                duration_ms=500
-                )
+            playerActions.getAttack().image,
+            self.signal,
+            self.widget.animation.player_pos,
+            self.widget.animation.enemy_pos,
+            duration_ms=500,
+        )
 
         enemyAnimation = LinearComponent(
-                enemyActions.getAttack().image,
-                self.signal,
-                self.widget.animation.enemy_pos,
-                self.widget.animation.player_pos,
-                duration_ms=500
-                )
+            enemyActions.getAttack().image,
+            self.signal,
+            self.widget.animation.enemy_pos,
+            self.widget.animation.player_pos,
+            duration_ms=500,
+        )
 
         def evaluatePlayerTurn():
             attack = playerActions.getAttack()

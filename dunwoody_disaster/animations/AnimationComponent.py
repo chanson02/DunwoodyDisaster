@@ -14,4 +14,4 @@ class AnimationComponent:
 
     def draw(self, surface: pygame.Surface) -> tuple[int, int]:
         _ = surface
-        raise NotImplementedError('draw must be a method on subclasses')
+        raise NotImplementedError("draw must be a method on subclasses")

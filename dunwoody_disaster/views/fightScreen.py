@@ -10,10 +10,7 @@ import dunwoody_disaster as DD
 from dunwoody_disaster.views.characterState import CharacterState
 from dunwoody_disaster.views.action_selector import ActionSelector
 from dunwoody_disaster.views.AnimationWidget import AnimationWidget
-# from dunwoody_disaster.animations.idle import IdleAnimation
 from dunwoody_disaster.animations.RoomAnimation import RoomAnimation
-from dunwoody_disaster.animations.idle import IdleComponent
-from dunwoody_disaster.animations.basic_attack import AttackAnimation
 
 
 from typing import TYPE_CHECKING
@@ -100,7 +97,9 @@ class FightScreen(QWidget):
         layout.addItem(QSpacerItem(0, 30, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 0)
         row += 1
 
-        self.animation = RoomAnimation(self.background, self.player1.image_path, self.player2.image_path)
+        self.animation = RoomAnimation(
+            self.background, self.player1.image_path, self.player2.image_path
+        )
         self.animation_Object = AnimationWidget(self.animation)
         layout.addWidget(self.animation_Object, row, 0, 0, 3)
         row += 1
