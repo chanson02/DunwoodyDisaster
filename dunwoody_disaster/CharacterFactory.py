@@ -221,7 +221,10 @@ class CharacterFactory:
         Saves a character to a json file
         :param character: The character to save
         """
-        with open(f"dunwoody_disaster/saves/{character.name}.json", "w") as f:
+        save_path = "dunwoody_disaster/saves"
+        os.makedirs(save_path, exist_ok=True)  # Ensure directory exists
+        file_path = os.path.join(save_path, f"{character.name}.json")
+        with open(file_path, "w") as f:
             json.dump(character.serialize(), f)
 
     @staticmethod
@@ -264,7 +267,7 @@ class CharacterFactory:
         char.loot = []
         char.food = []
 
-        char.image_path = DD.ASSETS["cooper"]
+        char.image_path = DD.ASSETS["CooperRefined+"]
         return char
 
     @staticmethod
@@ -281,6 +284,8 @@ class CharacterFactory:
         char.intelligence = 1
         char.defense = 1
         char.magicDefense = 1
+
+        char.image_path = DD.ASSETS["JohnRefined+"]
         return char
 
     @staticmethod
@@ -297,6 +302,8 @@ class CharacterFactory:
         char.intelligence = 1
         char.defense = 1
         char.magicDefense = 1
+
+        char.image_path = DD.ASSETS["NoahRefined+"]
         return char
 
     @staticmethod
@@ -313,6 +320,8 @@ class CharacterFactory:
         char.intelligence = 5
         char.defense = 30
         char.magicDefense = 5
+
+        char.image_path = DD.ASSETS["MitchRefined+"]
         return char
 
     @staticmethod
@@ -333,6 +342,7 @@ class CharacterFactory:
 
         char.loot = []
         char.food = []
+        char.image_path = DD.ASSETS["LeAnn"]
         return char
 
     @staticmethod
@@ -353,6 +363,8 @@ class CharacterFactory:
 
         char.loot = []
         char.food = []
+
+        char.image_path = DD.ASSETS["Amalan"]
         return char
 
     @staticmethod
@@ -374,6 +386,8 @@ class CharacterFactory:
 
         char.loot = []
         char.food = []
+
+        char.image_path = DD.ASSETS["Ryan"]
         return char
 
     @staticmethod
@@ -394,6 +408,8 @@ class CharacterFactory:
 
         char.loot = []
         char.food = []
+
+        char.image_path = DD.ASSETS["Noureen"]
         return char
 
     @staticmethod
@@ -416,6 +432,8 @@ class CharacterFactory:
         char.defenses = []
         char.loot = []
         char.food = []
+
+        char.image_path = DD.ASSETS["Joe"]
         return char
 
     @staticmethod
@@ -456,4 +474,6 @@ class CharacterFactory:
 
         char.loot = []
         char.food = []
+
+        char.image_path = DD.ASSETS["Bill"]
         return char
