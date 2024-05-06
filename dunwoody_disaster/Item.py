@@ -41,7 +41,7 @@ class Item:
 
         name = QLabel(self.name)
         name.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        name.setStyleSheet("color: white; font-size: 14px;")
+        name.setStyleSheet("color: white; font-size: 16px;")
         layout.addWidget(name)
 
         img = QLabel()

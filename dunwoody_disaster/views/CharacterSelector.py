@@ -115,7 +115,7 @@ class CharacterSelector(QWidget):
         lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         img = QLabel()
-        img.setPixmap(char.image().scaledToWidth(300))
+        img.setPixmap(char.image().scaledToWidth(250))
         img.setAlignment(Qt.AlignmentFlag.AlignCenter)
         img.setStyleSheet("background-color: white;")
         layout.addWidget(img)

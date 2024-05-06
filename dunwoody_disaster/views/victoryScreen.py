@@ -36,8 +36,8 @@ class VictoryScreen(QWidget):
         layout.addItem(QSpacerItem(5, 5, QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding), row, 0)
         row += 1
 
-        lbl = QLabel(f"Congratulations {fight_controller.player.name}! You defeated {fight_controller.enemy.name}!")
-        lbl.setStyleSheet('font-size: 18px; color: red;')
+        lbl = QLabel(f"Congratulations {fight_controller.player.name}!\nYou defeated {fight_controller.enemy.name}!\nCollect your loot.")
+        lbl.setStyleSheet('font-size: 20px; font-weight: 600; color: red;')
         lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(lbl, row, 1)
 
@@ -59,6 +59,7 @@ class VictoryScreen(QWidget):
         layout.addWidget(pic, row, 1)
 
         drops = QGroupBox("Loot Dropped")
+        drops.setStyleSheet('border: 1px solid red; color: white;')
         loot = QHBoxLayout()
         scroller = DD.scroller(loot, True, False)
         scroller.setStyleSheet('border: none;')
@@ -72,13 +73,13 @@ class VictoryScreen(QWidget):
 
         row += 1
 
-        layout.addItem(QSpacerItem(0, 20, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 1)
-        row += 1
+        # layout.addItem(QSpacerItem(0, 20, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 1)
+        # row += 1
 
-        lbl = QLabel("Manage your inventory: ")
-        lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        layout.addWidget(lbl, row, 1)
-        row += 1
+        # lbl = QLabel("Manage your inventory: ")
+        # lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        # layout.addWidget(lbl, row, 1)
+        # row += 1
 
         layout.addItem(QSpacerItem(0, 20, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 1)
         row += 1
@@ -93,13 +94,18 @@ class VictoryScreen(QWidget):
 
         self.capacity = Meter(QColor("white"), 0)
         self.capacity.setEndColor(QColor("red"))
-        self.capacity.setMinimumHeight(50)
+        self.capacity.setMinimumHeight(25)
         cap_Layout.addWidget(self.capacity, 0, 1)
+        row += 1
 
         layout.addLayout(cap_Layout, row, 1)
         row += 1
 
+        layout.addItem(QSpacerItem(0, 20, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 1)
+        row += 1
+
         inventory_box = QGroupBox("Inventory")
+        inventory_box.setStyleSheet('border: 1px solid red; color: white;')
         inventory = QHBoxLayout()
         scroller = DD.scroller(inventory, True, False)
         scroller.setStyleSheet('border: none;')
@@ -116,11 +122,11 @@ class VictoryScreen(QWidget):
         if box is not None:
             self.select_item(box)
         
-        layout.addItem(QSpacerItem(0, 20, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 1)
+        layout.addItem(QSpacerItem(0, 20, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding), row, 1)
         row += 1
 
-        btn = QPushButton("Confirm")
-        btn.setStyleSheet('font-size: 14px; font-weight: 500; background-color: gray;')
+        btn = QPushButton("Continue")
+        btn.setStyleSheet('font-size: 14px; font-weight: 600; background-color: gray;')
         btn.clicked.connect(self.confirmClicked)
         layout.addWidget(btn, row, 2)
         row += 1

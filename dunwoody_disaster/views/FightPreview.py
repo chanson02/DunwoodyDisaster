@@ -141,7 +141,7 @@ class FightPreview(QWidget):
 
         bkg = QPixmap(room_info["battlefield"]).scaledToWidth(400)
         self.battlefield.setPixmap(
-            self.centerOverlay(bkg, NPC.image().scaledToWidth(50))
+            self.centerOverlay(bkg, NPC.image().scaledToWidth(150))
         )
 
         self.health.setText(f"Health: {NPC.maxHealth}")
