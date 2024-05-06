@@ -53,7 +53,7 @@ class StartMenu(QWidget):
         backgroundPic_Lbl = QLabel(self)
         # Initialize QMovie with the path to the GIF
         movie = QMovie(
-            "C:/Users/vuejo/OneDrive - Dunwoody College of Technology/Documents/Data Structures/Class/DunwoodyDisaster/dunwoody_disaster/animations/Animation_Assets/TitleScreenFinal.gif"
+            "C:/Users/vuejo/OneDrive - Dunwoody College of Technology/Documents/Data Structures/Class/DunwoodyDisaster/dunwoody_disaster/animations/Animation_Assets/FinalTitle.gif"
         )
         backgroundPic_Lbl.setMovie(movie)
         movie.setScaledSize(QSize(1280, 720))  # Optional: Scale the movie size
