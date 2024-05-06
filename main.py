@@ -21,7 +21,7 @@ class MainWindow(QMainWindow):
         self.startMenu = StartMenu()
         self.startMenu.onStart(self.startBtnClicked)
 
-        self.selector = CharacterSelector(self.createPlayableCharacters())
+        self.selector = CharacterSelector(CharacterFactory.playable())
         self.selector.onSelect(self.userSelectedCharacter)
         self.fight = None
 
@@ -81,14 +81,6 @@ class MainWindow(QMainWindow):
 
     def loadCharacter(self, name: str) -> Character:
         return CharacterFactory.LoadCharacter(name)
-
-    def createPlayableCharacters(self) -> list[Character]:
-        return [
-            CharacterFactory.Cooper(),
-            CharacterFactory.Mitch(),
-            CharacterFactory.Noah(),
-            CharacterFactory.John(),
-        ]
 
     def showVictoryScreen(self):
         if self.fight is None:
