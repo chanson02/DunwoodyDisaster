@@ -9,6 +9,7 @@ from dunwoody_disaster.views.CharacterSelector import CharacterSelector
 from dunwoody_disaster.CharacterFactory import CharacterFactory, Character
 from dunwoody_disaster.views.defeatScreen import DefeatScreen
 from dunwoody_disaster.views.victoryScreen import VictoryScreen
+from dunwoody_disaster.views.dialogueScreen import DialogueScreen
 from dunwoody_disaster import AUDIO
 
 
@@ -42,17 +43,21 @@ class MainWindow(QMainWindow):
         pygame.mixer.music.load(AUDIO["TitleScreenMusic"])
         pygame.mixer.music.set_volume(1.0)  # Set volume from 0.0 to 1.0
         pygame.mixer.music.play(-1)  # Play indefinitely
+        self.Fire_Sound1 = pygame.mixer.Sound(AUDIO["FireCrackle"])
+        self.Fire_Sound1.set_volume(0.3)
+        self.Fire_Sound1.play(loops=-1)
 
     def startBtnClicked(self):
         pygame.mixer.music.stop()
+        self.Fire_Sound1.stop()
         pygame.mixer.music.load(AUDIO["CrawlMusic"])
         pygame.mixer.music.set_volume(1.0)
         pygame.mixer.music.play(-1)
+
         self.crawl = Crawl()
         self.crawl.onFinish(self.showSelector)
         self.stack.addWidget(self.crawl)
         self.stack.setCurrentWidget(self.crawl)
-        
 
     def showSelector(self):
         pygame.mixer.music.stop()
@@ -75,6 +80,7 @@ class MainWindow(QMainWindow):
         self.stack.addWidget(self.mapScreen)
         self.showMapScreen()
 
+
     def showMapScreen(self):
         pygame.mixer.music.stop()
         self.mapScreen.map.setRoom(None)
@@ -82,6 +88,23 @@ class MainWindow(QMainWindow):
         if len(unbeaten) > 0:
             self.mapScreen.map.setRoom(unbeaten[0])
         self.stack.setCurrentWidget(self.mapScreen)
+
+    def showDialogue(
+        self, char1: Character, char2: Character, dialogues_char1, dialogues_char2
+    ):
+        if self.dialogueScreen is not None:
+            self.stack.removeWidget(self.dialogueScreen)
+
+        self.dialogueScreen = DialogueScreen(char1, char2)
+        self.dialogueScreen.set_dialogue(dialogues_char1, dialogues_char2)
+        self.dialogueScreen.onComplete(self.onDialogueComplete)
+        self.stack.addWidget(self.dialogueScreen)
+        self.stack.setCurrentWidget(self.dialogueScreen)
+
+    def onDialogueComplete(self):
+        print("Dialogue completed!")
+        # Here you can add what happens after the dialogue is complete.
+        self.showMapScreen()  # Example: Return to the map screen.
 
     def EnterFight(self, room: dict):
         """
@@ -138,9 +161,9 @@ class MainWindow(QMainWindow):
         self.fight.widget.animation_Object.stop()
         self.stack.setCurrentWidget(defeat)
 
-    def closeEvent(self, event):
+        """     def closeEvent(self, event):
         _ = event  # silence unused warning
-        self.fight.widget.animation_Object.stop()
+        self.fight.widget.animation_Object.stop() """
 
 
 if __name__ == "__main__":
