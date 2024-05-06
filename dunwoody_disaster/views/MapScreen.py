@@ -83,6 +83,10 @@ class Map(QLabel):
         NPC: Character,
         battlefield: str,
     ):
+        original = 1024
+        target = 750
+        factor = target / original
+        pos = (int(pos[0] * factor), int(pos[1] * factor))
         room = {
             "name": name,
             "coordinate": pos,
