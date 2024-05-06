@@ -12,7 +12,6 @@ from dunwoody_disaster.views.victoryScreen import VictoryScreen
 from dunwoody_disaster import AUDIO
 
 
-# test
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -52,7 +51,6 @@ class MainWindow(QMainWindow):
         self.crawl.onFinish(self.showSelector)
         self.stack.addWidget(self.crawl)
         self.stack.setCurrentWidget(self.crawl)
-        
 
     def showSelector(self):
         pygame.mixer.music.stop()
