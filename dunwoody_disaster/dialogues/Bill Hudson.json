@@ -1,1 +1,12 @@
-{}
+{
+  "Cooper": {
+    "protagonist_lines": [
+      "You may be the Dean, but I'll show you who's really in charge around here!",
+      "You're going to have to do a lot better than tuition bills to defeat me!"
+    ],
+    "antagonist_lines": [
+      "I run this school, and I'll run you out of this game!",
+      "Prepare to be expelled!"
+    ]
+  }
+}
