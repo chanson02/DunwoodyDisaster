@@ -1,4 +1,5 @@
 import sys
+import pygame
 from PySide6.QtWidgets import QMainWindow, QStackedWidget, QApplication
 from dunwoody_disaster.FightSequence import FightSequence
 from dunwoody_disaster.views.StartMenu import StartMenu
@@ -11,6 +12,7 @@ from dunwoody_disaster.views.defeatScreen import DefeatScreen
 from dunwoody_disaster.views.victoryScreen import VictoryScreen
 
 
+# test
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -59,6 +61,7 @@ class MainWindow(QMainWindow):
         self.stack.setCurrentWidget(self.fight.widget)
 
     def startBtnClicked(self):
+        pygame.mixer.music.stop()
         self.crawl = Crawl()
         self.crawl.onFinish(self.showSelector)
         self.stack.addWidget(self.crawl)

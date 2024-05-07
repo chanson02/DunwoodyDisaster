@@ -21,6 +21,22 @@ for fname in os.listdir(asset_dir):
         key = os.path.splitext(fname)[0]
         ASSETS[key] = path
 
+AUDIO = {}
+# I think this will make it so you can run main.py from anywhere --Cooper
+audio_dir = os.path.join(BASE_PATH, "audio")
+for fname in os.listdir(audio_dir):
+    path = os.path.join(audio_dir, fname)
+    if os.path.isfile(path) and "." in fname:
+        key = os.path.splitext(fname)[0]
+        AUDIO[key] = path
+
+
+def audio(path: str) -> str:
+    """
+    Get an audio name from a path
+    """
+    return os.path.splitext(os.path.basename(path))[0]
+
 
 def asset(path: str) -> str:
     """
