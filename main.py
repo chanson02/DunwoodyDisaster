@@ -13,6 +13,7 @@ from dunwoody_disaster.views.victoryScreen import VictoryScreen
 from dunwoody_disaster.views.dialogueScreen import DialogueScreen
 from dunwoody_disaster.views.CharacterDetailWidget import CharacterDetailWidget
 from dunwoody_disaster import AUDIO
+from dunwoody_disaster.views.introductions.Cooper import CooperIntroScreen
 
 default_font = QFont("blood crow", 12)  # Font family is Arial and font size is 12
 QApplication.setFont(default_font)
@@ -111,11 +112,19 @@ class MainWindow(QMainWindow):
             self.characterWidget = CharacterDetailWidget(
                 character, transition_callback=self.showMapScreen
             )
-            self.stack.addWidget(self.characterWidget)
-            self.stack.setCurrentWidget(self.characterWidget)
+        elif character.name == "Cooper":
+            self.characterWidget = CooperIntroScreen(character, transition_callback=self.showMapScreen)
+        else:
+            raise Exception(f'Introscreen for {character.name} has not yet been implemented')
+
+        self.stack.addWidget(self.characterWidget)
+        self.stack.setCurrentWidget(self.characterWidget)
 
     def showMapScreen(self):
         pygame.mixer.music.stop()
+        # release introscreen from memory
+        self.stack.removeWidget(self.characterWidget)
+
         self.mapScreen.map.setRoom(None)
         unbeaten = self.mapScreen.map.unbeaten_rooms()
         if len(unbeaten) > 0:

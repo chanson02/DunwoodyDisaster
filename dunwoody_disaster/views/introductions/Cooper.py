@@ -4,13 +4,14 @@ from PySide6.QtCore import Qt
 import dunwoody_disaster as DD
 
 from dunwoody_disaster.CharacterFactory import Character
+from typing import Callable
 
 
 class CooperIntroScreen(QWidget):
-    def __init__(self, character: Character):
+    def __init__(self, character: Character, transition_callback: Callable):
         super().__init__()
         self.text_styles = "font-size: 24px;"
-        self._callback = DD.unimplemented
+        self._callback = transition_callback
 
         layout = QVBoxLayout()
         self.setLayout(layout)
@@ -27,7 +28,7 @@ class CooperIntroScreen(QWidget):
         layout.addLayout(tb)
 
         pic = QLabel()
-        pic.setPixmap(QPixmap(DD.ASSETS["cooper"]).scaledToWidth(500))
+        pic.setPixmap(character.image().scaledToWidth(500))
         pic.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(pic)
 
@@ -48,13 +49,10 @@ class CooperIntroScreen(QWidget):
         layout.addLayout(tb)
 
         btn = QPushButton("Start")
-        btn.clicked.connect(self.start_clicked)
+        btn.clicked.connect(self._callback)
         layout.addWidget(btn)
 
         return
-
-    def start_clicked(self):
-        self._callback()
 
     def text_box(self, text: str) -> QVBoxLayout:
         lbl = QLabel(text)
