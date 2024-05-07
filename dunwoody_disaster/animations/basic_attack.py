@@ -1,16 +1,17 @@
 import pygame
 from dunwoody_disaster.animations.PygameAnimation import PygameAnimation
+from PySide6.QtCore import SignalInstance
 import dunwoody_disaster as DD
-
-# from typing import override
-from dunwoody_disaster.CharacterFactory import CharacterFactory
-from dunwoody_disaster import Item
-from PySide6.QtCore import Signal
 
 
 class AttackAnimation(PygameAnimation):
     def __init__(
-        self, background: str, player: str, enemy: str, weapon: str, onFinish: Signal
+        self,
+        background: str,
+        player: str,
+        enemy: str,
+        weapon: str,
+        onFinish: SignalInstance,
     ):
         super().__init__()
         self.bkg = pygame.image.load(background).convert_alpha()  # 666x360 image
@@ -26,7 +27,7 @@ class AttackAnimation(PygameAnimation):
         self.weapon_x = 60
         self.finished = onFinish
 
-    # @override
+    @DD.override
     def run(self):
         if self.running:
             self.surface.blit(self.bkg, (7, 0))
@@ -38,4 +39,5 @@ class AttackAnimation(PygameAnimation):
             self.clock.tick(20)
             self.weapon_x += 10
             if self.weapon_x > 500:
+                self.running = False
                 self.finished.emit()
