@@ -10,7 +10,7 @@ import dunwoody_disaster as DD
 from dunwoody_disaster.views.characterState import CharacterState
 from dunwoody_disaster.views.action_selector import ActionSelector
 from dunwoody_disaster.views.AnimationWidget import AnimationWidget
-from dunwoody_disaster.animations.idle import IdleAnimation
+from dunwoody_disaster.animations.RoomAnimation import RoomAnimation
 
 from typing import TYPE_CHECKING
 
