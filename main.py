@@ -87,8 +87,16 @@ class MainWindow(QMainWindow):
         # self.showMapScreen()
 
     def displayCharacterDetails(self, character):
-        # Ensure the character widget is properly initialized or updated
         pygame.mixer.music.stop()
+        # Check if the character's name is "John" for special handling
+        if character.name == "John":
+            # Load John's theme music
+            pygame.mixer.music.load(AUDIO["JohnTheme"])
+            # Set the volume to maximum (1.0)
+            pygame.mixer.music.set_volume(1.0)
+            # Play John's theme music in a loop indefinitely
+            pygame.mixer.music.play(-1)
+
         self.characterWidget = CharacterDetailWidget(character)
         self.stack.addWidget(self.characterWidget)
         self.stack.setCurrentWidget(self.characterWidget)
