@@ -3,9 +3,11 @@ from PySide6.QtGui import QPixmap
 from PySide6.QtCore import Qt
 import dunwoody_disaster as DD
 
+from dunwoody_disaster.CharacterFactory import Character
+
 
 class CooperIntroScreen(QWidget):
-    def __init__(self):
+    def __init__(self, character: Character):
         super().__init__()
         self.text_styles = "font-size: 24px;"
         self._callback = DD.unimplemented
