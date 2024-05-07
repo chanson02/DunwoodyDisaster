@@ -7,7 +7,12 @@
     "antagonist_lines": ["Why don't you drag yourself into the recyle bin?"]
   },
   "Noah": {
-    "protagonist_lines": [  ],
-    "antagonist_lines": [  ]
+    "protagonist_lines": [
+      "..."
+    ],
+    "antagonist_lines": [
+      "How dare you! I'll Alt+F4 your chances of victory..",
+      "wait, that's not right... I think I'm having some deja vu... You're not Cooper!"
+    ]
   }
 }
