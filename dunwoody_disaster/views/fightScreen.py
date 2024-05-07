@@ -92,10 +92,10 @@ class FightScreen(QWidget):
         layout.addWidget(p2, row, 2)
         row += 1
 
-        self.idleAnimation = IdleAnimation(
-            self.background, self.player1.image_path, self.player2.image_path
-        )
-        self.animation_Object = AnimationWidget(self.idleAnimation)
+        self.animation = RoomAnimation(
+                self.background, self.player1.image_path, self.player2.image_path
+                )
+        self.animation_Object = AnimationWidget(self.animation)
         layout.addWidget(self.animation_Object, row, 0, 0, 3)
         row += 1
 
