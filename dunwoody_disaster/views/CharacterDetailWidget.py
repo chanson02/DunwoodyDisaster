@@ -1,19 +1,17 @@
-from PySide6.QtWidgets import (
-    QWidget,
-    QLabel,
-    QTextEdit,
-    QHBoxLayout,
-)
-from PySide6.QtGui import QPixmap
+import sys
+from PySide6.QtWidgets import QWidget, QLabel, QTextEdit, QHBoxLayout, QPushButton
+from PySide6.QtGui import QPixmap, QFont, QIcon
 from PySide6.QtCore import Qt, QTimer
-from PySide6.QtGui import QFont
+
+from dunwoody_disaster import ASSETS
 
 
 class CharacterDetailWidget(QWidget):
 
-    def __init__(self, character):
+    def __init__(self, character, transition_callback):
         super().__init__()
         self.character = character
+        self.transition_callback = transition_callback  # Callback for when the transition to the map screen should occur
         self.initUI()
 
     def initUI(self):
@@ -29,10 +27,19 @@ class CharacterDetailWidget(QWidget):
 
         # Text edit for description with typewriter effect
         self.backgroundEdit = QTextEdit(self)
-        background_description = QFont("JMH Typewriter", 12)
+        background_description = QFont("JMH Typewriter", 20)
         self.backgroundEdit.setFont(background_description)
         self.backgroundEdit.setReadOnly(True)
         layout.addWidget(self.backgroundEdit)
+
+        # Button to transition to map screen
+        self.mapButton = QPushButton("Go to Map")
+        self.mapButton.setIcon(
+            QIcon(ASSETS["lock"])
+        )  # Optional: Set an icon for the button
+        self.mapButton.clicked.connect(self.transition_callback)
+        self.mapButton.setDisabled(True)  # Initially disabled
+        layout.addWidget(self.mapButton)
 
         self.setLayout(layout)
 
@@ -53,3 +60,5 @@ class CharacterDetailWidget(QWidget):
             self.char_index += 1
         else:
             self.timer.stop()  # Stop the timer if the text is complete
+            self.player.stop()  # Stop the sound effect
+            self.mapButton.setDisabled(False)  # Enable the button when typing is done

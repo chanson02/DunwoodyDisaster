@@ -26,14 +26,18 @@ class MainWindow(QMainWindow):
         self.setupMusicPlayer()
         self.player = None
 
+        # Define the transition callback within this class
+        self.characterWidget = CharacterDetailWidget(
+            CharacterFactory.John(), self.showMapScreen
+        )
+        self.setCentralWidget(self.characterWidget)
+
         self.startMenu = StartMenu()
         self.startMenu.onStart(self.startBtnClicked)
 
         self.selector = CharacterSelector(self.createPlayableCharacters())
         self.selector.onSelect(self.userSelectedCharacter)
         self.fight = None
-
-        self.characterWidget = CharacterDetailWidget(CharacterFactory.John())
 
         self.stack = QStackedWidget()
         self.stack.addWidget(self.startMenu)
@@ -104,7 +108,9 @@ class MainWindow(QMainWindow):
             # Play John's theme music in a loop indefinitely
             pygame.mixer.music.play(-1)
 
-        self.characterWidget = CharacterDetailWidget(character)
+        self.characterWidget = CharacterDetailWidget(
+            character, transition_callback=self.showMapScreen
+        )
         self.stack.addWidget(self.characterWidget)
         self.stack.setCurrentWidget(self.characterWidget)
 

@@ -308,7 +308,7 @@ class CharacterFactory:
         # ]
 
         char.image_path = DD.ASSETS["JohnRefined+"]
-        char.description = "John is a character with balanced stats."
+        char.description = "My name is John, and what began as a dream to attend Dunwoody College of Technology has spiraled into a living nightmare. Here, in the quiet of my cramped dorm room, the shadows seem to close in with suffocating intimacy. My professors, cloaked under the guise of scholarly rigor, are not just tormentors in academic guise—they are leeches, siphoning not just my spirit but my finances, too. I arrived at Dunwoody full of ambition, ready to invest everything into my future. But soon, it became clear that my investment was being manipulated in a sinister financial game. Hidden fees began to appear on my tuition bill—miscellaneous, undefined charges that, when questioned, were met with bureaucratic shrugs and hollow reassurances. Each semester, the costs grew inexplicably, draining my bank account and piling on debts that seemed designed to keep me shackled here, under their control. \n\nBut not for long. I'll get them back. I'll get them all back."
         return char
 
     @staticmethod
