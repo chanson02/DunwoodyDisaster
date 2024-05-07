@@ -151,12 +151,6 @@ class VictoryScreen(QWidget):
             4,
         )
 
-        # loot_screen = CollectLootScreen(
-        #     fight_controller.player, fight_controller.enemy.get_items()
-        # )
-        # loot_screen.set_callback(self.loot_selected_event)
-        # layout.addWidget(loot_screen)
-
     def onClose(self, callback: Callable):
         self._callback = callback
 

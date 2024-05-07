@@ -38,7 +38,6 @@ class FightSequence(QWidget):
         self._locked = True
         enemyActions.show()
 
-        # self.signal = Signal()
         callback = partial(self.finishTurn, playerActions, enemyActions)
         self.signal.connect(callback)
         animation = AttackAnimation(
