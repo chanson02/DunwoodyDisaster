@@ -15,7 +15,6 @@ from PySide6.QtWidgets import (
 )
 
 from dunwoody_disaster import ASSETS, AUDIO, unimplemented
-from dunwoody_disaster import ASSETS, AUDIO, unimplemented
 
 
 class StartMenu(QWidget):

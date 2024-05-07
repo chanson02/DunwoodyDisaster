@@ -3,6 +3,7 @@ import math
 from dunwoody_disaster.animations.PygameAnimation import PygameAnimation
 import dunwoody_disaster as DD
 
+
 class IdleAnimation(PygameAnimation):
     def __init__(self, background: str, player: str, enemy: str):
         super().__init__()

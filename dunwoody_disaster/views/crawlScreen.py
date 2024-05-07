@@ -11,7 +11,7 @@ class Crawl(QWidget):
     def __init__(self):
         super().__init__()
         self.setupMusicPlayer()
-        
+
         self._finishCallback = DD.unimplemented
         self.text_lines = [
             "In a distant galaxy, in an era of peace and prosperity...",

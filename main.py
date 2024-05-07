@@ -11,7 +11,8 @@ from dunwoody_disaster.CharacterFactory import CharacterFactory, Character
 from dunwoody_disaster.views.defeatScreen import DefeatScreen
 from dunwoody_disaster.views.victoryScreen import VictoryScreen
 
-#test   
+
+# test
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()

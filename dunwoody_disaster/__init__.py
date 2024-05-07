@@ -32,6 +32,7 @@ for fname in os.listdir(audio_dir):
         key = os.path.splitext(fname)[0]
         AUDIO[key] = path
 
+
 def audio(path: str) -> str:
     """
     Get an audio name from a path
