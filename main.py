@@ -10,10 +10,10 @@ from dunwoody_disaster.CharacterFactory import CharacterFactory, Character
 from dunwoody_disaster.views.defeatScreen import DefeatScreen
 from dunwoody_disaster.views.victoryScreen import VictoryScreen
 from dunwoody_disaster.views.dialogueScreen import DialogueScreen
+from dunwoody_disaster.views.CharacterDetailWidget import CharacterDetailWidget
 from dunwoody_disaster import AUDIO
 
 
-# test
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -21,6 +21,7 @@ class MainWindow(QMainWindow):
         self.setStyleSheet("background-color: black; color: #FFFFFF;")
         self.setupMusicPlayer()
         self.player = None
+        
 
         self.startMenu = StartMenu()
         self.startMenu.onStart(self.startBtnClicked)
@@ -28,6 +29,8 @@ class MainWindow(QMainWindow):
         self.selector = CharacterSelector(self.createPlayableCharacters())
         self.selector.onSelect(self.userSelectedCharacter)
         self.fight = None
+
+        self.characterWidget = CharacterDetailWidget(CharacterFactory.John())
 
         self.stack = QStackedWidget()
         self.stack.addWidget(self.startMenu)
@@ -52,7 +55,7 @@ class MainWindow(QMainWindow):
         self.Fire_Sound1.stop()
         pygame.mixer.music.load(AUDIO["CrawlMusic"])
         pygame.mixer.music.set_volume(1.0)
-        pygame.mixer.music.play(-1)
+        pygame.mixer.music.play()
 
         self.crawl = Crawl()
         self.crawl.onFinish(self.showSelector)
@@ -70,15 +73,24 @@ class MainWindow(QMainWindow):
             CharacterFactory.Noah(),
             CharacterFactory.John(),
         ]
+    
+
 
     def userSelectedCharacter(self, character: Character):
         self.player = character
         self.saveCharacter(character)
+        self.displayCharacterDetails(character)
         self.mapScreen = MapScreen(Map.buildMap(self.player))
         self.mapScreen.setStyleSheet("background-color: #41A392;")
         self.mapScreen.onEnter(self.EnterFight)
         self.stack.addWidget(self.mapScreen)
-        self.showMapScreen()
+        # self.showMapScreen()
+
+    def displayCharacterDetails(self, character):
+        # Ensure the character widget is properly initialized or updated
+        self.characterWidget = CharacterDetailWidget(character)
+        self.stack.addWidget(self.characterWidget)
+        self.stack.setCurrentWidget(self.characterWidget)        
 
     def showMapScreen(self):
         pygame.mixer.music.stop()

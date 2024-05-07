@@ -17,6 +17,7 @@ class Character:
         self.strength = 0
         self.intelligence = 0
         self.image_path = DD.ASSETS["no_texture"]
+        self.description = ""
 
         # Meteres
         self.curHealth = 0
@@ -286,6 +287,7 @@ class CharacterFactory:
         char.magicDefense = 1
 
         char.image_path = DD.ASSETS["JohnRefined+"]
+        char.description = "John is a character with balanced stats."
         return char
 
     @staticmethod
