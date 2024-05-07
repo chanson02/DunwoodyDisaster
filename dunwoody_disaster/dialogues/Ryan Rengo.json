@@ -10,7 +10,11 @@
     ]
   },
   "Noah": {
-    "protagonist_lines": []  ,
-    "antagonist_lines": [  ]
+    "protagonist_lines": [
+      "..."
+    ]  ,
+    "antagonist_lines": [ 
+      "Quiet type huh? I'll make sure you're silenced for good!"
+    ]
   }
 }
