@@ -1,61 +1,39 @@
 import sys
-from dunwoody_disaster.views.AnimationWidget import AnimationWidget
-from PySide6.QtWidgets import (
-    QApplication,
-    QMainWindow,
-    QPushButton,
-    QWidget,
-    QVBoxLayout,
-)
-from dunwoody_disaster.animations.basic_attack import AttackAnimation
-from dunwoody_disaster.animations.idle import IdleAnimation
-import dunwoody_disaster as DD
-from PySide6.QtCore import Signal
+from PySide6.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout
+from PySide6.QtCore import QTimer, Qt
 
-
-class MainWindow(QMainWindow):
-    sig = Signal()
-
-    def __init__(self):
+class TypewriterEffectWidget(QWidget):
+    def __init__(self, text, interval=100):
         super().__init__()
-        self.setWindowTitle("test")
-        btn = QPushButton("Switch")
-        btn.clicked.connect(self.switch)
-
-        self.idle = IdleAnimation(
-            DD.ASSETS["CourtYard"], DD.ASSETS["cooper"], DD.ASSETS["no_texture"]
-        )
-        self.animation = AnimationWidget()
-        self.animation.setAnimation(self.idle)
+        self.text = text
+        self.interval = interval
+        self.label = QLabel("")
+        self.label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
+        self.label.setWordWrap(True)
 
         layout = QVBoxLayout()
-        layout.addWidget(btn)
-        layout.addWidget(self.animation)
-        wid = QWidget()
-        wid.setLayout(layout)
-        self.setCentralWidget(wid)
+        layout.addWidget(self.label)
+        self.setLayout(layout)
 
-    def switch(self):
-        attack = AttackAnimation(
-            DD.ASSETS["CourtYard"],
-            DD.ASSETS["cooper"],
-            DD.ASSETS["no_texture"],
-            DD.ASSETS["no_texture"],
-            self.sig,
-        )
-        self.sig.connect(self.perform_switch_back)
-        self.animation.setAnimation(attack)
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.add_char)
+        self.char_index = 0
 
-    def perform_switch_back(self):
-        self.animation.setAnimation(self.idle)
+        self.timer.start(self.interval)
 
-    def closeEvent(self, event):
-        _ = event  # silence unused warning
-        self.animation.stop()
-
+    def add_char(self):
+        if self.char_index < len(self.text):
+            current_text = self.label.text()
+            current_text += self.text[self.char_index]
+            self.label.setText(current_text)
+            self.char_index += 1
+        else:
+            self.timer.stop()  # Stop the timer if the text is complete
 
 if __name__ == "__main__":
-    app = QApplication()
-    mw = MainWindow()
-    mw.show()
+    app = QApplication(sys.argv)
+    text = "Hello, this is text appearing as if it's being typed!"
+    widget = TypewriterEffectWidget(text, 50)  # Adjust interval for speed
+    widget.resize(400, 100)
+    widget.show()
     sys.exit(app.exec())

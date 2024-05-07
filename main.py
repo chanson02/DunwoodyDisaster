@@ -1,5 +1,6 @@
 import sys
 import pygame
+from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QMainWindow, QStackedWidget, QApplication
 from dunwoody_disaster.FightSequence import FightSequence
 from dunwoody_disaster.views.StartMenu import StartMenu
@@ -12,6 +13,9 @@ from dunwoody_disaster.views.victoryScreen import VictoryScreen
 from dunwoody_disaster.views.dialogueScreen import DialogueScreen
 from dunwoody_disaster.views.CharacterDetailWidget import CharacterDetailWidget
 from dunwoody_disaster import AUDIO
+
+default_font = QFont("blood crow", 12)  # Font family is Arial and font size is 12
+QApplication.setFont(default_font)
 
 
 class MainWindow(QMainWindow):
