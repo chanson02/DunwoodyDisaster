@@ -349,16 +349,16 @@ class CharacterFactory:
         char.defense = 30
         char.magicDefense = 5
 
-        # char.weapons = [
-        #     Item.Weapon(name="", damage=8, magic=15, stamina=8, magical=True),
-        #     Item.Weapon(name="", damage=10, magic=5, stamina=10, magical=False),
-        #     Item.Weapon(name="", damage=15, magic=5, stamina=15, magical=False)
-        # ]
+        char.weapons = [
+            Item.Weapon(name="M1", damage=8, magic=15, stamina=8, magical=True),
+            Item.Weapon(name="W1", damage=10, magic=5, stamina=10, magical=False),
+            Item.Weapon(name="W2", damage=15, magic=5, stamina=15, magical=False)
+        ]
 
-        # char.defenses = [
-        #     Item.Armor(name="Stress Ball", armorVal=1, staminaCost=10, magicCost=0, magicDefense=15),
-        #     Item.Armor(name="Spaghetti Code", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
-        # ]
+        char.defenses = [
+            Item.Armor(name="Stress Ball", armorVal=1, staminaCost=10, magicCost=0, magicDefense=15),
+            Item.Armor(name="Spaghetti Code", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
+        ]
         return char
 
     @staticmethod
