@@ -48,12 +48,14 @@ class Map(QLabel):
         new_room = self.findClosestRoom(point.x(), point.y())
         self.setRoom(new_room)
 
+    def unbeaten_rooms(self) -> list:
+        return [r for r in self.rooms if r["NPC"].curHealth > 0]
+
     def findClosestRoom(self, x: int, y: int) -> Optional[dict]:
         closest = None
         min_dist = float("inf")
-        unbeaten = [r for r in self.rooms if r["NPC"].curHealth > 0]
 
-        for room in unbeaten:
+        for room in self.unbeaten_rooms():
             room_pos = room["coordinate"]
             distance = sqrt((x - room_pos[0]) ** 2 + (y - room_pos[1]) ** 2)
             if distance < min_dist:
@@ -196,4 +198,7 @@ class MapScreen(QWidget):
         self.preview = FightPreview()
         self.preview.setStyleSheet("background-color: black;")
         self.map.onRoomChange(self.preview.setRoom)
-        layout.addWidget(self.preview, 0, 1)
+        layout.addWidget(self.preview)
+
+        if len(self.map.rooms) > 0 and not self.map.current_room:
+            self.map.setRoom(self.map.rooms[0])
