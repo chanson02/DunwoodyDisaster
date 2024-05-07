@@ -12,7 +12,6 @@ from dunwoody_disaster.views.action_selector import ActionSelector
 from dunwoody_disaster.views.AnimationWidget import AnimationWidget
 from dunwoody_disaster.animations.RoomAnimation import RoomAnimation
 
-
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
