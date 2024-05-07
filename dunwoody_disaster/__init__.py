@@ -11,8 +11,6 @@ import os
 from typing import Callable
 
 BASE_PATH = os.path.dirname(__file__)
-ANIMATION_PATH = f"{BASE_PATH}/animations/Animation_Assets"
-
 
 ASSETS = {}
 # I think this will make it so you can run main.py from anywhere --Cooper
