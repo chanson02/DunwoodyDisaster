@@ -75,13 +75,15 @@ class FightPreview(QWidget):
         )
         row += 1
 
-        gb = QGroupBox("Weapons")
-        gb.setStyleSheet("max-width: 400px;")
+        gb = QGroupBox("Offense")
+        gb.setStyleSheet(
+            "max-width: 400px; max-height: 200px; height: 200px; font-size: 14px;"
+        )
         container = QHBoxLayout()
         gb.setLayout(container)
         scroller = DD.scroller(self.weapons, True, False)
+        scroller.setStyleSheet("border: none;")
         container.addWidget(scroller)
-        gb.setStyleSheet("height: 100px; font-size: 14px;")
         layout.addWidget(gb, row, 1)
         row += 1
 
@@ -90,13 +92,15 @@ class FightPreview(QWidget):
         )
         row += 1
 
-        gb = QGroupBox("Defenses")
-        gb.setStyleSheet("max-width: 400px;")
+        gb = QGroupBox("Defense")
+        gb.setStyleSheet(
+            "max-width: 400px; max-height: 200px; height: 200px; font-size: 14px;"
+        )
         container = QHBoxLayout()
         gb.setLayout(container)
         scroller = DD.scroller(self.defenses, True, False)
+        scroller.setStyleSheet("border: none;")
         container.addWidget(scroller)
-        gb.setStyleSheet("height: 100px; font-size: 14px;")
         layout.addWidget(gb, row, 1)
         row += 1
 
@@ -141,7 +145,7 @@ class FightPreview(QWidget):
 
         bkg = QPixmap(room_info["battlefield"]).scaledToWidth(400)
         self.battlefield.setPixmap(
-            self.centerOverlay(bkg, NPC.image().scaledToWidth(50))
+            self.centerOverlay(bkg, NPC.image().scaledToWidth(150))
         )
 
         self.health.setText(f"Health: {NPC.maxHealth}")
@@ -150,11 +154,11 @@ class FightPreview(QWidget):
 
         DD.clear_layout(self.weapons)
         for weapon in NPC.weapons:
-            self.weapons.addWidget(weapon.widget())
+            self.weapons.addWidget(weapon.preview_widget())
 
         DD.clear_layout(self.defenses)
         for defense in NPC.defenses:
-            self.defenses.addWidget(defense.widget())
+            self.defenses.addWidget(defense.preview_widget())
 
     def centerOverlay(self, background: QPixmap, foreground: QPixmap) -> QPixmap:
         x = (background.width() - foreground.width()) // 2

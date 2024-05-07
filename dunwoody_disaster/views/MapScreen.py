@@ -178,13 +178,13 @@ class MapScreen(QWidget):
         map_container_layout = QGridLayout()
         map_container_layout.addItem(
             QSpacerItem(
-                50, 0, QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding
+                200, 0, QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding
             ),
             0,
             0,
         )
         map_container = DD.scroller(map_container_layout, True, True)
-        map_container.setStyleSheet("background-color: #57D7C1;")
+        map_container.setStyleSheet("background-color: #57D7C1; min-width: 1000px;")
         layout.addWidget(map_container, 0, 0)
         map_container_layout.addWidget(self.map, 1, 1)
         map_container_layout.addItem(
@@ -196,8 +196,9 @@ class MapScreen(QWidget):
         )
 
         self.preview = FightPreview()
+        self.preview.setStyleSheet("background-color: black;")
         self.map.onRoomChange(self.preview.setRoom)
-        layout.addWidget(self.preview)
+        layout.addWidget(self.preview, 0, 1)
 
         if len(self.map.rooms) > 0 and not self.map.current_room:
             self.map.setRoom(self.map.rooms[0])

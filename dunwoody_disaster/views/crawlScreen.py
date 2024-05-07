@@ -1,16 +1,13 @@
 from PySide6.QtCore import Qt, QTimer
 from PySide6.QtGui import QColor, QFont, QPainter, QKeyEvent
 from PySide6.QtWidgets import QWidget
-from dunwoody_disaster import AUDIO
 import dunwoody_disaster as DD
-import pygame
 from typing import Callable
 
 
 class Crawl(QWidget):
     def __init__(self):
         super().__init__()
-        self.setupMusicPlayer()
 
         self._finishCallback = DD.unimplemented
         self.text_lines = [
@@ -31,21 +28,9 @@ class Crawl(QWidget):
         ]
 
         self.line_spacing = 30
-        self.scroll_speed = 1  # Adjust the scrolling speed as needed
+        self.scroll_speed = 0.55  # Adjust the scrolling speed as needed
         self.scroll_position = 0
         self.initUI()
-
-    def setupMusicPlayer(self):
-        try:
-            pygame.mixer.init()
-            print("Mixer initialized.")
-            pygame.mixer.music.load(AUDIO["CrawlMusic"])
-            print("Music file loaded.")
-            pygame.mixer.music.set_volume(1.0)
-            pygame.mixer.music.play(-1)
-            print("Music playback started.")
-        except Exception as e:
-            print("Failed to initialize music playback:", e)
 
     def initUI(self):
         self.setWindowTitle("Story Crawl")
@@ -90,8 +75,10 @@ class Crawl(QWidget):
     def endCrawlScreen(self):
         self.timer.stop()
         self._finishCallback
+        # Call the callback function to go to the next screen
+        if self._finishCallback:
+            self._finishCallback()
         self.deleteLater()
 
     def onFinish(self, callback: Callable):
-        pygame.mixer.music.stop()  # Stop the music when the crawl is finished
         self._finishCallback = callback
