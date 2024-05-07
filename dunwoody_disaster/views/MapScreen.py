@@ -1,5 +1,5 @@
-from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout
+from PySide6.QtWidgets import QWidget, QLabel, QGridLayout, QSpacerItem, QSizePolicy
+from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QPixmap, QKeyEvent, QPainter, QMouseEvent
 
 from dunwoody_disaster.views.FightPreview import FightPreview
@@ -10,6 +10,9 @@ from math import sqrt
 
 
 class Map(QLabel):
+
+    backgroundImageChanged = Signal(str)
+
     def __init__(
         self, character: Character, entryPoint: Optional[tuple[int, int]] = None
     ):
@@ -45,12 +48,14 @@ class Map(QLabel):
         new_room = self.findClosestRoom(point.x(), point.y())
         self.setRoom(new_room)
 
+    def unbeaten_rooms(self) -> list:
+        return [r for r in self.rooms if r["NPC"].curHealth > 0]
+
     def findClosestRoom(self, x: int, y: int) -> Optional[dict]:
         closest = None
         min_dist = float("inf")
-        unbeaten = [r for r in self.rooms if r["NPC"].curHealth > 0]
 
-        for room in unbeaten:
+        for room in self.unbeaten_rooms():
             room_pos = room["coordinate"]
             distance = sqrt((x - room_pos[0]) ** 2 + (y - room_pos[1]) ** 2)
             if distance < min_dist:
@@ -80,6 +85,10 @@ class Map(QLabel):
         NPC: Character,
         battlefield: str,
     ):
+        original = 1024
+        target = 750
+        factor = target / original
+        pos = (int(pos[0] * factor), int(pos[1] * factor))
         room = {
             "name": name,
             "coordinate": pos,
@@ -89,24 +98,25 @@ class Map(QLabel):
         self.rooms.append(room)
 
     def pixmap(self):
-        return QPixmap(self.image)
+        return QPixmap(self.image).scaledToWidth(750)  # original size 1024x1024
 
     def setAsset(self, asset: str):
         self.image = DD.ASSETS[asset]
         self.moveCharacter(self.char_pos[0], self.char_pos[1])
+        self.backgroundImageChanged.emit(self.image)
 
     @staticmethod
     def buildMap(char: Character) -> "Map":
         chars = CharacterFactory
         map = Map(char)
         map.setAsset("MainMap")
-        map.addRoom("Bus Stop", (419, 700), chars.JoeAxberg(), "no_texture")
+        map.addRoom("Bus Stop", (419, 700), chars.JoeAxberg(), "Science Lab")
         map.addRoom("Court Yard", (693, 559), chars.LeAnnSimonson(), "CourtYard")
-        map.addRoom("Commons", (451, 449), chars.RyanRengo(), "no_texture")
+        map.addRoom("Commons", (451, 449), chars.RyanRengo(), "Science Lab")
         map.addRoom("Math", (236, 359), chars.NoureenSajid(), "Physics")
         map.addRoom("English", (770, 366), chars.AmalanPulendran(), "LectureHall")
         map.addRoom("Science", (490, 217), chars.MatthewBeckler(), "Science Lab")
-        map.addRoom("Dean's Office", (90, 589), chars.BillHudson(), "no_texture")
+        map.addRoom("Dean's Office", (90, 589), chars.BillHudson(), "Science Lab")
         return map
 
     def serialize(self) -> dict:
@@ -160,16 +170,34 @@ class MapScreen(QWidget):
                 self._callback(self.map.current_room)
 
     def initUI(self):
-        layout = QHBoxLayout()
+        layout = QGridLayout()
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(layout)
 
-        map_container_layout = QHBoxLayout()
+        map_container_layout = QGridLayout()
+        map_container_layout.addItem(
+            QSpacerItem(
+                50, 0, QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding
+            ),
+            0,
+            0,
+        )
         map_container = DD.scroller(map_container_layout, True, True)
-        layout.addWidget(map_container)
-        map_container_layout.addWidget(self.map)
+        map_container.setStyleSheet("background-color: #57D7C1;")
+        layout.addWidget(map_container, 0, 0)
+        map_container_layout.addWidget(self.map, 1, 1)
+        map_container_layout.addItem(
+            QSpacerItem(
+                50, 0, QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding
+            ),
+            2,
+            2,
+        )
 
         self.preview = FightPreview()
         self.map.onRoomChange(self.preview.setRoom)
         layout.addWidget(self.preview)
+
+        if len(self.map.rooms) > 0 and not self.map.current_room:
+            self.map.setRoom(self.map.rooms[0])
