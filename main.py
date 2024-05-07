@@ -96,11 +96,11 @@ class MainWindow(QMainWindow):
 
     def displayCharacterDetails(self, character):
         pygame.mixer.music.stop()
-        self.TypeWriterSound = pygame.mixer.Sound(AUDIO["TypeWriterSound"])
-        self.TypeWriterSound.set_volume(0.9)
-        self.TypeWriterSound.play(loops=-1)
         # Check if the character's name is "John" for special handling
         if character.name == "John":
+            self.TypeWriterSound = pygame.mixer.Sound(AUDIO["TypeWriterSound"])
+            self.TypeWriterSound.set_volume(0.9)
+            self.TypeWriterSound.play(loops=-1)
             # Load John's theme music
             pygame.mixer.music.load(AUDIO["JohnTheme"])
             # Set the volume to maximum (1.0)
@@ -108,11 +108,11 @@ class MainWindow(QMainWindow):
             # Play John's theme music in a loop indefinitely
             pygame.mixer.music.play(-1)
 
-        self.characterWidget = CharacterDetailWidget(
-            character, transition_callback=self.showMapScreen
-        )
-        self.stack.addWidget(self.characterWidget)
-        self.stack.setCurrentWidget(self.characterWidget)
+            self.characterWidget = CharacterDetailWidget(
+                character, transition_callback=self.showMapScreen
+            )
+            self.stack.addWidget(self.characterWidget)
+            self.stack.setCurrentWidget(self.characterWidget)
 
     def showMapScreen(self):
         pygame.mixer.music.stop()
