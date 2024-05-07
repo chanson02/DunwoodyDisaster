@@ -1,10 +1,14 @@
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton
+from PySide6.QtGui import QPixmap
+from PySide6.QtCore import Qt
 import dunwoody_disaster as DD
 
 
 class CooperIntroScreen(QWidget):
     def __init__(self):
         super().__init__()
+        self.text_styles = "font-size: 24px;"
+        self._callback = DD.unimplemented
 
         layout = QVBoxLayout()
         self.setLayout(layout)
@@ -17,6 +21,43 @@ class CooperIntroScreen(QWidget):
         where he will encounter many hardships on his path to a righteous Software Engineering degree.
         """
 
-        lbl = QLabel(" ".join(text.replace("\n", " ").split()))
+        tb = self.text_box(" ".join(text.split()))
+        layout.addLayout(tb)
+
+        pic = QLabel()
+        pic.setPixmap(QPixmap(DD.ASSETS["cooper"]).scaledToWidth(500))
+        pic.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(pic)
+
+        text = """
+        Use the mouse to select different classrooms.
+        Press "Return" to enter the classroom.
+        Click through the dialogue to learn about your opponent before battle!
+        Defeat enemies by outsmarting them in programming challenges.
+        Learn from your teachers as you beat their classes.
+        """
+        frmt = (
+            " ".join([t for t in text.split(" ") if t != ""])
+            .strip()
+            .replace("\n ", "\n")
+        )
+        tb = self.text_box(frmt)
+        tb.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.addLayout(tb)
+
+        btn = QPushButton("Start")
+        btn.clicked.connect(self.start_clicked)
+        layout.addWidget(btn)
+
+        return
+
+    def start_clicked(self):
+        self._callback()
+
+    def text_box(self, text: str) -> QVBoxLayout:
+        lbl = QLabel(text)
+        lbl.setStyleSheet(self.text_styles)
         lbl.setWordWrap(True)
+        layout = QVBoxLayout()
         layout.addWidget(lbl)
+        return layout
