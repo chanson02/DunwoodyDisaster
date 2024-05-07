@@ -16,5 +16,14 @@
     "antagonist_lines": [
       "Nothing to say? That just sounds like poor writing to me."
     ]
+  },
+  "Mitch": {
+    "protagonist_lines": [
+      "...", "Bring it on! I’m ready for anything!"
+    ],
+    "antagonist_lines": [
+      "Lesson 1: Hello World", "Your ignorance blinds you, my young apprentice. Now you will experience the full power of this institution."
+    ]
+    
   }
 }

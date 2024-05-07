@@ -17,5 +17,13 @@
     "antagonist_lines": [
       "Little shy? That's okay, I'll do all the talking. You're in for a beat down"
     ]
+  },
+  "Mitch": {
+    "protagonist_lines": [
+      "We're using Python? Perfect, I can do this!", "NNNOOOOOOO!!!!", "Are you quoting Star Wars? That's my thing!"
+    ],
+    "antagonist_lines": [
+      "But without any libraries!", "Good, good. I can feel your anger. It gives you focus, makes you stronger!"
+    ]
   }
 }

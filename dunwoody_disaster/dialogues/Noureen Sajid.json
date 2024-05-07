@@ -11,5 +11,13 @@
   "Noah": {
     "protagonist_lines": [  ],
     "antagonist_lines": [  ]
+  },
+  "Mitch": {
+    "protagonist_lines": [
+      "I hope you can help us more than Bill did!", "I hate it here."
+    ],
+    "antagonist_lines": [
+      "Nope."
+    ]
   }
 }
