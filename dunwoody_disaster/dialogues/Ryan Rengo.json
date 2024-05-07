@@ -8,5 +8,9 @@
       "My microservices are always ready to PUT up a fight.",
       "Prepare to be POST-ed into defeat!"
     ]
+  },
+  "Noah": {
+    "protagonist_lines": []  ,
+    "antagonist_lines": [  ]
   }
 }
