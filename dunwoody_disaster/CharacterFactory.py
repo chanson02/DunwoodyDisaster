@@ -277,7 +277,7 @@ class CharacterFactory:
         char.loot = []
         char.food = []
 
-        char.image_path = DD.ASSETS["cooper"]
+        char.image_path = DD.ASSETS["CooperRefined+"]
         return char
 
     @staticmethod
@@ -305,6 +305,7 @@ class CharacterFactory:
         #     Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=0),
         #     Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
         # ]
+        char.image_path = DD.ASSETS["JohnRefined+"]
         return char
 
     @staticmethod
@@ -332,6 +333,7 @@ class CharacterFactory:
         #     Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=0),
         #     Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
         # ]
+        char.image_path = DD.ASSETS["NoahRefined+"]
         return char
 
     @staticmethod
@@ -359,6 +361,7 @@ class CharacterFactory:
         #     Item.Armor(name="Stress Ball", armorVal=1, staminaCost=10, magicCost=0, magicDefense=15),
         #     Item.Armor(name="Spaghetti Code", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
         # ]
+        char.image_path = DD.ASSETS["MitchRefined+"]
         return char
 
     @staticmethod
@@ -405,6 +408,7 @@ class CharacterFactory:
         ]
         char.loot = []
         char.food = []
+        char.image_path = DD.ASSETS["LeAnn"]
         return char
 
     @staticmethod
@@ -454,6 +458,8 @@ class CharacterFactory:
         ]
         char.loot = []
         char.food = []
+
+        char.image_path = DD.ASSETS["Amalan"]
         return char
 
     @staticmethod
@@ -503,6 +509,8 @@ class CharacterFactory:
         ]
         char.loot = []
         char.food = []
+
+        char.image_path = DD.ASSETS["Ryan"]
         return char
 
     @staticmethod
@@ -551,6 +559,8 @@ class CharacterFactory:
         ]
         char.loot = []
         char.food = []
+
+        char.image_path = DD.ASSETS["Noureen"]
         return char
 
     @staticmethod
@@ -598,6 +608,8 @@ class CharacterFactory:
 
         char.loot = []
         char.food = []
+
+        char.image_path = DD.ASSETS["Joe"]
         return char
 
     @staticmethod
@@ -700,4 +712,6 @@ class CharacterFactory:
         ]
         char.loot = []
         char.food = []
+
+        char.image_path = DD.ASSETS["Bill"]
         return char

@@ -1,4 +1,5 @@
 import sys
+import pygame
 from PySide6.QtWidgets import QMainWindow, QStackedWidget, QApplication
 from dunwoody_disaster.FightSequence import FightSequence
 from dunwoody_disaster.views.StartMenu import StartMenu
@@ -6,16 +7,18 @@ from dunwoody_disaster.views.MapScreen import MapScreen, Map
 from dunwoody_disaster.views.crawlScreen import Crawl
 from dunwoody_disaster.views.CharacterSelector import CharacterSelector
 from dunwoody_disaster.CharacterFactory import CharacterFactory, Character
-
 from dunwoody_disaster.views.defeatScreen import DefeatScreen
 from dunwoody_disaster.views.victoryScreen import VictoryScreen
+from dunwoody_disaster import AUDIO
 
 
+# test
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Dunwoody-Disaster")
         self.setStyleSheet("background-color: black; color: #FFFFFF;")
+        self.setupMusicPlayer()
         self.player = None
 
         self.startMenu = StartMenu()
@@ -32,7 +35,48 @@ class MainWindow(QMainWindow):
         # Set the stacked widget as the central widget of the main window
         self.setCentralWidget(self.stack)
 
+    def setupMusicPlayer(self):
+        # Initialize Pygame mixer
+        pygame.mixer.init()
+        # Load and play background music
+        pygame.mixer.music.load(AUDIO["TitleScreenMusic"])
+        pygame.mixer.music.set_volume(1.0)  # Set volume from 0.0 to 1.0
+        pygame.mixer.music.play(-1)  # Play indefinitely
+
+    def startBtnClicked(self):
+        pygame.mixer.music.stop()
+        pygame.mixer.music.load(AUDIO["CrawlMusic"])
+        pygame.mixer.music.set_volume(1.0)
+        pygame.mixer.music.play(-1)
+        self.crawl = Crawl()
+        self.crawl.onFinish(self.showSelector)
+        self.stack.addWidget(self.crawl)
+        self.stack.setCurrentWidget(self.crawl)
+        
+
+    def showSelector(self):
+        pygame.mixer.music.stop()
+        self.stack.setCurrentWidget(self.selector)
+
+    def createPlayableCharacters(self) -> list[Character]:
+        return [
+            CharacterFactory.Cooper(),
+            CharacterFactory.Mitch(),
+            CharacterFactory.Noah(),
+            CharacterFactory.John(),
+        ]
+
+    def userSelectedCharacter(self, character: Character):
+        self.player = character
+        self.saveCharacter(character)
+        self.mapScreen = MapScreen(Map.buildMap(self.player))
+        self.mapScreen.setStyleSheet("background-color: #41A392;")
+        self.mapScreen.onEnter(self.EnterFight)
+        self.stack.addWidget(self.mapScreen)
+        self.showMapScreen()
+
     def showMapScreen(self):
+        pygame.mixer.music.stop()
         self.mapScreen.map.setRoom(None)
         unbeaten = self.mapScreen.map.unbeaten_rooms()
         if len(unbeaten) > 0:
@@ -58,37 +102,11 @@ class MainWindow(QMainWindow):
         self.fight.widget.animation_Object.start()
         self.stack.setCurrentWidget(self.fight.widget)
 
-    def startBtnClicked(self):
-        self.crawl = Crawl()
-        self.crawl.onFinish(self.showSelector)
-        self.stack.addWidget(self.crawl)
-        self.stack.setCurrentWidget(self.crawl)
-
-    def showSelector(self):
-        self.stack.setCurrentWidget(self.selector)
-
-    def userSelectedCharacter(self, character: Character):
-        self.player = character
-        self.saveCharacter(character)
-        self.mapScreen = MapScreen(Map.buildMap(self.player))
-        self.mapScreen.setStyleSheet("background-color: #41A392;")
-        self.mapScreen.onEnter(self.EnterFight)
-        self.stack.addWidget(self.mapScreen)
-        self.showMapScreen()
-
     def saveCharacter(self, character: Character):
         CharacterFactory.SaveCharacter(character)
 
     def loadCharacter(self, name: str) -> Character:
         return CharacterFactory.LoadCharacter(name)
-
-    def createPlayableCharacters(self) -> list[Character]:
-        return [
-            CharacterFactory.Cooper(),
-            CharacterFactory.Mitch(),
-            CharacterFactory.Noah(),
-            CharacterFactory.John(),
-        ]
 
     def showVictoryScreen(self):
         if self.fight is None:

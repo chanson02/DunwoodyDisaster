@@ -11,6 +11,7 @@ import dunwoody_disaster as DD
 from typing import Callable
 
 
+# Dialogue screen between boss and users
 class DialogueScreen(QWidget):
     def __init__(self, char1: Character, char2: Character):
         """
