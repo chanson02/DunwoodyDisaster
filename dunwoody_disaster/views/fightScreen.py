@@ -11,7 +11,6 @@ from dunwoody_disaster.views.characterState import CharacterState
 from dunwoody_disaster.views.action_selector import ActionSelector
 from dunwoody_disaster.views.AnimationWidget import AnimationWidget
 from dunwoody_disaster.animations.idle import IdleAnimation
-from dunwoody_disaster.animations.basic_attack import AttackAnimation
 
 from typing import TYPE_CHECKING
 

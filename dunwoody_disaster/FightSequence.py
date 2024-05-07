@@ -89,7 +89,6 @@ class FightSequence(QWidget):
                 self._loseCallback()
 
             self.widget.animation_Object.setAnimation(self.widget.idleAnimation)
-            print("unlocking fight button")
             self._locked = False
 
         self.signal.connect(playerTurn)
