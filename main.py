@@ -21,7 +21,6 @@ class MainWindow(QMainWindow):
         self.setStyleSheet("background-color: black; color: #FFFFFF;")
         self.setupMusicPlayer()
         self.player = None
-        
 
         self.startMenu = StartMenu()
         self.startMenu.onStart(self.startBtnClicked)
@@ -64,6 +63,9 @@ class MainWindow(QMainWindow):
 
     def showSelector(self):
         pygame.mixer.music.stop()
+        pygame.mixer.music.load(AUDIO["CharacterSelectionMusic"])
+        pygame.mixer.music.set_volume(1.0)  # Set volume from 0.0 to 1.0
+        pygame.mixer.music.play(-1)  # Play indefinitely
         self.stack.setCurrentWidget(self.selector)
 
     def createPlayableCharacters(self) -> list[Character]:
@@ -73,8 +75,6 @@ class MainWindow(QMainWindow):
             CharacterFactory.Noah(),
             CharacterFactory.John(),
         ]
-    
-
 
     def userSelectedCharacter(self, character: Character):
         self.player = character
@@ -88,9 +88,10 @@ class MainWindow(QMainWindow):
 
     def displayCharacterDetails(self, character):
         # Ensure the character widget is properly initialized or updated
+        pygame.mixer.music.stop()
         self.characterWidget = CharacterDetailWidget(character)
         self.stack.addWidget(self.characterWidget)
-        self.stack.setCurrentWidget(self.characterWidget)        
+        self.stack.setCurrentWidget(self.characterWidget)
 
     def showMapScreen(self):
         pygame.mixer.music.stop()
