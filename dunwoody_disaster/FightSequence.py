@@ -5,8 +5,9 @@ from dunwoody_disaster.views.fightScreen import FightScreen
 from typing import Callable
 import dunwoody_disaster as DD
 from PySide6.QtCore import Signal
-from dunwoody_disaster.animations.basic_attack import AttackAnimation
 from PySide6.QtWidgets import QWidget
+
+from dunwoody_disaster.animations.LinearComponent import LinearComponent
 
 
 class FightSequence(QWidget):
@@ -39,11 +40,27 @@ class FightSequence(QWidget):
             # Don't let the user spam the attack button
             return
 
-        self.clearSignal()
         self._locked = True
+        self.clearSignal()
         enemyActions.show()
 
-        def playerTurn():
+        playerAnimation = LinearComponent(
+            playerActions.getAttack().image,
+            self.signal,
+            self.widget.animation.player_pos,
+            self.widget.animation.enemy_pos,
+            duration_ms=500,
+        )
+
+        enemyAnimation = LinearComponent(
+            enemyActions.getAttack().image,
+            self.signal,
+            self.widget.animation.enemy_pos,
+            self.widget.animation.player_pos,
+            duration_ms=500,
+        )
+
+        def evaluatePlayerTurn():
             attack = playerActions.getAttack()
             defense = enemyActions.getDefense()
             dmg = self.calculateDamage(self.enemy, attack, defense)
@@ -57,17 +74,10 @@ class FightSequence(QWidget):
                 finishTurn()
                 return
 
-            self.signal.connect(enemyTurn)
-            animation = AttackAnimation(
-                self.widget.background,
-                self.enemy.image_path,
-                self.player.image_path,
-                enemyActions.getAttack().image,
-                self.signal,
-            )
-            self.widget.animation_Object.setAnimation(animation)
+            self.signal.connect(evaluateEnemyTurn)
+            self.widget.animation.components.append(enemyAnimation)
 
-        def enemyTurn():
+        def evaluateEnemyTurn():
             attack = enemyActions.getAttack()
             defense = playerActions.getDefense()
             dmg = self.calculateDamage(self.player, attack, defense)
@@ -88,18 +98,10 @@ class FightSequence(QWidget):
                 self.enemy.reset()
                 self._loseCallback()
 
-            self.widget.animation_Object.setAnimation(self.widget.idleAnimation)
             self._locked = False
 
-        self.signal.connect(playerTurn)
-        animation = AttackAnimation(
-            self.widget.background,
-            self.player.image_path,
-            self.enemy.image_path,
-            playerActions.getAttack().image,
-            self.signal,
-        )
-        self.widget.animation_Object.setAnimation(animation)
+        self.signal.connect(evaluatePlayerTurn)
+        self.widget.animation.components.append(playerAnimation)
         return
 
     def calculateDamage(
