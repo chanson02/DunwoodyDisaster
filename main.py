@@ -44,7 +44,7 @@ class MainWindow(QMainWindow):
         pygame.mixer.music.set_volume(1.0)  # Set volume from 0.0 to 1.0
         pygame.mixer.music.play(-1)  # Play indefinitely
         self.Fire_Sound1 = pygame.mixer.Sound(AUDIO["FireCrackle"])
-        self.Fire_Sound1.set_volume(0.3)
+        self.Fire_Sound1.set_volume(0.1)
         self.Fire_Sound1.play(loops=-1)
 
     def startBtnClicked(self):
@@ -79,7 +79,6 @@ class MainWindow(QMainWindow):
         self.mapScreen.onEnter(self.EnterFight)
         self.stack.addWidget(self.mapScreen)
         self.showMapScreen()
-
 
     def showMapScreen(self):
         pygame.mixer.music.stop()
