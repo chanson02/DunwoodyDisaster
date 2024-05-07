@@ -1,5 +1,6 @@
 import sys
 import pygame
+from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QMainWindow, QStackedWidget, QApplication
 from dunwoody_disaster.FightSequence import FightSequence
 from dunwoody_disaster.views.StartMenu import StartMenu
@@ -9,10 +10,14 @@ from dunwoody_disaster.views.CharacterSelector import CharacterSelector
 from dunwoody_disaster.CharacterFactory import CharacterFactory, Character
 from dunwoody_disaster.views.defeatScreen import DefeatScreen
 from dunwoody_disaster.views.victoryScreen import VictoryScreen
+from dunwoody_disaster.views.dialogueScreen import DialogueScreen
+from dunwoody_disaster.views.CharacterDetailWidget import CharacterDetailWidget
 from dunwoody_disaster import AUDIO
 
+default_font = QFont("blood crow", 12)  # Font family is Arial and font size is 12
+QApplication.setFont(default_font)
 
-# test
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -20,6 +25,12 @@ class MainWindow(QMainWindow):
         self.setStyleSheet("background-color: black; color: #FFFFFF;")
         self.setupMusicPlayer()
         self.player = None
+
+        # Define the transition callback within this class
+        self.characterWidget = CharacterDetailWidget(
+            CharacterFactory.John(), self.showMapScreen
+        )
+        self.setCentralWidget(self.characterWidget)
 
         self.startMenu = StartMenu()
         self.startMenu.onStart(self.startBtnClicked)
@@ -42,20 +53,27 @@ class MainWindow(QMainWindow):
         pygame.mixer.music.load(AUDIO["TitleScreenMusic"])
         pygame.mixer.music.set_volume(1.0)  # Set volume from 0.0 to 1.0
         pygame.mixer.music.play(-1)  # Play indefinitely
+        self.Fire_Sound1 = pygame.mixer.Sound(AUDIO["FireCrackle"])
+        self.Fire_Sound1.set_volume(0.1)
+        self.Fire_Sound1.play(loops=-1)
 
     def startBtnClicked(self):
         pygame.mixer.music.stop()
+        self.Fire_Sound1.stop()
         pygame.mixer.music.load(AUDIO["CrawlMusic"])
         pygame.mixer.music.set_volume(1.0)
-        pygame.mixer.music.play(-1)
+        pygame.mixer.music.play()
+
         self.crawl = Crawl()
         self.crawl.onFinish(self.showSelector)
         self.stack.addWidget(self.crawl)
         self.stack.setCurrentWidget(self.crawl)
-        
 
     def showSelector(self):
         pygame.mixer.music.stop()
+        pygame.mixer.music.load(AUDIO["CharacterSelectionMusic"])
+        pygame.mixer.music.set_volume(1.0)  # Set volume from 0.0 to 1.0
+        pygame.mixer.music.play(-1)  # Play indefinitely
         self.stack.setCurrentWidget(self.selector)
 
     def createPlayableCharacters(self) -> list[Character]:
@@ -69,11 +87,32 @@ class MainWindow(QMainWindow):
     def userSelectedCharacter(self, character: Character):
         self.player = character
         self.saveCharacter(character)
+        self.displayCharacterDetails(character)
         self.mapScreen = MapScreen(Map.buildMap(self.player))
         self.mapScreen.setStyleSheet("background-color: #41A392;")
         self.mapScreen.onEnter(self.EnterFight)
         self.stack.addWidget(self.mapScreen)
-        self.showMapScreen()
+        # self.showMapScreen()
+
+    def displayCharacterDetails(self, character):
+        pygame.mixer.music.stop()
+        self.TypeWriterSound = pygame.mixer.Sound(AUDIO["TypeWriterSound"])
+        self.TypeWriterSound.set_volume(0.9)
+        self.TypeWriterSound.play(loops=-1)
+        # Check if the character's name is "John" for special handling
+        if character.name == "John":
+            # Load John's theme music
+            pygame.mixer.music.load(AUDIO["JohnTheme"])
+            # Set the volume to maximum (1.0)
+            pygame.mixer.music.set_volume(0.4)
+            # Play John's theme music in a loop indefinitely
+            pygame.mixer.music.play(-1)
+
+        self.characterWidget = CharacterDetailWidget(
+            character, transition_callback=self.showMapScreen
+        )
+        self.stack.addWidget(self.characterWidget)
+        self.stack.setCurrentWidget(self.characterWidget)
 
     def showMapScreen(self):
         pygame.mixer.music.stop()
@@ -82,6 +121,23 @@ class MainWindow(QMainWindow):
         if len(unbeaten) > 0:
             self.mapScreen.map.setRoom(unbeaten[0])
         self.stack.setCurrentWidget(self.mapScreen)
+
+    def showDialogue(
+        self, char1: Character, char2: Character, dialogues_char1, dialogues_char2
+    ):
+        if self.dialogueScreen is not None:
+            self.stack.removeWidget(self.dialogueScreen)
+
+        self.dialogueScreen = DialogueScreen(char1, char2)
+        self.dialogueScreen.set_dialogue(dialogues_char1, dialogues_char2)
+        self.dialogueScreen.onComplete(self.onDialogueComplete)
+        self.stack.addWidget(self.dialogueScreen)
+        self.stack.setCurrentWidget(self.dialogueScreen)
+
+    def onDialogueComplete(self):
+        print("Dialogue completed!")
+        # Here you can add what happens after the dialogue is complete.
+        self.showMapScreen()  # Example: Return to the map screen.
 
     def EnterFight(self, room: dict):
         """
@@ -138,9 +194,9 @@ class MainWindow(QMainWindow):
         self.fight.widget.animation_Object.stop()
         self.stack.setCurrentWidget(defeat)
 
-    def closeEvent(self, event):
+        """     def closeEvent(self, event):
         _ = event  # silence unused warning
-        self.fight.widget.animation_Object.stop()
+        self.fight.widget.animation_Object.stop() """
 
 
 if __name__ == "__main__":

@@ -24,6 +24,7 @@ class DialogueScreen(QWidget):
             dls.set_dialogue(["Hi! I'm player 1"], ["Nice to meet you, I'm player 2"])
             dls.onComplete(callback)
         """
+        
         super().__init__()
         self._index = 0
         self.char1 = char1
