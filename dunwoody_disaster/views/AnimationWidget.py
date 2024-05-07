@@ -18,16 +18,27 @@ class AnimationWidget(QWidget):
         self.timer = QTimer()
         self.timer.timeout.connect(self.draw_frames)
 
+    def setAnimation(self, animation: PygameAnimation):
+        self.animation = animation
+        self.start()
+
     def start(self):
+        self.stop()
+        self.engine_thread = threading.Thread(target=self.update_frame)
         if self.animation.running:
             raise Exception(f"{self.animation} already running.")
+        self.setMinimumHeight(self.animation.size[1])
+        self.setMinimumWidth(self.animation.size[0])
         self.animation.start()
-        self.engine_thread.start()
         self.timer.start(100)
+        if not self.engine_thread.is_alive():
+            self.engine_thread.start()
 
     def stop(self):
         self.animation.running = False
         self.timer.stop()
+        if self.engine_thread.is_alive():
+            self.engine_thread.join()
 
     def init_ui(self):
         layout = QVBoxLayout()

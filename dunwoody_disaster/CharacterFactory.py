@@ -221,7 +221,10 @@ class CharacterFactory:
         Saves a character to a json file
         :param character: The character to save
         """
-        with open(f"dunwoody_disaster/saves/{character.name}.json", "w") as f:
+        save_path = "dunwoody_disaster/saves"
+        os.makedirs(save_path, exist_ok=True)  # Ensure directory exists
+        file_path = os.path.join(save_path, f"{character.name}.json")
+        with open(file_path, "w") as f:
             json.dump(character.serialize(), f)
 
     @staticmethod

@@ -50,7 +50,7 @@ class MainWindow(QMainWindow):
         if self.fight:
             self.stack.removeWidget(self.fight.widget)
 
-        self.fight = FightSequence(self.player, room["NPC"])
+        self.fight = FightSequence(self.player, room["NPC"], room["battlefield"])
         self.fight.onWin(self.showVictoryScreen)
         self.fight.onLose(self.showDefeatScreen)
 

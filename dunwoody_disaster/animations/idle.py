@@ -1,54 +1,30 @@
 import pygame
+import math
 from dunwoody_disaster.animations.PygameAnimation import PygameAnimation
 import dunwoody_disaster as DD
-from dunwoody_disaster import ASSETS
-
-# from typing import override
 
 
 class IdleAnimation(PygameAnimation):
-    def __init__(
-        self,  # animation_path: str, frame_count: int = 8, frame_duration: int = 100#
-    ):
+    def __init__(self, background: str, player: str, enemy: str):
         super().__init__()
-        self.load_frames()
+        self.bkg = pygame.image.load(background).convert_alpha()  # 666x360 image
+        self.player = pygame.transform.scale(pygame.image.load(player), (100, 100))
+        self.enemy = pygame.transform.scale(pygame.image.load(enemy), (100, 100))
 
-    def updateBackgroundImage(self, new_image_path):
-        print(f"Background image updated to: {new_image_path}")
-        self.background_img = pygame.image.load(new_image_path).convert()
-        # Assuming you might want to do more here, like update a display or handle changes
+        self.bob_amplitude = 10
+        self.bob_frequency = 0.1
+        self.elapsed = 0
 
-    # @override
-    def load_frames(self):
-        self.frames = []
-        self.frame_count = 8
-        self.frame_duration = 100
-        animation_base_path = f"{DD.ANIMATION_PATH}/Idle"
-        self.background_img = pygame.image.load(ASSETS["background"]).convert()
-
-        for i in range(self.frame_count):
-            path = f"{animation_base_path}_{str(i + 1).zfill(2)}.png"
-            self.frames.append(pygame.image.load(path).convert_alpha())
-
-    # @override
-    # @override
+    @DD.override
     def run(self) -> None:
-        if self.running and self.should_render():
-            self.surface.blit(
-                pygame.transform.scale(self.background_img, self.surface.get_size()),
-                (0, 0),
-            )
-            self.surface.blit(self.next_frame(False), (350, 250))
+        if self.running:
+            self.draw()
+            self.clock.tick(20)
+            self.elapsed += 1
 
-    def draw(self, screen, position, dimensions):
-        """Draw the current frame of the animation on the provided screen at the specified position."""
-        frame = self.current_frame()
-        frame = pygame.transform.scale(frame, dimensions)
-        screen.blit(frame, position)
-
-
-"""
-some_character = None  # Replace with actual character initialization
-some_entry_point = None  # Replace with actual entry point
-map_screen = Map(some_character, some_entry_point)
-idle_animation = IdleAnimation(map_screen) """
+    def draw(self):
+        self.surface.blit(self.bkg, (7, 0))
+        factor = self.elapsed * self.bob_frequency + 0.5
+        offset = int(self.bob_amplitude * math.sin(factor))
+        self.surface.blit(self.player, (100, 200 + offset))
+        self.surface.blit(self.enemy, (450, 200 - offset))

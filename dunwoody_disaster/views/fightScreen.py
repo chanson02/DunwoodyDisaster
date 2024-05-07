@@ -20,11 +20,12 @@ if TYPE_CHECKING:
 
 
 class FightScreen(QWidget):
-    def __init__(self, controller: "FightSequence"):
+    def __init__(self, controller: "FightSequence", background: str):
         super().__init__()
         self.controller = controller
         self.player1 = self.controller.player
         self.player2 = self.controller.enemy
+        self.background = background
 
         self.p1_selector = ActionSelector(self.player1)
         self.p2_selector = ActionSelector(self.player2)
@@ -95,9 +96,10 @@ class FightScreen(QWidget):
         layout.addItem(QSpacerItem(0, 30, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 0)
         row += 1
 
-        animIdle = IdleAnimation()
-
-        self.animation_Object = AnimationWidget(animIdle)
+        self.idleAnimation = IdleAnimation(
+            self.background, self.player1.image_path, self.player2.image_path
+        )
+        self.animation_Object = AnimationWidget(self.idleAnimation)
         layout.addWidget(self.animation_Object, row, 0, 0, 3)
         row += 1
 
