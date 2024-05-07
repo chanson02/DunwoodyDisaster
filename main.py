@@ -1,4 +1,5 @@
 import sys
+import pygame
 from PySide6.QtWidgets import QMainWindow, QStackedWidget, QApplication
 from dunwoody_disaster.FightSequence import FightSequence
 from dunwoody_disaster.views.StartMenu import StartMenu
@@ -11,6 +12,7 @@ from dunwoody_disaster.views.defeatScreen import DefeatScreen
 from dunwoody_disaster.views.victoryScreen import VictoryScreen
 
 
+# test
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -34,6 +36,9 @@ class MainWindow(QMainWindow):
 
     def showMapScreen(self):
         self.mapScreen.map.setRoom(None)
+        unbeaten = self.mapScreen.map.unbeaten_rooms()
+        if len(unbeaten) > 0:
+            self.mapScreen.map.setRoom(unbeaten[0])
         self.stack.setCurrentWidget(self.mapScreen)
 
     def EnterFight(self, room: dict):
@@ -47,7 +52,7 @@ class MainWindow(QMainWindow):
         if self.fight:
             self.stack.removeWidget(self.fight.widget)
 
-        self.fight = FightSequence(self.player, room["NPC"])
+        self.fight = FightSequence(self.player, room["NPC"], room["battlefield"])
         self.fight.onWin(self.showVictoryScreen)
         self.fight.onLose(self.showDefeatScreen)
 
@@ -56,6 +61,7 @@ class MainWindow(QMainWindow):
         self.stack.setCurrentWidget(self.fight.widget)
 
     def startBtnClicked(self):
+        pygame.mixer.music.stop()
         self.crawl = Crawl()
         self.crawl.onFinish(self.showSelector)
         self.stack.addWidget(self.crawl)
