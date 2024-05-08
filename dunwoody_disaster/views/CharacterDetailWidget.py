@@ -69,7 +69,7 @@ class CharacterDetailWidget(QWidget):
             # Play sound with each character
             if (
                 not pygame.mixer.get_busy()
-            ):  # This might be removed if you can shorten the sound effect
+            ):  # Check if the sound is not currently playing
                 self.typewriter_sound.stop()  # Ensure any currently playing sound is stopped
                 self.typewriter_sound.play()
         else:
