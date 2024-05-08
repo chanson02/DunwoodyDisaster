@@ -92,9 +92,6 @@ class FightScreen(QWidget):
         layout.addWidget(p2, row, 2)
         row += 1
 
-        layout.addItem(QSpacerItem(0, 30, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 0)
-        row += 1
-
         self.animation = RoomAnimation(
             self.background, self.player1.image_path, self.player2.image_path
         )
@@ -133,8 +130,6 @@ class FightScreen(QWidget):
         btnLayout.addItem(DD.expander(True, False, 25), 0, 2)
         layout.addLayout(btnLayout, row, 0, 1, 3)
         row += 1
-
-        # layout.addItem(QSpacerItem(0, 20, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding), row, 0)
 
         return layout
 
