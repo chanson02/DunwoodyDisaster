@@ -44,7 +44,7 @@ class StartMenu(QWidget):
         movie = QMovie(ASSETS["FinalTitle"])
         movie = QMovie(ASSETS["FinalTitle"])
         backgroundPic_Lbl.setMovie(movie)
-        movie.setScaledSize(QSize(1280, 720))  # Optional: Scale the movie size
+        movie.setScaledSize(QSize(1400, 800))  # Optional: Scale the movie size
         movie.start()  # Start playing the GIF
 
         main_layout.addWidget(backgroundPic_Lbl, 1, 1)
@@ -99,12 +99,6 @@ class StartMenu(QWidget):
         """
         self.startButton.clicked.disconnect()
         self.startButton.clicked.connect(callback)
-
-    # def paintEvent(self, event):
-    #     _ = event  # silence unused warning
-    #     painter = QPainter(self)  # Create a QPainter object for drawing
-    #     pixmap = self.background_pixmap.scaledToWidth(400)
-    #     painter.drawPixmap(self.rect(), pixmap)  # Draw the scaled pixmap on the window
 
     def exitGame(self):
         reply = QMessageBox.question(
