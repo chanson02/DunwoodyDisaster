@@ -92,13 +92,10 @@ class MainWindow(QMainWindow):
         self.mapScreen.setStyleSheet("background-color: #41A392;")
         self.mapScreen.onEnter(self.EnterFight)
         self.stack.addWidget(self.mapScreen)
-        # self.showMapScreen()
 
     def displayCharacterDetails(self, character):
         pygame.mixer.music.stop()
-        self.TypeWriterSound = pygame.mixer.Sound(AUDIO["TypeWriterSound"])
-        self.TypeWriterSound.set_volume(0.9)
-        self.TypeWriterSound.play(loops=-1)
+
         # Check if the character's name is "John" for special handling
         if character.name == "John":
             # Load John's theme music
