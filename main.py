@@ -113,9 +113,27 @@ class MainWindow(QMainWindow):
                 character, transition_callback=self.showMapScreen
             )
         elif character.name == "Cooper":
-            self.characterWidget = CooperIntroScreen(character, transition_callback=self.showMapScreen)
+            self.characterWidget = CooperIntroScreen(
+                character, transition_callback=self.showMapScreen
+            )
+        elif character.name == "Mitch":
+            self.TypeWriterSound = pygame.mixer.Sound(AUDIO["TypeWriterSound"])
+            self.TypeWriterSound.set_volume(0.2)
+            self.TypeWriterSound.play(loops=5)
+            # Load Mitch's theme music
+            pygame.mixer.music.load(AUDIO["MitchTheme"])
+            # Set the volume to maximum (1.0)
+            pygame.mixer.music.set_volume(1.0)
+            # Play John's theme music in a loop indefinitely
+            pygame.mixer.music.play(-1)
+
+            self.characterWidget = CharacterDetailWidget(
+                character, transition_callback=self.showMapScreen
+            )
         else:
-            raise Exception(f'Introscreen for {character.name} has not yet been implemented')
+            raise Exception(
+                f"Introscreen for {character.name} has not yet been implemented"
+            )
 
         self.stack.addWidget(self.characterWidget)
         self.stack.setCurrentWidget(self.characterWidget)

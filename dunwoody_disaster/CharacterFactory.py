@@ -364,6 +364,7 @@ class CharacterFactory:
         #     Item.Armor(name="Spaghetti Code", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
         # ]
         char.image_path = DD.ASSETS["MitchRefined+"]
+        char.description = "I came to Dunwoody with hopes of learning the necessary skills to be a Software Engineering. Instead, I learned how lazy an institution can be while still charging full price. I've attended Dunwoody for 4 years and have accumulated more debt than knowledge, more frustration than skills, and more anxiety than hope. I will leave this school next fall without the necessary starting skills to compete in this industry and will likely need to find a new career path once I graduate. My experience has been nothing short of a disaster."
         return char
 
     @staticmethod

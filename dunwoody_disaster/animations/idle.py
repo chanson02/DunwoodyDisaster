@@ -2,6 +2,7 @@ import pygame
 import math
 from dunwoody_disaster.animations.AnimationComponent import AnimationComponent
 
+
 class IdleComponent(AnimationComponent):
     def __init__(self, img: str, anchor: tuple[int, int]):
         super().__init__()

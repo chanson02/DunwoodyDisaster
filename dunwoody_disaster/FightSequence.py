@@ -12,7 +12,6 @@ from dunwoody_disaster.animations.LinearComponent import LinearComponent
 class FightSequence(QWidget):
     signal = Signal()
 
-
     def __init__(
         self,
         player: CharacterFactory.Character,
