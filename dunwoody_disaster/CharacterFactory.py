@@ -364,7 +364,7 @@ class CharacterFactory:
         #     Item.Armor(name="Spaghetti Code", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
         # ]
         char.image_path = DD.ASSETS["MitchRefined+"]
-        char.description = "I came to Dunwoody with hopes of learning the necessary skills to be a Software Engineering. Instead, I learned how lazy an institution can be while still charging full price. I've attended Dunwoody for 4 years and have accumulated more debt than knowledge, more frustration than skills, and more anxiety than hope. I will leave this school next fall without the necessary starting skills to compete in this industry and will likely need to find a new career path once I graduate. My experience has been nothing short of a disaster."
+        char.description = "Four years. Four long years spent within this “institution.” Four years fighting a system that chose not to care. Four years of taking on debt while receiving nothing in return. I will soon leave this place with a degree that won’t be worth the paper it will be printed on. I will leave this place with very few job prospects and lacking the skills necessary to compete in my chosen field. I did the work that was asked of me, but Dunwoody failed to do the work that was asked of them by their students. They failed, and now we are left to pick up the pieces and suffer the consequences of their failure. My name is Mitchell Humphries and this is my story of the Dunwoody Disaster."
         return char
 
     @staticmethod
