@@ -15,11 +15,20 @@ class NoahIntroScreen(QWidget):
         self.setLayout(layout)
 
         text = """
-        Meet Cooper, the {tbd} programmer!
-        Even though he's not the best with his hands, he loves to build things.
-        Especially keyboards and cars.
-        Join him on his epic adventure through Dunwoody College of Techology
-        where he will encounter many hardships on his path to a righteous Software Engineering degree.
+        Meet Noah, the, um, *Shuffles papers* something something something.
+        Hmm I could have sworn I had my notes
+        No matter, Noah is a student at Dunwoody.
+        He doesn't get out much, not sure he even knows what the sun looks like.
+        I think he said he's just gonna put some earbuds in and ignore everyone.
+        Kinda mean if you ask me, but hey, who am I to judge?
+        Also I lost my notes on him so I'm just gonna make stuff up.
+        I was just gonna put the entire script of the Bee Movie here.
+        But I think that's a bit too much.
+        Oh Btw,
+        He may or may not have just taken this
+        start screen from a different programmer.
+        Probably should give him credit
+        Anyway, let's get started! 
         """
 
         tb = self.text_box(" ".join(text.split()))
@@ -33,6 +42,7 @@ class NoahIntroScreen(QWidget):
         text = """
         Use the mouse to select different classrooms.
         Press "Return" to enter the classroom.
+        "-Cooper wuz here"
         Click through the dialogue to learn about your opponent before battle!
         Defeat enemies by outsmarting them in programming challenges.
         Learn from your teachers as you beat their classes.
