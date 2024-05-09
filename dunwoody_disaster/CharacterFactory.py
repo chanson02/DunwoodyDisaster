@@ -277,7 +277,7 @@ class CharacterFactory:
         char.loot = []
         char.food = []
 
-        char.image_path = DD.ASSETS["cooper"]
+        char.image_path = DD.ASSETS["CooperRefined+"]
         return char
 
     @staticmethod
@@ -295,6 +295,7 @@ class CharacterFactory:
         char.defense = 1
         char.magicDefense = 1
 
+        char.image_path = DD.ASSETS["JohnRefined+"]
         # char.weapons = [
         #     Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=True),
         #     Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False),
@@ -322,6 +323,7 @@ class CharacterFactory:
         char.defense = 1
         char.magicDefense = 1
 
+        char.image_path = DD.ASSETS["NoahRefined+"]
         # char.weapons = [
         #     Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=True),
         #     Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False),
@@ -405,6 +407,7 @@ class CharacterFactory:
         ]
         char.loot = []
         char.food = []
+        char.image_path = DD.ASSETS["LeAnn"]
         return char
 
     @staticmethod
@@ -454,6 +457,8 @@ class CharacterFactory:
         ]
         char.loot = []
         char.food = []
+
+        char.image_path = DD.ASSETS["Amalan"]
         return char
 
     @staticmethod
@@ -503,6 +508,8 @@ class CharacterFactory:
         ]
         char.loot = []
         char.food = []
+
+        char.image_path = DD.ASSETS["Ryan"]
         return char
 
     @staticmethod
@@ -551,6 +558,8 @@ class CharacterFactory:
         ]
         char.loot = []
         char.food = []
+
+        char.image_path = DD.ASSETS["Noureen"]
         return char
 
     @staticmethod
@@ -598,6 +607,8 @@ class CharacterFactory:
 
         char.loot = []
         char.food = []
+
+        char.image_path = DD.ASSETS["Joe"]
         return char
 
     @staticmethod
@@ -700,4 +711,6 @@ class CharacterFactory:
         ]
         char.loot = []
         char.food = []
+
+        char.image_path = DD.ASSETS["Bill"]
         return char

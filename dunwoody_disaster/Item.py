@@ -30,6 +30,35 @@ class Item:
             "stamina": self.staminaCost,
         }
 
+    def preview_widget(self) -> QWidget:
+        """
+        Create a UI element to display the items properties
+        :param min_width: the minimum amount of pixels to use when rendering
+        """
+        layout = QVBoxLayout()
+        layout.setSpacing(0)
+        layout.setContentsMargins(0, 0, 0, 0)
+
+        name = QLabel(self.name)
+        name.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        name.setStyleSheet("color: white; font-size: 16px;")
+        layout.addWidget(name)
+
+        img = QLabel()
+        img.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        img.setPixmap(QPixmap(self.image).scaledToWidth(50))
+        layout.addWidget(img)
+
+        for stat, value in self.serialize().items():
+            lbl = QLabel(f"{stat}: {value}")
+            lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            layout.addWidget(lbl)
+
+        widget = QWidget()
+        widget.setLayout(layout)
+        widget.setContentsMargins(0, 0, 0, 0)
+        return widget
+
     def widget(self, min_width=100) -> QWidget:
         """
         Create a UI element to display the items properties

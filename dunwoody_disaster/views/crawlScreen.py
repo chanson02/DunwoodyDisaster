@@ -8,6 +8,7 @@ from typing import Callable
 class Crawl(QWidget):
     def __init__(self):
         super().__init__()
+
         self._finishCallback = DD.unimplemented
         self.text_lines = [
             "In a distant galaxy, in an era of peace and prosperity...",
@@ -27,7 +28,7 @@ class Crawl(QWidget):
         ]
 
         self.line_spacing = 30
-        self.scroll_speed = 1  # Adjust the scrolling speed as needed
+        self.scroll_speed = 0.55  # Adjust the scrolling speed as needed
         self.scroll_position = 0
         self.initUI()
 
@@ -74,6 +75,9 @@ class Crawl(QWidget):
     def endCrawlScreen(self):
         self.timer.stop()
         self._finishCallback
+        # Call the callback function to go to the next screen
+        if self._finishCallback:
+            self._finishCallback()
         self.deleteLater()
 
     def onFinish(self, callback: Callable):
