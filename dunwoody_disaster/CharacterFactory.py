@@ -352,15 +352,17 @@ class CharacterFactory:
         char.magicDefense = 5
 
         char.weapons = [
-            Item.Weapon(name="M1", damage=8, magic=15, stamina=8, magical=True),
-            Item.Weapon(name="W1", damage=10, magic=5, stamina=10, magical=False),
-            Item.Weapon(name="W2", damage=15, magic=5, stamina=15, magical=False)
+            Item.Weapon(name="Unreal End", damage=8, magic=15, stamina=8, magical=True),
+            Item.Weapon(name="Thermos Throw", damage=12, magic=5, stamina=8, magical=False),
+            Item.Weapon(name="Laptop Lunge", damage=18, magic=5, stamina=10, magical=False)
         ]
 
         char.defenses = [
-            Item.Armor(name="Stress Ball", armorVal=1, staminaCost=10, magicCost=0, magicDefense=15),
+            Item.Armor(name="Stress Ball", armorVal=15, staminaCost=5, magicCost=0, magicDefense=15),
             Item.Armor(name="Spaghetti Code", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
         ]
+
+        char.image_path = DD.ASSETS["MitchRefined+"]
         return char
 
     @staticmethod
@@ -374,7 +376,7 @@ class CharacterFactory:
         char.reset()
 
         char.strength = 1
-        char.intelligence = 25
+        char.intelligence = 20
         char.defense = 0
         char.magicDefense = 15
         char.level = 1
@@ -467,9 +469,9 @@ class CharacterFactory:
         I'm not sure if we want to keep it this way due to real-life situations..."""
         char = CharacterFactory.createCharacter()
         char.name = "Ryan Rengo"
-        char.maxHealth = 70
+        char.maxHealth = 80
         char.maxMagic = 70
-        char.maxStamina = 40
+        char.maxStamina = 45
         char.reset()
 
         char.strength = 25
@@ -567,7 +569,7 @@ class CharacterFactory:
         """Joe is currently built as a strong, brute character."""
         char = CharacterFactory.createCharacter()
         char.name = "Joe Axberg"
-        char.maxHealth = 130
+        char.maxHealth = 120
         char.maxMagic = 40
         char.maxStamina = 50
         char.reset()
@@ -591,7 +593,7 @@ class CharacterFactory:
         char.defenses = [
             Item.Armor(
                 name="Virtualization Layer",
-                armorVal=50,
+                armorVal=25,
                 staminaCost=25,
                 magicCost=0,
                 magicDefense=0,
@@ -600,8 +602,8 @@ class CharacterFactory:
                 name="Command Line",
                 armorVal=0,
                 staminaCost=0,
-                magicCost=25,
-                magicDefense=50,
+                magicCost=15,
+                magicDefense=10,
             ),
         ]
 

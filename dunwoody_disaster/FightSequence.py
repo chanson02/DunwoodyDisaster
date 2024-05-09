@@ -93,9 +93,10 @@ class FightSequence(QWidget):
             enemyActions.clear()
             enemyActions.selectRandom()
             if self.enemy.curHealth <= 0:
+                self.player.reset()
                 self._winCallback()
             elif self.player.curHealth <= 0:
-                self.player.reload()
+                self.player.reset()
                 self.enemy.reset()
                 self._loseCallback()
 
