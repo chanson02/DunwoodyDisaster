@@ -1,7 +1,5 @@
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton
-from PySide6.QtGui import QPixmap
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QPushButton
 from PySide6.QtCore import Qt
-import dunwoody_disaster as DD
 
 from dunwoody_disaster.CharacterFactory import Character
 from typing import Callable

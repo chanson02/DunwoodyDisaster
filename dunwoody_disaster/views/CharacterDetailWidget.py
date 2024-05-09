@@ -1,4 +1,3 @@
-import sys
 from PySide6.QtWidgets import QWidget, QLabel, QTextEdit, QHBoxLayout, QPushButton
 from PySide6.QtGui import QPixmap, QFont, QIcon
 from PySide6.QtCore import Qt, QTimer
