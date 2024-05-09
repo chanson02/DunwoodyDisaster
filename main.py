@@ -54,6 +54,7 @@ class MainWindow(QMainWindow):
         pygame.mixer.music.load(AUDIO["TitleScreenMusic"])
         pygame.mixer.music.set_volume(1.0)  # Set volume from 0.0 to 1.0
         pygame.mixer.music.play(-1)  # Play indefinitely
+        # Load and play fire crackle sound; only set sounds to variables and not music.
         self.Fire_Sound1 = pygame.mixer.Sound(AUDIO["FireCrackle"])
         self.Fire_Sound1.set_volume(0.1)
         self.Fire_Sound1.play(loops=-1)
@@ -113,11 +114,11 @@ class MainWindow(QMainWindow):
 
     def showMapScreen(self):
         self.stopAllSounds()
-        # self.currentScreen = "map"
+        self.currentScreen = "map"
         if self.currentScreen == "map":
-            self.mapScreenMusic = pygame.mixer.Sound(AUDIO["MapScreenMusic"])
-            self.mapScreenMusic.set_volume(0.9)
-            self.mapScreenMusic.play(loops=-1)
+            pygame.mixer.music.load(AUDIO["MapScreenMusic"])
+            pygame.mixer.music.set_volume(0.9)
+            pygame.mixer.music.play(loops=-1)
         else:
             self.stopAllSounds()
         self.mapScreen.map.setRoom(None)
@@ -153,10 +154,8 @@ class MainWindow(QMainWindow):
         if not self.player:
             raise Exception("Cannot enter fight when no player is selected")
 
-        # Stop all current sounds and music before entering the fight screen
-        pygame.mixer.music.stop()  # Stop any background music
-        if hasattr(self, "MapScreenMusic") and self.mapScreenMusic.get_busy():
-            self.mapScreenMusic.stop()  # Stop specific music if it's playing
+        if self.currentScreen == "fight":
+            self.stopAllSounds  # Stop specific music if it's playing
 
         if self.fight:
             self.stack.removeWidget(self.fight.widget)
