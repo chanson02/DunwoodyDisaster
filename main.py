@@ -24,6 +24,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Dunwoody-Disaster")
         self.setStyleSheet("background-color: black; color: #FFFFFF;")
         self.setupMusicPlayer()
+        self.currentScreen = None  # To keep track of the current screen
         self.player = None
 
         # Define the transition callback within this class
@@ -93,16 +94,15 @@ class MainWindow(QMainWindow):
         self.mapScreen.onEnter(self.EnterFight)
         self.stack.addWidget(self.mapScreen)
 
-    def displayCharacterDetails(self, character):
-        pygame.mixer.music.stop()
+    def stopAllSounds(self):
+        pygame.mixer.music.stop()  # Stop the music that is currently playing
 
-        # Check if the character's name is "John" for special handling
+    def displayCharacterDetails(self, character):
+        self.stopAllSounds()
         if character.name == "John":
             # Load John's theme music
             pygame.mixer.music.load(AUDIO["JohnTheme"])
-            # Set the volume to maximum (1.0)
             pygame.mixer.music.set_volume(0.4)
-            # Play John's theme music in a loop indefinitely
             pygame.mixer.music.play(-1)
 
         self.characterWidget = CharacterDetailWidget(
@@ -112,7 +112,15 @@ class MainWindow(QMainWindow):
         self.stack.setCurrentWidget(self.characterWidget)
 
     def showMapScreen(self):
-        pygame.mixer.music.stop()
+        self.stopAllSounds()
+        self.currentScreen = "map"
+        if self.currentScreen == "map":
+            self.mapScreenMusic = pygame.mixer.Sound(AUDIO["MapScreenMusic"])
+            self.mapScreenMusic.set_volume(0.9)
+            self.mapScreenMusic.play(loops=-1)
+        else:
+            self.mapScreenMusic.stop()
+
         self.mapScreen.map.setRoom(None)
         unbeaten = self.mapScreen.map.unbeaten_rooms()
         if len(unbeaten) > 0:
@@ -141,8 +149,15 @@ class MainWindow(QMainWindow):
         Enter fight screen by pointing stack at fight screen.
         This will need to be changed to set the proper opponent per setting. Index 2 is the fight screen.
         """
+        self.currentScreen = "fight"
+        self.stopAllSounds()
         if not self.player:
             raise Exception("Cannot enter fight when no player is selected")
+
+        # Stop all current sounds and music before entering the fight screen
+        pygame.mixer.music.stop()  # Stop any background music
+        if hasattr(self, "MapScreenMusic") and self.mapScreenMusic.get_busy():
+            self.mapScreenMusic.stop()  # Stop specific music if it's playing
 
         if self.fight:
             self.stack.removeWidget(self.fight.widget)

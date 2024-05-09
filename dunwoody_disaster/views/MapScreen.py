@@ -32,16 +32,7 @@ class Map(QLabel):
         else:
             self.char_pos = (-1, 0)
 
-    def setupMusicPlayer(self):
-        # Initialize Pygame mixer
-        pygame.mixer.init()
-        # Load and play background music
-        pygame.mixer.music.load(AUDIO["TitleScreenMusic"])
-        pygame.mixer.music.set_volume(1.0)  # Set volume from 0.0 to 1.0
-        pygame.mixer.music.play(-1)  # Play indefinitely
-        self.Fire_Sound1 = pygame.mixer.Sound(AUDIO["FireCrackle"])
-        self.Fire_Sound1.set_volume(0.1)
-        self.Fire_Sound1.play(loops=-1)
+
 
     def onRoomChange(self, callback: Callable):
         self.roomChanged = callback
@@ -168,7 +159,6 @@ class MapScreen(QWidget):
         super().__init__()
         self.map = map
         self._callback = DD.unimplemented
-
         self.initUI()
 
     def onEnter(self, callback: Callable):
@@ -180,6 +170,7 @@ class MapScreen(QWidget):
 
     def keyPressEvent(self, event: QKeyEvent):
         if event.key() == Qt.Key.Key_Enter or event.key() == Qt.Key.Key_Return:
+            pygame.mixer.music.stop()
             if self.map.current_room:
                 self._callback(self.map.current_room)
 
