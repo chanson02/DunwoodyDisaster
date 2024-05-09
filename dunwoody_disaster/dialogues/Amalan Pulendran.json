@@ -22,5 +22,14 @@
     "antagonist_lines": [
       "Welcome students to tutorial hell. Here I will demonstrate and you will copy action for action!"
     ]
+  },
+
+    "John": {
+      "protagonist_lines": [
+        "You preach cyber security, but you didn't even realize that you're already in my simulcode!"
+      ],
+      "antagonist_lines": [
+        "Fool, did you really think that I'd fall for the tricks I taught you? Look around, you're in mine!"
+      ]
   }
 }
