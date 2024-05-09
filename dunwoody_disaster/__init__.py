@@ -8,10 +8,9 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import QObject, Signal, QEvent, SignalInstance, Qt
 import os
+from typing import Callable
 
 BASE_PATH = os.path.dirname(__file__)
-ANIMATION_PATH = f"{BASE_PATH}/animations/Animation_Assets"
-
 
 ASSETS = {}
 # I think this will make it so you can run main.py from anywhere --Cooper
@@ -21,6 +20,22 @@ for fname in os.listdir(asset_dir):
     if os.path.isfile(path) and "." in fname:
         key = os.path.splitext(fname)[0]
         ASSETS[key] = path
+
+AUDIO = {}
+# I think this will make it so you can run main.py from anywhere --Cooper
+audio_dir = os.path.join(BASE_PATH, "audio")
+for fname in os.listdir(audio_dir):
+    path = os.path.join(audio_dir, fname)
+    if os.path.isfile(path) and "." in fname:
+        key = os.path.splitext(fname)[0]
+        AUDIO[key] = path
+
+
+def audio(path: str) -> str:
+    """
+    Get an audio name from a path
+    """
+    return os.path.splitext(os.path.basename(path))[0]
 
 
 def asset(path: str) -> str:
@@ -65,10 +80,11 @@ def scroller(child: QLayout, horizontal: bool, vertical: bool) -> QScrollArea:
 
     h_policy = Qt.ScrollBarPolicy.ScrollBarAlwaysOff
     v_policy = Qt.ScrollBarPolicy.ScrollBarAlwaysOff
-    if horizontal:
-        h_policy = Qt.ScrollBarPolicy.ScrollBarAsNeeded
-    if vertical:
-        v_policy = Qt.ScrollBarPolicy.ScrollBarAsNeeded
+    # Keeping commented in case we want to re-implement later
+    # if horizontal:
+    #     h_policy = Qt.ScrollBarPolicy.ScrollBarAsNeeded
+    # if vertical:
+    #     v_policy = Qt.ScrollBarPolicy.ScrollBarAsNeeded
 
     result = QScrollArea()
     result.setContentsMargins(0, 0, 0, 0)
@@ -132,3 +148,39 @@ def clickable(widget: QWidget) -> SignalInstance:
     filter = Filter(widget)
     widget.installEventFilter(filter)
     return filter.clicked
+
+
+# Copy and pasted from python3.12/typing.py
+def override(method: Callable, /) -> Callable:
+    """Indicate that a method is intended to override a method in a base class.
+
+    Usage::
+
+        class Base:
+            def method(self) -> None:
+                pass
+
+        class Child(Base):
+            @override
+            def method(self) -> None:
+                super().method()
+
+    When this decorator is applied to a method, the type checker will
+    validate that it overrides a method or attribute with the same name on a
+    base class.  This helps prevent bugs that may occur when a base class is
+    changed without an equivalent change to a child class.
+
+    There is no runtime checking of this property. The decorator attempts to
+    set the ``__override__`` attribute to ``True`` on the decorated object to
+    allow runtime introspection.
+
+    See PEP 698 for details.
+    """
+    try:
+        method.__override__ = True
+    except (AttributeError, TypeError):
+        # Skip the attribute silently if it is not writable.
+        # AttributeError happens if the object has __slots__ or a
+        # read-only property, TypeError if it's a builtin class.
+        pass
+    return method

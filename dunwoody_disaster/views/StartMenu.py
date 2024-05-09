@@ -1,6 +1,9 @@
+import pygame
+
 from typing import Callable
 
-from PySide6.QtGui import QPixmap
+from PySide6.QtCore import QSize
+from PySide6.QtGui import QMovie
 from PySide6.QtWidgets import (
     QGridLayout,
     QLabel,
@@ -35,9 +38,14 @@ class StartMenu(QWidget):
             0,
         )
 
-        backgroundPic_Lbl = QLabel()
-        background_pixmap = QPixmap(ASSETS["TitleScreen"]).scaledToHeight(700)
-        backgroundPic_Lbl.setPixmap(background_pixmap)
+        # Setup the QLabel to display the GIF
+        backgroundPic_Lbl = QLabel(self)
+        # Initialize QMovie with the path to the GIF
+        movie = QMovie(ASSETS["FinalTitle"])
+        movie = QMovie(ASSETS["FinalTitle"])
+        backgroundPic_Lbl.setMovie(movie)
+        movie.setScaledSize(QSize(1280, 720))  # Optional: Scale the movie size
+        movie.start()  # Start playing the GIF
 
         main_layout.addWidget(backgroundPic_Lbl, 1, 1)
 
@@ -45,7 +53,9 @@ class StartMenu(QWidget):
         button_layout.setContentsMargins(0, 0, 0, 0)
 
         self.startButton = QPushButton("Start Game")
-        self.startButton.setStyleSheet("background-color: gray;")
+        self.startButton.setStyleSheet(
+            "background-color: gray; min-width: 250px; font-size: 14px; font-weight: 600px;"
+        )
         self.startButton.clicked.connect(unimplemented)
 
         button_layout.addItem(
@@ -59,7 +69,9 @@ class StartMenu(QWidget):
         )
 
         self.exitButton = QPushButton("Exit")
-        self.exitButton.setStyleSheet("background-color: gray;")
+        self.exitButton.setStyleSheet(
+            "background-color: gray; min-width: 250px; font-size: 14px; font-weight: 600px;"
+        )
         self.exitButton.clicked.connect(self.exitGame)
         button_layout.addWidget(
             self.exitButton, 0, 3
@@ -103,4 +115,5 @@ class StartMenu(QWidget):
             QMessageBox.StandardButton.No,
         )
         if reply == QMessageBox.StandardButton.Yes:
+            pygame.mixer.music.stop()  # Stop the music
             self.close()
