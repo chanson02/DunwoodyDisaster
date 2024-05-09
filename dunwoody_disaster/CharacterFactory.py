@@ -353,13 +353,29 @@ class CharacterFactory:
 
         char.weapons = [
             Item.Weapon(name="Unreal End", damage=8, magic=15, stamina=8, magical=True),
-            Item.Weapon(name="Thermos Throw", damage=12, magic=5, stamina=8, magical=False),
-            Item.Weapon(name="Laptop Lunge", damage=18, magic=5, stamina=10, magical=False)
+            Item.Weapon(
+                name="Thermos Throw", damage=12, magic=5, stamina=8, magical=False
+            ),
+            Item.Weapon(
+                name="Laptop Lunge", damage=18, magic=5, stamina=10, magical=False
+            ),
         ]
 
         char.defenses = [
-            Item.Armor(name="Stress Ball", armorVal=15, staminaCost=5, magicCost=0, magicDefense=15),
-            Item.Armor(name="Spaghetti Code", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
+            Item.Armor(
+                name="Stress Ball",
+                armorVal=15,
+                staminaCost=5,
+                magicCost=0,
+                magicDefense=15,
+            ),
+            Item.Armor(
+                name="Spaghetti Code",
+                armorVal=5,
+                staminaCost=5,
+                magicCost=5,
+                magicDefense=5,
+            ),
         ]
 
         char.image_path = DD.ASSETS["MitchRefined+"]
