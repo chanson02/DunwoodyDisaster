@@ -1,9 +1,12 @@
+import pygame
+
 from PySide6.QtWidgets import QWidget, QLabel, QGridLayout, QSpacerItem, QSizePolicy
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QPixmap, QKeyEvent, QPainter, QMouseEvent
 
 from dunwoody_disaster.views.FightPreview import FightPreview
 import dunwoody_disaster as DD
+from dunwoody_disaster import AUDIO
 from dunwoody_disaster.CharacterFactory import Character, CharacterFactory
 from typing import Optional, Callable
 from math import sqrt
@@ -28,6 +31,8 @@ class Map(QLabel):
             self.char_pos = entryPoint
         else:
             self.char_pos = (-1, 0)
+
+
 
     def onRoomChange(self, callback: Callable):
         self.roomChanged = callback
@@ -110,13 +115,13 @@ class Map(QLabel):
         chars = CharacterFactory
         map = Map(char)
         map.setAsset("MainMap")
-        map.addRoom("Bus Stop", (419, 700), chars.JoeAxberg(), "Science Lab")
-        map.addRoom("Court Yard", (693, 559), chars.LeAnnSimonson(), "CourtYard")
-        map.addRoom("Commons", (451, 449), chars.RyanRengo(), "Science Lab")
-        map.addRoom("Math", (236, 359), chars.NoureenSajid(), "Physics")
-        map.addRoom("English", (770, 366), chars.AmalanPulendran(), "LectureHall")
-        map.addRoom("Science", (490, 217), chars.MatthewBeckler(), "Science Lab")
-        map.addRoom("Dean's Office", (90, 589), chars.BillHudson(), "Science Lab")
+        map.addRoom("Bus Stop", (419, 700), chars.JoeAxberg(), "MathClass+")
+        map.addRoom("Court Yard", (693, 559), chars.LeAnnSimonson(), "Library+")
+        map.addRoom("Commons", (451, 449), chars.RyanRengo(), "ScienceClass+")
+        map.addRoom("Math", (236, 359), chars.NoureenSajid(), "Courtyard+")
+        map.addRoom("English", (770, 366), chars.AmalanPulendran(), "ComputerLab+")
+        map.addRoom("Science", (490, 217), chars.MatthewBeckler(), "MathClass+")
+        map.addRoom("Dean's Office", (90, 589), chars.BillHudson(), "DeansOffice+")
         return map
 
     def serialize(self) -> dict:
@@ -154,7 +159,6 @@ class MapScreen(QWidget):
         super().__init__()
         self.map = map
         self._callback = DD.unimplemented
-
         self.initUI()
 
     def onEnter(self, callback: Callable):
@@ -166,6 +170,7 @@ class MapScreen(QWidget):
 
     def keyPressEvent(self, event: QKeyEvent):
         if event.key() == Qt.Key.Key_Enter or event.key() == Qt.Key.Key_Return:
+            pygame.mixer.music.stop()
             if self.map.current_room:
                 self._callback(self.map.current_room)
 

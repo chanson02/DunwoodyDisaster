@@ -1,5 +1,6 @@
 import sys
 import pygame
+from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QMainWindow, QStackedWidget, QApplication
 from dunwoody_disaster.FightSequence import FightSequence
 from dunwoody_disaster.views.StartMenu import StartMenu
@@ -9,7 +10,12 @@ from dunwoody_disaster.views.CharacterSelector import CharacterSelector
 from dunwoody_disaster.CharacterFactory import CharacterFactory, Character
 from dunwoody_disaster.views.defeatScreen import DefeatScreen
 from dunwoody_disaster.views.victoryScreen import VictoryScreen
+from dunwoody_disaster.views.dialogueScreen import DialogueScreen
+from dunwoody_disaster.views.CharacterDetailWidget import CharacterDetailWidget
 from dunwoody_disaster import AUDIO
+
+default_font = QFont("blood crow", 12)  # Font family is Arial and font size is 12
+QApplication.setFont(default_font)
 
 
 class MainWindow(QMainWindow):
@@ -18,7 +24,14 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Dunwoody-Disaster")
         self.setStyleSheet("background-color: black; color: #FFFFFF;")
         self.setupMusicPlayer()
+        self.currentScreen = None  # To keep track of the current screen
         self.player = None
+
+        # Define the transition callback within this class
+        self.characterWidget = CharacterDetailWidget(
+            CharacterFactory.John(), self.showMapScreen
+        )
+        self.setCentralWidget(self.characterWidget)
 
         self.startMenu = StartMenu()
         self.startMenu.onStart(self.startBtnClicked)
@@ -41,12 +54,17 @@ class MainWindow(QMainWindow):
         pygame.mixer.music.load(AUDIO["TitleScreenMusic"])
         pygame.mixer.music.set_volume(1.0)  # Set volume from 0.0 to 1.0
         pygame.mixer.music.play(-1)  # Play indefinitely
+        self.Fire_Sound1 = pygame.mixer.Sound(AUDIO["FireCrackle"])
+        self.Fire_Sound1.set_volume(0.1)
+        self.Fire_Sound1.play(loops=-1)
 
     def startBtnClicked(self):
         pygame.mixer.music.stop()
+        self.Fire_Sound1.stop()
         pygame.mixer.music.load(AUDIO["CrawlMusic"])
         pygame.mixer.music.set_volume(1.0)
-        pygame.mixer.music.play(-1)
+        pygame.mixer.music.play()
+
         self.crawl = Crawl()
         self.crawl.onFinish(self.showSelector)
         self.stack.addWidget(self.crawl)
@@ -54,6 +72,9 @@ class MainWindow(QMainWindow):
 
     def showSelector(self):
         pygame.mixer.music.stop()
+        pygame.mixer.music.load(AUDIO["CharacterSelectionMusic"])
+        pygame.mixer.music.set_volume(1.0)  # Set volume from 0.0 to 1.0
+        pygame.mixer.music.play(-1)  # Play indefinitely
         self.stack.setCurrentWidget(self.selector)
 
     def createPlayableCharacters(self) -> list[Character]:
@@ -67,27 +88,75 @@ class MainWindow(QMainWindow):
     def userSelectedCharacter(self, character: Character):
         self.player = character
         self.saveCharacter(character)
+        self.displayCharacterDetails(character)
         self.mapScreen = MapScreen(Map.buildMap(self.player))
         self.mapScreen.setStyleSheet("background-color: #41A392;")
         self.mapScreen.onEnter(self.EnterFight)
         self.stack.addWidget(self.mapScreen)
-        self.showMapScreen()
+
+    def stopAllSounds(self):
+        pygame.mixer.music.stop()  # Stop the music that is currently playing
+
+    def displayCharacterDetails(self, character):
+        self.stopAllSounds()
+        if character.name == "John":
+            # Load John's theme music
+            pygame.mixer.music.load(AUDIO["JohnTheme"])
+            pygame.mixer.music.set_volume(0.4)
+            pygame.mixer.music.play(-1)
+
+        self.characterWidget = CharacterDetailWidget(
+            character, transition_callback=self.showMapScreen
+        )
+        self.stack.addWidget(self.characterWidget)
+        self.stack.setCurrentWidget(self.characterWidget)
 
     def showMapScreen(self):
-        pygame.mixer.music.stop()
+        self.stopAllSounds()
+        # self.currentScreen = "map"
+        if self.currentScreen == "map":
+            self.mapScreenMusic = pygame.mixer.Sound(AUDIO["MapScreenMusic"])
+            self.mapScreenMusic.set_volume(0.9)
+            self.mapScreenMusic.play(loops=-1)
+        else:
+            self.stopAllSounds()
         self.mapScreen.map.setRoom(None)
         unbeaten = self.mapScreen.map.unbeaten_rooms()
         if len(unbeaten) > 0:
             self.mapScreen.map.setRoom(unbeaten[0])
         self.stack.setCurrentWidget(self.mapScreen)
 
+    def showDialogue(
+        self, char1: Character, char2: Character, dialogues_char1, dialogues_char2
+    ):
+        if self.dialogueScreen is not None:
+            self.stack.removeWidget(self.dialogueScreen)
+
+        self.dialogueScreen = DialogueScreen(char1, char2)
+        self.dialogueScreen.set_dialogue(dialogues_char1, dialogues_char2)
+        self.dialogueScreen.onComplete(self.onDialogueComplete)
+        self.stack.addWidget(self.dialogueScreen)
+        self.stack.setCurrentWidget(self.dialogueScreen)
+
+    def onDialogueComplete(self):
+        print("Dialogue completed!")
+        # Here you can add what happens after the dialogue is complete.
+        self.showMapScreen()  # Example: Return to the map screen.
+
     def EnterFight(self, room: dict):
         """
         Enter fight screen by pointing stack at fight screen.
         This will need to be changed to set the proper opponent per setting. Index 2 is the fight screen.
         """
+        self.currentScreen = "fight"
+        self.stopAllSounds()
         if not self.player:
             raise Exception("Cannot enter fight when no player is selected")
+
+        # Stop all current sounds and music before entering the fight screen
+        pygame.mixer.music.stop()  # Stop any background music
+        if hasattr(self, "MapScreenMusic") and self.mapScreenMusic.get_busy():
+            self.mapScreenMusic.stop()  # Stop specific music if it's playing
 
         if self.fight:
             self.stack.removeWidget(self.fight.widget)
@@ -136,9 +205,9 @@ class MainWindow(QMainWindow):
         self.fight.widget.animation_Object.stop()
         self.stack.setCurrentWidget(defeat)
 
-    def closeEvent(self, event):
+        """def closeEvent(self, event):
         _ = event  # silence unused warning
-        self.fight.widget.animation_Object.stop()
+        self.fight.widget.animation_Object.stop() """
 
 
 if __name__ == "__main__":
