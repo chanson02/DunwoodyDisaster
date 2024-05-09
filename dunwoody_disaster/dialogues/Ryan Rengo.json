@@ -8,5 +8,21 @@
       "My microservices are always ready to PUT up a fight.",
       "Prepare to be POST-ed into defeat!"
     ]
+  },
+  "Noah": {
+    "protagonist_lines": [
+      "..."
+    ]  ,
+    "antagonist_lines": [ 
+      "Quiet type huh? I'll make sure you're silenced for good!"
+    ]
+  },
+  "Mitch": {
+    "protagonist_lines": [
+      "What is it this time?", "This is outrageous! It’s unfair! How can you teach the same basic skills class after class after class and charge full price?!"
+    ],
+    "antagonist_lines": [
+      "Lesson 3: SSH Redux, Hello World Part III: The Return, Software “Testing,” and Software “Design.”", "I am going to reveal to you the secret of this institution: you won’t really be learning software design or software testing either!"
+    ]
   }
 }

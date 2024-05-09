@@ -8,5 +8,21 @@
       "Haha! I doubt your data retreival will be quick enough to defeat me!",
       "SELECT * FROM fight_schema.moves"
     ]
+  },
+  "Noah": {
+    "protagonist_lines": [
+      "..."
+    ],
+    "antagonist_lines": [
+      "Is everything okay? You seem a little... NULL."
+    ]
+  },
+  "Mitch": {
+    "protagonist_lines": [
+      "...", "Wait, we already did Hello World..."
+    ],
+    "antagonist_lines": [
+      "Lesson 2: SSH, additionally Hello World Part II", "HAHAHA now you are getting the hang of it!"
+    ]
   }
 }

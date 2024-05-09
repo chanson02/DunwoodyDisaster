@@ -5,5 +5,22 @@
       "How dare you! I'll Alt+F4 your chances of victory!"
     ],
     "antagonist_lines": ["Why don't you drag yourself into the recyle bin?"]
+  },
+  "Noah": {
+    "protagonist_lines": [
+      "..."
+    ],
+    "antagonist_lines": [
+      "How dare you! I'll Alt+F4 your chances of victory..",
+      "wait, that's not right... I think I'm having some deja vu... You're not Cooper!"
+    ]
+  },
+  "Mitch": {
+    "protagonist_lines": [
+      "Wait who's this guy?", "*Sigh* Why did I come here?"
+    ],
+    "antagonist_lines": [
+      "Welcome students to tutorial hell. Here I will demonstrate and you will copy action for action!"
+    ]
   }
 }
