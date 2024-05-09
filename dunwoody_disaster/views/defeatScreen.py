@@ -36,7 +36,7 @@ class DefeatScreen(QWidget):
 
         # UI Elements
         # Game over label
-        defeat_label = QLabel("You have been defeated")
+        defeat_label = QLabel("The weight of disappointment was too much for you to bear. Your morale was broken.")
         defeat_label.setStyleSheet(styles["title-text"] + styles["center"])
 
         # Return Button
