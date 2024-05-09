@@ -14,6 +14,7 @@ from dunwoody_disaster.views.dialogueScreen import DialogueScreen
 from dunwoody_disaster.views.CharacterDetailWidget import CharacterDetailWidget
 from dunwoody_disaster import AUDIO
 from dunwoody_disaster.views.introductions.Cooper import CooperIntroScreen
+from dunwoody_disaster.views.introductions.Noah import NoahIntroScreen
 
 default_font = QFont("blood crow", 12)  # Font family is Arial and font size is 12
 QApplication.setFont(default_font)
@@ -129,6 +130,10 @@ class MainWindow(QMainWindow):
             pygame.mixer.music.play(-1)
 
             self.characterWidget = CharacterDetailWidget(
+                character, transition_callback=self.showMapScreen
+            )
+        elif character.name == "Noah":
+            self.characterWidget = NoahIntroScreen(
                 character, transition_callback=self.showMapScreen
             )
         else:
