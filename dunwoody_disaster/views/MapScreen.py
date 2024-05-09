@@ -1,9 +1,12 @@
+import pygame
+
 from PySide6.QtWidgets import QWidget, QLabel, QGridLayout, QSpacerItem, QSizePolicy
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QPixmap, QKeyEvent, QPainter, QMouseEvent
 
 from dunwoody_disaster.views.FightPreview import FightPreview
 import dunwoody_disaster as DD
+from dunwoody_disaster import AUDIO
 from dunwoody_disaster.CharacterFactory import Character, CharacterFactory
 from typing import Optional, Callable
 from math import sqrt
@@ -28,6 +31,17 @@ class Map(QLabel):
             self.char_pos = entryPoint
         else:
             self.char_pos = (-1, 0)
+
+    def setupMusicPlayer(self):
+        # Initialize Pygame mixer
+        pygame.mixer.init()
+        # Load and play background music
+        pygame.mixer.music.load(AUDIO["TitleScreenMusic"])
+        pygame.mixer.music.set_volume(1.0)  # Set volume from 0.0 to 1.0
+        pygame.mixer.music.play(-1)  # Play indefinitely
+        self.Fire_Sound1 = pygame.mixer.Sound(AUDIO["FireCrackle"])
+        self.Fire_Sound1.set_volume(0.1)
+        self.Fire_Sound1.play(loops=-1)
 
     def onRoomChange(self, callback: Callable):
         self.roomChanged = callback
@@ -110,13 +124,13 @@ class Map(QLabel):
         chars = CharacterFactory
         map = Map(char)
         map.setAsset("MainMap")
-        map.addRoom("Bus Stop", (419, 700), chars.JoeAxberg(), "Science Lab")
-        map.addRoom("Court Yard", (693, 559), chars.LeAnnSimonson(), "CourtYard")
-        map.addRoom("Commons", (451, 449), chars.RyanRengo(), "Science Lab")
-        map.addRoom("Math", (236, 359), chars.NoureenSajid(), "Physics")
-        map.addRoom("English", (770, 366), chars.AmalanPulendran(), "LectureHall")
-        map.addRoom("Science", (490, 217), chars.MatthewBeckler(), "Science Lab")
-        map.addRoom("Dean's Office", (90, 589), chars.BillHudson(), "Science Lab")
+        map.addRoom("Bus Stop", (419, 700), chars.JoeAxberg(), "MathClass+")
+        map.addRoom("Court Yard", (693, 559), chars.LeAnnSimonson(), "Library+")
+        map.addRoom("Commons", (451, 449), chars.RyanRengo(), "ScienceClass+")
+        map.addRoom("Math", (236, 359), chars.NoureenSajid(), "Courtyard+")
+        map.addRoom("English", (770, 366), chars.AmalanPulendran(), "ComputerLab+")
+        map.addRoom("Science", (490, 217), chars.MatthewBeckler(), "MathClass+")
+        map.addRoom("Dean's Office", (90, 589), chars.BillHudson(), "DeansOffice+")
         return map
 
     def serialize(self) -> dict:
