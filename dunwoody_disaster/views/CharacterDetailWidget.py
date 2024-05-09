@@ -1,6 +1,6 @@
 import pygame
 from PySide6.QtWidgets import QWidget, QLabel, QTextEdit, QHBoxLayout, QPushButton
-from PySide6.QtGui import QPixmap, QFont, QIcon
+from PySide6.QtGui import QPixmap, QFont, QIcon, QKeyEvent
 from PySide6.QtCore import Qt, QTimer
 
 from dunwoody_disaster import ASSETS, AUDIO
@@ -13,11 +13,7 @@ class CharacterDetailWidget(QWidget):
         self.character = character
         self.transition_callback = transition_callback
         self.initUI()
-        pygame.mixer.init()
-        self.typewriter_sound = pygame.mixer.Sound(
-            AUDIO["TypeWriterSound"]
-        )  # Load once
-        self.typewriter_sound.set_volume(0.9)
+        self.initSound()
 
     def initUI(self):
         layout = QHBoxLayout()
@@ -70,8 +66,22 @@ class CharacterDetailWidget(QWidget):
             if (
                 not pygame.mixer.get_busy()
             ):  # Check if the sound is not currently playing
-                self.typewriter_sound.stop()  # Ensure any currently playing sound is stopped
-                self.typewriter_sound.play()
+                self.TypeWriterSound.stop()  # Ensure any currently playing sound is stopped
+                self.TypeWriterSound.play()
         else:
             self.timer.stop()  # Stop the timer if the text is complete
             self.mapButton.setDisabled(False)  # Enable the button when typing is done
+
+    def keyPressEvent(self, event: QKeyEvent):
+        if event.key() == Qt.Key_Enter or event.key() == Qt.Key_Return:
+            self.timer.stop()  # Stop the typing effect
+            self.TypeWriterSound.stop()  # Stop the typing sound
+            self.backgroundEdit.setText(
+                self.character_description
+            )  # Set the complete text
+            self.mapButton.setDisabled(False)  # Enable the button immediately
+            event.accept()  # Mark the event as handled
+        else:
+            super().keyPressEvent(
+                event
+            )  # Call the base class method to handle other key presses

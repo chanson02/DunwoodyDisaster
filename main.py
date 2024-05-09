@@ -191,7 +191,7 @@ class MainWindow(QMainWindow):
         self.fight.widget.animation_Object.stop()
         self.stack.setCurrentWidget(defeat)
 
-        """     def closeEvent(self, event):
+        """def closeEvent(self, event):
         _ = event  # silence unused warning
         self.fight.widget.animation_Object.stop() """
 
