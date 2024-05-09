@@ -90,6 +90,7 @@ class FightSequence(QWidget):
 
         def finishTurn():
             playerActions.clear()
+            enemyActions.clear()
             enemyActions.selectRandom()
             if self.enemy.curHealth <= 0:
                 self._winCallback()
