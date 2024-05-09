@@ -113,14 +113,13 @@ class MainWindow(QMainWindow):
 
     def showMapScreen(self):
         self.stopAllSounds()
-        self.currentScreen = "map"
+        # self.currentScreen = "map"
         if self.currentScreen == "map":
             self.mapScreenMusic = pygame.mixer.Sound(AUDIO["MapScreenMusic"])
             self.mapScreenMusic.set_volume(0.9)
             self.mapScreenMusic.play(loops=-1)
         else:
-            self.mapScreenMusic.stop()
-
+            self.stopAllSounds()
         self.mapScreen.map.setRoom(None)
         unbeaten = self.mapScreen.map.unbeaten_rooms()
         if len(unbeaten) > 0:
