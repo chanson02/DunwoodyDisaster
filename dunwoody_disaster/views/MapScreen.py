@@ -86,6 +86,7 @@ class Map(QLabel):
         pos: tuple[int, int],
         NPC: Character,
         battlefield: str,
+        boss: bool = False
     ):
         original = 1024
         target = 750
@@ -96,6 +97,8 @@ class Map(QLabel):
             "coordinate": pos,
             "battlefield": DD.ASSETS[battlefield],
             "NPC": NPC,
+            "locked": boss,
+            "boss": boss
         }
         self.rooms.append(room)
 
@@ -118,7 +121,7 @@ class Map(QLabel):
         map.addRoom("Math", (236, 359), chars.NoureenSajid(), "Courtyard+")
         map.addRoom("English", (770, 366), chars.AmalanPulendran(), "ComputerLab+")
         map.addRoom("Science", (490, 217), chars.MatthewBeckler(), "MathClass+")
-        map.addRoom("Dean's Office", (90, 589), chars.BillHudson(), "DeansOffice+")
+        map.addRoom("Dean's Office", (90, 589), chars.BillHudson(), "DeansOffice+", True)
         return map
 
     def serialize(self) -> dict:
