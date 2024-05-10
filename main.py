@@ -199,7 +199,7 @@ class MainWindow(QMainWindow):
         self.stack.addWidget(crawl)
         self.stack.setCurrentWidget(crawl)
         self.stopAllSounds()
-        
+
     def showDefeatScreen(self):
         if self.fight is None:
             raise Exception("Defeat Screen expects a fight")
@@ -214,21 +214,22 @@ class MainWindow(QMainWindow):
         self.fight.widget.animation_Object.stop()
         self.stack.setCurrentWidget(defeat)
 
-        """def closeEvent(self, event):
+    def closeEvent(self, event):
         _ = event  # silence unused warning
-        self.fight.widget.animation_Object.stop() """
+        self.fight.widget.animation_Object.stop()
 
     def showCreditScreen(self):
-        credits= Credits()
+        credits = Credits()
         self.stack.addWidget(credits)
         self.stack.setCurrentWidget(credits)
         credits.onFinishCredits(self.showStartMenu)
-    
+
     def showStartMenu(self):
         startMenu = StartMenu()
         self.stack.addWidget(startMenu)
         self.stack.setCurrentWidget(startMenu)
         self.setupMusicPlayer()
+
 
 if __name__ == "__main__":
     app = QApplication()

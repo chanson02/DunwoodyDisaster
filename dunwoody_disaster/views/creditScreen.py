@@ -4,6 +4,7 @@ from PySide6.QtWidgets import QWidget
 import dunwoody_disaster as DD
 from typing import Callable
 
+
 class Credits(QWidget):
     def __init__(self):
         super().__init__()
@@ -18,7 +19,7 @@ class Credits(QWidget):
             "John",
             "",
             "Mitch",
-            "<Credits end here>"
+            "<Credits end here>",
         ]
         self.line_spacing = 30
         self.scroll_speed = 0.55  # Adjust the scrolling speed as needed
