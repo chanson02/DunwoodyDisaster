@@ -6,6 +6,7 @@ from dunwoody_disaster.FightSequence import FightSequence
 from dunwoody_disaster.views.StartMenu import StartMenu
 from dunwoody_disaster.views.MapScreen import MapScreen, Map
 from dunwoody_disaster.views.crawlScreen import Crawl
+from dunwoody_disaster.views.creditScreen import Credits
 from dunwoody_disaster.views.CharacterSelector import CharacterSelector
 from dunwoody_disaster.CharacterFactory import CharacterFactory, Character
 from dunwoody_disaster.views.defeatScreen import DefeatScreen
@@ -194,12 +195,11 @@ class MainWindow(QMainWindow):
     def showWinGameCrawl(self):
         crawl = Crawl()
         crawl.text_lines = ["Evil has been defeated"]
-        crawl.onFinish(self.startBtnClicked)
+        crawl.onFinish(self.showCreditScreen)
         self.stack.addWidget(crawl)
         self.stack.setCurrentWidget(crawl)
         self.stopAllSounds()
         
-
     def showDefeatScreen(self):
         if self.fight is None:
             raise Exception("Defeat Screen expects a fight")
@@ -218,6 +218,17 @@ class MainWindow(QMainWindow):
         _ = event  # silence unused warning
         self.fight.widget.animation_Object.stop() """
 
+    def showCreditScreen(self):
+        credits= Credits()
+        self.stack.addWidget(credits)
+        self.stack.setCurrentWidget(credits)
+        credits.onFinishCredits(self.showStartMenu)
+    
+    def showStartMenu(self):
+        startMenu = StartMenu()
+        self.stack.addWidget(startMenu)
+        self.stack.setCurrentWidget(startMenu)
+        self.setupMusicPlayer()
 
 if __name__ == "__main__":
     app = QApplication()
