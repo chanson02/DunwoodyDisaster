@@ -1,0 +1,36 @@
+{
+  "Cooper": {
+    "protagonist_lines": [
+      "You may be the Dean, but I'll show you who's really in charge around here!",
+      "You're going to have to do a lot better than tuition bills to defeat me!"
+    ],
+    "antagonist_lines": [
+      "I run this school, and I'll run you out of this game!",
+      "Prepare to be expelled!"
+    ]
+  },
+  "Noah": {
+    "protagonist_lines": [
+      "..."
+    ],
+    "antagonist_lines": [
+      "Computer engineering is just as cool as being a Software Engineer!"
+    ]
+  },
+  "Mitch": {
+    "protagonist_lines": [
+      "Now I am the master!", "Oh god you're right, I've been scammed!"
+    ],
+    "antagonist_lines": [
+      "Oh no my young fool. You will find it is you who are mistaken, about a great many things. I haven’t even taught you the basics of software engineering, but at least you can do “Hello World” in THREE different languages! Time to pay the price!"
+    ]
+  },
+  "John": {
+    "protagonist_lines": [
+      "You took everything from me, so now face my divine retribution!"
+    ],
+    "antagonist_lines": [
+      "I don't even know who you are."
+    ]
+  }
+}

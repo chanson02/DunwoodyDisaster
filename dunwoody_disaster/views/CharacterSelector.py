@@ -40,7 +40,7 @@ class CharacterSelector(QWidget):
         )
         lbl = QLabel("Choose your champion")
         lbl.setStyleSheet(
-            'background-color: black; font-size: 36px; font-weight: 600; font-family: "Futura Bk BT";'
+            'background-color: black; font-size: 36px; font-weight: 600; font-family: "blood crow";'
         )
         lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
         titleLayout.addWidget(lbl, 0, 1)
