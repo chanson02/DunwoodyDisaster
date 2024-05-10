@@ -43,7 +43,6 @@ class MainWindow(QMainWindow):
 
         self.stack = QStackedWidget()
         self.stack.addWidget(self.startMenu)
-        
 
         # Set the stacked widget as the central widget of the main window
         self.setCentralWidget(self.stack)
