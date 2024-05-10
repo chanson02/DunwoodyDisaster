@@ -102,17 +102,23 @@ class Map(QLabel):
         }
         self.rooms.append(room)
 
-    def room_types(self):
+    def coordinates(self):
         return {
-                'all': set(self.rooms),
-                'boss': {r for r in self.rooms if r.get("boss")},
-                'locked': {r for r in self.rooms if r.get("locked")},
-                'beaten': {r for r in self.rooms if r["NPC"].curHealth <= 0}
+                'all': {r["coordinate"] for r in self.rooms},
+                'boss': {r["coordinate"] for r in self.rooms if r.get("boss")},
+                'locked': {r["coordinate"] for r in self.rooms if r.get("locked")},
+                'beaten': {r["coordinate"] for r in self.rooms if r["NPC"].curHealth <= 0}
                 }
 
+    def pixmap(self) -> QPixmap:
+        rooms = self.coordinates()
+        result = QPixmap(self.image).scaledToWidth(750)  # original size 1024x1024
+    
+        for room in rooms['boss']:
+            icon = QPixmap(DD.ASSETS["lock"]).scaledToWidth(100)
+            result = DD.overlay(result, icon, room)
 
-    def pixmap(self):
-        return QPixmap(self.image).scaledToWidth(750)  # original size 1024x1024
+        return result
 
     def setAsset(self, asset: str):
         self.image = DD.ASSETS[asset]
