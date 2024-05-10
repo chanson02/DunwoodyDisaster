@@ -265,15 +265,33 @@ class CharacterFactory:
         char.magicDefense = 25
 
         char.weapons = [
-                Item.Weapon(name="Syntax Error", damage=10, magic=5, stamina=5, magical=True),
-                Item.Weapon(name="Recursive Loop", damage=15, magic=5, stamina=10, magical=True),
-                Item.Weapon(name="Keyboard", damage=5, magic=0, stamina=3, magical=False)
-                ]
+            Item.Weapon(
+                name="Syntax Error", damage=10, magic=5, stamina=5, magical=True
+            ),
+            Item.Weapon(
+                name="Recursive Loop", damage=15, magic=5, stamina=10, magical=True
+            ),
+            Item.Weapon(name="Keyboard", damage=5, magic=0, stamina=3, magical=False),
+        ]
         char.defenses = [
-                Item.Armor(name="StackOverflow", armorVal=2, staminaCost=5, magicCost=1, magicDefense=10),
-                Item.Armor(name="GDB", armorVal=5, staminaCost=5, magicCost=2, magicDefense=10),
-                Item.Armor(name="SSL Certificate", armorVal=10, staminaCost=5, magicCost=2, magicDefense=5)
-                ]
+            Item.Armor(
+                name="StackOverflow",
+                armorVal=2,
+                staminaCost=5,
+                magicCost=1,
+                magicDefense=10,
+            ),
+            Item.Armor(
+                name="GDB", armorVal=5, staminaCost=5, magicCost=2, magicDefense=10
+            ),
+            Item.Armor(
+                name="SSL Certificate",
+                armorVal=10,
+                staminaCost=5,
+                magicCost=2,
+                magicDefense=5,
+            ),
+        ]
 
         char.loot = []
         char.food = []
