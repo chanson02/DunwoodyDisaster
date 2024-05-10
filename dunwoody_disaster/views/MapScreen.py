@@ -55,9 +55,9 @@ class Map(QLabel):
         min_dist = float("inf")
         rooms = self.coordinates()
 
-        unbeaten = rooms['all'] - rooms['beaten']
-        if len(rooms['all'] - rooms['boss'] - rooms['beaten']) != 0:
-            unbeaten = unbeaten - rooms['boss']
+        unbeaten = rooms["all"] - rooms["beaten"]
+        if len(rooms["all"] - rooms["boss"] - rooms["beaten"]) != 0:
+            unbeaten = unbeaten - rooms["boss"]
 
         for room in self.available_rooms():
             pos = room["coordinate"]
@@ -88,7 +88,7 @@ class Map(QLabel):
         pos: tuple[int, int],
         NPC: Character,
         battlefield: str,
-        boss: bool = False
+        boss: bool = False,
     ):
         original = 1024
         target = 750
@@ -99,22 +99,22 @@ class Map(QLabel):
             "coordinate": pos,
             "battlefield": DD.ASSETS[battlefield],
             "NPC": NPC,
-            "boss": boss
+            "boss": boss,
         }
         self.rooms.append(room)
 
     def coordinates(self):
         return {
-                'all': {r["coordinate"] for r in self.rooms},
-                'boss': {r["coordinate"] for r in self.rooms if r.get("boss")},
-                'beaten': {r["coordinate"] for r in self.rooms if r["NPC"].curHealth <= 0}
-                }
+            "all": {r["coordinate"] for r in self.rooms},
+            "boss": {r["coordinate"] for r in self.rooms if r.get("boss")},
+            "beaten": {r["coordinate"] for r in self.rooms if r["NPC"].curHealth <= 0},
+        }
 
     def available_rooms(self):
         rooms = self.coordinates()
-        result = rooms['all'] - rooms['beaten']
-        if len(rooms['all'] - rooms['boss'] - rooms['beaten']) != 0:
-            result -= rooms['boss']
+        result = rooms["all"] - rooms["beaten"]
+        if len(rooms["all"] - rooms["boss"] - rooms["beaten"]) != 0:
+            result -= rooms["boss"]
         return [r for r in self.rooms if r["coordinate"] in result]
 
     def pixmap(self) -> QPixmap:
@@ -122,8 +122,8 @@ class Map(QLabel):
         result = QPixmap(self.image).scaledToWidth(750)  # original size 1024x1024
 
         # If not all non-bosses have been beaten
-        if len(rooms['all'] - rooms['boss'] - rooms['beaten']) != 0:
-            for room in rooms['boss']:
+        if len(rooms["all"] - rooms["boss"] - rooms["beaten"]) != 0:
+            for room in rooms["boss"]:
                 icon = QPixmap(DD.ASSETS["lock"]).scaledToWidth(100)
                 result = DD.overlay(result, icon, room)
 
@@ -145,7 +145,9 @@ class Map(QLabel):
         map.addRoom("Math", (236, 359), chars.NoureenSajid(), "Courtyard+")
         map.addRoom("English", (770, 366), chars.AmalanPulendran(), "ComputerLab+")
         map.addRoom("Science", (490, 217), chars.MatthewBeckler(), "MathClass+")
-        map.addRoom("Dean's Office", (90, 589), chars.BillHudson(), "DeansOffice+", True)
+        map.addRoom(
+            "Dean's Office", (90, 589), chars.BillHudson(), "DeansOffice+", True
+        )
         return map
 
     def serialize(self) -> dict:
