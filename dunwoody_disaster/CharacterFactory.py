@@ -17,6 +17,7 @@ class Character:
         self.strength = 0
         self.intelligence = 0
         self.image_path = DD.ASSETS["no_texture"]
+        self.description = ""
 
         # Meteres
         self.curHealth = 0
@@ -295,7 +296,6 @@ class CharacterFactory:
         char.defense = 1
         char.magicDefense = 1
 
-        char.image_path = DD.ASSETS["JohnRefined+"]
         # char.weapons = [
         #     Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=True),
         #     Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False),
@@ -306,6 +306,8 @@ class CharacterFactory:
         #     Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=0),
         #     Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
         # ]
+        char.image_path = DD.ASSETS["JohnRefined+"]
+        char.description = "My name is John, and what began as a dream to attend Dunwoody College of Technology has spiraled into a living nightmare. Here, in the quiet of my cramped dorm room, the shadows seem to close in with suffocating intimacy. My professors, cloaked under the guise of scholarly rigor, are not just tormentors in academic guise—they are leeches, siphoning not just my spirit but my finances, too. I arrived at Dunwoody full of ambition, ready to invest everything into my future. But soon, it became clear that my investment was being manipulated in a sinister financial game. Hidden fees began to appear on my tuition bill—miscellaneous, undefined charges that, when questioned, were met with bureaucratic shrugs and hollow reassurances. Each semester, the costs grew inexplicably, draining my bank account and piling on debts that seemed designed to keep me shackled here, under their control. \n\nBut not for long. I'll get them back. I'll get them all back."
         return char
 
     @staticmethod
@@ -323,7 +325,6 @@ class CharacterFactory:
         char.defense = 1
         char.magicDefense = 1
 
-        char.image_path = DD.ASSETS["NoahRefined+"]
         # char.weapons = [
         #     Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=True),
         #     Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False),
@@ -334,6 +335,7 @@ class CharacterFactory:
         #     Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=0),
         #     Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
         # ]
+        char.image_path = DD.ASSETS["NoahRefined+"]
         return char
 
     @staticmethod
@@ -351,7 +353,6 @@ class CharacterFactory:
         char.defense = 30
         char.magicDefense = 5
 
-        char.image_path = DD.ASSETS["MitchRefined+"]
         # char.weapons = [
         #     Item.Weapon(name="", damage=8, magic=15, stamina=8, magical=True),
         #     Item.Weapon(name="", damage=10, magic=5, stamina=10, magical=False),
@@ -362,6 +363,8 @@ class CharacterFactory:
         #     Item.Armor(name="Stress Ball", armorVal=1, staminaCost=10, magicCost=0, magicDefense=15),
         #     Item.Armor(name="Spaghetti Code", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
         # ]
+        char.image_path = DD.ASSETS["MitchRefined+"]
+        char.description = "Four years. Four long years spent within this “institution.” Four years fighting a system that chose not to care. Four years of taking on debt while receiving nothing in return. I will soon leave this place with a degree that won’t be worth the paper it will be printed on. I will leave this place with very few job prospects and lacking the skills necessary to compete in my chosen field. I did the work that was asked of me, but Dunwoody failed to do the work that was asked of them by their students. They failed, and now we are left to pick up the pieces and suffer the consequences of their failure. My name is Mitchell Humphries and this is my story of the Dunwoody Disaster."
         return char
 
     @staticmethod

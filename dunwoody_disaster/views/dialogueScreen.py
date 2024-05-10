@@ -12,6 +12,7 @@ from typing import Callable
 import json
 
 
+# Dialogue screen between boss and users
 class DialogueScreen(QWidget):
     def __init__(self, char1: Character, char2: Character):
         """
@@ -24,6 +25,7 @@ class DialogueScreen(QWidget):
             dls.set_dialogue(["Hi! I'm player 1"], ["Nice to meet you, I'm player 2"])
             dls.onComplete(callback)
         """
+
         super().__init__()
         self._index = 0
         self.char1 = char1

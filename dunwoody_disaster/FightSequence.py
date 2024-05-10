@@ -6,7 +6,6 @@ from typing import Callable
 import dunwoody_disaster as DD
 from PySide6.QtCore import Signal
 from PySide6.QtWidgets import QWidget
-
 from dunwoody_disaster.animations.LinearComponent import LinearComponent
 
 
