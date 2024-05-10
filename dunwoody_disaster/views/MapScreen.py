@@ -111,10 +111,12 @@ class Map(QLabel):
     def pixmap(self) -> QPixmap:
         rooms = self.coordinates()
         result = QPixmap(self.image).scaledToWidth(750)  # original size 1024x1024
-    
-        for room in rooms['boss']:
-            icon = QPixmap(DD.ASSETS["lock"]).scaledToWidth(100)
-            result = DD.overlay(result, icon, room)
+
+        # If not all non-bosses have been beaten
+        if len(rooms['all'] - rooms['boss'] - rooms['beaten']) != 0:
+            for room in rooms['boss']:
+                icon = QPixmap(DD.ASSETS["lock"]).scaledToWidth(100)
+                result = DD.overlay(result, icon, room)
 
         return result
 
