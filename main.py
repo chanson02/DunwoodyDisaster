@@ -14,6 +14,8 @@ from dunwoody_disaster.views.victoryScreen import VictoryScreen
 from dunwoody_disaster.views.dialogueScreen import DialogueScreen
 from dunwoody_disaster.views.CharacterDetailWidget import CharacterDetailWidget
 from dunwoody_disaster import AUDIO
+from dunwoody_disaster.views.introductions.Cooper import CooperIntroScreen
+from dunwoody_disaster.views.introductions.Noah import NoahIntroScreen
 
 default_font = QFont("blood crow", 12)  # Font family is Arial and font size is 12
 QApplication.setFont(default_font)
@@ -37,7 +39,7 @@ class MainWindow(QMainWindow):
         self.startMenu = StartMenu()
         self.startMenu.onStart(self.startBtnClicked)
 
-        self.selector = CharacterSelector(self.createPlayableCharacters())
+        self.selector = CharacterSelector(CharacterFactory.playable())
         self.selector.onSelect(self.userSelectedCharacter)
         self.fight = None
 
@@ -93,7 +95,7 @@ class MainWindow(QMainWindow):
         self.displayCharacterDetails(character)
         self.mapScreen = MapScreen(Map.buildMap(self.player))
         self.mapScreen.setStyleSheet("background-color: #41A392;")
-        self.mapScreen.onEnter(self.EnterFight)
+        self.mapScreen.onEnter(self.playDialogue)
         self.stack.addWidget(self.mapScreen)
 
     def stopAllSounds(self):
@@ -102,18 +104,49 @@ class MainWindow(QMainWindow):
     def displayCharacterDetails(self, character):
         self.stopAllSounds()
         if character.name == "John":
+            self.TypeWriterSound = pygame.mixer.Sound(AUDIO["TypeWriterSound"])
+            self.TypeWriterSound.set_volume(0.9)
+            self.TypeWriterSound.play(loops=-1)
             # Load John's theme music
             pygame.mixer.music.load(AUDIO["JohnTheme"])
             pygame.mixer.music.set_volume(0.4)
             pygame.mixer.music.play(-1)
 
-        self.characterWidget = CharacterDetailWidget(
-            character, transition_callback=self.showMapScreen
-        )
+            self.characterWidget = CharacterDetailWidget(
+                character, transition_callback=self.showMapScreen
+            )
+        elif character.name == "Cooper":
+            self.characterWidget = CooperIntroScreen(
+                character, transition_callback=self.showMapScreen
+            )
+        elif character.name == "Mitch":
+            self.TypeWriterSound = pygame.mixer.Sound(AUDIO["TypeWriterSound"])
+            self.TypeWriterSound.set_volume(0.2)
+            self.TypeWriterSound.play(loops=5)
+            # Load Mitch's theme music
+            pygame.mixer.music.load(AUDIO["MitchTheme"])
+            # Set the volume to maximum (1.0)
+            pygame.mixer.music.set_volume(1.0)
+            # Play John's theme music in a loop indefinitely
+            pygame.mixer.music.play(-1)
+
+            self.characterWidget = CharacterDetailWidget(
+                character, transition_callback=self.showMapScreen
+            )
+        elif character.name == "Noah":
+            self.characterWidget = NoahIntroScreen(
+                character, transition_callback=self.showMapScreen
+            )
+        else:
+            raise Exception(
+                f"Introscreen for {character.name} has not yet been implemented"
+            )
+
         self.stack.addWidget(self.characterWidget)
         self.stack.setCurrentWidget(self.characterWidget)
 
     def showMapScreen(self):
+        self.stack.removeWidget(self.characterWidget)
         self.stopAllSounds()
         self.currentScreen = "map"
         if self.currentScreen == "map":
@@ -122,28 +155,27 @@ class MainWindow(QMainWindow):
             pygame.mixer.music.play(loops=-1)
         else:
             self.stopAllSounds()
+
         self.mapScreen.map.setRoom(None)
         unbeaten = self.mapScreen.map.unbeaten_rooms()
         if len(unbeaten) > 0:
             self.mapScreen.map.setRoom(unbeaten[0])
         self.stack.setCurrentWidget(self.mapScreen)
 
-    def showDialogue(
-        self, char1: Character, char2: Character, dialogues_char1, dialogues_char2
-    ):
-        if self.dialogueScreen is not None:
-            self.stack.removeWidget(self.dialogueScreen)
+    def playDialogue(self, room: dict):
+        if not self.player:
+            raise Exception("playDialogue expects a player")
 
-        self.dialogueScreen = DialogueScreen(char1, char2)
-        self.dialogueScreen.set_dialogue(dialogues_char1, dialogues_char2)
-        self.dialogueScreen.onComplete(self.onDialogueComplete)
-        self.stack.addWidget(self.dialogueScreen)
-        self.stack.setCurrentWidget(self.dialogueScreen)
+        screen = DialogueScreen(self.player, room["NPC"])
 
-    def onDialogueComplete(self):
-        print("Dialogue completed!")
-        # Here you can add what happens after the dialogue is complete.
-        self.showMapScreen()  # Example: Return to the map screen.
+        def dialogue_ended():
+            self.stack.removeWidget(screen)
+            self.EnterFight(room)
+
+        screen.onComplete(dialogue_ended)
+        self.stack.addWidget(screen)
+        self.stack.setCurrentWidget(screen)
+        return
 
     def EnterFight(self, room: dict):
         """
@@ -216,7 +248,8 @@ class MainWindow(QMainWindow):
 
     def closeEvent(self, event):
         _ = event  # silence unused warning
-        self.fight.widget.animation_Object.stop()
+        if self.fight:
+            self.fight.widget.animation_Object.stop()
 
     def showCreditScreen(self):
         credits = Credits()

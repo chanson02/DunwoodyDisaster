@@ -1,0 +1,36 @@
+{
+  "Cooper": {
+    "protagonist_lines": [
+      "Professor Simonson, my fighting moves are stored in a database. Dare to run a query?",
+      "I'll UPDATE your health bar and DELETE your chances of winning!"
+    ],
+    "antagonist_lines": [
+      "Haha! I doubt your data retreival will be quick enough to defeat me!",
+      "SELECT * FROM fight_schema.moves"
+    ]
+  },
+  "Noah": {
+    "protagonist_lines": [
+      "..."
+    ],
+    "antagonist_lines": [
+      "Is everything okay? You seem a little... NULL."
+    ]
+  },
+  "Mitch": {
+    "protagonist_lines": [
+      "...", "Wait, we already did Hello World..."
+    ],
+    "antagonist_lines": [
+      "Lesson 2: SSH, additionally Hello World Part II", "HAHAHA now you are getting the hang of it!"
+    ]
+  },
+  "John": {
+    "protagonist_lines": [
+      "Your kindness is not enough to mask your lack of skill."
+    ],
+    "antagonist_lines": [
+      "*Cries*"
+    ]
+  }
+}
