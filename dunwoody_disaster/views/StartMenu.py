@@ -71,7 +71,7 @@ class StartMenu(QWidget):
 
         self.timer = QTimer()
         self.timer.timeout.connect(self.increaseOpacity)
-        self.timer.start(100)  # Adjust the timer interval for speed of fade-in
+        self.timer.start(150)  # Adjust the timer interval for speed of fade-in
 
     def increaseOpacity(self):
         self.opacity += 0.05  # Increment the opacity
