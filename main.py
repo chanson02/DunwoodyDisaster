@@ -49,6 +49,10 @@ class MainWindow(QMainWindow):
 
         # Set the stacked widget as the central widget of the main window
         self.setCentralWidget(self.stack)
+        self.showStartMenu()
+
+    def showStartMenu(self):
+        self.stack.setCurrentWidget(self.startMenu)
 
     def setupMusicPlayer(self):
         # Initialize Pygame mixer
@@ -256,12 +260,6 @@ class MainWindow(QMainWindow):
         self.stack.addWidget(credits)
         self.stack.setCurrentWidget(credits)
         credits.onFinishCredits(self.showStartMenu)
-
-    def showStartMenu(self):
-        startMenu = StartMenu()
-        self.stack.addWidget(startMenu)
-        self.stack.setCurrentWidget(startMenu)
-        self.setupMusicPlayer()
 
 
 if __name__ == "__main__":
