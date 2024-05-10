@@ -97,7 +97,6 @@ class Map(QLabel):
             "coordinate": pos,
             "battlefield": DD.ASSETS[battlefield],
             "NPC": NPC,
-            "locked": boss,
             "boss": boss
         }
         self.rooms.append(room)
@@ -106,7 +105,6 @@ class Map(QLabel):
         return {
                 'all': {r["coordinate"] for r in self.rooms},
                 'boss': {r["coordinate"] for r in self.rooms if r.get("boss")},
-                'locked': {r["coordinate"] for r in self.rooms if r.get("locked")},
                 'beaten': {r["coordinate"] for r in self.rooms if r["NPC"].curHealth <= 0}
                 }
 
