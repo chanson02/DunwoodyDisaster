@@ -73,14 +73,11 @@ class Map(QLabel):
         if x < 0:
             self.setPixmap(self.pixmap())
             return
-
-        map_pixmap = self.pixmap()
-        painter = QPainter(map_pixmap)
-        overlay = QPixmap(self.character.image()).scaledToWidth(80)
-        painter.drawPixmap(x, y, overlay)
-        painter.end()
-        self.setPixmap(map_pixmap)
+        
+        char_img = QPixmap(self.character.image()).scaledToWidth(80)
+        self.setPixmap(DD.overlay(self.pixmap(), char_img, (x, y)))
         self.repaint()
+        return
 
     def addRoom(
         self,
