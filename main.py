@@ -85,14 +85,6 @@ class MainWindow(QMainWindow):
         pygame.mixer.music.play(-1)  # Play indefinitely
         self.stack.setCurrentWidget(self.selector)
 
-    def createPlayableCharacters(self) -> list[Character]:
-        return [
-            CharacterFactory.Cooper(),
-            CharacterFactory.Mitch(),
-            CharacterFactory.Noah(),
-            CharacterFactory.John(),
-        ]
-
     def userSelectedCharacter(self, character: Character):
         self.player = character
         self.saveCharacter(character)
