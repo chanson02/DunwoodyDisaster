@@ -102,6 +102,15 @@ class Map(QLabel):
         }
         self.rooms.append(room)
 
+    def room_types(self):
+        return {
+                'all': set(self.rooms),
+                'boss': {r for r in self.rooms if r.get("boss")},
+                'locked': {r for r in self.rooms if r.get("locked")},
+                'beaten': {r for r in self.rooms if r["NPC"].curHealth <= 0}
+                }
+
+
     def pixmap(self):
         return QPixmap(self.image).scaledToWidth(750)  # original size 1024x1024
 
