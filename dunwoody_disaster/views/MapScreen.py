@@ -86,6 +86,7 @@ class Map(QLabel):
         pos: tuple[int, int],
         NPC: Character,
         battlefield: str,
+        boss: bool = False
     ):
         original = 1024
         target = 750
@@ -96,11 +97,28 @@ class Map(QLabel):
             "coordinate": pos,
             "battlefield": DD.ASSETS[battlefield],
             "NPC": NPC,
+            "locked": boss,
+            "boss": boss
         }
         self.rooms.append(room)
 
-    def pixmap(self):
-        return QPixmap(self.image).scaledToWidth(750)  # original size 1024x1024
+    def coordinates(self):
+        return {
+                'all': {r["coordinate"] for r in self.rooms},
+                'boss': {r["coordinate"] for r in self.rooms if r.get("boss")},
+                'locked': {r["coordinate"] for r in self.rooms if r.get("locked")},
+                'beaten': {r["coordinate"] for r in self.rooms if r["NPC"].curHealth <= 0}
+                }
+
+    def pixmap(self) -> QPixmap:
+        rooms = self.coordinates()
+        result = QPixmap(self.image).scaledToWidth(750)  # original size 1024x1024
+    
+        for room in rooms['boss']:
+            icon = QPixmap(DD.ASSETS["lock"]).scaledToWidth(100)
+            result = DD.overlay(result, icon, room)
+
+        return result
 
     def setAsset(self, asset: str):
         self.image = DD.ASSETS[asset]
@@ -118,7 +136,7 @@ class Map(QLabel):
         map.addRoom("Math", (236, 359), chars.NoureenSajid(), "Courtyard+")
         map.addRoom("English", (770, 366), chars.AmalanPulendran(), "ComputerLab+")
         map.addRoom("Science", (490, 217), chars.MatthewBeckler(), "MathClass+")
-        map.addRoom("Dean's Office", (90, 589), chars.BillHudson(), "DeansOffice+")
+        map.addRoom("Dean's Office", (90, 589), chars.BillHudson(), "DeansOffice+", True)
         return map
 
     def serialize(self) -> dict:
