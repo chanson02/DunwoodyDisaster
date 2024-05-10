@@ -39,13 +39,11 @@ class MainWindow(QMainWindow):
         self.startMenu = StartMenu()
         self.startMenu.onStart(self.startBtnClicked)
 
-        self.selector = CharacterSelector(CharacterFactory.playable())
-        self.selector.onSelect(self.userSelectedCharacter)
         self.fight = None
 
         self.stack = QStackedWidget()
         self.stack.addWidget(self.startMenu)
-        self.stack.addWidget(self.selector)
+        
 
         # Set the stacked widget as the central widget of the main window
         self.setCentralWidget(self.stack)
@@ -79,6 +77,9 @@ class MainWindow(QMainWindow):
         self.stack.setCurrentWidget(self.crawl)
 
     def showSelector(self):
+        self.selector = CharacterSelector(CharacterFactory.playable())
+        self.selector.onSelect(self.userSelectedCharacter)
+        self.stack.addWidget(self.selector)
         pygame.mixer.music.stop()
         pygame.mixer.music.load(AUDIO["CharacterSelectionMusic"])
         pygame.mixer.music.set_volume(1.0)  # Set volume from 0.0 to 1.0
@@ -234,6 +235,7 @@ class MainWindow(QMainWindow):
         crawl.onFinish(self.showCreditScreen)
         self.stack.addWidget(crawl)
         self.stack.setCurrentWidget(crawl)
+        self.player.reset()
         self.stopAllSounds()
 
     def showDefeatScreen(self):
