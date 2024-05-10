@@ -163,6 +163,7 @@ class MainWindow(QMainWindow):
         self.fight = FightSequence(self.player, room["NPC"], room["battlefield"])
         self.fight.onWin(self.showVictoryScreen)
         self.fight.onLose(self.showDefeatScreen)
+        self.fight.onWinGame(self.showWinGameCrawl)
 
         self.stack.addWidget(self.fight.widget)
         self.fight.widget.animation_Object.start()
@@ -189,6 +190,15 @@ class MainWindow(QMainWindow):
         self.stack.addWidget(victory)
         self.fight.widget.animation_Object.stop()
         self.stack.setCurrentWidget(victory)
+
+    def showWinGameCrawl(self):
+        crawl = Crawl()
+        crawl.text_lines = ["Evil has been defeated"]
+        crawl.onFinish(self.startBtnClicked)
+        self.stack.addWidget(crawl)
+        self.stack.setCurrentWidget(crawl)
+        self.stopAllSounds()
+        
 
     def showDefeatScreen(self):
         if self.fight is None:

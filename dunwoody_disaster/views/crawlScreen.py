@@ -8,7 +8,6 @@ from typing import Callable
 class Crawl(QWidget):
     def __init__(self):
         super().__init__()
-
         self._finishCallback = DD.unimplemented
         self.text_lines = [
             "In a distant galaxy, in an era of peace and prosperity...",
@@ -26,7 +25,6 @@ class Crawl(QWidget):
             "This is their story...",
             "",
         ]
-
         self.line_spacing = 30
         self.scroll_speed = 0.55  # Adjust the scrolling speed as needed
         self.scroll_position = 0
