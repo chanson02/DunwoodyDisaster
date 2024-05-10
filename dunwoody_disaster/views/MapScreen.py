@@ -103,14 +103,17 @@ class Map(QLabel):
         }
         self.rooms.append(room)
 
-    def coordinates(self):
+    def coordinates(self) -> dict:
+        """
+        Returns a dictionary of sets
+        """
         return {
             "all": {r["coordinate"] for r in self.rooms},
             "boss": {r["coordinate"] for r in self.rooms if r.get("boss")},
             "beaten": {r["coordinate"] for r in self.rooms if r["NPC"].curHealth <= 0},
         }
 
-    def available_rooms(self):
+    def available_rooms(self) -> list:
         rooms = self.coordinates()
         result = rooms["all"] - rooms["beaten"]
         if len(rooms["all"] - rooms["boss"] - rooms["beaten"]) != 0:
