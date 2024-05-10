@@ -27,14 +27,14 @@ class MonologueWidget(QWidget):
         layout.addWidget(self.imageLabel)
 
         # Text edit for description with typewriter effect
-        self.backgroundEdit = QTextEdit(self)
-        background_description = QFont("JMH Typewriter", 20)
-        self.backgroundEdit.setFont(background_description)
-        self.backgroundEdit.setReadOnly(True)
-        layout.addWidget(self.backgroundEdit)
+        self.MonologueChat = QTextEdit(self)
+        Monologue_description = QFont("JMH Typewriter", 20)
+        self.MonologueChat.setFont(Monologue_description)
+        self.MonologueChat.setReadOnly(True)
+        layout.addWidget(self.MonologueChat)
 
         # Button to transition to map screen
-        self.mapButton = QPushButton("Go to Map")
+        self.mapButton = QPushButton("Next")
         self.mapButton.setIcon(QIcon(ASSETS["lock"]))
         self.mapButton.clicked.connect(self.transition_callback)
         self.mapButton.setDisabled(True)
@@ -46,7 +46,7 @@ class MonologueWidget(QWidget):
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.add_char)
         self.char_index = 0
-        self.character_description = getattr(
+        self.monologue_description = getattr(
             self.character, "description", "No description available."
         )
         self.timer.start(50)
@@ -57,10 +57,10 @@ class MonologueWidget(QWidget):
         self.TypeWriterSound.set_volume(0.9)
 
     def add_char(self):
-        if self.char_index < len(self.character_description):
-            current_text = self.backgroundEdit.toPlainText()
-            current_text += self.character_description[self.char_index]
-            self.backgroundEdit.setText(current_text)
+        if self.char_index < len(self.monologue_description):
+            current_text = self.MonologueChat.toPlainText()
+            current_text += self.monologue_description[self.char_index]
+            self.MonologueChat.setText(current_text)
             self.char_index += 1
             # Play sound with each character
             if (
@@ -74,10 +74,23 @@ class MonologueWidget(QWidget):
 
     def keyPressEvent(self, event: QKeyEvent):
         if event.key() == Qt.Key_Enter or event.key() == Qt.Key_Return:
+            self.complete_typing()
+            event.accept()
+        else:
+            super().keyPressEvent(event)
+
+    def complete_typing(self):
+        self.timer.stop()
+        self.TypeWriterSound.stop()
+        self.MonologueChat.setText(self.monologue_text)
+        self.nextButton.setDisabled(False)
+
+    def keyPressEvent(self, event: QKeyEvent):
+        if event.key() == Qt.Key_Enter or event.key() == Qt.Key_Return:
             self.timer.stop()  # Stop the typing effect
             self.TypeWriterSound.stop()  # Stop the typing sound
-            self.backgroundEdit.setText(
-                self.character_description
+            self.MonologueChat.setText(
+                self.monologue_description
             )  # Set the complete text
             self.mapButton.setDisabled(False)  # Enable the button immediately
             event.accept()  # Mark the event as handled

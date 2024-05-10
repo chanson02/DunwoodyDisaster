@@ -12,6 +12,10 @@ from dunwoody_disaster.views.defeatScreen import DefeatScreen
 from dunwoody_disaster.views.victoryScreen import VictoryScreen
 from dunwoody_disaster.views.dialogueScreen import DialogueScreen
 from dunwoody_disaster.views.CharacterDetailWidget import CharacterDetailWidget
+from dunwoody_disaster.views.MonologueWidget import (
+    MonologueWidget,
+)
+
 from dunwoody_disaster import AUDIO
 
 default_font = QFont("blood crow", 12)  # Font family is Arial and font size is 12
@@ -111,6 +115,20 @@ class MainWindow(QMainWindow):
         )
         self.stack.addWidget(self.characterWidget)
         self.stack.setCurrentWidget(self.characterWidget)
+
+    def displayMonologue(self, character):
+        self.stopAllSounds()
+        if character.name == "John":
+            # load monologue music
+            pygame.mixer.music.load(AUDIO["JohnTheme"])
+            pygame.mixer.music.set_volume(0.4)
+            pygame.mixer.music.play(-1)
+
+        self.monologue = MonologueWidget(
+            character, transition_callback=self.showMapScreen
+        )
+        self.stack.addWidget(self.monologue)
+        self.stack.setCurrentWidget(self.monologue)
 
     def showMapScreen(self):
         self.stopAllSounds()
