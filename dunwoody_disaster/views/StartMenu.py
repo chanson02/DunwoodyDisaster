@@ -2,7 +2,6 @@ import pygame
 
 from typing import Callable
 
-from PySide6.QtCore import QSize
 from PySide6.QtGui import QMovie
 from PySide6.QtWidgets import (
     QGridLayout,
@@ -10,11 +9,21 @@ from PySide6.QtWidgets import (
     QMessageBox,
     QPushButton,
     QWidget,
-    QSizePolicy,
-    QSpacerItem,
 )
 
 from dunwoody_disaster import ASSETS, unimplemented
+
+
+class MovieLabel(QLabel):
+    def __init__(self, movie_path, parent=None):
+        super().__init__(parent)
+        self.movie = QMovie(movie_path)
+        self.setMovie(self.movie)
+        self.movie.start()
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        self.movie.setScaledSize(self.size())  # Scale movie to the size of the label
 
 
 class StartMenu(QWidget):
@@ -30,68 +39,26 @@ class StartMenu(QWidget):
         main_layout.setSpacing(0)
         main_layout.setContentsMargins(0, 0, 0, 0)
 
-        main_layout.addItem(
-            QSpacerItem(
-                5, 5, QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding
-            ),
-            0,
-            0,
-        )
-
-        # Setup the QLabel to display the GIF
-        backgroundPic_Lbl = QLabel(self)
-        # Initialize QMovie with the path to the GIF
-        movie = QMovie(ASSETS["FinalTitle"])
-        movie = QMovie(ASSETS["FinalTitle"])
-        backgroundPic_Lbl.setMovie(movie)
-        movie.setScaledSize(QSize(1280, 720))  # Optional: Scale the movie size
-        movie.start()  # Start playing the GIF
-
+        # Setup the MovieLabel to display the GIF dynamically
+        backgroundPic_Lbl = MovieLabel(ASSETS["FinalTitle"], self)
         main_layout.addWidget(backgroundPic_Lbl, 1, 1)
 
-        button_layout = QGridLayout(self)
-        button_layout.setContentsMargins(0, 0, 0, 0)
-
+        button_layout = QGridLayout()
         self.startButton = QPushButton("Start Game")
         self.startButton.setStyleSheet(
             "background-color: gray; min-width: 250px; font-size: 14px; font-weight: 600px;"
         )
         self.startButton.clicked.connect(unimplemented)
-
-        button_layout.addItem(
-            QSpacerItem(5, 0, QSizePolicy.Fixed, QSizePolicy.Fixed), 0, 0
-        )
-
         button_layout.addWidget(self.startButton, 0, 1)
-
-        button_layout.addItem(
-            QSpacerItem(20, 0, QSizePolicy.Fixed, QSizePolicy.Fixed), 0, 2
-        )
 
         self.exitButton = QPushButton("Exit")
         self.exitButton.setStyleSheet(
             "background-color: gray; min-width: 250px; font-size: 14px; font-weight: 600px;"
         )
         self.exitButton.clicked.connect(self.exitGame)
-        button_layout.addWidget(
-            self.exitButton, 0, 3
-        )  # Add the exit button to the button layout
+        button_layout.addWidget(self.exitButton, 0, 2)
 
-        button_layout.addItem(
-            QSpacerItem(5, 0, QSizePolicy.Fixed, QSizePolicy.Fixed), 0, 4
-        )
-
-        main_layout.addLayout(
-            button_layout, 2, 1
-        )  # Add the button layout to the main layout
-
-        main_layout.addItem(
-            QSpacerItem(
-                5, 5, QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding
-            ),
-            3,
-            2,
-        )
+        main_layout.addLayout(button_layout, 2, 1)
 
     def onStart(self, callback: Callable):
         """
@@ -99,12 +66,6 @@ class StartMenu(QWidget):
         """
         self.startButton.clicked.disconnect()
         self.startButton.clicked.connect(callback)
-
-    # def paintEvent(self, event):
-    #     _ = event  # silence unused warning
-    #     painter = QPainter(self)  # Create a QPainter object for drawing
-    #     pixmap = self.background_pixmap.scaledToWidth(400)
-    #     painter.drawPixmap(self.rect(), pixmap)  # Draw the scaled pixmap on the window
 
     def exitGame(self):
         reply = QMessageBox.question(
