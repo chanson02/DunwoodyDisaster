@@ -30,12 +30,6 @@ class MainWindow(QMainWindow):
         self.currentScreen = None  # To keep track of the current screen
         self.player = None
 
-        # Define the transition callback within this class
-        self.characterWidget = CharacterDetailWidget(
-            CharacterFactory.John(), self.showMapScreen
-        )
-        self.setCentralWidget(self.characterWidget)
-
         self.startMenu = StartMenu()
         self.startMenu.onStart(self.startBtnClicked)
 
