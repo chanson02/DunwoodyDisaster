@@ -25,5 +25,13 @@
     "antagonist_lines": [
       "But without any libraries!", "Good, good. I can feel your anger. It gives you focus, makes you stronger!"
     ]
+  },
+  "John": {
+    "protagonist_lines": [
+      "I don't know who you are but you're guilty by association."
+    ],
+    "antagonist_lines": [
+      "You're famous around here now. But I'm going to make you infamous."
+    ]
   }
 }

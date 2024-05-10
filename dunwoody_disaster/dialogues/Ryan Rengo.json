@@ -24,5 +24,13 @@
     "antagonist_lines": [
       "Lesson 3: SSH Redux, Hello World Part III: The Return, Software “Testing,” and Software “Design.”", "I am going to reveal to you the secret of this institution: you won’t really be learning software design or software testing either!"
     ]
+  },
+  "John": {
+    "protagonist_lines": [
+      "STOP TALKING, PLEASE MAKE IT STOP!"
+    ],
+    "antagonist_lines": [
+      "So anyways, like I was saying, let me dive into a topic that might seem a bit esoteric at first glance but is actually fundamental to understanding the intricacies of modern computing: the concept of memory management in programming languages. When we write code, whether it's for a simple application or complex systems, we are continuously allocating and deallocating memory. This process is crucial because it ensures that our programs use the computer's resources efficiently. For instance, consider a variable in a high-level language like Python. Behind the scenes, Python manages memory for us, allocating space when a variable is declared and cleaning it up automatically through a mechanism called garbage collection. However, in lower-level languages like C, the programmer must manually manage memory, which involves explicitly allocating space before use and freeing it when no longer needed. This manual management can lead to errors such as memory leaks if the memory is not freed correctly or segmentation faults if the program tries to access memory that has already been freed. Understanding these details helps us write more efficient and reliable code, and also deepens our appreciation for the high-level languages that handle these tasks for us. "
+    ]
   }
 }

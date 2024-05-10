@@ -25,5 +25,13 @@
       "Lesson 1: Hello World", "Your ignorance blinds you, my young apprentice. Now you will experience the full power of this institution."
     ]
     
+  },
+  "John": {
+    "protagonist_lines": [
+      "Your crooked ways are just as crooked as your teeth."
+    ],
+    "antagonist_lines": [
+      "They may be crooked, but they're still better than your code."
+    ]
   }
 }

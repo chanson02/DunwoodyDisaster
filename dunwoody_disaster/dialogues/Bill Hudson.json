@@ -24,5 +24,13 @@
     "antagonist_lines": [
       "Oh no my young fool. You will find it is you who are mistaken, about a great many things. I haven’t even taught you the basics of software engineering, but at least you can do “Hello World” in THREE different languages! Time to pay the price!"
     ]
+  },
+  "John": {
+    "protagonist_lines": [
+      "You took everything from me, so now face my divine retribution!"
+    ],
+    "antagonist_lines": [
+      "I don't even know who you are."
+    ]
   }
 }

@@ -24,5 +24,13 @@
     "antagonist_lines": [
       "Lesson 2: SSH, additionally Hello World Part II", "HAHAHA now you are getting the hang of it!"
     ]
+  },
+  "John": {
+    "protagonist_lines": [
+      "Your kindness is not enough to mask your lack of skill."
+    ],
+    "antagonist_lines": [
+      "*Cries*"
+    ]
   }
 }
