@@ -28,7 +28,7 @@ class NoahIntroScreen(QWidget):
         He may or may not have just taken this
         start screen from a different programmer.
         Probably should give him credit
-        Anyway, let's get started! 
+        Anyway, let's get started!
         """
 
         tb = self.text_box(" ".join(text.split()))
