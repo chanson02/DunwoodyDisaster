@@ -6,7 +6,6 @@ from PySide6.QtGui import QPixmap, QKeyEvent, QPainter, QMouseEvent
 
 from dunwoody_disaster.views.FightPreview import FightPreview
 import dunwoody_disaster as DD
-from dunwoody_disaster import AUDIO
 from dunwoody_disaster.CharacterFactory import Character, CharacterFactory
 from typing import Optional, Callable
 from math import sqrt
@@ -31,8 +30,6 @@ class Map(QLabel):
             self.char_pos = entryPoint
         else:
             self.char_pos = (-1, 0)
-
-
 
     def onRoomChange(self, callback: Callable):
         self.roomChanged = callback
