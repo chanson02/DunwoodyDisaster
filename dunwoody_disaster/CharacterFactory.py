@@ -371,6 +371,15 @@ class CharacterFactory:
         return char
 
     @staticmethod
+    def playable() -> list[Character]:
+        return [
+            CharacterFactory.Cooper(),
+            CharacterFactory.Mitch(),
+            CharacterFactory.Noah(),
+            CharacterFactory.John(),
+        ]
+
+    @staticmethod
     def LeAnnSimonson() -> Character:
         """LeAnn is built as a magic character, but weaker than Matthew."""
         char = CharacterFactory.createCharacter()

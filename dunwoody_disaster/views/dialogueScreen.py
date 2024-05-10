@@ -9,6 +9,7 @@ from PySide6.QtWidgets import (
 from dunwoody_disaster.CharacterFactory import Character
 import dunwoody_disaster as DD
 from typing import Callable
+import json
 
 
 # Dialogue screen between boss and users
@@ -40,7 +41,10 @@ class DialogueScreen(QWidget):
         self.char1_dialogue = QLabel("")
         self.char2_dialogue = QLabel("")
 
+        self.dialogue_stack = QStackedLayout()
+
         self.init_ui()
+        self.loadDialogue()
         DD.clickable(self).connect(self.next_dialogue)
         self._callback = DD.unimplemented
 
@@ -53,6 +57,26 @@ class DialogueScreen(QWidget):
     def onComplete(self, callback: Callable):
         self._callback = callback
 
+    def loadDialogue(self):
+        path = f"{DD.BASE_PATH}/dialogues/{self.char2.name}.json"
+        try:
+            with open(path, "r") as f:
+                dialogue = json.load(f)
+        except FileNotFoundError:
+            print(f"Dialogue file {path} not found")
+            return
+
+        try:
+            lines = dialogue[self.char1.name]
+        except KeyError:
+            print(
+                f"Dialogue file {path} has no dialogue for character {self.char1.name}"
+            )
+            return
+
+        self.set_dialogue(lines["protagonist_lines"], lines["antagonist_lines"])
+        return
+
     def init_ui(self):
         layout = QVBoxLayout()
         self.setLayout(layout)
@@ -62,7 +86,6 @@ class DialogueScreen(QWidget):
         player_layout.addWidget(self.char1_img)
         player_layout.addWidget(self.char2_img)
 
-        self.dialogue_stack = QStackedLayout()
         layout.addLayout(self.dialogue_stack)
 
         # Player 1 dialogue box
