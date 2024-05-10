@@ -50,16 +50,18 @@ class Map(QLabel):
         new_room = self.findClosestRoom(point.x(), point.y())
         self.setRoom(new_room)
 
-    def unbeaten_rooms(self) -> list:
-        return [r for r in self.rooms if r["NPC"].curHealth > 0]
-
     def findClosestRoom(self, x: int, y: int) -> Optional[dict]:
         closest = None
         min_dist = float("inf")
+        rooms = self.coordinates()
 
-        for room in self.unbeaten_rooms():
-            room_pos = room["coordinate"]
-            distance = sqrt((x - room_pos[0]) ** 2 + (y - room_pos[1]) ** 2)
+        unbeaten = rooms['all'] - rooms['beaten']
+        if len(rooms['all'] - rooms['boss'] - rooms['beaten']) != 0:
+            unbeaten = unbeaten - rooms['boss']
+
+        for room in self.available_rooms():
+            pos = room["coordinate"]
+            distance = sqrt((x - pos[0]) ** 2 + (y - pos[1]) ** 2)
             if distance < min_dist:
                 min_dist = distance
                 closest = room
@@ -107,6 +109,13 @@ class Map(QLabel):
                 'boss': {r["coordinate"] for r in self.rooms if r.get("boss")},
                 'beaten': {r["coordinate"] for r in self.rooms if r["NPC"].curHealth <= 0}
                 }
+
+    def available_rooms(self):
+        rooms = self.coordinates()
+        result = rooms['all'] - rooms['beaten']
+        if len(rooms['all'] - rooms['boss'] - rooms['beaten']) != 0:
+            result -= rooms['boss']
+        return [r for r in self.rooms if r["coordinate"] in result]
 
     def pixmap(self) -> QPixmap:
         rooms = self.coordinates()
