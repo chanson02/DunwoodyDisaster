@@ -2,7 +2,7 @@ import pygame
 
 from PySide6.QtWidgets import QWidget, QLabel, QGridLayout, QSpacerItem, QSizePolicy
 from PySide6.QtCore import Qt, Signal
-from PySide6.QtGui import QPixmap, QKeyEvent, QPainter, QMouseEvent
+from PySide6.QtGui import QPixmap, QKeyEvent, QMouseEvent
 
 from dunwoody_disaster.views.FightPreview import FightPreview
 import dunwoody_disaster as DD
@@ -73,7 +73,7 @@ class Map(QLabel):
         if x < 0:
             self.setPixmap(self.pixmap())
             return
-        
+
         char_img = QPixmap(self.character.image()).scaledToWidth(80)
         self.setPixmap(DD.overlay(self.pixmap(), char_img, (x, y)))
         self.repaint()
