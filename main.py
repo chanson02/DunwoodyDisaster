@@ -38,7 +38,7 @@ class MainWindow(QMainWindow):
         self.startMenu = StartMenu()
         self.startMenu.onStart(self.startBtnClicked)
 
-        self.selector = CharacterSelector(self.createPlayableCharacters())
+        self.selector = CharacterSelector(CharacterFactory.playable())
         self.selector.onSelect(self.userSelectedCharacter)
         self.fight = None
 
@@ -94,7 +94,7 @@ class MainWindow(QMainWindow):
         self.displayCharacterDetails(character)
         self.mapScreen = MapScreen(Map.buildMap(self.player))
         self.mapScreen.setStyleSheet("background-color: #41A392;")
-        self.mapScreen.onEnter(self.EnterFight)
+        self.mapScreen.onEnter(self.playDialogue)
         self.stack.addWidget(self.mapScreen)
 
     def stopAllSounds(self):
@@ -161,22 +161,20 @@ class MainWindow(QMainWindow):
             self.mapScreen.map.setRoom(unbeaten[0])
         self.stack.setCurrentWidget(self.mapScreen)
 
-    def showDialogue(
-        self, char1: Character, char2: Character, dialogues_char1, dialogues_char2
-    ):
-        if self.dialogueScreen is not None:
-            self.stack.removeWidget(self.dialogueScreen)
+    def playDialogue(self, room: dict):
+        if not self.player:
+            raise Exception("playDialogue expects a player")
 
-        self.dialogueScreen = DialogueScreen(char1, char2)
-        self.dialogueScreen.set_dialogue(dialogues_char1, dialogues_char2)
-        self.dialogueScreen.onComplete(self.onDialogueComplete)
-        self.stack.addWidget(self.dialogueScreen)
-        self.stack.setCurrentWidget(self.dialogueScreen)
+        screen = DialogueScreen(self.player, room["NPC"])
 
-    def onDialogueComplete(self):
-        print("Dialogue completed!")
-        # Here you can add what happens after the dialogue is complete.
-        self.showMapScreen()  # Example: Return to the map screen.
+        def dialogue_ended():
+            self.stack.removeWidget(screen)
+            self.EnterFight(room)
+
+        screen.onComplete(dialogue_ended)
+        self.stack.addWidget(screen)
+        self.stack.setCurrentWidget(screen)
+        return
 
     def EnterFight(self, room: dict):
         """
