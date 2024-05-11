@@ -9,6 +9,7 @@ from PySide6.QtWidgets import (
     QMessageBox,
     QPushButton,
     QWidget,
+    QApplication,
 )
 
 from dunwoody_disaster import ASSETS, unimplemented
@@ -78,3 +79,4 @@ class StartMenu(QWidget):
         if reply == QMessageBox.StandardButton.Yes:
             pygame.mixer.music.stop()  # Stop the music
             self.close()
+            QApplication.quit()
