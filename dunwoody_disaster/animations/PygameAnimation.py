@@ -85,4 +85,16 @@ class PygameAnimation:
         raise NotImplementedError("run method must be implemented in subclass")
 
     def to_bytes(self) -> bytes:
+        """
+        Returns image in 24bit RGB format
+        https://www.pygame.org/docs/ref/image.html#pygame.image.tobytes
+        """
         return pygame.image.tobytes(self.surface, "RGB")
+
+    def to_qimage(self) -> QImage:
+        """
+        QImage(data: bytes, width: int, height: int, bytesPerLine: int, format: PySide7.QtGui.QImage.Format)
+        Assumes 24 bit RGB format
+        """
+        width = self.surface.get_width()
+        return QImage(self.to_bytes(), width, self.surface.get_height(), width * 3, QImage.Format.Format_RGB888)
