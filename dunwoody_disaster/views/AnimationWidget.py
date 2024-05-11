@@ -46,17 +46,22 @@ class AnimationWidget(QWidget):
         layout.addWidget(self.frame)
         self.setLayout(layout)
 
+    # data must be 32-bit aligned, and each scanline of data in the image must also be 32-bit aligned
     def update_frame(self):
         while self.animation.running:
             self.animation.run()
             img_bytes = self.animation.to_bytes()
             self.queue.put(img_bytes)
 
+    """
+    Try this constructor for QImage
+        def __init__(self, data: Union[bytes, bytearray, memoryview], width: int, height: int, bytesPerLine: int, format: PySide7.QtGui.QImage.Format, cleanupFunction: Optional[Callable] = ..., cleanupInfo: Optional[int] = ...) -> None: ...
+    """
     def draw_frames(self):
         width = self.animation.size[0]
         height = self.animation.size[1]
         while not self.queue.empty():
             img_bytes = self.queue.get()
-            img = QImage(img_bytes, width, height, QImage.Format.Format_RGB888)
+            img = QImage(img_bytes, width, height, 1998, QImage.Format.Format_RGB888)
             pixmap = QPixmap.fromImage(img)
             self.frame.setPixmap(pixmap)
