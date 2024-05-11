@@ -70,7 +70,7 @@ class ActionSelector(QWidget):
         if self.attack:
             attack = self.attack.image
             if self._hidden:
-                attack = DD.ASSETS["no_texture"]
+                attack = DD.ASSETS["question"]
             self.attack_pic.setPixmap(QPixmap(attack).scaledToWidth(50))
         else:
             self.attack_pic.setPixmap(QPixmap())
@@ -78,7 +78,7 @@ class ActionSelector(QWidget):
         if self.defense:
             defense = self.defense.image
             if self._hidden:
-                defense = DD.ASSETS["no_texture"]
+                defense = DD.ASSETS["question"]
             self.defend_pic.setPixmap(QPixmap(defense).scaledToWidth(50))
         else:
             self.defend_pic.setPixmap(QPixmap())
