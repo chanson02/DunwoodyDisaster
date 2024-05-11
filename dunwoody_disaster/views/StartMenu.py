@@ -12,7 +12,6 @@ from PySide6.QtWidgets import (
     QPushButton,
     QWidget,
     QApplication,
-    QSizePolicy
 )
 
 import dunwoody_disaster as DD
@@ -111,7 +110,6 @@ class StartMenu(QWidget):
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(layout)
-        self.setStyleSheet('border: 1px solid green;')
 
         self.movie = QMovie(DD.ASSETS["FinalTitle"])
         self.movie.start()
