@@ -27,20 +27,24 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Dunwoody-Disaster")
         self.setStyleSheet("background-color: black; color: #FFFFFF;")
         self.setupMusicPlayer()
-        self.currentScreen = None  # To keep track of the current screen
+
         self.player = None
-
-        self.startMenu = StartMenu()
-        self.startMenu.onStart(self.startBtnClicked)
-
         self.fight = None
-
         self.stack = QStackedWidget()
-        self.stack.addWidget(self.startMenu)
+        self.startMenu = StartMenu()
 
-        # Set the stacked widget as the central widget of the main window
         self.setCentralWidget(self.stack)
+        self.stack.addWidget(self.startMenu)
         self.showStartMenu()
+        # self.currentScreen = None  # To keep track of the current screen
+        # self.startMenu = StartMenu()
+        # self.startMenu.onStart(self.startBtnClicked)
+        # self.stack = QStackedWidget()
+        # self.stack.addWidget(self.startMenu)
+        #
+        # # Set the stacked widget as the central widget of the main window
+        # self.setCentralWidget(self.stack)
+        # self.showStartMenu()
 
     def showStartMenu(self):
         self.stack.setCurrentWidget(self.startMenu)
