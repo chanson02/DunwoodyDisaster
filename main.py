@@ -63,12 +63,17 @@ class MainWindow(QMainWindow):
         pygame.mixer.music.play(-1)  # Play indefinitely
         # Load and play fire crackle sound; only set sounds to variables and not music.
         self.Fire_Sound1 = pygame.mixer.Sound(AUDIO["FireCrackle"])
-        self.Fire_Sound1.set_volume(0.1)
+        self.Fire_Sound1.set_volume(0.05)
         self.Fire_Sound1.play(loops=-1)
+        # Load and play wind sound
+        self.Wind_Sound = pygame.mixer.Sound(AUDIO["Wind"])
+        self.Wind_Sound.set_volume(0.4)
+        self.Wind_Sound.play(loops=-1)
 
     def startBtnClicked(self):
         pygame.mixer.music.stop()
         self.Fire_Sound1.stop()
+        self.Wind_Sound.stop()
         pygame.mixer.music.load(AUDIO["CrawlMusic"])
         pygame.mixer.music.set_volume(1.0)
         pygame.mixer.music.play()
