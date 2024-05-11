@@ -37,7 +37,6 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.stack)
         self.stack.addWidget(self.startMenu)
         self.showStartMenu()
-        self.currentScreen = None  # To keep track of the current screen
 
     def showStartMenu(self):
         self.stack.setCurrentWidget(self.startMenu)
@@ -135,13 +134,9 @@ class MainWindow(QMainWindow):
     def showMapScreen(self):
         self.stack.removeWidget(self.characterWidget)
         self.stopAllSounds()
-        self.currentScreen = "map"
-        if self.currentScreen == "map":
-            pygame.mixer.music.load(AUDIO["MapScreenMusic"])
-            pygame.mixer.music.set_volume(0.9)
-            pygame.mixer.music.play(loops=-1)
-        else:
-            self.stopAllSounds()
+        pygame.mixer.music.load(AUDIO["MapScreenMusic"])
+        pygame.mixer.music.set_volume(0.9)
+        pygame.mixer.music.play(loops=-1)
 
         self.mapScreen.map.setRoom(None)
         unbeaten = self.mapScreen.map.available_rooms()
@@ -169,13 +164,9 @@ class MainWindow(QMainWindow):
         Enter fight screen by pointing stack at fight screen.
         This will need to be changed to set the proper opponent per setting. Index 2 is the fight screen.
         """
-        self.currentScreen = "fight"
         self.stopAllSounds()
         if not self.player:
             raise Exception("Cannot enter fight when no player is selected")
-
-        if self.currentScreen == "fight":
-            self.stopAllSounds  # Stop specific music if it's playing
 
         if self.fight:
             self.stack.removeWidget(self.fight.widget)
