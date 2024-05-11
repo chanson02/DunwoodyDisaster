@@ -46,9 +46,12 @@ class CharacterDetailWidget(QWidget):
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.add_char)
         self.char_index = 0
+        # Get the character description or set a default message
         self.character_description = getattr(
             self.character, "description", "No description available."
         )
+        # self.character_description = self.character.description which is created in the CharacterFactory.py
+
         self.timer.start(50)
 
     def initSound(self):
