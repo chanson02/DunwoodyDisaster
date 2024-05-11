@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel
 import threading
-from PySide6.QtGui import QPixmap, QImage
+from PySide6.QtGui import QPixmap
 from PySide6.QtCore import QTimer
 from queue import Queue
 from dunwoody_disaster.animations.PygameAnimation import PygameAnimation

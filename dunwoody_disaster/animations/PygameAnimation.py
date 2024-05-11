@@ -3,7 +3,6 @@ from typing import Optional
 from PySide6.QtGui import QImage
 
 
-
 class PygameAnimation:
     """
     An abstract class for managing animations in pygame.
@@ -99,4 +98,10 @@ class PygameAnimation:
         Assumes 24 bit RGB format
         """
         width = self.surface.get_width()
-        return QImage(self.to_bytes(), width, self.surface.get_height(), width * 3, QImage.Format.Format_RGB888)
+        return QImage(
+            self.to_bytes(),
+            width,
+            self.surface.get_height(),
+            width * 3,
+            QImage.Format.Format_RGB888,
+        )
