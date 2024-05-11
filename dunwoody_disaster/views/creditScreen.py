@@ -5,25 +5,21 @@ import dunwoody_disaster as DD
 from typing import Callable
 
 
-class Crawl(QWidget):
+class Credits(QWidget):
     def __init__(self):
         super().__init__()
         self._finishCallback = DD.unimplemented
         self.text_lines = [
-            "In a distant galaxy, in an era of peace and prosperity...",
+            "<Credits go here>",
             "",
-            "Unexpected turmoil has emerged.",
-            "Factions once united now stand divided,",
-            "threatening the stability of the galaxy.",
+            "Cooper",
             "",
-            "A small group of brave individuals",
-            "seeks to restore harmony and justice.",
-            "Their journey will test their resolve,",
-            "challenge their beliefs, and",
-            "shape the fate of the cosmos.",
+            "Noah",
             "",
-            "This is their story...",
+            "John",
             "",
+            "Mitch",
+            "<Credits end here>",
         ]
         self.line_spacing = 30
         self.scroll_speed = 0.55  # Adjust the scrolling speed as needed
@@ -44,7 +40,7 @@ class Crawl(QWidget):
             self.scroll_position
             >= len(self.text_lines) * self.line_spacing + self.height()
         ):
-            self.endCrawlScreen()  # Once scrolling is done, callback and go to next screen.
+            self.endCreditScreen()  # Once scrolling is done, callback and go to next screen.
         self.update()
 
     def paintEvent(self, event):
@@ -68,9 +64,9 @@ class Crawl(QWidget):
 
     def keyPressEvent(self, event: QKeyEvent):
         if event.key() == Qt.Key.Key_Enter or event.key() == Qt.Key.Key_Return:
-            self.endCrawlScreen()
+            self.endCreditScreen()
 
-    def endCrawlScreen(self):
+    def endCreditScreen(self):
         self.timer.stop()
         self._finishCallback
         # Call the callback function to go to the next screen
@@ -78,5 +74,5 @@ class Crawl(QWidget):
             self._finishCallback()
         self.deleteLater()
 
-    def onFinish(self, callback: Callable):
+    def onFinishCredits(self, callback: Callable):
         self._finishCallback = callback
