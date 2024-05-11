@@ -92,7 +92,10 @@ class FightSequence(QWidget):
             enemyActions.clear()
             enemyActions.selectRandom()
             if self.enemy.curHealth <= 0:
-                self._winCallback()
+                if self.enemy.name == "Bill Hudson":
+                    self._winGameCall()
+                else:
+                    self._winCallback()
             elif self.player.curHealth <= 0:
                 self.player.reload()
                 self.enemy.reset()
@@ -128,3 +131,6 @@ class FightSequence(QWidget):
 
     def onLose(self, callback: Callable):
         self._loseCallback = callback
+
+    def onWinGame(self, callback: Callable):
+        self._winGameCall = callback

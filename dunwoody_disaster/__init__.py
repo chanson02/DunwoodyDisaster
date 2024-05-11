@@ -6,6 +6,7 @@ from PySide6.QtWidgets import (
     QLayout,
     QVBoxLayout,
 )
+from PySide6.QtGui import QPixmap, QPainter
 from PySide6.QtCore import QObject, Signal, QEvent, SignalInstance, Qt
 import os
 from typing import Callable
@@ -148,6 +149,13 @@ def clickable(widget: QWidget) -> SignalInstance:
     filter = Filter(widget)
     widget.installEventFilter(filter)
     return filter.clicked
+
+
+def overlay(base: QPixmap, overlay: QPixmap, position: tuple[int, int]) -> QPixmap:
+    painter = QPainter(base)
+    painter.drawPixmap(position[0], position[1], overlay)
+    painter.end()
+    return base
 
 
 # Copy and pasted from python3.12/typing.py
