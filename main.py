@@ -39,6 +39,7 @@ class MainWindow(QMainWindow):
         self.showStartMenu()
 
     def showStartMenu(self):
+        self.startMenu.movie.start()
         self.stack.setCurrentWidget(self.startMenu)
 
     def setupMusicPlayer(self):

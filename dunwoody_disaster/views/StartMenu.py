@@ -116,7 +116,6 @@ class StartMenu(QWidget):
         self.setLayout(layout)
 
         self.movie = QMovie(DD.ASSETS["FinalTitle"])
-        self.movie.start()
 
         bkg = MovieLabel()
         bkg.setMovie(self.movie)
