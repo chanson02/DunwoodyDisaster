@@ -6,6 +6,8 @@ from PySide6.QtWidgets import (
     QHBoxLayout,
     QGroupBox,
 )
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QKeyEvent
 from dunwoody_disaster.CharacterFactory import Character
 import dunwoody_disaster as DD
 from typing import Callable
@@ -47,6 +49,12 @@ class DialogueScreen(QWidget):
         self.loadDialogue()
         DD.clickable(self).connect(self.next_dialogue)
         self._callback = DD.unimplemented
+
+    def keyPressEvent(self, event: QKeyEvent):
+        k = event.key()
+        if k == Qt.Key.Key_Enter or k == Qt.Key.Key_Return:
+            self.next_dialogue()
+        return
 
     def set_dialogue(self, char1: list[str], char2: list[str]):
         self._char1_dialogue = char1

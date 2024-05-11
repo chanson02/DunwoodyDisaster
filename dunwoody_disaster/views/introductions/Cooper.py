@@ -1,5 +1,6 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QPushButton
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QKeyEvent
 
 from dunwoody_disaster.CharacterFactory import Character
 from typing import Callable
@@ -50,6 +51,12 @@ class CooperIntroScreen(QWidget):
         btn.clicked.connect(self._callback)
         layout.addWidget(btn)
 
+        return
+
+    def keyPressEvent(self, event: QKeyEvent):
+        k = event.key()
+        if k == Qt.Key.Key_Enter or k == Qt.Key.Key_Return:
+            self._callback()
         return
 
     def text_box(self, text: str) -> QVBoxLayout:
