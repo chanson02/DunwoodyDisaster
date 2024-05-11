@@ -11,6 +11,7 @@ class ActionSelector(QWidget):
     def __init__(self, character: Character):
         super().__init__()
         self._hidden = False
+        self.locked = False
         self.character = character
         self.attack: Optional[Item.Weapon] = None
         self.defense: Optional[Item.Armor] = None
@@ -21,6 +22,8 @@ class ActionSelector(QWidget):
         self.setDefense(None)
 
     def setAttack(self, item: Optional[Item.Weapon]):
+        if self.locked:
+            return
         if item is not None:
             staminaCost = item.staminaCost
             magicCost = item.magicCost
@@ -39,6 +42,8 @@ class ActionSelector(QWidget):
         self.updateUI()
 
     def setDefense(self, item: Optional[Item.Armor]):
+        if self.locked:
+            return
         if item is not None:
             staminaCost = item.staminaCost
             magicCost = item.magicCost
@@ -70,7 +75,7 @@ class ActionSelector(QWidget):
         if self.attack:
             attack = self.attack.image
             if self._hidden:
-                attack = DD.ASSETS["no_texture"]
+                attack = DD.ASSETS["question"]
             self.attack_pic.setPixmap(QPixmap(attack).scaledToWidth(50))
         else:
             self.attack_pic.setPixmap(QPixmap())
@@ -78,7 +83,7 @@ class ActionSelector(QWidget):
         if self.defense:
             defense = self.defense.image
             if self._hidden:
-                defense = DD.ASSETS["no_texture"]
+                defense = DD.ASSETS["question"]
             self.defend_pic.setPixmap(QPixmap(defense).scaledToWidth(50))
         else:
             self.defend_pic.setPixmap(QPixmap())

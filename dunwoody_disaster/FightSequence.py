@@ -6,13 +6,11 @@ from typing import Callable
 import dunwoody_disaster as DD
 from PySide6.QtCore import Signal
 from PySide6.QtWidgets import QWidget
-
 from dunwoody_disaster.animations.LinearComponent import LinearComponent
 
 
 class FightSequence(QWidget):
     signal = Signal()
-
 
     def __init__(
         self,
@@ -41,10 +39,18 @@ class FightSequence(QWidget):
             # Don't let the user spam the attack button
             return
 
-        self._locked = True
         self.clearSignal()
-        enemyActions.show()
 
+        def setLockState(state: bool):
+            self._locked = state
+            playerActions.locked = state
+            enemyActions.locked = state
+            if state:
+                enemyActions.show()
+            else:
+                enemyActions.hide()
+
+        setLockState(True)
         playerAnimation = LinearComponent(
             playerActions.getAttack().image,
             self.signal,
@@ -90,17 +96,19 @@ class FightSequence(QWidget):
             finishTurn()
 
         def finishTurn():
+            setLockState(False)
             playerActions.clear()
             enemyActions.clear()
             enemyActions.selectRandom()
             if self.enemy.curHealth <= 0:
-                self._winCallback()
+                if self.enemy.name == "Bill Hudson":
+                    self._winGameCall()
+                else:
+                    self._winCallback()
             elif self.player.curHealth <= 0:
                 self.player.reload()
                 self.enemy.reset()
                 self._loseCallback()
-
-            self._locked = False
 
         self.signal.connect(evaluatePlayerTurn)
         self.widget.animation.components.append(playerAnimation)
@@ -130,3 +138,6 @@ class FightSequence(QWidget):
 
     def onLose(self, callback: Callable):
         self._loseCallback = callback
+
+    def onWinGame(self, callback: Callable):
+        self._winGameCall = callback

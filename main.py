@@ -6,6 +6,7 @@ from dunwoody_disaster.FightSequence import FightSequence
 from dunwoody_disaster.views.StartMenu import StartMenu
 from dunwoody_disaster.views.MapScreen import MapScreen, Map
 from dunwoody_disaster.views.crawlScreen import Crawl
+from dunwoody_disaster.views.creditScreen import Credits
 from dunwoody_disaster.views.CharacterSelector import CharacterSelector
 from dunwoody_disaster.CharacterFactory import CharacterFactory, Character
 from dunwoody_disaster.views.defeatScreen import DefeatScreen
@@ -17,6 +18,8 @@ from dunwoody_disaster.views.MonologueWidget import (
 )
 
 from dunwoody_disaster import AUDIO
+from dunwoody_disaster.views.introductions.Cooper import CooperIntroScreen
+from dunwoody_disaster.views.introductions.Noah import NoahIntroScreen
 
 default_font = QFont("blood crow", 12)  # Font family is Arial and font size is 12
 QApplication.setFont(default_font)
@@ -31,25 +34,20 @@ class MainWindow(QMainWindow):
         self.currentScreen = None  # To keep track of the current screen
         self.player = None
 
-        # Define the transition callback within this class
-        self.characterWidget = CharacterDetailWidget(
-            CharacterFactory.John(), self.showMapScreen
-        )
-        self.setCentralWidget(self.characterWidget)
-
         self.startMenu = StartMenu()
         self.startMenu.onStart(self.startBtnClicked)
 
-        self.selector = CharacterSelector(CharacterFactory.playable())
-        self.selector.onSelect(self.userSelectedCharacter)
         self.fight = None
 
         self.stack = QStackedWidget()
         self.stack.addWidget(self.startMenu)
-        self.stack.addWidget(self.selector)
 
         # Set the stacked widget as the central widget of the main window
         self.setCentralWidget(self.stack)
+        self.showStartMenu()
+
+    def showStartMenu(self):
+        self.stack.setCurrentWidget(self.startMenu)
 
     def setupMusicPlayer(self):
         # Initialize Pygame mixer
@@ -76,19 +74,14 @@ class MainWindow(QMainWindow):
         self.stack.setCurrentWidget(self.crawl)
 
     def showSelector(self):
+        self.selector = CharacterSelector(CharacterFactory.playable())
+        self.selector.onSelect(self.userSelectedCharacter)
+        self.stack.addWidget(self.selector)
         pygame.mixer.music.stop()
         pygame.mixer.music.load(AUDIO["CharacterSelectionMusic"])
         pygame.mixer.music.set_volume(1.0)  # Set volume from 0.0 to 1.0
         pygame.mixer.music.play(-1)  # Play indefinitely
         self.stack.setCurrentWidget(self.selector)
-
-    def createPlayableCharacters(self) -> list[Character]:
-        return [
-            CharacterFactory.Cooper(),
-            CharacterFactory.Mitch(),
-            CharacterFactory.Noah(),
-            CharacterFactory.John(),
-        ]
 
     def userSelectedCharacter(self, character: Character):
         self.player = character
@@ -105,14 +98,44 @@ class MainWindow(QMainWindow):
     def displayCharacterDetails(self, character):
         self.stopAllSounds()
         if character.name == "John":
+            self.TypeWriterSound = pygame.mixer.Sound(AUDIO["TypeWriterSound"])
+            self.TypeWriterSound.set_volume(0.9)
+            self.TypeWriterSound.play(loops=-1)
             # Load John's theme music
             pygame.mixer.music.load(AUDIO["JohnTheme"])
             pygame.mixer.music.set_volume(0.4)
             pygame.mixer.music.play(-1)
 
-        self.characterWidget = CharacterDetailWidget(
-            character, transition_callback=self.showMapScreen
-        )
+            self.characterWidget = CharacterDetailWidget(
+                character, transition_callback=self.showMapScreen
+            )
+        elif character.name == "Cooper":
+            self.characterWidget = CooperIntroScreen(
+                character, transition_callback=self.showMapScreen
+            )
+        elif character.name == "Mitch":
+            self.TypeWriterSound = pygame.mixer.Sound(AUDIO["TypeWriterSound"])
+            self.TypeWriterSound.set_volume(0.2)
+            self.TypeWriterSound.play(loops=5)
+            # Load Mitch's theme music
+            pygame.mixer.music.load(AUDIO["MitchTheme"])
+            # Set the volume to maximum (1.0)
+            pygame.mixer.music.set_volume(1.0)
+            # Play John's theme music in a loop indefinitely
+            pygame.mixer.music.play(-1)
+
+            self.characterWidget = CharacterDetailWidget(
+                character, transition_callback=self.showMapScreen
+            )
+        elif character.name == "Noah":
+            self.characterWidget = NoahIntroScreen(
+                character, transition_callback=self.showMapScreen
+            )
+        else:
+            raise Exception(
+                f"Introscreen for {character.name} has not yet been implemented"
+            )
+
         self.stack.addWidget(self.characterWidget)
         self.stack.setCurrentWidget(self.characterWidget)
 
@@ -131,6 +154,7 @@ class MainWindow(QMainWindow):
         self.stack.setCurrentWidget(self.monologue)
 
     def showMapScreen(self):
+        self.stack.removeWidget(self.characterWidget)
         self.stopAllSounds()
         self.currentScreen = "map"
         if self.currentScreen == "map":
@@ -139,8 +163,9 @@ class MainWindow(QMainWindow):
             pygame.mixer.music.play(loops=-1)
         else:
             self.stopAllSounds()
+
         self.mapScreen.map.setRoom(None)
-        unbeaten = self.mapScreen.map.unbeaten_rooms()
+        unbeaten = self.mapScreen.map.available_rooms()
         if len(unbeaten) > 0:
             self.mapScreen.map.setRoom(unbeaten[0])
         self.stack.setCurrentWidget(self.mapScreen)
@@ -179,6 +204,7 @@ class MainWindow(QMainWindow):
         self.fight = FightSequence(self.player, room["NPC"], room["battlefield"])
         self.fight.onWin(self.showVictoryScreen)
         self.fight.onLose(self.showDefeatScreen)
+        self.fight.onWinGame(self.showWinGameCrawl)
 
         self.stack.addWidget(self.fight.widget)
         self.fight.widget.animation_Object.start()
@@ -206,6 +232,15 @@ class MainWindow(QMainWindow):
         self.fight.widget.animation_Object.stop()
         self.stack.setCurrentWidget(victory)
 
+    def showWinGameCrawl(self):
+        crawl = Crawl()
+        crawl.text_lines = ["Evil has been defeated"]
+        crawl.onFinish(self.showCreditScreen)
+        self.stack.addWidget(crawl)
+        self.stack.setCurrentWidget(crawl)
+        self.player.reset()
+        self.stopAllSounds()
+
     def showDefeatScreen(self):
         if self.fight is None:
             raise Exception("Defeat Screen expects a fight")
@@ -220,10 +255,16 @@ class MainWindow(QMainWindow):
         self.fight.widget.animation_Object.stop()
         self.stack.setCurrentWidget(defeat)
 
-        """def closeEvent(self, event):
+    def closeEvent(self, event):
         _ = event  # silence unused warning
         if self.fight:
             self.fight.widget.animation_Object.stop()
+
+    def showCreditScreen(self):
+        credits = Credits()
+        self.stack.addWidget(credits)
+        self.stack.setCurrentWidget(credits)
+        credits.onFinishCredits(self.showStartMenu)
 
 
 if __name__ == "__main__":

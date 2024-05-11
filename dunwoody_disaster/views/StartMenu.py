@@ -9,6 +9,7 @@ from PySide6.QtWidgets import (
     QMessageBox,
     QPushButton,
     QWidget,
+    QApplication,
     QGraphicsOpacityEffect,
 )
 from PySide6.QtCore import QTimer
@@ -98,3 +99,4 @@ class StartMenu(QWidget):
         if reply == QMessageBox.StandardButton.Yes:
             pygame.mixer.music.stop()  # Stop the music
             self.close()
+            QApplication.quit()
