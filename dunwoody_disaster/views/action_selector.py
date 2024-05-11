@@ -11,6 +11,7 @@ class ActionSelector(QWidget):
     def __init__(self, character: Character):
         super().__init__()
         self._hidden = False
+        self.locked = False
         self.character = character
         self.attack: Optional[Item.Weapon] = None
         self.defense: Optional[Item.Armor] = None
@@ -21,6 +22,8 @@ class ActionSelector(QWidget):
         self.setDefense(None)
 
     def setAttack(self, item: Optional[Item.Weapon]):
+        if self.locked:
+            return
         if item is not None:
             staminaCost = item.staminaCost
             magicCost = item.magicCost
@@ -39,6 +42,8 @@ class ActionSelector(QWidget):
         self.updateUI()
 
     def setDefense(self, item: Optional[Item.Armor]):
+        if self.locked:
+            return
         if item is not None:
             staminaCost = item.staminaCost
             magicCost = item.magicCost
