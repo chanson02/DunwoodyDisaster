@@ -86,20 +86,24 @@ class MovieLabel(QLabel):
 
         style = self.style()
         alignment = style.visualAlignment(self.layoutDirection(), self.alignment())
-        maybeSize = self._movieSize.scaled(cr.size(), Qt.AspectRatioMode.KeepAspectRatio)
+        maybeSize = self._movieSize.scaled(
+            cr.size(), Qt.AspectRatioMode.KeepAspectRatio
+        )
 
         if maybeSize != movie.scaledSize():
             movie.setScaledSize(maybeSize)
             style.drawItemPixmap(
-                qp, cr, alignment, 
-                movie.currentPixmap().scaled(cr.size(), Qt.AspectRatioMode.KeepAspectRatio)
+                qp,
+                cr,
+                alignment,
+                movie.currentPixmap().scaled(
+                    cr.size(), Qt.AspectRatioMode.KeepAspectRatio
+                ),
             )
 
         else:
-            style.drawItemPixmap(
-                qp, cr, alignment, 
-                movie.currentPixmap()
-            )
+            style.drawItemPixmap(qp, cr, alignment, movie.currentPixmap())
+
 
 class StartMenu(QWidget):
     def __init__(self):
