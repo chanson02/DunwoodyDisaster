@@ -372,7 +372,6 @@ class CharacterFactory:
         char.defense = 30
         char.magicDefense = 5
 
-
         char.weapons = [
             Item.Weapon(name="Unreal End", damage=8, magic=15, stamina=8, magical=True),
             Item.Weapon(
@@ -402,7 +401,6 @@ class CharacterFactory:
 
         char.image_path = DD.ASSETS["MitchRefined+"]
 
-        
         char.image_path = DD.ASSETS["MitchRefined+"]
         char.description = "Four years. Four long years spent within this “institution.” Four years fighting a system that chose not to care. Four years of taking on debt while receiving nothing in return. I will soon leave this place with a degree that won’t be worth the paper it will be printed on. I will leave this place with very few job prospects and lacking the skills necessary to compete in my chosen field. I did the work that was asked of me, but Dunwoody failed to do the work that was asked of them by their students. They failed, and now we are left to pick up the pieces and suffer the consequences of their failure. My name is Mitchell Humphries and this is my story of the Dunwoody Disaster."
         return char
