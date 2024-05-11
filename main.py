@@ -98,9 +98,6 @@ class MainWindow(QMainWindow):
     def displayCharacterDetails(self, character):
         self.stopAllSounds()
         if character.name == "John":
-            self.TypeWriterSound = pygame.mixer.Sound(AUDIO["TypeWriterSound"])
-            self.TypeWriterSound.set_volume(0.9)
-            self.TypeWriterSound.play(loops=-1)
             # Load John's theme music
             pygame.mixer.music.load(AUDIO["JohnTheme"])
             pygame.mixer.music.set_volume(0.4)
@@ -114,9 +111,6 @@ class MainWindow(QMainWindow):
                 character, transition_callback=self.showMapScreen
             )
         elif character.name == "Mitch":
-            self.TypeWriterSound = pygame.mixer.Sound(AUDIO["TypeWriterSound"])
-            self.TypeWriterSound.set_volume(0.2)
-            self.TypeWriterSound.play(loops=5)
             # Load Mitch's theme music
             pygame.mixer.music.load(AUDIO["MitchTheme"])
             # Set the volume to maximum (1.0)
