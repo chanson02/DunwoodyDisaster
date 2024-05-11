@@ -40,6 +40,8 @@ class FightSequence(QWidget):
             return
 
         self.clearSignal()
+        item_size = int(max(self.widget.animation.size) * 0.1)
+        item_size = (item_size, item_size)
 
         def setLockState(state: bool):
             self._locked = state
@@ -57,6 +59,7 @@ class FightSequence(QWidget):
             self.widget.animation.player_pos,
             self.widget.animation.enemy_pos,
             duration_ms=500,
+            size=item_size,
         )
 
         enemyAnimation = LinearComponent(
@@ -65,6 +68,7 @@ class FightSequence(QWidget):
             self.widget.animation.enemy_pos,
             self.widget.animation.player_pos,
             duration_ms=500,
+            size=item_size,
         )
 
         def evaluatePlayerTurn():
