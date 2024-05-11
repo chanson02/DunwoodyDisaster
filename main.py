@@ -67,7 +67,7 @@ class MainWindow(QMainWindow):
         self.Fire_Sound1.play(loops=-1)
         # Load and play wind sound
         self.Wind_Sound = pygame.mixer.Sound(AUDIO["Wind"])
-        self.Wind_Sound.set_volume(0.4)
+        self.Wind_Sound.set_volume(0.25)
         self.Wind_Sound.play(loops=-1)
 
     def startBtnClicked(self):
