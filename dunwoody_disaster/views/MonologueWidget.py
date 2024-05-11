@@ -1,100 +1,86 @@
 import pygame
-from PySide6.QtWidgets import QWidget, QLabel, QTextEdit, QHBoxLayout, QPushButton
-from PySide6.QtGui import QPixmap, QFont, QIcon, QKeyEvent
-from PySide6.QtCore import Qt, QTimer
+import json
+from PySide6.QtWidgets import QWidget, QLabel, QTextEdit, QPushButton, QVBoxLayout
+from PySide6.QtGui import QPixmap, QFont
+from PySide6.QtCore import QTimer
+from typing import Callable
 
 from dunwoody_disaster import ASSETS, AUDIO
+import dunwoody_disaster as DD
+from dunwoody_disaster.CharacterFactory import Character
 
 
 class MonologueWidget(QWidget):
-
-    def __init__(self, character, transition_callback):
+    def __init__(self, char: Character, transition_callback: Callable):
         super().__init__()
-        self.character = character
+        self.char = char
+        self.current_dialogue_index = 0
+        self.char_index = 0
         self.transition_callback = transition_callback
+
         self.initUI()
         self.initSound()
+        self.loadDialogue()
 
     def initUI(self):
-        layout = QHBoxLayout()
+        layout = QVBoxLayout(self)
+        self.char_img = QLabel(self)
+        self.char_img.setPixmap(QPixmap(self.char.image()))
+        layout.addWidget(self.char_img)
 
-        # Image setup
-        self.imageLabel = QLabel(self)
-        pixmap = QPixmap(self.character.image()).scaled(
-            500, 600, Qt.AspectRatioMode.KeepAspectRatio
-        )
-        self.imageLabel.setPixmap(pixmap)
-        layout.addWidget(self.imageLabel)
+        self.dialogueText = QTextEdit(self)
+        self.dialogueText.setFont(QFont("Arial", 16))
+        self.dialogueText.setReadOnly(True)
+        layout.addWidget(self.dialogueText)
 
-        # Text edit for description with typewriter effect
-        self.MonologueChat = QTextEdit(self)
-        Monologue_description = QFont("JMH Typewriter", 20)
-        self.MonologueChat.setFont(Monologue_description)
-        self.MonologueChat.setReadOnly(True)
-        layout.addWidget(self.MonologueChat)
+        self.nextButton = QPushButton("Next", self)
+        self.nextButton.clicked.connect(self.display_next_dialogue)
+        layout.addWidget(self.nextButton)
 
-        # Button to transition to map screen
-        self.mapButton = QPushButton("Next")
-        self.mapButton.setIcon(QIcon(ASSETS["lock"]))
-        self.mapButton.clicked.connect(self.transition_callback)
-        self.mapButton.setDisabled(True)
-        layout.addWidget(self.mapButton)
-
-        self.setLayout(layout)
-
-        # Timer setup for typewriter effect
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.add_char)
-        self.char_index = 0
-        self.monologue_description = getattr(
-            self.character, "description", "No description available."
-        )
-        self.timer.start(50)
 
     def initSound(self):
         pygame.mixer.init()
-        self.TypeWriterSound = pygame.mixer.Sound(AUDIO["TypeWriterSound"])
-        self.TypeWriterSound.set_volume(0.9)
+        try:
+            self.typewriter_sound = pygame.mixer.Sound(AUDIO["TypeWriterSound"])
+        except KeyError:
+            print("Audio key 'typewriter_click.wav' not found in AUDIO dictionary")
+        self.typewriter_sound.set_volume(0.5)
+
+    def loadDialogue(self):
+        path = f"{DD.BASE_PATH}/monologues/{self.char.name}.json"
+        try:
+            with open(path, "r") as f:
+                self._char_monologue = json.load(f).get(
+                    "victory", ["victory"]
+                )
+        except FileNotFoundError:
+            print(f"Dialogue file {path} not found")
+            self._char_monologue = ["No dialogue found."]
+        except json.JSONDecodeError:
+            print(f"Error decoding JSON from {path}")
+            self._char_monologue = ["Error in dialogue format."]
+
+        self.display_next_dialogue()
 
     def add_char(self):
-        if self.char_index < len(self.monologue_description):
-            current_text = self.MonologueChat.toPlainText()
-            current_text += self.monologue_description[self.char_index]
-            self.MonologueChat.setText(current_text)
+        if self.char_index < len(self.current_text):
+            self.dialogueText.insertPlainText(self.current_text[self.char_index])
             self.char_index += 1
-            # Play sound with each character
-            if (
-                not pygame.mixer.get_busy()
-            ):  # Check if the sound is not currently playing
-                self.TypeWriterSound.stop()  # Ensure any currently playing sound is stopped
-                self.TypeWriterSound.play()
+            if not pygame.mixer.get_busy():
+                self.typewriter_sound.play()
         else:
-            self.timer.stop()  # Stop the timer if the text is complete
-            self.mapButton.setDisabled(False)  # Enable the button when typing is done
+            self.timer.stop()
+            self.nextButton.setDisabled(False)
 
-    def keyPressEvent(self, event: QKeyEvent):
-        if event.key() == Qt.Key_Enter or event.key() == Qt.Key_Return:
-            self.complete_typing()
-            event.accept()
+    def display_next_dialogue(self):
+        if self.current_dialogue_index < len(self._char_monologue):
+            self.current_text = self._char_monologue[self.current_dialogue_index]
+            self.char_index = 0
+            self.dialogueText.clear()
+            self.timer.start(50)
+            self.nextButton.setDisabled(True)
+            self.current_dialogue_index += 1
         else:
-            super().keyPressEvent(event)
-
-    def complete_typing(self):
-        self.timer.stop()
-        self.TypeWriterSound.stop()
-        self.MonologueChat.setText(self.monologue_text)
-        self.nextButton.setDisabled(False)
-
-    def keyPressEvent(self, event: QKeyEvent):
-        if event.key() == Qt.Key_Enter or event.key() == Qt.Key_Return:
-            self.timer.stop()  # Stop the typing effect
-            self.TypeWriterSound.stop()  # Stop the typing sound
-            self.MonologueChat.setText(
-                self.monologue_description
-            )  # Set the complete text
-            self.mapButton.setDisabled(False)  # Enable the button immediately
-            event.accept()  # Mark the event as handled
-        else:
-            super().keyPressEvent(
-                event
-            )  # Call the base class method to handle other key presses
+            self.transition_callback()

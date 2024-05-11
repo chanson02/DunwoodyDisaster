@@ -25,6 +25,11 @@ default_font = QFont("blood crow", 12)  # Font family is Arial and font size is 
 QApplication.setFont(default_font)
 
 
+def should_display_monologue(player, opponent):
+    # Placeholder for logic to determine if a monologue should be displayed
+    return opponent.name
+
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -141,9 +146,7 @@ class MainWindow(QMainWindow):
             pygame.mixer.music.set_volume(0.4)
             pygame.mixer.music.play(-1)
 
-        self.monologue = MonologueWidget(
-            character, transition_callback=self.showMapScreen
-        )
+        self.monologue = MonologueWidget(character, self.showMapScreen)
         self.stack.addWidget(self.monologue)
         self.stack.setCurrentWidget(self.monologue)
 
@@ -192,6 +195,8 @@ class MainWindow(QMainWindow):
         if self.currentScreen == "fight":
             self.stopAllSounds  # Stop specific music if it's playing
 
+        self.monologue = room.get("John", False)
+
         if self.fight:
             self.stack.removeWidget(self.fight.widget)
 
@@ -218,8 +223,12 @@ class MainWindow(QMainWindow):
 
         def loot_collected():
             self.stack.removeWidget(victory)
-            self.showMapScreen()
-            self.saveCharacter(self.player)
+            if should_display_monologue(self.player, self.fight.enemy):
+                self.displayMonologue(self.player)
+            else:
+                self.stack.removeWidget(victory)
+                self.showMapScreen()
+                self.saveCharacter(self.player)
 
         victory.onClose(loot_collected)
         self.stack.addWidget(victory)
