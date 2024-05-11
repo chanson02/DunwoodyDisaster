@@ -14,6 +14,7 @@ class Meter(QWidget):
         super().__init__()
         self._endColor: Optional[QColor] = None
         self.setColor(color)
+        self.animated = True
         self.animationTimer = QTimer()
         self.animationTimer.timeout.connect(self.nextFrame)
 
@@ -32,7 +33,10 @@ class Meter(QWidget):
         self._percentage = max(0, min(percentage, 100))
 
         diff = max(1, self._prevPercentage - self._percentage)
-        self.animationTimer.start(int(750 // diff))
+        if self.animated:
+            self.animationTimer.start(int(750 // diff))
+        else:
+            self.update()
         return
 
     def nextFrame(self):
@@ -85,5 +89,6 @@ class Meter(QWidget):
         prev_y = border + (fill_h - prev_h) // 2
 
         painter.fillRect(0, 0, w, h, bkg_color)
-        painter.fillRect(border, prev_y, prev_w, prev_h, prev_color)
+        if self.animated:
+            painter.fillRect(border, prev_y, prev_w, prev_h, prev_color)
         painter.fillRect(border, border, fill_w, fill_h, for_color)

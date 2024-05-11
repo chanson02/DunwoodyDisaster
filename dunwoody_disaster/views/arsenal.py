@@ -23,8 +23,10 @@ class Arsenal(QWidget):
         selector: ActionSelector,
         weapons: list[Item.Weapon],
         armors: list[Item.Armor],
+        interactive=False,
     ):
         super().__init__()
+        self.interactive = interactive
         self.selector = selector
         layout = QGridLayout()
         layout.setContentsMargins(0, 0, 0, 0)
@@ -77,7 +79,8 @@ class Arsenal(QWidget):
             gbox.setStyleSheet("border: none;")
             container = QVBoxLayout()
             container.addWidget(item.widget())
-            DD.clickable(gbox).connect(self.selectItemLambda(item))
+            if self.interactive:
+                DD.clickable(gbox).connect(self.selectItemLambda(item))
             gbox.setLayout(container)
             item_layout.addWidget(gbox, item_row, 0)
             item_row += 1
