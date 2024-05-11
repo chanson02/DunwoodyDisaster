@@ -1,6 +1,8 @@
+import pygame
+
 from PySide6.QtWidgets import QWidget, QLabel, QGridLayout, QSpacerItem, QSizePolicy
 from PySide6.QtCore import Qt, Signal
-from PySide6.QtGui import QPixmap, QKeyEvent, QPainter, QMouseEvent
+from PySide6.QtGui import QPixmap, QKeyEvent, QMouseEvent
 
 from dunwoody_disaster.views.FightPreview import FightPreview
 import dunwoody_disaster as DD
@@ -48,16 +50,18 @@ class Map(QLabel):
         new_room = self.findClosestRoom(point.x(), point.y())
         self.setRoom(new_room)
 
-    def unbeaten_rooms(self) -> list:
-        return [r for r in self.rooms if r["NPC"].curHealth > 0]
-
     def findClosestRoom(self, x: int, y: int) -> Optional[dict]:
         closest = None
         min_dist = float("inf")
+        rooms = self.coordinates()
 
-        for room in self.unbeaten_rooms():
-            room_pos = room["coordinate"]
-            distance = sqrt((x - room_pos[0]) ** 2 + (y - room_pos[1]) ** 2)
+        unbeaten = rooms["all"] - rooms["beaten"]
+        if len(rooms["all"] - rooms["boss"] - rooms["beaten"]) != 0:
+            unbeaten = unbeaten - rooms["boss"]
+
+        for room in self.available_rooms():
+            pos = room["coordinate"]
+            distance = sqrt((x - pos[0]) ** 2 + (y - pos[1]) ** 2)
             if distance < min_dist:
                 min_dist = distance
                 closest = room
@@ -70,13 +74,10 @@ class Map(QLabel):
             self.setPixmap(self.pixmap())
             return
 
-        map_pixmap = self.pixmap()
-        painter = QPainter(map_pixmap)
-        overlay = QPixmap(self.character.image()).scaledToWidth(80)
-        painter.drawPixmap(x, y, overlay)
-        painter.end()
-        self.setPixmap(map_pixmap)
+        char_img = QPixmap(self.character.image()).scaledToWidth(80)
+        self.setPixmap(DD.overlay(self.pixmap(), char_img, (x, y)))
         self.repaint()
+        return
 
     def addRoom(
         self,
@@ -84,6 +85,7 @@ class Map(QLabel):
         pos: tuple[int, int],
         NPC: Character,
         battlefield: str,
+        boss: bool = False,
     ):
         original = 1024
         target = 750
@@ -94,11 +96,38 @@ class Map(QLabel):
             "coordinate": pos,
             "battlefield": DD.ASSETS[battlefield],
             "NPC": NPC,
+            "boss": boss,
         }
         self.rooms.append(room)
 
-    def pixmap(self):
-        return QPixmap(self.image).scaledToWidth(750)  # original size 1024x1024
+    def coordinates(self) -> dict:
+        """
+        Returns a dictionary of sets
+        """
+        return {
+            "all": {r["coordinate"] for r in self.rooms},
+            "boss": {r["coordinate"] for r in self.rooms if r.get("boss")},
+            "beaten": {r["coordinate"] for r in self.rooms if r["NPC"].curHealth <= 0},
+        }
+
+    def available_rooms(self) -> list:
+        rooms = self.coordinates()
+        result = rooms["all"] - rooms["beaten"]
+        if len(rooms["all"] - rooms["boss"] - rooms["beaten"]) != 0:
+            result -= rooms["boss"]
+        return [r for r in self.rooms if r["coordinate"] in result]
+
+    def pixmap(self) -> QPixmap:
+        rooms = self.coordinates()
+        result = QPixmap(self.image).scaledToWidth(750)  # original size 1024x1024
+
+        # If not all non-bosses have been beaten
+        if len(rooms["all"] - rooms["boss"] - rooms["beaten"]) != 0:
+            for room in rooms["boss"]:
+                icon = QPixmap(DD.ASSETS["lock"]).scaledToWidth(100)
+                result = DD.overlay(result, icon, room)
+
+        return result
 
     def setAsset(self, asset: str):
         self.image = DD.ASSETS[asset]
@@ -110,13 +139,15 @@ class Map(QLabel):
         chars = CharacterFactory
         map = Map(char)
         map.setAsset("MainMap")
-        map.addRoom("Bus Stop", (419, 700), chars.JoeAxberg(), "Science Lab")
-        map.addRoom("Court Yard", (693, 559), chars.LeAnnSimonson(), "CourtYard")
-        map.addRoom("Commons", (451, 449), chars.RyanRengo(), "Science Lab")
-        map.addRoom("Math", (236, 359), chars.NoureenSajid(), "Physics")
-        map.addRoom("English", (770, 366), chars.AmalanPulendran(), "LectureHall")
-        map.addRoom("Science", (490, 217), chars.MatthewBeckler(), "Science Lab")
-        map.addRoom("Dean's Office", (90, 589), chars.BillHudson(), "Science Lab")
+        map.addRoom("Bus Stop", (419, 700), chars.JoeAxberg(), "MathClass+")
+        map.addRoom("Court Yard", (693, 559), chars.LeAnnSimonson(), "Library+")
+        map.addRoom("Commons", (451, 449), chars.RyanRengo(), "ScienceClass+")
+        map.addRoom("Math", (236, 359), chars.NoureenSajid(), "Courtyard+")
+        map.addRoom("English", (770, 366), chars.AmalanPulendran(), "ComputerLab+")
+        map.addRoom("Science", (490, 217), chars.MatthewBeckler(), "MathClass+")
+        map.addRoom(
+            "Dean's Office", (90, 589), chars.BillHudson(), "DeansOffice+", True
+        )
         return map
 
     def serialize(self) -> dict:
@@ -154,7 +185,6 @@ class MapScreen(QWidget):
         super().__init__()
         self.map = map
         self._callback = DD.unimplemented
-
         self.initUI()
 
     def onEnter(self, callback: Callable):
@@ -166,6 +196,7 @@ class MapScreen(QWidget):
 
     def keyPressEvent(self, event: QKeyEvent):
         if event.key() == Qt.Key.Key_Enter or event.key() == Qt.Key.Key_Return:
+            pygame.mixer.music.stop()
             if self.map.current_room:
                 self._callback(self.map.current_room)
 

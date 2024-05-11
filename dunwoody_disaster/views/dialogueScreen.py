@@ -6,11 +6,15 @@ from PySide6.QtWidgets import (
     QHBoxLayout,
     QGroupBox,
 )
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QKeyEvent
 from dunwoody_disaster.CharacterFactory import Character
 import dunwoody_disaster as DD
 from typing import Callable
+import json
 
 
+# Dialogue screen between boss and users
 class DialogueScreen(QWidget):
     def __init__(self, char1: Character, char2: Character):
         """
@@ -23,6 +27,7 @@ class DialogueScreen(QWidget):
             dls.set_dialogue(["Hi! I'm player 1"], ["Nice to meet you, I'm player 2"])
             dls.onComplete(callback)
         """
+
         super().__init__()
         self._index = 0
         self.char1 = char1
@@ -38,9 +43,18 @@ class DialogueScreen(QWidget):
         self.char1_dialogue = QLabel("")
         self.char2_dialogue = QLabel("")
 
+        self.dialogue_stack = QStackedLayout()
+
         self.init_ui()
+        self.loadDialogue()
         DD.clickable(self).connect(self.next_dialogue)
         self._callback = DD.unimplemented
+
+    def keyPressEvent(self, event: QKeyEvent):
+        k = event.key()
+        if k == Qt.Key.Key_Enter or k == Qt.Key.Key_Return:
+            self.next_dialogue()
+        return
 
     def set_dialogue(self, char1: list[str], char2: list[str]):
         self._char1_dialogue = char1
@@ -51,6 +65,26 @@ class DialogueScreen(QWidget):
     def onComplete(self, callback: Callable):
         self._callback = callback
 
+    def loadDialogue(self):
+        path = f"{DD.BASE_PATH}/dialogues/{self.char2.name}.json"
+        try:
+            with open(path, "r") as f:
+                dialogue = json.load(f)
+        except FileNotFoundError:
+            print(f"Dialogue file {path} not found")
+            return
+
+        try:
+            lines = dialogue[self.char1.name]
+        except KeyError:
+            print(
+                f"Dialogue file {path} has no dialogue for character {self.char1.name}"
+            )
+            return
+
+        self.set_dialogue(lines["protagonist_lines"], lines["antagonist_lines"])
+        return
+
     def init_ui(self):
         layout = QVBoxLayout()
         self.setLayout(layout)
@@ -60,7 +94,6 @@ class DialogueScreen(QWidget):
         player_layout.addWidget(self.char1_img)
         player_layout.addWidget(self.char2_img)
 
-        self.dialogue_stack = QStackedLayout()
         layout.addLayout(self.dialogue_stack)
 
         # Player 1 dialogue box

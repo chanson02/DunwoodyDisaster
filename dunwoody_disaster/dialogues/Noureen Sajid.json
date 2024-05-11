@@ -1,0 +1,36 @@
+{
+  "Cooper": {
+    "protagonist_lines": [
+      "Prepare to be shocked Noureen!"                           ,
+      "Even a short circuit wouldn't stop me from grounding you!"
+    ],
+    "antagonist_lines": [
+      "You think you can beat me? I'll have to jolt you back to reality."
+    ]
+  },
+  "Noah": {
+    "protagonist_lines": [
+      "..."
+    ],
+    "antagonist_lines": [ 
+      "Hope you're ready to lose!",
+      "Oh crap, didn't realize you had airpods in. Sorry."
+     ]
+  },
+  "Mitch": {
+    "protagonist_lines": [
+      "I hope you can help us more than Bill did!", "I hate it here."
+    ],
+    "antagonist_lines": [
+      "Nope."
+    ]
+  },
+  "John": {
+    "protagonist_lines": [
+      "Was I just another pawn to do your bidding? DID YOU EVEN CARE ABOUT ME?"
+    ],
+    "antagonist_lines": [
+      "Care? I don't even know what that means."
+    ]
+  }
+}
