@@ -48,13 +48,14 @@ class MonologueWidget(QWidget):
             print("Audio key 'typewriter_click.wav' not found in AUDIO dictionary")
         self.typewriter_sound.set_volume(0.5)
 
+    def stopAllSounds(self):
+        pygame.mixer.stop()
+
     def loadDialogue(self):
         path = f"{DD.BASE_PATH}/monologues/{self.char.name}.json"
         try:
             with open(path, "r") as f:
-                self._char_monologue = json.load(f).get(
-                    "victory", ["victory"]
-                )
+                self._char_monologue = json.load(f).get("victory", ["victory"])
         except FileNotFoundError:
             print(f"Dialogue file {path} not found")
             self._char_monologue = ["No dialogue found."]
@@ -75,6 +76,7 @@ class MonologueWidget(QWidget):
             self.nextButton.setDisabled(False)
 
     def display_next_dialogue(self):
+        self.stopAllSounds()
         if self.current_dialogue_index < len(self._char_monologue):
             self.current_text = self._char_monologue[self.current_dialogue_index]
             self.char_index = 0
