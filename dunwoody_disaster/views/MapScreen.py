@@ -127,11 +127,11 @@ class Map(QLabel):
                 icon = QPixmap(DD.ASSETS["lock"]).scaledToWidth(100)
                 result = DD.overlay(result, icon, room)
 
-        for room in rooms['beaten']:
+        for room in rooms["beaten"]:
             icon = QPixmap(DD.ASSETS["completed"]).scaledToWidth(30)
             result = DD.overlay(result, icon, room)
 
-        for room in rooms['all'] - rooms['beaten']:
+        for room in rooms["all"] - rooms["beaten"]:
             icon = QPixmap(DD.ASSETS["un-completed"]).scaledToWidth(30)
             result = DD.overlay(result, icon, room)
 
