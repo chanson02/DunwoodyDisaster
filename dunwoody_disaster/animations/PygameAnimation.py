@@ -1,5 +1,7 @@
 import pygame
 from typing import Optional
+from PySide6.QtGui import QImage
+
 
 
 class PygameAnimation:
@@ -7,7 +9,7 @@ class PygameAnimation:
     An abstract class for managing animations in pygame.
     """
 
-    def __init__(self, size: tuple[int, int] = (680, 360)):
+    def __init__(self, size: tuple[int, int] = (666, 360)):
         """
         :param size: The size of the surface, in pixels
         """

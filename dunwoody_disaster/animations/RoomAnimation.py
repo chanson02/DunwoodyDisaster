@@ -21,7 +21,7 @@ class RoomAnimation(PygameAnimation):
     def run(self) -> None:
         self.clock.tick(20)
         if self.running:
-            self.surface.blit(self.bkg, (7, 0))
+            self.surface.blit(self.bkg, (0, 0))
 
             for component in self.components:
                 component.draw(self.surface)
