@@ -134,13 +134,13 @@ class StartMenu(QWidget):
         btns.addWidget(close)
 
     def startClicked(self):
+        self.movie.stop()
         self._callback()
 
     def onStart(self, callback: Callable):
         """
         A callback function that executes when the user presses start
         """
-        self.movie.stop()
         self._callback = callback
 
     def exitGame(self):
