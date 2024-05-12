@@ -1,6 +1,7 @@
 import sys
 import pygame
-from PySide6.QtGui import QFont
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QFont, QKeyEvent
 from PySide6.QtWidgets import QMainWindow, QStackedWidget, QApplication
 from dunwoody_disaster.FightSequence import FightSequence
 from dunwoody_disaster.views.StartMenu import StartMenu
@@ -273,6 +274,10 @@ class MainWindow(QMainWindow):
         self.stack.addWidget(credits)
         self.stack.setCurrentWidget(credits)
         credits.onFinishCredits(self.showStartMenu)
+
+    def keyPressEvent(self, event: QKeyEvent):
+        if event.key() == Qt.Key.Key_C:
+            self.showCreditScreen()
 
 
 if __name__ == "__main__":
