@@ -36,7 +36,6 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("Dunwoody-Disaster")
         self.setStyleSheet("background-color: black; color: #FFFFFF;")
-        self.setupMusicPlayer()
         self.currentScreen = None  # To keep track of the current screen
         self.player = None
 
@@ -54,6 +53,7 @@ class MainWindow(QMainWindow):
 
     def showStartMenu(self):
         self.stack.setCurrentWidget(self.startMenu)
+        self.setupMusicPlayer()
 
     def setupMusicPlayer(self):
         # Initialize Pygame mixer
@@ -270,14 +270,10 @@ class MainWindow(QMainWindow):
             self.fight.widget.animation_Object.stop()
 
     def showCreditScreen(self):
-        pygame.mixer.music.load(AUDIO["EndTheme"])
-        pygame.mixer.music.set_volume(0.4)
-        pygame.mixer.music.play(-1)
         credits = Credits()
         self.stack.addWidget(credits)
         self.stack.setCurrentWidget(credits)
         credits.onFinishCredits(self.showStartMenu)
-        
 
     def keyPressEvent(self, event: QKeyEvent):
         if event.key() == Qt.Key.Key_C:

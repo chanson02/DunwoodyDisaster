@@ -105,15 +105,12 @@ class Credits(QWidget):
         self.EndTheme.set_volume(0.9)
         self.EndTheme.play()  # Play the end theme sound indefinitely
 
-    def stopAllSounds(self):
-        pygame.mixer.music.stop()  # Stop all sounds
-
     def keyPressEvent(self, event: QKeyEvent):
         if event.key() == Qt.Key.Key_Enter or event.key() == Qt.Key.Key_Return:
             self.endCreditScreen()
 
     def endCreditScreen(self):
-
+        self.EndTheme.stop()
         self.timer.stop()
         if self._finishCallback:
             self._finishCallback()
@@ -121,4 +118,3 @@ class Credits(QWidget):
 
     def onFinishCredits(self, callback: Callable):
         self._finishCallback = callback
-        self.stopAllSounds()
