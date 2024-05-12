@@ -13,11 +13,11 @@ class Credits(QWidget):
         self._finishCallback = (
             DD.unimplemented
         )  # Set up a finish callback, currently unimplemented in DD
-        self.text_lines = [  # List of names to display in the credits
-            "Cooper",
-            "Noah",
-            "John",
-            "Mitch",
+        self.text_lines = [
+            ("Cooper", "Lead Programmer"),
+            ("Noah", "Stock"),
+            ("John", "Arts and Audio Director"),
+            ("Mitch", "Stock"),
         ]
         self.images = {
             "Cooper": DD.ASSETS["CooperRefined+"],
@@ -65,39 +65,36 @@ class Credits(QWidget):
             self.text_lines
         ):  # Exit early if there are no lines left to display
             return
-        line = self.text_lines[self.current_line]  # Get the current line
-        painter = QPainter(self)  # Start a painter
-        painter.setRenderHint(QPainter.Antialiasing)  # Enable smoother drawing
-        painter.setBrush(Qt.black)  # Set the brush to black for background
-        painter.fillRect(self.rect(), Qt.black)  # Fill the background with black
-        painter.setOpacity(self.opacity)  # Set the opacity for fading effect
+        name, description = self.text_lines[
+            self.current_line
+        ]  # Unpack the current line tuple
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.Antialiasing)
+        painter.setBrush(Qt.black)
+        painter.fillRect(self.rect(), Qt.black)
+        painter.setOpacity(self.opacity)
 
-        image = QPixmap(self.images[line])  # Load the pixmap for the current line
-        # Scale image to fill half the width of the window, maintaining aspect ratio
+        image = QPixmap(self.images[name])
         image = image.scaled(
             self.width() // 2,
             self.height(),
             Qt.KeepAspectRatio,
             Qt.SmoothTransformation,
         )
-        painter.drawPixmap(
-            0, (self.height() - image.height()) / 2, image
-        )  # Draw the pixmap aligned to the left
+        painter.drawPixmap(0, (self.height() - image.height()) / 2, image)
 
-        # Update font settings
-        font = QFont("Arial", 24)  # Use a 24-point Arial font
+        font = QFont("Arial", 24)
         painter.setFont(font)
-        painter.setPen(QColor(255, 255, 255))  # Set the pen to white for text
+        painter.setPen(QColor(255, 255, 255))
 
-        # Calculate the x-coordinate for the text to appear to the right of the image
-        x = (
-            self.width() // 2
-            + (self.width() // 2 - painter.fontMetrics().horizontalAdvance(line)) / 2
-        )
-        y = (
-            self.height() - painter.fontMetrics().height()
-        ) / 2  # Center the text vertically
-        painter.drawText(x, y, line)  # Draw the text
+        # Calculate positions
+        x = self.width() // 2 + 20  # Start text a bit away from the image
+        name_y = (self.height() // 2) - 30  # Position name above the center line
+        desc_y = (self.height() // 2) + 30  # Position description below the center line
+
+        # Draw name and description
+        painter.drawText(x, name_y, name)
+        painter.drawText(x, desc_y, description)
 
     def initSound(self):
         pygame.mixer.init()
