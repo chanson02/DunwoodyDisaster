@@ -1,8 +1,15 @@
 import pygame
 
-from PySide6.QtWidgets import QWidget, QLabel, QGridLayout, QSpacerItem, QSizePolicy
-from PySide6.QtCore import Qt, Signal
+from PySide6.QtWidgets import (
+    QWidget,
+    QLabel,
+    QGridLayout,
+    QSpacerItem,
+    QSizePolicy,
+    QVBoxLayout,
+)
 from PySide6.QtGui import QPixmap, QKeyEvent, QMouseEvent
+from PySide6.QtCore import Qt, Signal
 
 from dunwoody_disaster.views.FightPreview import FightPreview
 import dunwoody_disaster as DD
@@ -21,7 +28,7 @@ class Map(QLabel):
         super().__init__()
         self.character = character
         self.image = DD.ASSETS["no_texture"]
-        self.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
+        self.setAlignment(Qt.AlignmentFlag.AlignCenter) # Sets the alignment of the QLabel to center both horizontally and vertically
         self.rooms = []
         self.current_room: Optional[dict] = None
         self.roomChanged = DD.unimplemented
@@ -119,8 +126,8 @@ class Map(QLabel):
 
     def pixmap(self) -> QPixmap:
         rooms = self.coordinates()
-        result = QPixmap(self.image).scaledToWidth(750)  # original size 1024x1024
-
+        # Scale the map image
+        result = QPixmap(self.image).scaledToWidth(1270)  # original size 1024x1024
         # If not all non-bosses have been beaten
         if len(rooms["all"] - rooms["boss"] - rooms["beaten"]) != 0:
             for room in rooms["boss"]:
@@ -138,7 +145,7 @@ class Map(QLabel):
     def buildMap(char: Character) -> "Map":
         chars = CharacterFactory
         map = Map(char)
-        map.setAsset("MainMap")
+        map.setAsset("NewMapFinal")
         map.addRoom("Bus Stop", (419, 700), chars.JoeAxberg(), "MathClass+")
         map.addRoom("Court Yard", (693, 559), chars.LeAnnSimonson(), "Library+")
         map.addRoom("Commons", (451, 449), chars.RyanRengo(), "ScienceClass+")
@@ -207,25 +214,21 @@ class MapScreen(QWidget):
         self.setLayout(layout)
 
         map_container_layout = QGridLayout()
+        # Create a spacer that will expand in both directions; placed at the top-left corner of the grid (row 0, column 0)
         map_container_layout.addItem(
-            QSpacerItem(
-                200, 0, QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding
-            ),
-            0,
-            0,
+            QSpacerItem(50, 50, QSizePolicy.Expanding, QSizePolicy.Expanding), 0, 0
         )
         map_container = DD.scroller(map_container_layout, True, True)
-        map_container.setStyleSheet("background-color: #57D7C1; min-width: 1000px;")
-        layout.addWidget(map_container, 0, 0)
-        map_container_layout.addWidget(self.map, 1, 1)
-        map_container_layout.addItem(
-            QSpacerItem(
-                50, 0, QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding
-            ),
-            2,
-            2,
-        )
+        # set the backjground color of the map container
+        map_container.setStyleSheet("background-color: #231D1D; min-width: 1000px;")
 
+        layout.addWidget(map_container, 0, 0)
+        # Adds the map QLabel to the grid layout; placed centrally at row 1, column 1
+        map_container_layout.addWidget(self.map, 1, 1)
+        # Create a spacer that will expand in both directions; placed at the bottom-right corner of the grid (row 2, column 2)
+        map_container_layout.addItem(
+            QSpacerItem(50, 50, QSizePolicy.Expanding, QSizePolicy.Expanding), 2, 2
+        )
         self.preview = FightPreview()
         self.preview.setStyleSheet("background-color: black;")
         self.map.onRoomChange(self.preview.setRoom)
