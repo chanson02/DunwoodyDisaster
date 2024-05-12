@@ -6,7 +6,6 @@ from PySide6.QtWidgets import (
     QGridLayout,
     QSpacerItem,
     QSizePolicy,
-    QVBoxLayout,
 )
 from PySide6.QtGui import QPixmap, QKeyEvent, QMouseEvent
 from PySide6.QtCore import Qt, Signal
@@ -28,7 +27,9 @@ class Map(QLabel):
         super().__init__()
         self.character = character
         self.image = DD.ASSETS["no_texture"]
-        self.setAlignment(Qt.AlignmentFlag.AlignCenter) # Sets the alignment of the QLabel to center both horizontally and vertically
+        self.setAlignment(
+            Qt.AlignmentFlag.AlignCenter
+        )  # Sets the alignment of the QLabel to center both horizontally and vertically
         self.rooms = []
         self.current_room: Optional[dict] = None
         self.roomChanged = DD.unimplemented
