@@ -270,13 +270,18 @@ class MainWindow(QMainWindow):
             self.fight.widget.animation_Object.stop()
 
     def showCreditScreen(self):
+        pygame.mixer.music.load(AUDIO["EndTheme"])
+        pygame.mixer.music.set_volume(0.4)
+        pygame.mixer.music.play(-1)
         credits = Credits()
         self.stack.addWidget(credits)
         self.stack.setCurrentWidget(credits)
         credits.onFinishCredits(self.showStartMenu)
+        
 
     def keyPressEvent(self, event: QKeyEvent):
         if event.key() == Qt.Key.Key_C:
+            self.stopAllSounds()
             self.showCreditScreen()
 
 

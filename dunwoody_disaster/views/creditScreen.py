@@ -1,7 +1,9 @@
+import pygame
 from PySide6.QtCore import Qt, QTimer
 from PySide6.QtGui import QColor, QFont, QPainter, QPixmap, QKeyEvent
 from PySide6.QtWidgets import QWidget
 import dunwoody_disaster as DD
+from dunwoody_disaster import AUDIO
 from typing import Callable
 
 
@@ -27,6 +29,7 @@ class Credits(QWidget):
         self.opacity = 0.0  # Initial opacity for fade effect set to 0
         self.fade_in = True  # Flag to check if fading in or out
         self.initUI()  # Initialize the UI setup
+        self.initSound()  # Initialize the sound setup
 
     def initUI(self):
         self.setWindowTitle("Story Crawl")  # Set the window title
@@ -96,11 +99,21 @@ class Credits(QWidget):
         ) / 2  # Center the text vertically
         painter.drawText(x, y, line)  # Draw the text
 
+    def initSound(self):
+        pygame.mixer.init()
+        self.EndTheme = pygame.mixer.Sound(AUDIO["EndTheme"])
+        self.EndTheme.set_volume(0.9)
+        self.EndTheme.play()  # Play the end theme sound indefinitely
+
+    def stopAllSounds(self):
+        pygame.mixer.music.stop()  # Stop all sounds
+
     def keyPressEvent(self, event: QKeyEvent):
         if event.key() == Qt.Key.Key_Enter or event.key() == Qt.Key.Key_Return:
             self.endCreditScreen()
 
     def endCreditScreen(self):
+
         self.timer.stop()
         if self._finishCallback:
             self._finishCallback()
@@ -108,3 +121,4 @@ class Credits(QWidget):
 
     def onFinishCredits(self, callback: Callable):
         self._finishCallback = callback
+        self.stopAllSounds()
