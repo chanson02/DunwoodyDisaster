@@ -10,7 +10,9 @@ from PySide6.QtWidgets import (
     QPushButton,
     QWidget,
     QApplication,
+    QGraphicsOpacityEffect,
 )
+from PySide6.QtCore import QTimer
 
 from dunwoody_disaster import ASSETS, unimplemented
 
@@ -31,6 +33,7 @@ class StartMenu(QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
+        self.fadeIn()
 
     def initUI(self):
         self.setStyleSheet("background-color: black;")
@@ -60,6 +63,23 @@ class StartMenu(QWidget):
         button_layout.addWidget(self.exitButton, 0, 2)
 
         main_layout.addLayout(button_layout, 2, 1)
+
+    def fadeIn(self):
+        self.effect = QGraphicsOpacityEffect(self)
+        self.setGraphicsEffect(self.effect)
+        self.opacity = 0.0
+        self.effect.setOpacity(self.opacity)
+
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.increaseOpacity)
+        self.timer.start(150)  # Adjust the timer interval for speed of fade-in
+
+    def increaseOpacity(self):
+        self.opacity += 0.05  # Increment the opacity
+        if self.opacity > 1:
+            self.opacity = 1
+            self.timer.stop()
+        self.effect.setOpacity(self.opacity)
 
     def onStart(self, callback: Callable):
         """

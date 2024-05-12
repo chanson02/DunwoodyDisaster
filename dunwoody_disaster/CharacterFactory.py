@@ -17,6 +17,7 @@ class Character:
         self.strength = 0
         self.intelligence = 0
         self.image_path = DD.ASSETS["no_texture"]
+        # Description of the character that will be displayed in the character detail widget
         self.description = ""
 
         # Meteres

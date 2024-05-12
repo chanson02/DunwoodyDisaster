@@ -1,3 +1,5 @@
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QKeyEvent
 from PySide6.QtWidgets import (
     QWidget,
     QGridLayout,
@@ -12,6 +14,7 @@ from dunwoody_disaster.views.action_selector import ActionSelector
 from dunwoody_disaster.views.AnimationWidget import AnimationWidget
 from dunwoody_disaster.animations.RoomAnimation import RoomAnimation
 
+import os
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -32,8 +35,6 @@ class FightScreen(QWidget):
         self.p2_selector.hide()
         self.p2_selector.selectRandom()
 
-        self._winCallback = DD.unimplemented
-        self._loseCallback = DD.unimplemented
         self.fightFlag = False
         self.doneFlag = False
         self.fight_Btn = QPushButton("FIGHT!")
@@ -141,3 +142,15 @@ class FightScreen(QWidget):
             return
 
         self.controller.takeTurn(self.p1_selector, self.p2_selector)
+
+    def keyPressEvent(self, event: QKeyEvent):
+        if not os.environ.get("DEBUG"):
+            return
+        k = event.key()
+        if k == Qt.Key.Key_Return or k == Qt.Key.Key_Enter:
+            self.player2.set_health(0)
+            self.controller._winCallback()
+            # TODO _winGameCall()
+        elif k == Qt.Key.Key_Backspace:
+            self.player1.set_health(0)
+            self.controller._loseCallback()

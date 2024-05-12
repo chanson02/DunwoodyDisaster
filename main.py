@@ -13,12 +13,21 @@ from dunwoody_disaster.views.defeatScreen import DefeatScreen
 from dunwoody_disaster.views.victoryScreen import VictoryScreen
 from dunwoody_disaster.views.dialogueScreen import DialogueScreen
 from dunwoody_disaster.views.CharacterDetailWidget import CharacterDetailWidget
+from dunwoody_disaster.views.MonologueWidget import (
+    MonologueWidget,
+)
+
 from dunwoody_disaster import AUDIO
 from dunwoody_disaster.views.introductions.Cooper import CooperIntroScreen
 from dunwoody_disaster.views.introductions.Noah import NoahIntroScreen
 
 default_font = QFont("blood crow", 12)  # Font family is Arial and font size is 12
 QApplication.setFont(default_font)
+
+
+def should_display_monologue(player, opponent):
+    # Placeholder for logic to determine if a monologue should be displayed
+    return opponent.name
 
 
 class MainWindow(QMainWindow):
@@ -54,12 +63,17 @@ class MainWindow(QMainWindow):
         pygame.mixer.music.play(-1)  # Play indefinitely
         # Load and play fire crackle sound; only set sounds to variables and not music.
         self.Fire_Sound1 = pygame.mixer.Sound(AUDIO["FireCrackle"])
-        self.Fire_Sound1.set_volume(0.1)
+        self.Fire_Sound1.set_volume(0.05)
         self.Fire_Sound1.play(loops=-1)
+        # Load and play wind sound
+        self.Wind_Sound = pygame.mixer.Sound(AUDIO["Wind"])
+        self.Wind_Sound.set_volume(0.25)
+        self.Wind_Sound.play(loops=-1)
 
     def startBtnClicked(self):
         pygame.mixer.music.stop()
         self.Fire_Sound1.stop()
+        self.Wind_Sound.stop()
         pygame.mixer.music.load(AUDIO["CrawlMusic"])
         pygame.mixer.music.set_volume(1.0)
         pygame.mixer.music.play()
@@ -94,9 +108,6 @@ class MainWindow(QMainWindow):
     def displayCharacterDetails(self, character):
         self.stopAllSounds()
         if character.name == "John":
-            self.TypeWriterSound = pygame.mixer.Sound(AUDIO["TypeWriterSound"])
-            self.TypeWriterSound.set_volume(0.9)
-            self.TypeWriterSound.play(loops=-1)
             # Load John's theme music
             pygame.mixer.music.load(AUDIO["JohnTheme"])
             pygame.mixer.music.set_volume(0.4)
@@ -110,9 +121,6 @@ class MainWindow(QMainWindow):
                 character, transition_callback=self.showMapScreen
             )
         elif character.name == "Mitch":
-            self.TypeWriterSound = pygame.mixer.Sound(AUDIO["TypeWriterSound"])
-            self.TypeWriterSound.set_volume(0.2)
-            self.TypeWriterSound.play(loops=5)
             # Load Mitch's theme music
             pygame.mixer.music.load(AUDIO["MitchTheme"])
             # Set the volume to maximum (1.0)
@@ -134,6 +142,18 @@ class MainWindow(QMainWindow):
 
         self.stack.addWidget(self.characterWidget)
         self.stack.setCurrentWidget(self.characterWidget)
+
+    def displayMonologue(self, character):
+        self.stopAllSounds()
+        if character.name == "John":
+            # load monologue music
+            pygame.mixer.music.load(AUDIO["JohnTheme"])
+            pygame.mixer.music.set_volume(0.4)
+            pygame.mixer.music.play(-1)
+
+        self.monologue = MonologueWidget(character, self.showMapScreen)
+        self.stack.addWidget(self.monologue)
+        self.stack.setCurrentWidget(self.monologue)
 
     def showMapScreen(self):
         self.stack.removeWidget(self.characterWidget)
@@ -180,6 +200,8 @@ class MainWindow(QMainWindow):
         if self.currentScreen == "fight":
             self.stopAllSounds  # Stop specific music if it's playing
 
+        self.monologue = room.get("John", False)
+
         if self.fight:
             self.stack.removeWidget(self.fight.widget)
 
@@ -206,8 +228,12 @@ class MainWindow(QMainWindow):
 
         def loot_collected():
             self.stack.removeWidget(victory)
-            self.showMapScreen()
-            self.saveCharacter(self.player)
+            if should_display_monologue(self.player, self.fight.enemy):
+                self.displayMonologue(self.player)
+            else:
+                self.stack.removeWidget(victory)
+                self.showMapScreen()
+                self.saveCharacter(self.player)
 
         victory.onClose(loot_collected)
         self.stack.addWidget(victory)
