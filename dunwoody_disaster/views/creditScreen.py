@@ -14,7 +14,7 @@ class Credits(QWidget):
             DD.unimplemented
         )  # Set up a finish callback, currently unimplemented in DD
         self.text_lines = [
-            ("Cooper", "Lead Programmer"),
+            ("Cooper", "Lead Programmer | Resident Git Expert"),
             ("Noah", "Stock"),
             ("John", "Arts and Audio Director"),
             ("Mitch", "Stock"),
