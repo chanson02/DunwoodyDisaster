@@ -18,12 +18,14 @@ class Credits(QWidget):
             ("Noah", "Stock"),
             ("John", "Arts and Audio Director"),
             ("Mitch", "Stock"),
+            ("Jenni", "Stock"),
         ]
         self.images = {
             "Cooper": DD.ASSETS["CooperRefined+"],
             "Noah": DD.ASSETS["NoahRefined+"],
             "John": DD.ASSETS["JohnRefined+"],
             "Mitch": DD.ASSETS["MitchRefined+"],
+            "Jenni": DD.ASSETS["Jenni"],
         }
         self.current_line = 0  # Start displaying from the first line
         self.opacity = 0.0  # Initial opacity for fade effect set to 0
@@ -61,19 +63,25 @@ class Credits(QWidget):
         self.update()  # Update the widget to repaint
 
     def paintEvent(self, event):
-        if self.current_line >= len(
-            self.text_lines
-        ):  # Exit early if there are no lines left to display
+        # Check if there are no more lines to display and return early if true
+        if self.current_line >= len(self.text_lines):
             return
-        name, description = self.text_lines[
-            self.current_line
-        ]  # Unpack the current line tuple
+
+        # Unpack the current line to get the name and description
+        name, description = self.text_lines[self.current_line]
+
+        # Initialize QPainter for drawing operations
         painter = QPainter(self)
+        # Set rendering hints for smoother drawing
         painter.setRenderHint(QPainter.Antialiasing)
+        # Set the brush color to black for filling the background
         painter.setBrush(Qt.black)
+        # Fill the entire widget with a black background
         painter.fillRect(self.rect(), Qt.black)
+        # Set the opacity for the fade effect
         painter.setOpacity(self.opacity)
 
+        # Load and scale the image associated with the current name to half the screen width
         image = QPixmap(self.images[name])
         image = image.scaled(
             self.width() // 2,
@@ -81,20 +89,32 @@ class Credits(QWidget):
             Qt.KeepAspectRatio,
             Qt.SmoothTransformation,
         )
+        # Draw the image aligned to the left side, vertically centered
         painter.drawPixmap(0, (self.height() - image.height()) / 2, image)
 
+        # Set the font for drawing text
         font = QFont("Arial", 24)
         painter.setFont(font)
+        # Set the pen color to white for text drawing
         painter.setPen(QColor(255, 255, 255))
 
-        # Calculate positions
-        x = self.width() // 2 + 20  # Start text a bit away from the image
-        name_y = (self.height() // 2) - 30  # Position name above the center line
-        desc_y = (self.height() // 2) + 30  # Position description below the center line
+        # Calculate the start and width of the area where text will be centered (right half of the screen)
+        text_area_start = self.width() // 2
+        text_area_width = self.width() // 2
 
-        # Draw name and description
-        painter.drawText(x, name_y, name)
-        painter.drawText(x, desc_y, description)
+        # Calculate the width of the text to center it within the right half
+        name_width = painter.fontMetrics().horizontalAdvance(name)
+        description_width = painter.fontMetrics().horizontalAdvance(description)
+        # Calculate the x-coordinate for the name and description to center them
+        name_x = text_area_start + (text_area_width - name_width) // 2
+        description_x = text_area_start + (text_area_width - description_width) // 2
+        # Determine the vertical positions for the name and description
+        name_y = (self.height() // 2) - 30
+        desc_y = (self.height() // 2) + 30
+
+        # Draw the name and description centered on the right half of the screen
+        painter.drawText(name_x, name_y, name)
+        painter.drawText(description_x, desc_y, description)
 
     def initSound(self):
         pygame.mixer.init()
