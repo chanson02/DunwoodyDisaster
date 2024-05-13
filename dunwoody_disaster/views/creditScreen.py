@@ -27,14 +27,24 @@ class Credits(QWidget):
             "Mitch": DD.ASSETS["MitchRefined+"],
             "Jenni": DD.ASSETS["Jenni"],
         }
-        self.current_line = 0  # Start displaying from the first line
-        self.opacity = 0.0  # Initial opacity for fade effect set to 0
-        self.fade_in = True  # Flag to check if fading in or out
-        self.initUI()  # Initialize the UI setup
-        self.initSound()  # Initialize the sound setup
+        self.current_line = 0
+        self.opacity = 0.0
+        self.fade_in = True
+        self.pause = False
+        self.initUI()
+        self.initSound()
+
+        # Timer to update opacity for fade-in and fade-out
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.updateOpacity)
+        self.timer.start(50)  # Shorter interval for smoother transition
+
+        self.pauseTimer = QTimer(self)
+        self.pauseTimer.setSingleShot(True)
+        self.pauseTimer.timeout.connect(self.startFadingOut)
 
     def initUI(self):
-        self.setWindowTitle("Story Crawl")  # Set the window title
+        self.setWindowTitle("End Credits")  # Set the window title
         self.setGeometry(100, 100, 1920, 1080)  # Set the window geometry
         self.timer = QTimer(self)  # Create a timer
         self.timer.timeout.connect(
@@ -43,24 +53,32 @@ class Credits(QWidget):
         self.timer.start(100)  # Start the timer with an interval of 100 milliseconds
         self.show()  # Show the widget
 
+    def startFadingOut(self):
+        self.fade_in = False
+        self.pause = False
+        self.timer.start(50)  # Resume timer for fading out
+
     def updateOpacity(self):
-        if self.fade_in:  # Check if currently in fade-in mode
-            if self.opacity < 1.0:  # If opacity is less than 1
-                self.opacity += 0.05  # Increase opacity
+        if self.fade_in and not self.pause:
+            if self.opacity < 1.0:
+                self.opacity += 0.05
             else:
-                self.fade_in = False  # Switch to fade-out mode
-        else:  # If not in fade-in mode
-            if self.opacity > 0:  # If opacity is greater than 0
-                self.opacity -= 0.05  # Decrease opacity
+                # After fully fading in, pause for 5 seconds
+                self.timer.stop()
+                self.pause = True
+                self.pauseTimer.start(5000)  # 5000 ms pause
+        elif not self.fade_in:
+            if self.opacity > 0:
+                self.opacity -= 0.05
             else:
-                self.fade_in = True  # Switch to fade-in mode
-                self.current_line += 1  # Move to next line
-                if self.current_line >= len(
-                    self.text_lines
-                ):  # If all lines are processed
-                    self.endCreditScreen()  # End the credit screen
+                # Once fully faded out, move to the next line or end
+                self.fade_in = True
+                self.current_line += 1
+                if self.current_line >= len(self.text_lines):
+                    self.endCreditScreen()
                     return
-        self.update()  # Update the widget to repaint
+                self.timer.start(50)  # Start fading in the next line
+        self.update()
 
     def paintEvent(self, event):
         # Check if there are no more lines to display and return early if true
