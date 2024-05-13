@@ -127,6 +127,14 @@ class Map(QLabel):
                 icon = QPixmap(DD.ASSETS["SSL Certificate"]).scaledToWidth(100)
                 result = DD.overlay(result, icon, room)
 
+        for room in rooms["beaten"]:
+            icon = QPixmap(DD.ASSETS["completed"]).scaledToWidth(30)
+            result = DD.overlay(result, icon, room)
+
+        for room in rooms["all"] - rooms["beaten"]:
+            icon = QPixmap(DD.ASSETS["un-completed"]).scaledToWidth(30)
+            result = DD.overlay(result, icon, room)
+
         return result
 
     def setAsset(self, asset: str):
