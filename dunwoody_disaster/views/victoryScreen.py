@@ -103,6 +103,7 @@ class VictoryScreen(QWidget):
         cap_Layout.addWidget(lbl, 0, 0)
 
         self.capacity = Meter(QColor("white"), 0)
+        self.capacity.animated = False
         self.capacity.setEndColor(QColor("red"))
         self.capacity.setMinimumHeight(25)
         cap_Layout.addWidget(self.capacity, 0, 1)
