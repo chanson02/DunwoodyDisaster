@@ -124,7 +124,7 @@ class Map(QLabel):
         # If not all non-bosses have been beaten
         if len(rooms["all"] - rooms["boss"] - rooms["beaten"]) != 0:
             for room in rooms["boss"]:
-                icon = QPixmap(DD.ASSETS["lock"]).scaledToWidth(100)
+                icon = QPixmap(DD.ASSETS["SSL Certificate"]).scaledToWidth(100)
                 result = DD.overlay(result, icon, room)
 
         return result
