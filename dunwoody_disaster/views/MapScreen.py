@@ -147,12 +147,14 @@ class Map(QLabel):
         chars = CharacterFactory
         map = Map(char)
         map.setAsset("NewMapFinal")
-        map.addRoom("Bus Stop", (419, 700), chars.JoeAxberg(), "MathClass+")
-        map.addRoom("Court Yard", (693, 559), chars.LeAnnSimonson(), "Library+")
-        map.addRoom("Commons", (451, 449), chars.RyanRengo(), "ScienceClass+")
-        map.addRoom("Math", (236, 359), chars.NoureenSajid(), "Courtyard+")
-        map.addRoom("English", (770, 366), chars.AmalanPulendran(), "ComputerLab+")
-        map.addRoom("Science", (490, 217), chars.MatthewBeckler(), "MathClass+")
+        map.addRoom("Bus Stop", (419, 700), chars.JoeAxberg(), "MathClassResized")
+        map.addRoom("Court Yard", (693, 559), chars.LeAnnSimonson(), "LibraryResized")
+        map.addRoom("Commons", (451, 449), chars.RyanRengo(), "ScienceClassResized")
+        map.addRoom("Math", (236, 359), chars.NoureenSajid(), "CourtyardResized")
+        map.addRoom(
+            "English", (770, 366), chars.AmalanPulendran(), "ComputerLabResized"
+        )
+        map.addRoom("Science", (490, 217), chars.MatthewBeckler(), "MathClassResized")
         map.addRoom(
             "Dean's Office", (90, 589), chars.BillHudson(), "DeansOfficeResized"
         )
