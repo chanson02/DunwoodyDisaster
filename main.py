@@ -1,6 +1,7 @@
 import sys
 import pygame
-from PySide6.QtGui import QFont
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QFont, QKeyEvent
 from PySide6.QtWidgets import QMainWindow, QStackedWidget, QApplication
 from dunwoody_disaster.FightSequence import FightSequence
 from dunwoody_disaster.views.StartMenu import StartMenu
@@ -35,7 +36,6 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("Dunwoody-Disaster")
         self.setStyleSheet("background-color: black; color: #FFFFFF;")
-        self.setupMusicPlayer()
         self.currentScreen = None  # To keep track of the current screen
         self.player = None
 
@@ -53,6 +53,7 @@ class MainWindow(QMainWindow):
 
     def showStartMenu(self):
         self.stack.setCurrentWidget(self.startMenu)
+        self.setupMusicPlayer()
 
     def setupMusicPlayer(self):
         # Initialize Pygame mixer
@@ -67,7 +68,7 @@ class MainWindow(QMainWindow):
         self.Fire_Sound1.play(loops=-1)
         # Load and play wind sound
         self.Wind_Sound = pygame.mixer.Sound(AUDIO["Wind"])
-        self.Wind_Sound.set_volume(0.25)
+        self.Wind_Sound.set_volume(0.05)
         self.Wind_Sound.play(loops=-1)
 
     def startBtnClicked(self):
@@ -150,7 +151,7 @@ class MainWindow(QMainWindow):
             pygame.mixer.music.load(AUDIO["JohnTheme"])
             pygame.mixer.music.set_volume(0.4)
             pygame.mixer.music.play(-1)
-
+        # Create a monologue widget for the character and set the transition callback to show the map screen after the monologue
         self.monologue = MonologueWidget(character, self.showMapScreen)
         self.stack.addWidget(self.monologue)
         self.stack.setCurrentWidget(self.monologue)
@@ -200,7 +201,7 @@ class MainWindow(QMainWindow):
         if self.currentScreen == "fight":
             self.stopAllSounds  # Stop specific music if it's playing
 
-        self.monologue = room.get("John", False)
+        # self.monologue = room.get("John", False)
 
         if self.fight:
             self.stack.removeWidget(self.fight.widget)
@@ -231,7 +232,6 @@ class MainWindow(QMainWindow):
             if should_display_monologue(self.player, self.fight.enemy):
                 self.displayMonologue(self.player)
             else:
-                self.stack.removeWidget(victory)
                 self.showMapScreen()
                 self.saveCharacter(self.player)
 
@@ -273,6 +273,11 @@ class MainWindow(QMainWindow):
         self.stack.addWidget(credits)
         self.stack.setCurrentWidget(credits)
         credits.onFinishCredits(self.showStartMenu)
+
+    def keyPressEvent(self, event: QKeyEvent):
+        if event.key() == Qt.Key.Key_C:
+            self.stopAllSounds()
+            self.showCreditScreen()
 
 
 if __name__ == "__main__":

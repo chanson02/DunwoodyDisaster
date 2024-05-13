@@ -76,10 +76,7 @@ class MonologueWidget(QWidget):
 
     def initSound(self):
         pygame.mixer.init()
-        try:
-            self.typewriter_sound = pygame.mixer.Sound(AUDIO["TypeWriterSound"])
-        except KeyError:
-            print("Audio key 'typewriter_click.wav' not found in AUDIO dictionary")
+        self.typewriter_sound = pygame.mixer.Sound(AUDIO["TypeWriterSound"])
         self.typewriter_sound.set_volume(0.5)
 
     def stopAllSounds(self):
