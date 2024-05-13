@@ -120,7 +120,7 @@ class Credits(QWidget):
         pygame.mixer.init()
         self.EndTheme = pygame.mixer.Sound(AUDIO["EndTheme"])
         self.EndTheme.set_volume(0.9)
-        self.EndTheme.play()  # Play the end theme sound indefinitely
+        self.EndTheme.play()  # Play the end theme sound once
 
     def keyPressEvent(self, event: QKeyEvent):
         if event.key() == Qt.Key.Key_Enter or event.key() == Qt.Key.Key_Return:
