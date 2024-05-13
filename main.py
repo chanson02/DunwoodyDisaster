@@ -201,7 +201,7 @@ class MainWindow(QMainWindow):
         if self.currentScreen == "fight":
             self.stopAllSounds  # Stop specific music if it's playing
 
-        self.monologue = room.get("John", False)
+        # self.monologue = room.get("John", False)
 
         if self.fight:
             self.stack.removeWidget(self.fight.widget)
