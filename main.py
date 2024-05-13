@@ -151,7 +151,7 @@ class MainWindow(QMainWindow):
             pygame.mixer.music.load(AUDIO["JohnTheme"])
             pygame.mixer.music.set_volume(0.4)
             pygame.mixer.music.play(-1)
-
+        # Create a monologue widget for the character and set the transition callback to show the map screen after the monologue
         self.monologue = MonologueWidget(character, self.showMapScreen)
         self.stack.addWidget(self.monologue)
         self.stack.setCurrentWidget(self.monologue)
@@ -232,7 +232,6 @@ class MainWindow(QMainWindow):
             if should_display_monologue(self.player, self.fight.enemy):
                 self.displayMonologue(self.player)
             else:
-                self.stack.removeWidget(victory)
                 self.showMapScreen()
                 self.saveCharacter(self.player)
 
