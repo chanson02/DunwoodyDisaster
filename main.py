@@ -17,6 +17,7 @@ from dunwoody_disaster.views.CharacterDetailWidget import CharacterDetailWidget
 from dunwoody_disaster.views.MonologueWidget import (
     MonologueWidget,
 )
+from dunwoody_disaster.EventIdentifier import EventIdentifier
 
 from dunwoody_disaster import AUDIO
 from dunwoody_disaster.views.introductions.Cooper import CooperIntroScreen
@@ -144,7 +145,7 @@ class MainWindow(QMainWindow):
         self.stack.addWidget(self.characterWidget)
         self.stack.setCurrentWidget(self.characterWidget)
 
-    def displayMonologue(self, character):
+    def displayMonologue(self, character, event_id):
         self.stopAllSounds()
         if character.name == "John":
             # load monologue music
@@ -152,7 +153,7 @@ class MainWindow(QMainWindow):
             pygame.mixer.music.set_volume(0.4)
             pygame.mixer.music.play(-1)
         # Create a monologue widget for the character and set the transition callback to show the map screen after the monologue
-        self.monologue = MonologueWidget(character, self.showMapScreen)
+        self.monologue = MonologueWidget(character, event_id, self.showMapScreen)
         self.stack.addWidget(self.monologue)
         self.stack.setCurrentWidget(self.monologue)
 
@@ -201,13 +202,11 @@ class MainWindow(QMainWindow):
         if self.currentScreen == "fight":
             self.stopAllSounds  # Stop specific music if it's playing
 
-        # self.monologue = room.get("John", False)
-
         if self.fight:
             self.stack.removeWidget(self.fight.widget)
 
         self.fight = FightSequence(self.player, room["NPC"], room["battlefield"])
-        self.fight.onWin(self.showVictoryScreen)
+        self.fight.onWin(lambda: self.showVictoryScreen(room["NPC"].name))
         self.fight.onLose(self.showDefeatScreen)
         self.fight.onWinGame(self.showWinGameCrawl)
 
@@ -221,19 +220,18 @@ class MainWindow(QMainWindow):
     def loadCharacter(self, name: str) -> Character:
         return CharacterFactory.LoadCharacter(name)
 
-    def showVictoryScreen(self):
+    def showVictoryScreen(self, boss_name):
+        event_id = EventIdentifier.get_event_id("boss_defeat", boss_name)
         if self.fight is None:
             raise Exception("Victory Screen expects a fight")
-
         victory = VictoryScreen(self.fight)
 
         def loot_collected():
             self.stack.removeWidget(victory)
             if should_display_monologue(self.player, self.fight.enemy):
-                self.displayMonologue(self.player)
+                self.displayMonologue(self.player, event_id)
             else:
                 self.showMapScreen()
-                self.saveCharacter(self.player)
 
         victory.onClose(loot_collected)
         self.stack.addWidget(victory)
