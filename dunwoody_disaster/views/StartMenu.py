@@ -2,9 +2,11 @@ import pygame
 
 from typing import Callable
 
-from PySide6.QtGui import QMovie
+from PySide6.QtGui import QMovie, QPainter
+from PySide6.QtCore import Qt, QSize, QRect
 from PySide6.QtWidgets import (
-    QGridLayout,
+    QVBoxLayout,
+    QHBoxLayout,
     QLabel,
     QMessageBox,
     QPushButton,
@@ -14,19 +16,95 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import QTimer
 
-from dunwoody_disaster import ASSETS, unimplemented
+import dunwoody_disaster as DD
 
 
+# Got this from https://stackoverflow.com/questions/77602181/pyside6-how-do-i-resize-a-qlabel-playing-a-qmovie-and-maintain-the-movies-orig
 class MovieLabel(QLabel):
-    def __init__(self, movie_path, parent=None):
-        super().__init__(parent)
-        self.movie = QMovie(movie_path)
-        self.setMovie(self.movie)
-        self.movie.start()
+    def __init__(self):
+        super().__init__()
+        self._movieSize = QSize()
+        self._minSize = QSize()
 
-    def resizeEvent(self, event):
-        super().resizeEvent(event)
-        self.movie.setScaledSize(self.size())  # Scale movie to the size of the label
+    def minimumSizeHint(self):
+        if self._minSize.isValid():
+            return self._minSize
+        return super().minimumSizeHint()
+
+    def setMovie(self, movie: QMovie):
+        if self.movie() == movie:
+            return
+        super().setMovie(movie)
+
+        if not movie.isValid():
+            self._movieSize = QSize()
+            self._minSize = QSize()
+            self.updateGeometry()
+            return
+
+        cf = movie.currentFrameNumber()
+        state = movie.state()
+        movie.jumpToFrame(0)
+        rect = QRect()
+        for i in range(movie.frameCount()):
+            movie.jumpToNextFrame()
+            rect |= movie.frameRect()
+
+        width = rect.x() + rect.width()
+        height = rect.y() + rect.height()
+
+        self._movieSize = QSize(width, height)
+        if width == height and False:
+            if width < 4:
+                self._minSize = QSize(width, width)
+            else:
+                self._minSize = QSize(4, 4)
+        else:
+            minimum = min(width, height)
+            maximum = max(width, height)
+            ratio = maximum / minimum
+            base = min(4, minimum)
+            self._minSize = QSize(base, round(base * ratio))
+            if minimum == width:
+                self._minSize.transpose()
+
+        movie.jumpToFrame(cf)
+        if state == movie.MovieState.Running:
+            movie.setPaused(False)
+        self.updateGeometry()
+
+    def paintEvent(self, event):
+        movie = self.movie()
+        if not isinstance(movie, QMovie) or not movie.isValid():
+            super().paintEvent(event)
+            return
+
+        qp = QPainter(self)
+        self.drawFrame(qp)
+
+        cr = self.contentsRect()
+        margin = self.margin()
+        cr.adjust(margin, margin, -margin, -margin)
+
+        style = self.style()
+        alignment = style.visualAlignment(self.layoutDirection(), self.alignment())
+        maybeSize = self._movieSize.scaled(
+            cr.size(), Qt.AspectRatioMode.KeepAspectRatio
+        )
+
+        if maybeSize != movie.scaledSize():
+            movie.setScaledSize(maybeSize)
+            style.drawItemPixmap(
+                qp,
+                cr,
+                alignment,
+                movie.currentPixmap().scaled(
+                    cr.size(), Qt.AspectRatioMode.KeepAspectRatio
+                ),
+            )
+
+        else:
+            style.drawItemPixmap(qp, cr, alignment, movie.currentPixmap())
 
 
 class StartMenu(QWidget):
@@ -39,30 +117,35 @@ class StartMenu(QWidget):
         self.setStyleSheet("background-color: black;")
         self.setWindowTitle("Dunwoody Disaster")
 
-        main_layout = QGridLayout(self)
-        main_layout.setSpacing(0)
-        main_layout.setContentsMargins(0, 0, 0, 0)
+        layout = QVBoxLayout()
+        layout.setSpacing(0)
+        layout.setContentsMargins(0, 0, 0, 0)
+        self.setLayout(layout)
 
-        # Setup the MovieLabel to display the GIF dynamically
-        backgroundPic_Lbl = MovieLabel(ASSETS["FinalTitle"], self)
-        main_layout.addWidget(backgroundPic_Lbl, 1, 1)
+        self.movie = QMovie(DD.ASSETS["FinalTitle"])
 
-        button_layout = QGridLayout()
-        self.startButton = QPushButton("Start Game")
-        self.startButton.setStyleSheet(
-            "background-color: gray; min-width: 250px; font-size: 14px; font-weight: 600px;"
-        )
-        self.startButton.clicked.connect(unimplemented)
-        button_layout.addWidget(self.startButton, 0, 1)
+        bkg = MovieLabel()
+        bkg.setMovie(self.movie)
+        bkg.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(bkg)
 
-        self.exitButton = QPushButton("Exit")
-        self.exitButton.setStyleSheet(
-            "background-color: gray; min-width: 250px; font-size: 14px; font-weight: 600px;"
-        )
-        self.exitButton.clicked.connect(self.exitGame)
-        button_layout.addWidget(self.exitButton, 0, 2)
+        btns = QHBoxLayout()
+        layout.addLayout(btns)
+        btn_style = "background-color: gray; min-width: 250px; font-size: 14px; font-weight: 600px;"
 
-        main_layout.addLayout(button_layout, 2, 1)
+        start = QPushButton("Start Game")
+        start.setStyleSheet(btn_style)
+        start.clicked.connect(self.startClicked)
+        btns.addWidget(start)
+
+        close = QPushButton("Exit")
+        close.setStyleSheet(btn_style)
+        close.clicked.connect(self.exitGame)
+        btns.addWidget(close)
+
+    def startClicked(self):
+        self.movie.stop()
+        self._callback()
 
     def fadeIn(self):
         self.effect = QGraphicsOpacityEffect(self)
@@ -85,8 +168,7 @@ class StartMenu(QWidget):
         """
         A callback function that executes when the user presses start
         """
-        self.startButton.clicked.disconnect()
-        self.startButton.clicked.connect(callback)
+        self._callback = callback
 
     def exitGame(self):
         reply = QMessageBox.question(
