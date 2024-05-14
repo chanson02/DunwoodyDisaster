@@ -68,7 +68,7 @@ class FightScreen(QWidget):
         # )
         row += 1
 
-        arsenal = Arsenal(self.p1_selector, self.player1.weapons, self.player1.defenses)
+        arsenal = Arsenal(self.p1_selector, self.player1.weapons, self.player1.defenses, True)
         layout.addWidget(arsenal, row, 1)
 
         layout.addItem(
