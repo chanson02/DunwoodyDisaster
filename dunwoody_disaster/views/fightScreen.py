@@ -48,18 +48,30 @@ class FightScreen(QWidget):
 
         row = 0
 
-        layout.addItem(
-            QSpacerItem(50, 50, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 0
+        self.victoryButton = QPushButton()
+        self.victoryButton.setStyleSheet(
+            "color: black; background-color: black; min-width: 25px; width: 40px; height: 40px;"
         )
+        self.victoryButton.clicked.connect(self.victoryClicked)
+        layout.addWidget(self.victoryButton, row, 0)
+
+        self.defeatButton = QPushButton()
+        self.defeatButton.setStyleSheet(
+            "color: black; background-color: black; min-width: 25px; width: 40px; height: 40px;"
+        )
+        self.defeatButton.clicked.connect(self.defeatClicked)
+        layout.addWidget(self.defeatButton, row, 6)
+
+        # layout.addItem(
+        #     QSpacerItem(50, 50, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 0
+        # )
         row += 1
 
-        arsenal = Arsenal(
-            self.p1_selector, self.player1.weapons, self.player1.defenses, True
-        )
+        arsenal = Arsenal(self.p1_selector, self.player1.weapons, self.player1.defenses)
         layout.addWidget(arsenal, row, 1)
 
         layout.addItem(
-            QSpacerItem(5, 0, QSizePolicy.MinimumExpanding, QSizePolicy.Fixed), row, 2
+            QSpacerItem(5, 5, QSizePolicy.MinimumExpanding, QSizePolicy.Fixed), row, 2
         )
 
         layout.addLayout(self.center_layout(), row, 3)
@@ -85,13 +97,17 @@ class FightScreen(QWidget):
         layout.setContentsMargins(0, 0, 0, 0)
 
         row = 0
-        layout.addItem(QSpacerItem(0, 50, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 0)
+        layout.addItem(
+            QSpacerItem(0, 20, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding), row, 0
+        )
         row += 1
-
         # row, column, rowSpan, columnSpan
         layout.addWidget(p1, row, 0)
         layout.addItem(DD.expander(True, False, 150), 0, 1)
         layout.addWidget(p2, row, 2)
+        row += 1
+
+        layout.addItem(QSpacerItem(0, 30, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 0)
         row += 1
 
         self.animation = RoomAnimation(
@@ -108,9 +124,7 @@ class FightScreen(QWidget):
         layout.addWidget(self.p2_selector, row, 2)
         row += 1
 
-        layout.addItem(
-            QSpacerItem(0, 20, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding), row, 0
-        )
+        layout.addItem(QSpacerItem(0, 20, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 0)
         row += 1
 
         btnLayout = QGridLayout()
@@ -133,6 +147,10 @@ class FightScreen(QWidget):
         layout.addLayout(btnLayout, row, 0, 1, 3)
         row += 1
 
+        layout.addItem(
+            QSpacerItem(0, 20, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding), row, 0
+        )
+
         return layout
 
     def fightClicked(self):
@@ -141,3 +159,9 @@ class FightScreen(QWidget):
             return
 
         self.controller.takeTurn(self.p1_selector, self.p2_selector)
+
+    def victoryClicked(self):
+        self.controller._winCallback()
+
+    def defeatClicked(self):
+        self.controller._loseCallback()
