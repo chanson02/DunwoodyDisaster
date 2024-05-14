@@ -6,7 +6,7 @@ from PySide6.QtCore import Qt, QTimer
 from dunwoody_disaster import ASSETS, AUDIO
 
 
-class CharacterDetailWidget(QWidget):
+class JohnIntroScreen(QWidget):
 
     def __init__(self, character, transition_callback):
         super().__init__()
