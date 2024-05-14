@@ -90,17 +90,23 @@ class DialogueScreen(QWidget):
         return
 
     def init_ui(self):
+        dialogue_font = QFont(
+            "Times New Roman", 16, QFont.Bold
+        )  # Example: "Times New Roman", size 16, bold
+        self.char1_dialogue.setFont(dialogue_font)
+        self.char2_dialogue.setFont(dialogue_font)
+
         main_layout = QVBoxLayout(self)
 
-        # Create group boxes for each character
         char1_group = QGroupBox()
         char2_group = QGroupBox()
 
-        # Create vertical layouts for each character's image and dialogue
+        char1_group.setStyleSheet("QGroupBox { border: None; }")
+        char2_group.setStyleSheet("QGroupBox { border: None; }")
+
         char1_layout = QVBoxLayout()
         char2_layout = QVBoxLayout()
 
-        # Labels to display character names
         char1_name_label = QLabel(self.char1.name)
         char2_name_label = QLabel(self.char2.name)
         char1_name_label.setAlignment(Qt.AlignCenter)
@@ -108,23 +114,41 @@ class DialogueScreen(QWidget):
         char1_name_label.setFont(QFont("Blood Crow", 14, QFont.Bold))
         char2_name_label.setFont(QFont("Blood Crow", 14, QFont.Bold))
 
-        # Set font size for dialogue text
-        dialogue_font = QFont("JMH Typewriter", 12)
-        dialogue_font.setPointSize(18)  # Larger text size
-        self.char1_dialogue.setFont(dialogue_font)
-        self.char2_dialogue.setFont(dialogue_font)
+        self.char1_img = QLabel()
+        self.char1_img.setPixmap(
+            QPixmap(self.char1.image()).scaled(500, 500, Qt.KeepAspectRatio)
+        )
+        self.char1_img.setAlignment(Qt.AlignCenter)
+
+        self.char2_img = QLabel()
+        self.char2_img.setPixmap(
+            QPixmap(self.char2.image()).scaled(500, 500, Qt.KeepAspectRatio)
+        )
+        self.char2_img.setAlignment(Qt.AlignCenter)
+
+        self.char1_dialogue = QLabel()
+        self.char2_dialogue = QLabel()
+
+        self.char1_dialogue.setAlignment(Qt.AlignCenter)
+        self.char2_dialogue.setAlignment(Qt.AlignCenter)
+
+        # Apply styles to dialogue QLabel widgets
+        dialogue_style = """
+        QLabel {
+            background-color: #000000;
+            border: 2px solid #444444;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 20px;
+            font-family: "JMH Typewriter";
+            font-color: #000000;
+        }
+        """
+        self.char1_dialogue.setStyleSheet(dialogue_style)
+        self.char2_dialogue.setStyleSheet(dialogue_style)
         self.char1_dialogue.setWordWrap(True)
         self.char2_dialogue.setWordWrap(True)
 
-        # Adjust size and properties of dialogue labels
-        self.char1_dialogue.setFixedHeight(
-            250
-        )  # Half the height of the character image
-        self.char2_dialogue.setFixedHeight(250)
-        self.char1_dialogue.setAlignment(Qt.AlignCenter | Qt.AlignTop)
-        self.char2_dialogue.setAlignment(Qt.AlignCenter | Qt.AlignTop)
-
-        # Add widgets to layouts
         char1_layout.addWidget(char1_name_label)
         char1_layout.addWidget(self.char1_img)
         char1_layout.addWidget(self.char1_dialogue)
@@ -132,11 +156,9 @@ class DialogueScreen(QWidget):
         char2_layout.addWidget(self.char2_img)
         char2_layout.addWidget(self.char2_dialogue)
 
-        # Set layouts to group boxes
         char1_group.setLayout(char1_layout)
         char2_group.setLayout(char2_layout)
 
-        # Horizontal layout to hold both character group boxes
         characters_layout = QHBoxLayout()
         characters_layout.addWidget(char1_group)
         characters_layout.addWidget(char2_group)
