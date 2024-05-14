@@ -50,8 +50,6 @@ class CharacterDetailWidget(QWidget):
         self.character_description = getattr(
             self.character, "description", "No description available."
         )
-        # self.character_description = self.character.description which is created in the CharacterFactory.py
-
         self.timer.start(50)
 
     def initSound(self):
