@@ -17,7 +17,7 @@ class Credits(QWidget):
             ("Cooper", "Lead Programmer | Resident Git Expert"),
             ("Noah", "Stock"),
             ("John", "Arts and Audio Director"),
-            ("Mitch", "Stock"),
+            ("Mitch", "Playtester | Game Designer | Creator of Crawl Screens"),
             ("Jenni", "Stock"),
         ]
         self.images = {
