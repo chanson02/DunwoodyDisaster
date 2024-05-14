@@ -6,14 +6,13 @@ from PySide6.QtGui import QMovie, QPainter
 from PySide6.QtCore import Qt, QSize, QRect
 from PySide6.QtWidgets import (
     QGridLayout,
-    QHBoxLayout,
     QLabel,
     QMessageBox,
     QPushButton,
     QWidget,
     QApplication,
     QSpacerItem,
-    QSizePolicy
+    QSizePolicy,
 )
 
 import dunwoody_disaster as DD
@@ -137,7 +136,12 @@ class StartMenu(QWidget):
         btn_style = "background-color: transparent; min-width: 400px; font-size: 36px; font-weight: 600px;"
 
         btns_Lyt.addItem(
-            QSpacerItem(0, 50, QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding), 0, 0)
+            QSpacerItem(
+                0, 50, QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding
+            ),
+            0,
+            0,
+        )
 
         start = QPushButton("Start Game")
         start.setStyleSheet(btn_style)
@@ -145,7 +149,8 @@ class StartMenu(QWidget):
         btns_Lyt.addWidget(start, 1, 1)
 
         btns_Lyt.addItem(
-            QSpacerItem(50, 170, QSizePolicy.MinimumExpanding, QSizePolicy.Fixed), 2, 2)
+            QSpacerItem(50, 170, QSizePolicy.MinimumExpanding, QSizePolicy.Fixed), 2, 2
+        )
 
         # close = QPushButton("Exit")
         # close.setStyleSheet(btn_style)
