@@ -5,13 +5,14 @@ from typing import Callable
 from PySide6.QtGui import QMovie, QPainter
 from PySide6.QtCore import Qt, QSize, QRect
 from PySide6.QtWidgets import (
-    QVBoxLayout,
-    QHBoxLayout,
+    QGridLayout,
     QLabel,
     QMessageBox,
     QPushButton,
     QWidget,
     QApplication,
+    QSpacerItem,
+    QSizePolicy,
 )
 
 import dunwoody_disaster as DD
@@ -110,31 +111,57 @@ class StartMenu(QWidget):
         super().__init__()
         self._callback = DD.unimplemented
 
-        layout = QVBoxLayout()
+        layout = QGridLayout()
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(layout)
 
         self.movie = QMovie(DD.ASSETS["FinalTitle"])
 
+        row = 0
+
+        # layout.addItem(
+        #     QSpacerItem(0, 50, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 0)
+
         bkg = MovieLabel()
         bkg.setMovie(self.movie)
         bkg.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        layout.addWidget(bkg)
+        layout.addWidget(bkg, row, 0)
 
-        btns = QHBoxLayout()
-        layout.addLayout(btns)
-        btn_style = "background-color: gray; min-width: 250px; font-size: 14px; font-weight: 600px;"
+        # layout.addItem(
+        #     QSpacerItem(0, 20, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding), 2, 0)
+
+        btns_Lyt = QGridLayout()
+        layout.addLayout(btns_Lyt, row, 0)
+        btn_style = "background-color: transparent; min-width: 400px; font-size: 36px; font-weight: 600px;"
+
+        btns_Lyt.addItem(
+            QSpacerItem(
+                0, 50, QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding
+            ),
+            0,
+            0,
+        )
 
         start = QPushButton("Start Game")
         start.setStyleSheet(btn_style)
         start.clicked.connect(self.startClicked)
-        btns.addWidget(start)
+        btns_Lyt.addWidget(start, 1, 1)
 
-        close = QPushButton("Exit")
-        close.setStyleSheet(btn_style)
-        close.clicked.connect(self.exitGame)
-        btns.addWidget(close)
+        btns_Lyt.addItem(
+            QSpacerItem(50, 170, QSizePolicy.MinimumExpanding, QSizePolicy.Fixed), 2, 2
+        )
+
+        # close = QPushButton("Exit")
+        # close.setStyleSheet(btn_style)
+        # close.clicked.connect(self.exitGame)
+        # btns_Lyt.addWidget(close)
+
+        # btns_Lyt.addItem(
+        #     QSpacerItem(50, 0, QSizePolicy.Fixed, QSizePolicy.Fixed))
+
+        # layout.addItem(
+        #     QSpacerItem(0, 50, QSizePolicy.Fixed, QSizePolicy.Fixed), 4, 0)
 
     def startClicked(self):
         self.movie.stop()
