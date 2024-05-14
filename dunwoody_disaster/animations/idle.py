@@ -4,9 +4,9 @@ from dunwoody_disaster.animations.AnimationComponent import AnimationComponent
 
 
 class IdleComponent(AnimationComponent):
-    def __init__(self, img: str, anchor: tuple[int, int]):
+    def __init__(self, img: str, anchor: tuple[int, int], size=(100, 100)):
         super().__init__()
-        self.img = pygame.transform.scale(pygame.image.load(img), (100, 100))
+        self.img = pygame.transform.scale(pygame.image.load(img), size)
         self.anchor = anchor
 
         self.elapsed = 0

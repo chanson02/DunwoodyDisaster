@@ -12,12 +12,11 @@ class LinearComponent(AnimationComponent):
         start: tuple[int, int],
         end: tuple[int, int],
         duration_ms=0,
+        size=(100, 100),
     ):
         super().__init__(finish)
 
-        self.img = pygame.transform.scale(
-            pygame.image.load(img).convert_alpha(), (100, 100)
-        )
+        self.img = pygame.transform.scale(pygame.image.load(img).convert_alpha(), size)
         self.start = start
         self.end = end
         self.duration = duration_ms
