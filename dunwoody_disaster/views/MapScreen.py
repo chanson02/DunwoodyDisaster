@@ -159,7 +159,12 @@ class Map(QLabel):
         map.addRoom("Court Yard", (900, 460), chars.LeAnnSimonson(), "Courtyard+")
         map.addRoom("Black 42", (1092, 130), chars.RyanRengo(), "Courtyard+")
         map.addRoom("Math", (540, 570), chars.NoureenSajid(), "MathClass+")
-        map.addRoom("Center of Engineering Excellence", (840, 750), chars.AmalanPulendran(), "ComputerLab+")
+        map.addRoom(
+            "Center of Engineering Excellence",
+            (840, 750),
+            chars.AmalanPulendran(),
+            "ComputerLab+",
+        )
         map.addRoom("Science", (435, 225), chars.MatthewBeckler(), "ScienceClass+")
         map.addRoom(
             "Dean's Office", (677, 272), chars.BillHudson(), "DeansOffice+", True
