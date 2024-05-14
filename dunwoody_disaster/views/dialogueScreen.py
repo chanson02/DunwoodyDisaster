@@ -6,12 +6,14 @@ from PySide6.QtWidgets import (
     QHBoxLayout,
     QGroupBox,
 )
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QTimer
 from PySide6.QtGui import QKeyEvent, QPixmap, QFont
 from dunwoody_disaster.CharacterFactory import Character
 import dunwoody_disaster as DD
+from dunwoody_disaster import AUDIO
 from typing import Callable
 import json
+import pygame
 
 
 # Dialogue screen between boss and users
@@ -32,6 +34,11 @@ class DialogueScreen(QWidget):
         self.char1 = char1  # Player character
         self.char2 = char2  # Boss character
 
+        self.current_dialogue = ""
+        self.char_index = 0
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.type_text)
+
         self.char1_img = QLabel()
         self.char1_img.setPixmap(
             QPixmap(self.char1.image()).scaled(500, 500, Qt.KeepAspectRatio)
@@ -51,6 +58,7 @@ class DialogueScreen(QWidget):
 
         self.init_ui()
         self.loadDialogue()
+        self.initSound()
         DD.clickable(self).connect(self.next_dialogue)
         self._callback = DD.unimplemented
 
@@ -141,7 +149,6 @@ class DialogueScreen(QWidget):
             padding: 10px;
             font-size: 20px;
             font-family: "JMH Typewriter";
-            font-color: #000000;
         }
         """
         self.char1_dialogue.setStyleSheet(dialogue_style)
@@ -165,20 +172,58 @@ class DialogueScreen(QWidget):
 
         main_layout.addLayout(characters_layout)
 
+    def initSound(self):
+        pygame.mixer.init()
+        self.TypeWriterSound = pygame.mixer.Sound(AUDIO["TypeWriterSound"])
+        self.TypeWriterSound.set_volume(0.9)
+
     def next_dialogue(self):
+        if self.timer.isActive():
+            self.timer.stop()
+            if self.current_speaker == 0:
+                self.char1_dialogue.setText(self.current_dialogue)
+            else:
+                self.char2_dialogue.setText(self.current_dialogue)
+            return
+
         index = self._index // 2
         char = self._index % 2
+        self.current_speaker = char
 
         try:
             if char == 0:
-                self.char1_dialogue.setText(self._char1_dialogue[index])
+                self.current_dialogue = self._char1_dialogue[index]
+                self.char1_dialogue.clear()
             else:
-                self.char2_dialogue.setText(self._char2_dialogue[index])
-        except IndexError:
-            # There is no more dialogue
-            self.deleteLater()
-            self._callback()
+                self.current_dialogue = self._char2_dialogue[index]
+                self.char2_dialogue.clear()
 
-        self.dialogue_stack.setCurrentIndex(char)
+            self.char_index = 0
+            self.timer.start(50)  # Adjust speed as needed
+        except IndexError:
+            self.deleteLater()
+            if self._callback:
+                self._callback()
+
         self._index += 1
-        return
+
+    def type_text(self):
+        if self.char_index < len(self.current_dialogue):
+            # Play sound with each character
+            if (
+                not pygame.mixer.get_busy()
+            ):  # Check if the sound is not currently playing
+                self.TypeWriterSound.stop()  # Ensure any currently playing sound is stopped
+                self.TypeWriterSound.play()
+
+            if self.current_speaker == 0:
+                self.char1_dialogue.setText(
+                    self.char1_dialogue.text() + self.current_dialogue[self.char_index]
+                )
+            else:
+                self.char2_dialogue.setText(
+                    self.char2_dialogue.text() + self.current_dialogue[self.char_index]
+                )
+            self.char_index += 1
+        else:
+            self.timer.stop()
