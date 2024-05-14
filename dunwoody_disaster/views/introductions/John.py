@@ -1,5 +1,5 @@
 import pygame
-from PySide6.QtWidgets import QWidget, QLabel, QTextEdit, QHBoxLayout, QPushButton
+from PySide6.QtWidgets import QWidget, QLabel, QTextEdit, QGridLayout, QPushButton, QSizePolicy, QSpacerItem
 from PySide6.QtGui import QPixmap, QFont, QIcon, QKeyEvent
 from PySide6.QtCore import Qt, QTimer
 
@@ -16,7 +16,16 @@ class CharacterDetailWidget(QWidget):
         self.initSound()
 
     def initUI(self):
-        layout = QHBoxLayout()
+        layout = QGridLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
+
+        row = 0
+
+        layout.addItem(
+            QSpacerItem(50, 30, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding), row, 0
+        )
+        row += 1
 
         # Image setup
         self.imageLabel = QLabel(self)
@@ -24,21 +33,30 @@ class CharacterDetailWidget(QWidget):
             500, 600, Qt.AspectRatioMode.KeepAspectRatio
         )
         self.imageLabel.setPixmap(pixmap)
-        layout.addWidget(self.imageLabel)
+        layout.addWidget(self.imageLabel, row, 1)
 
         # Text edit for description with typewriter effect
         self.backgroundEdit = QTextEdit(self)
         background_description = QFont("JMH Typewriter", 20)
         self.backgroundEdit.setFont(background_description)
         self.backgroundEdit.setReadOnly(True)
-        layout.addWidget(self.backgroundEdit)
+        layout.addWidget(self.backgroundEdit, row, 2)
+
+        layout.addItem(
+            QSpacerItem(20, 0, QSizePolicy.Fixed), row, 3
+        )
 
         # Button to transition to map screen
         self.mapButton = QPushButton("Go to Map")
         self.mapButton.setIcon(QIcon(ASSETS["SSL Certificate"]))
         self.mapButton.clicked.connect(self.transition_callback)
         self.mapButton.setDisabled(True)
-        layout.addWidget(self.mapButton)
+        layout.addWidget(self.mapButton, row, 4)
+        row += 1
+
+        layout.addItem(
+            QSpacerItem(30, 30, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding), row, 5
+        )
 
         self.setLayout(layout)
 
