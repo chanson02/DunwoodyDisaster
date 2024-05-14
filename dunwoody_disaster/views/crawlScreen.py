@@ -25,7 +25,7 @@ class Crawl(QWidget):
             "This is their story...",
         ]
         self.line_spacing = 30
-        self.scroll_speed = 0.55  # Adjust the scrolling speed as needed
+        self.scroll_speed = 0.48  # Adjust the scrolling speed as needed
         self.scroll_position = 0
         self.initUI()
 
