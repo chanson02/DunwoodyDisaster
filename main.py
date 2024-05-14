@@ -17,6 +17,7 @@ from dunwoody_disaster.views.CharacterDetailWidget import CharacterDetailWidget
 from dunwoody_disaster.views.MonologueWidget import (
     MonologueWidget,
 )
+from dunwoody_disaster.EventIdentifier import EventIdentifier
 
 from dunwoody_disaster import AUDIO
 from dunwoody_disaster.views.introductions.Cooper import CooperIntroScreen
@@ -38,20 +39,17 @@ class MainWindow(QMainWindow):
         self.setStyleSheet("background-color: black; color: #FFFFFF;")
         self.currentScreen = None  # To keep track of the current screen
         self.player = None
-
+        self.fight = None
+        self.stack = QStackedWidget()
         self.startMenu = StartMenu()
         self.startMenu.onStart(self.startBtnClicked)
 
-        self.fight = None
-
-        self.stack = QStackedWidget()
-        self.stack.addWidget(self.startMenu)
-
-        # Set the stacked widget as the central widget of the main window
         self.setCentralWidget(self.stack)
+        self.stack.addWidget(self.startMenu)
         self.showStartMenu()
 
     def showStartMenu(self):
+        self.startMenu.movie.start()
         self.stack.setCurrentWidget(self.startMenu)
         self.setupMusicPlayer()
 
@@ -144,7 +142,7 @@ class MainWindow(QMainWindow):
         self.stack.addWidget(self.characterWidget)
         self.stack.setCurrentWidget(self.characterWidget)
 
-    def displayMonologue(self, character):
+    def displayMonologue(self, character, event_id):
         self.stopAllSounds()
         if character.name == "John":
             # load monologue music
@@ -152,20 +150,16 @@ class MainWindow(QMainWindow):
             pygame.mixer.music.set_volume(0.4)
             pygame.mixer.music.play(-1)
         # Create a monologue widget for the character and set the transition callback to show the map screen after the monologue
-        self.monologue = MonologueWidget(character, self.showMapScreen)
+        self.monologue = MonologueWidget(character, event_id, self.showMapScreen)
         self.stack.addWidget(self.monologue)
         self.stack.setCurrentWidget(self.monologue)
 
     def showMapScreen(self):
         self.stack.removeWidget(self.characterWidget)
         self.stopAllSounds()
-        self.currentScreen = "map"
-        if self.currentScreen == "map":
-            pygame.mixer.music.load(AUDIO["MapScreenMusic"])
-            pygame.mixer.music.set_volume(0.9)
-            pygame.mixer.music.play(loops=-1)
-        else:
-            self.stopAllSounds()
+        pygame.mixer.music.load(AUDIO["MapScreenMusic"])
+        pygame.mixer.music.set_volume(0.9)
+        pygame.mixer.music.play(loops=-1)
 
         self.mapScreen.map.setRoom(None)
         unbeaten = self.mapScreen.map.available_rooms()
@@ -193,21 +187,15 @@ class MainWindow(QMainWindow):
         Enter fight screen by pointing stack at fight screen.
         This will need to be changed to set the proper opponent per setting. Index 2 is the fight screen.
         """
-        self.currentScreen = "fight"
         self.stopAllSounds()
         if not self.player:
             raise Exception("Cannot enter fight when no player is selected")
-
-        if self.currentScreen == "fight":
-            self.stopAllSounds  # Stop specific music if it's playing
-
-        # self.monologue = room.get("John", False)
 
         if self.fight:
             self.stack.removeWidget(self.fight.widget)
 
         self.fight = FightSequence(self.player, room["NPC"], room["battlefield"])
-        self.fight.onWin(self.showVictoryScreen)
+        self.fight.onWin(lambda: self.showVictoryScreen(room["NPC"].name))
         self.fight.onLose(self.showDefeatScreen)
         self.fight.onWinGame(self.showWinGameCrawl)
 
@@ -221,19 +209,18 @@ class MainWindow(QMainWindow):
     def loadCharacter(self, name: str) -> Character:
         return CharacterFactory.LoadCharacter(name)
 
-    def showVictoryScreen(self):
+    def showVictoryScreen(self, boss_name):
+        event_id = EventIdentifier.get_event_id("boss_defeat", boss_name)
         if self.fight is None:
             raise Exception("Victory Screen expects a fight")
-
         victory = VictoryScreen(self.fight)
 
         def loot_collected():
             self.stack.removeWidget(victory)
             if should_display_monologue(self.player, self.fight.enemy):
-                self.displayMonologue(self.player)
+                self.displayMonologue(self.player, event_id)
             else:
                 self.showMapScreen()
-                self.saveCharacter(self.player)
 
         victory.onClose(loot_collected)
         self.stack.addWidget(victory)

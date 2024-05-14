@@ -1,5 +1,7 @@
 import pygame
 import json
+import os  # Ensure you import os to use os.path.join for path construction
+
 from PySide6.QtWidgets import (
     QWidget,
     QLabel,
@@ -21,7 +23,7 @@ from dunwoody_disaster.CharacterFactory import Character
 # Define a QWidget-based class to manage monologue display in a game
 class MonologueWidget(QWidget):
     # Initialize the widget with a character object and a transition callback function
-    def __init__(self, char: Character, transition_callback: Callable):
+    def __init__(self, char: Character, event_id: str, transition_callback: Callable):
         super().__init__()
         self.char = (
             char  # Store reference to the character whose dialogue will be displayed
@@ -33,6 +35,7 @@ class MonologueWidget(QWidget):
         self.transition_callback = (
             transition_callback  # Store the callback function for transition
         )
+        self.event_id = event_id
 
         self.initUI()  # Setup the user interface components
         self.initSound()  # Setup sound components
@@ -83,24 +86,33 @@ class MonologueWidget(QWidget):
         pygame.mixer.stop()
 
     # Load dialogue data from a JSON file
+
     def loadDialogue(self):
-        path = f"{DD.BASE_PATH}/monologues/{self.char.name}.json"  # Construct the file path
+        # Construct the file path more reliably
+        path = os.path.join(
+            DD.BASE_PATH, "monologues", self.char.name, f"{self.event_id}.json"
+        )
+        print(
+            f"Attempting to load dialogue from: {path}"
+        )  # Debug print to check the path
+
         try:
             with open(path, "r") as f:
-                data = json.load(f)  # Load the JSON data from the file
-            dialogues = data.get(self.char.name, {})  # Get dialogues for the character
-            victory_dialogue = dialogues.get(
-                "victory", ["No victory dialogue found."]
-            )  # Get victory dialogues or default message
-            self.set_dialogue(victory_dialogue)  # Set the loaded dialogue for display
+                data = json.load(f)
+            print(f"Loaded data: {data}")  # Debug print to see what data was loaded
+
+            # Assuming the JSON structure is { "Example":"victory": ["line1", "line2"] }
+            character_monologue = data.get(self.char.name, {})
+            victory_dialogue = character_monologue.get(
+                "monologue", ["No victory dialogue found."]
+            )
+            self.set_dialogue(victory_dialogue)
         except FileNotFoundError:
-            print(f"Dialogue file {path} not found")  # Handle file not found error
-            self.set_dialogue(["No dialogue file found."])  # Set default error message
+            print(f"Dialogue file {path} not found")
+            self.set_dialogue(["No dialogue file found."])
         except json.JSONDecodeError:
-            print(f"Error decoding JSON from {path}")  # Handle JSON decoding error
-            self.set_dialogue(
-                ["Error in dialogue format."]
-            )  # Set default error message
+            print(f"Error decoding JSON from {path}")
+            self.set_dialogue(["Error in dialogue format."])
 
     # Add characters of the dialogue one by one to simulate typewriter effect
     def add_char(self):

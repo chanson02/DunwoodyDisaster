@@ -17,7 +17,7 @@ class Credits(QWidget):
             ("Cooper", "Lead Programmer | Resident Git Expert"),
             ("Noah", "Stock"),
             ("John", "Arts and Audio Director"),
-            ("Mitch", "Stock"),
+            ("Mitch", "Playtester | Game Designer | Creator of Crawl Screens"),
             ("Jenni", "Stock"),
         ]
         self.images = {
@@ -111,7 +111,7 @@ class Credits(QWidget):
         painter.drawPixmap(0, (self.height() - image.height()) / 2, image)
 
         # Set the font for drawing text
-        font = QFont("Arial", 24)
+        font = QFont("Arial", 20)
         painter.setFont(font)
         # Set the pen color to white for text drawing
         painter.setPen(QColor(255, 255, 255))
