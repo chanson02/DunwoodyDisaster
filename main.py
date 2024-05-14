@@ -121,6 +121,9 @@ class MainWindow(QMainWindow):
                 character, transition_callback=self.showMapScreen
             )
         elif character.name == "Noah":
+            pygame.mixer.music.load(AUDIO["NoahTheme"])
+            pygame.mixer.music.set_volume(0.4)
+            pygame.mixer.music.play(-1)
             self.characterWidget = NoahIntroScreen(
                 character, transition_callback=self.showMapScreen
             )
