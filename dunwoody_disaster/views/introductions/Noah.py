@@ -9,7 +9,8 @@ from typing import Callable
 class NoahIntroScreen(QWidget):
     def __init__(self, character: Character, transition_callback: Callable):
         super().__init__()
-        self.text_styles = 'font-size: 24px; font-family: font-family: "Futura Bk BT";'
+        self.setStyleSheet('font-family: "Futura Bk BT";')
+        self.text_styles = "font-size: 24px;"
         self._callback = transition_callback
 
         layout = QVBoxLayout()
