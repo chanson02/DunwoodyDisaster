@@ -9,7 +9,7 @@ from typing import Callable
 class CooperIntroScreen(QWidget):
     def __init__(self, character: Character, transition_callback: Callable):
         super().__init__()
-        self.text_styles = "font-size: 24px;"
+        self.text_styles = 'font-size: 24px; font-family: font-family: "Futura Bk BT";'
         self._callback = transition_callback
 
         layout = QVBoxLayout()
