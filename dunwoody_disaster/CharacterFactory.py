@@ -260,21 +260,40 @@ class CharacterFactory:
         char.maxStamina = 100
         char.reset()
 
-        char.strength = 1
-        char.intelligence = 1
-        char.defense = 1
-        char.magicDefense = 1
+        char.strength = 5
+        char.intelligence = 50
+        char.defense = 10
+        char.magicDefense = 25
 
-        # char.weapons = [
-        #     Item.Weapon(name="Keyboard", damage=5, magic=5, stamina=5, magical=True),
-        #     Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False),
-        #     Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False)
-        # ]
+        char.weapons = [
+            Item.Weapon(
+                name="Syntax Error", damage=10, magic=5, stamina=5, magical=True
+            ),
+            Item.Weapon(
+                name="Recursive Loop", damage=15, magic=5, stamina=10, magical=True
+            ),
+            Item.Weapon(name="Keyboard", damage=5, magic=0, stamina=3, magical=False),
+        ]
+        char.defenses = [
+            Item.Armor(
+                name="StackOverflow",
+                armorVal=2,
+                staminaCost=5,
+                magicCost=1,
+                magicDefense=10,
+            ),
+            Item.Armor(
+                name="GDB", armorVal=5, staminaCost=5, magicCost=2, magicDefense=10
+            ),
+            Item.Armor(
+                name="SSL Certificate",
+                armorVal=10,
+                staminaCost=5,
+                magicCost=2,
+                magicDefense=5,
+            ),
+        ]
 
-        # char.defenses = [
-        #     Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=0),
-        #     Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
-        # ]
         char.loot = []
         char.food = []
 
@@ -353,16 +372,35 @@ class CharacterFactory:
         char.defense = 30
         char.magicDefense = 5
 
-        # char.weapons = [
-        #     Item.Weapon(name="", damage=8, magic=15, stamina=8, magical=True),
-        #     Item.Weapon(name="", damage=10, magic=5, stamina=10, magical=False),
-        #     Item.Weapon(name="", damage=15, magic=5, stamina=15, magical=False)
-        # ]
+        char.weapons = [
+            Item.Weapon(name="Unreal End", damage=8, magic=15, stamina=8, magical=True),
+            Item.Weapon(
+                name="Thermos Throw", damage=12, magic=5, stamina=8, magical=False
+            ),
+            Item.Weapon(
+                name="Laptop Lunge", damage=18, magic=5, stamina=10, magical=False
+            ),
+        ]
 
-        # char.defenses = [
-        #     Item.Armor(name="Stress Ball", armorVal=1, staminaCost=10, magicCost=0, magicDefense=15),
-        #     Item.Armor(name="Spaghetti Code", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
-        # ]
+        char.defenses = [
+            Item.Armor(
+                name="Stress Ball",
+                armorVal=15,
+                staminaCost=5,
+                magicCost=0,
+                magicDefense=15,
+            ),
+            Item.Armor(
+                name="Spaghetti Code",
+                armorVal=5,
+                staminaCost=5,
+                magicCost=5,
+                magicDefense=5,
+            ),
+        ]
+
+        char.image_path = DD.ASSETS["MitchRefined+"]
+
         char.image_path = DD.ASSETS["MitchRefined+"]
         char.description = "Four years. Four long years spent within this “institution.” Four years fighting a system that chose not to care. Four years of taking on debt while receiving nothing in return. I will soon leave this place with a degree that won’t be worth the paper it will be printed on. I will leave this place with very few job prospects and lacking the skills necessary to compete in my chosen field. I did the work that was asked of me, but Dunwoody failed to do the work that was asked of them by their students. They failed, and now we are left to pick up the pieces and suffer the consequences of their failure. My name is Mitchell Humphries and this is my story of the Dunwoody Disaster."
         return char
@@ -387,7 +425,7 @@ class CharacterFactory:
         char.reset()
 
         char.strength = 1
-        char.intelligence = 25
+        char.intelligence = 20
         char.defense = 0
         char.magicDefense = 15
         char.level = 1
@@ -480,9 +518,9 @@ class CharacterFactory:
         I'm not sure if we want to keep it this way due to real-life situations..."""
         char = CharacterFactory.createCharacter()
         char.name = "Ryan Rengo"
-        char.maxHealth = 70
+        char.maxHealth = 80
         char.maxMagic = 70
-        char.maxStamina = 40
+        char.maxStamina = 45
         char.reset()
 
         char.strength = 25
@@ -580,7 +618,7 @@ class CharacterFactory:
         """Joe is currently built as a strong, brute character."""
         char = CharacterFactory.createCharacter()
         char.name = "Joe Axberg"
-        char.maxHealth = 130
+        char.maxHealth = 120
         char.maxMagic = 40
         char.maxStamina = 50
         char.reset()
@@ -604,7 +642,7 @@ class CharacterFactory:
         char.defenses = [
             Item.Armor(
                 name="Virtualization Layer",
-                armorVal=50,
+                armorVal=25,
                 staminaCost=25,
                 magicCost=0,
                 magicDefense=0,
@@ -613,8 +651,8 @@ class CharacterFactory:
                 name="Command Line",
                 armorVal=0,
                 staminaCost=0,
-                magicCost=25,
-                magicDefense=50,
+                magicCost=15,
+                magicDefense=10,
             ),
         ]
 
