@@ -7,7 +7,7 @@ from PySide6.QtWidgets import (
     QGroupBox,
 )
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QKeyEvent
+from PySide6.QtGui import QKeyEvent, QPixmap, QFont
 from dunwoody_disaster.CharacterFactory import Character
 import dunwoody_disaster as DD
 from typing import Callable
@@ -29,19 +29,23 @@ class DialogueScreen(QWidget):
         """
 
         super().__init__()
-        self._index = 0
-        self.char1 = char1
-        self.char2 = char2
+        self.char1 = char1  # Player character
+        self.char2 = char2  # Boss character
 
-        self._char1_dialogue = []
-        self._char2_dialogue = []
+        self.char1_img = QLabel()
+        self.char1_img.setPixmap(
+            QPixmap(self.char1.image()).scaled(500, 500, Qt.KeepAspectRatio)
+        )
+        self.char1_img.setAlignment(Qt.AlignCenter)
 
-        self.char1_img = QLabel("")
-        self.char1_img.setPixmap(self.char1.image())
-        self.char2_img = QLabel("")
-        self.char2_img.setPixmap(self.char2.image())
-        self.char1_dialogue = QLabel("")
-        self.char2_dialogue = QLabel("")
+        self.char2_img = QLabel()
+        self.char2_img.setPixmap(
+            QPixmap(self.char2.image()).scaled(500, 500, Qt.KeepAspectRatio)
+        )
+        self.char2_img.setAlignment(Qt.AlignCenter)
+
+        self.char1_dialogue = QLabel()
+        self.char2_dialogue = QLabel()
 
         self.dialogue_stack = QStackedLayout()
 
@@ -86,31 +90,58 @@ class DialogueScreen(QWidget):
         return
 
     def init_ui(self):
-        layout = QVBoxLayout()
-        self.setLayout(layout)
+        main_layout = QVBoxLayout(self)
 
-        player_layout = QHBoxLayout()
-        layout.addLayout(player_layout)
-        player_layout.addWidget(self.char1_img)
-        player_layout.addWidget(self.char2_img)
+        # Create group boxes for each character
+        char1_group = QGroupBox()
+        char2_group = QGroupBox()
 
-        layout.addLayout(self.dialogue_stack)
+        # Create vertical layouts for each character's image and dialogue
+        char1_layout = QVBoxLayout()
+        char2_layout = QVBoxLayout()
 
-        # Player 1 dialogue box
-        player1_dialogue_box = QGroupBox(self.char1.name)
-        container = QHBoxLayout()
-        container.addWidget(self.char1_dialogue)
-        player1_dialogue_box.setLayout(container)
-        self.dialogue_stack.addWidget(player1_dialogue_box)
+        # Labels to display character names
+        char1_name_label = QLabel(self.char1.name)
+        char2_name_label = QLabel(self.char2.name)
+        char1_name_label.setAlignment(Qt.AlignCenter)
+        char2_name_label.setAlignment(Qt.AlignCenter)
+        char1_name_label.setFont(QFont("Blood Crow", 14, QFont.Bold))
+        char2_name_label.setFont(QFont("Blood Crow", 14, QFont.Bold))
 
-        # Player 2 dialogue box
-        player2_dialogue_box = QGroupBox(self.char2.name)
-        container = QHBoxLayout()
-        container.addWidget(self.char2_dialogue)
-        player2_dialogue_box.setLayout(container)
-        self.dialogue_stack.addWidget(player2_dialogue_box)
+        # Set font size for dialogue text
+        dialogue_font = QFont("JMH Typewriter", 12)
+        dialogue_font.setPointSize(18)  # Larger text size
+        self.char1_dialogue.setFont(dialogue_font)
+        self.char2_dialogue.setFont(dialogue_font)
+        self.char1_dialogue.setWordWrap(True)
+        self.char2_dialogue.setWordWrap(True)
 
-        # self.next_dialogue()
+        # Adjust size and properties of dialogue labels
+        self.char1_dialogue.setFixedHeight(
+            250
+        )  # Half the height of the character image
+        self.char2_dialogue.setFixedHeight(250)
+        self.char1_dialogue.setAlignment(Qt.AlignCenter | Qt.AlignTop)
+        self.char2_dialogue.setAlignment(Qt.AlignCenter | Qt.AlignTop)
+
+        # Add widgets to layouts
+        char1_layout.addWidget(char1_name_label)
+        char1_layout.addWidget(self.char1_img)
+        char1_layout.addWidget(self.char1_dialogue)
+        char2_layout.addWidget(char2_name_label)
+        char2_layout.addWidget(self.char2_img)
+        char2_layout.addWidget(self.char2_dialogue)
+
+        # Set layouts to group boxes
+        char1_group.setLayout(char1_layout)
+        char2_group.setLayout(char2_layout)
+
+        # Horizontal layout to hold both character group boxes
+        characters_layout = QHBoxLayout()
+        characters_layout.addWidget(char1_group)
+        characters_layout.addWidget(char2_group)
+
+        main_layout.addLayout(characters_layout)
 
     def next_dialogue(self):
         index = self._index // 2
