@@ -40,6 +40,8 @@ class FightSequence(QWidget):
             return
 
         self.clearSignal()
+        item_size = int(max(self.widget.animation.size) * 0.1)
+        item_size = (item_size, item_size)
 
         def setLockState(state: bool):
             self._locked = state
@@ -57,6 +59,7 @@ class FightSequence(QWidget):
             self.widget.animation.player_pos,
             self.widget.animation.enemy_pos,
             duration_ms=500,
+            size=item_size,
         )
 
         enemyAnimation = LinearComponent(
@@ -65,6 +68,7 @@ class FightSequence(QWidget):
             self.widget.animation.enemy_pos,
             self.widget.animation.player_pos,
             duration_ms=500,
+            size=item_size,
         )
 
         def evaluatePlayerTurn():
@@ -101,12 +105,14 @@ class FightSequence(QWidget):
             enemyActions.clear()
             enemyActions.selectRandom()
             if self.enemy.curHealth <= 0:
+                self.player.reset()
+                self._winCallback()
                 if self.enemy.name == "Bill Hudson":
                     self._winGameCall()
                 else:
                     self._winCallback()
             elif self.player.curHealth <= 0:
-                self.player.reload()
+                self.player.reset()
                 self.enemy.reset()
                 self._loseCallback()
 
