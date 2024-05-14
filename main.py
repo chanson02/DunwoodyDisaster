@@ -27,22 +27,19 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Dunwoody-Disaster")
         self.setStyleSheet("background-color: black; color: #FFFFFF;")
         self.setupMusicPlayer()
-        self.currentScreen = None  # To keep track of the current screen
-        self.player = None
 
+        self.player = None
+        self.fight = None
+        self.stack = QStackedWidget()
         self.startMenu = StartMenu()
         self.startMenu.onStart(self.startBtnClicked)
 
-        self.fight = None
-
-        self.stack = QStackedWidget()
-        self.stack.addWidget(self.startMenu)
-
-        # Set the stacked widget as the central widget of the main window
         self.setCentralWidget(self.stack)
+        self.stack.addWidget(self.startMenu)
         self.showStartMenu()
 
     def showStartMenu(self):
+        self.startMenu.movie.start()
         self.stack.setCurrentWidget(self.startMenu)
 
     def setupMusicPlayer(self):
@@ -138,13 +135,9 @@ class MainWindow(QMainWindow):
     def showMapScreen(self):
         self.stack.removeWidget(self.characterWidget)
         self.stopAllSounds()
-        self.currentScreen = "map"
-        if self.currentScreen == "map":
-            pygame.mixer.music.load(AUDIO["MapScreenMusic"])
-            pygame.mixer.music.set_volume(0.9)
-            pygame.mixer.music.play(loops=-1)
-        else:
-            self.stopAllSounds()
+        pygame.mixer.music.load(AUDIO["MapScreenMusic"])
+        pygame.mixer.music.set_volume(0.9)
+        pygame.mixer.music.play(loops=-1)
 
         self.mapScreen.map.setRoom(None)
         unbeaten = self.mapScreen.map.available_rooms()
@@ -172,13 +165,9 @@ class MainWindow(QMainWindow):
         Enter fight screen by pointing stack at fight screen.
         This will need to be changed to set the proper opponent per setting. Index 2 is the fight screen.
         """
-        self.currentScreen = "fight"
         self.stopAllSounds()
         if not self.player:
             raise Exception("Cannot enter fight when no player is selected")
-
-        if self.currentScreen == "fight":
-            self.stopAllSounds  # Stop specific music if it's playing
 
         if self.fight:
             self.stack.removeWidget(self.fight.widget)
