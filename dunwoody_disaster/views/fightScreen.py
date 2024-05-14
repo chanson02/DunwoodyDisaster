@@ -49,12 +49,16 @@ class FightScreen(QWidget):
         row = 0
 
         self.victoryButton = QPushButton()
-        self.victoryButton.setStyleSheet('color: black; background-color: black; min-width: 25px; width: 40px; height: 40px;')
+        self.victoryButton.setStyleSheet(
+            "color: black; background-color: black; min-width: 25px; width: 40px; height: 40px;"
+        )
         self.victoryButton.clicked.connect(self.victoryClicked)
         layout.addWidget(self.victoryButton, row, 0)
 
         self.defeatButton = QPushButton()
-        self.defeatButton.setStyleSheet('color: black; background-color: black; min-width: 25px; width: 40px; height: 40px;')
+        self.defeatButton.setStyleSheet(
+            "color: black; background-color: black; min-width: 25px; width: 40px; height: 40px;"
+        )
         self.defeatButton.clicked.connect(self.defeatClicked)
         layout.addWidget(self.defeatButton, row, 6)
 
