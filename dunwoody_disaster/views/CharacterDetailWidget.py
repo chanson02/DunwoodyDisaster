@@ -35,7 +35,7 @@ class CharacterDetailWidget(QWidget):
 
         # Button to transition to map screen
         self.mapButton = QPushButton("Go to Map")
-        self.mapButton.setIcon(QIcon(ASSETS["lock"]))
+        self.mapButton.setIcon(QIcon(ASSETS["SSL Certificate"]))
         self.mapButton.clicked.connect(self.transition_callback)
         self.mapButton.setDisabled(True)
         layout.addWidget(self.mapButton)
