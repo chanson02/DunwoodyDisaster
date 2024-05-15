@@ -535,7 +535,7 @@ class CharacterFactory:
 
         char.defenses = [
             Item.Armor(
-                name="Bandwith Harness",
+                name="Bandwidth Harness",
                 armorVal=12,
                 staminaCost=8,
                 magicCost=0,
