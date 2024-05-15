@@ -13,7 +13,8 @@ from dunwoody_disaster.CharacterFactory import CharacterFactory, Character
 from dunwoody_disaster.views.defeatScreen import DefeatScreen
 from dunwoody_disaster.views.victoryScreen import VictoryScreen
 from dunwoody_disaster.views.dialogueScreen import DialogueScreen
-from dunwoody_disaster.views.CharacterDetailWidget import CharacterDetailWidget
+
+# from dunwoody_disaster.views.CharacterDetailWidget import CharacterDetailWidget
 from dunwoody_disaster.views.MonologueWidget import (
     MonologueWidget,
 )

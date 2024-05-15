@@ -150,6 +150,14 @@ class StartMenu(QWidget):
             0,
         )
 
+        btn_style = """
+            background-color: transparent;
+            min-width: 400px;
+            font-size: 50px;  /* Adjust the size as needed */
+            font-weight: bold;  /* '600px' should be changed to 'bold' if you want a bold font */
+            font-family: 'Blood Crow';  /* Example font family */
+            """
+
         start = QPushButton("Start Game")
         start.setStyleSheet(btn_style)
         start.clicked.connect(self.startClicked)
