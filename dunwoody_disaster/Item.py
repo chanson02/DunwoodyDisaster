@@ -41,6 +41,7 @@ class Item:
 
         name = QLabel(self.name)
         name.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        name.setFixedHeight(40)
         name.setStyleSheet(
             'color: white; font-size: 16px; font-family: "Futura Bk BT";'
         )

@@ -32,9 +32,9 @@ class Arsenal(QWidget):
         layout.setContentsMargins(0, 0, 0, 0)
 
         weapons_widget = self.createInventory(
-            "Weapons", weapons + [Item.Weapon.default()]
+            "Attacks", weapons + [Item.Weapon.default()]
         )
-        armor_widget = self.createInventory("Armor", armors + [Item.Armor.default()])
+        armor_widget = self.createInventory("Defense", armors + [Item.Armor.default()])
 
         layout.addWidget(weapons_widget, 0, 0)
         layout.addWidget(armor_widget, 0, 1)
