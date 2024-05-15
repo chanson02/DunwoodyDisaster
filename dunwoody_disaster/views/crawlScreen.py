@@ -10,23 +10,22 @@ class Crawl(QWidget):
         super().__init__()
         self._finishCallback = DD.unimplemented
         self.text_lines = [
-            "In a distant galaxy, in an era of peace and prosperity...",
+            "Filled with hope and the dream of becoming software engineers,",
+            "four students will undertake a new journey each excited at the",
+            "prospect of starting a new chapter in their lives.",
             "",
-            "Unexpected turmoil has emerged.",
-            "Factions once united now stand divided,",
-            "threatening the stability of the galaxy.",
+            "During their time at Dunwoody, they will experience a new form of education.",
+            "An education devoid of thought, planning, or reason whose sole purpose is to",
+            "burden unsuspecting students with financial strife while providing few avenues",
+            "for employment. ",
             "",
-            "A small group of brave individuals",
-            "seeks to restore harmony and justice.",
-            "Their journey will test their resolve,",
-            "challenge their beliefs, and",
-            "shape the fate of the cosmos.",
+            "Now, these four students must band together, united under one front, to dismantle",
+            "the system that has crippled them financially, but provided so little in return. ",
             "",
             "This is their story...",
-            "",
         ]
         self.line_spacing = 30
-        self.scroll_speed = 0.55  # Adjust the scrolling speed as needed
+        self.scroll_speed = 0.51  # Adjust the scrolling speed as needed
         self.scroll_position = 0
         self.initUI()
 

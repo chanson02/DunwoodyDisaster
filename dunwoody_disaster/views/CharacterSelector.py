@@ -40,7 +40,7 @@ class CharacterSelector(QWidget):
         )
         lbl = QLabel("Choose your champion")
         lbl.setStyleSheet(
-            'background-color: black; font-size: 36px; font-weight: 600; font-family: "blood crow";'
+            'background-color: black; color: red; font-size: 50px; font-weight: 600; font-family: "blood crow";'
         )
         lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
         titleLayout.addWidget(lbl, 0, 1)
@@ -54,7 +54,9 @@ class CharacterSelector(QWidget):
         row += 1
 
         container = QWidget()
-        container.setStyleSheet("min-width: 0px;")
+        container.setStyleSheet(
+            "min-width: 0px; background-color: black; border: none;"
+        )
         hbox = QHBoxLayout()
         for character in characters:
             hbox.addWidget(self.characterWidget(character))
@@ -77,9 +79,9 @@ class CharacterSelector(QWidget):
         btnLayout.addItem(
             QSpacerItem(0, 0, QSizePolicy.MinimumExpanding, QSizePolicy.Fixed), 0, 0
         )
-        self.select_lbl = QLabel("Selected: None")
+        self.select_lbl = QLabel("")
         self.select_lbl.setStyleSheet(
-            'background-color: black; font-size: 24px; font-weight: 600; font-family: "Futura Bk BT"'
+            "background-color: black; color: red; font-size: 40px; font-weight: 600;"
         )
         self.select_lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
         btnLayout.addWidget(self.select_lbl, 0, 1)
@@ -88,7 +90,7 @@ class CharacterSelector(QWidget):
         )
         btn = QPushButton("Confirm")
         btn.setStyleSheet(
-            "background-color: gray; min-width: 250px; font-size: 14px; font-weight: 600px;"
+            "background-color: transparent; min-width: 250px; font-size: 30px; font-weight: 600px;"
         )
         btn.clicked.connect(self.confirm)
         btnLayout.addWidget(btn, 2, 1)
@@ -148,4 +150,4 @@ class CharacterSelector(QWidget):
 
     def select(self, char: Character):
         self.selected = char
-        self.select_lbl.setText(f"Selected: {char.name}")
+        self.select_lbl.setText(f"{char.name}")

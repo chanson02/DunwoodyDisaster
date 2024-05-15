@@ -26,6 +26,38 @@ class VictoryScreen(QWidget):
         self.player = fight_controller.player
         self.items = fight_controller.enemy.get_items()
         self.boxes: dict[QCheckBox, Item.Item] = {}
+        # self.checkboxstyle = """QCheckBox::indicator:unchecked {
+        #                             border: 2px solid white;
+        #                             border-radius: 1px;
+        #                             background-color: white;
+        #                         }
+        #                         QCheckBox::indicator:checked {
+        #                             border: 2px solid white;
+        #                             border-radius: 1px;
+        #                             background-color: white;
+        #                         }"""
+        self.checkboxstyle = """QCheckBox::indicator {
+                                    width: 30px;
+                                    height: 30px;
+                                    background-color: gray;
+                                    border-radius: 15px;
+                                    border-style: solid;
+                                    border-width: 1px;
+                                    border-color: white white black black;
+                                }
+                                QCheckBox::indicator:checked {
+                                    background-color: qradialgradient(spread:pad,
+                                                            cx:0.5,
+                                                            cy:0.5,
+                                                            radius:0.9,
+                                                            fx:0.5,
+                                                            fy:0.5,
+                                                            stop:0 rgba(0, 255, 0, 255),
+                                                            stop:1 rgba(0, 64, 0, 255));
+                                }
+                                QCheckBox:checked, QCheckBox::indicator:checked {
+                                    border-color: black black white white;
+                                }"""
 
         layout = QGridLayout()
         layout.setSpacing(0)
@@ -35,26 +67,24 @@ class VictoryScreen(QWidget):
         row = 0
         layout.addItem(
             QSpacerItem(
-                5, 5, QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding
+                5, 50, QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding
             ),
             row,
             0,
         )
         row += 1
 
-        lbl = QLabel(
-            f"Congratulations {fight_controller.player.name}!\nYou defeated {fight_controller.enemy.name}!\nCollect your loot."
-        )
-        lbl.setStyleSheet("font-size: 20px; font-weight: 600; color: red;")
+        lbl = QLabel("Victory!\nCollect your loot.")
+        lbl.setStyleSheet("font-size: 40px; font-weight: 600; color: red;")
         lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(lbl, row, 1)
 
         layout.addItem(
-            QSpacerItem(250, 0, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 2
+            QSpacerItem(150, 0, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 2
         )
 
         lbl = QLabel("LOOT!")
-        lbl.setStyleSheet("font-size: 18px; color: white;")
+        lbl.setStyleSheet("font-size: 36px; color: white;")
         lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(lbl, row, 3)
         row += 1
@@ -65,21 +95,36 @@ class VictoryScreen(QWidget):
         pic = QLabel("")
         pic.setAlignment(Qt.AlignmentFlag.AlignCenter)
         pic.setStyleSheet("min-width: 300px;")
-        pic.setPixmap(fight_controller.player.image().scaledToWidth(300))
+        pic.setPixmap(fight_controller.player.image().scaledToHeight(250))
         layout.addWidget(pic, row, 1)
 
         drops = QGroupBox("Loot Dropped")
-        drops.setStyleSheet("border: 1px solid red; color: white;")
-        loot = QHBoxLayout()
-        scroller = DD.scroller(loot, True, False)
+        drops.setStyleSheet(
+            'color: white; max-width: 600px; font-family: "Futura Bk BT";'
+        )
+        loot = QGridLayout()
+        scroller = DD.scroller(loot, False, True)
         scroller.setStyleSheet("border: none;")
         drops.setLayout(DD.layout(scroller))
-        layout.addWidget(drops, row, 3)
+        layout.addWidget(drops, row, 3, 5, 1)
 
+        irow = 1
+        colm = 1
+        loot.addItem(QSpacerItem(30, 30, QSizePolicy.Fixed, QSizePolicy.Fixed), 0, 0)
         for item in self.items:
             widget, box = self.create_inventory_slot(item)
-            loot.addWidget(widget)
+            loot.addWidget(widget, irow, colm)
             self.boxes[box] = item
+            if colm >= 4:
+                irow = 2
+                colm = 1
+            else:
+                colm += 1
+        loot.addItem(
+            QSpacerItem(30, 20, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding),
+            irow + 1,
+            5,
+        )
 
         row += 1
 
@@ -99,15 +144,24 @@ class VictoryScreen(QWidget):
         cap_Layout.setContentsMargins(0, 0, 0, 0)
 
         lbl = QLabel("Inventory capacity: ")
-        lbl.setStyleSheet("font-size: 16px;")
+        lbl.setStyleSheet('font-size: 16px; font-family: "Futura Bk BT";')
         cap_Layout.addWidget(lbl, 0, 0)
 
         self.capacity = Meter(QColor("white"), 0)
         self.capacity.animated = False
         self.capacity.setEndColor(QColor("red"))
         self.capacity.setMinimumHeight(25)
+        self.capacity.setMinimumWidth(300)
         cap_Layout.addWidget(self.capacity, 0, 1)
-        row += 1
+
+        cap_Layout.addItem(
+            QSpacerItem(0, 0, QSizePolicy.MinimumExpanding, QSizePolicy.Fixed), 0, 2
+        )
+
+        self.cap_lbl = QLabel("50/100")
+        self.cap_lbl.setStyleSheet('font-size: 16px; font-family: "Futura Bk BT";')
+        self.cap_lbl.setAlignment(Qt.AlignmentFlag.AlignRight)
+        cap_Layout.addWidget(self.cap_lbl, 0, 3)
 
         layout.addLayout(cap_Layout, row, 1)
         row += 1
@@ -116,10 +170,14 @@ class VictoryScreen(QWidget):
         row += 1
 
         inventory_box = QGroupBox("Inventory")
-        inventory_box.setStyleSheet("border: 1px solid red; color: white;")
+        inventory_box.setFixedHeight(220)
+        inventory_box.setStyleSheet(
+            'color: white; max-width: 600px; font-family: "Futura Bk BT";'
+        )
         inventory = QHBoxLayout()
         scroller = DD.scroller(inventory, True, False)
         scroller.setStyleSheet("border: none;")
+        scroller.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         inventory_box.setLayout(DD.layout(scroller))
         layout.addWidget(inventory_box, row, 1)
         row += 1
@@ -127,6 +185,8 @@ class VictoryScreen(QWidget):
         box = None
         for item in self.player.get_items():
             widget, box = self.create_inventory_slot(item)
+            widget.setMinimumWidth(150)
+            widget
             inventory.addWidget(widget)
             self.boxes[box] = item
             box.setChecked(True)
@@ -138,16 +198,28 @@ class VictoryScreen(QWidget):
         )
         row += 1
 
+        btns_Lyt = QGridLayout()
+
+        btns_Lyt.addItem(
+            QSpacerItem(0, 0, QSizePolicy.MinimumExpanding, QSizePolicy.Fixed), 0, 0
+        )
+
         btn = QPushButton("Continue")
-        btn.setStyleSheet("font-size: 14px; font-weight: 600; background-color: gray;")
+        btn.setStyleSheet(
+            "font-size: 24px; font-weight: 600; background-color: transparent; min-width: 150px;"
+        )
         btn.clicked.connect(self.confirmClicked)
-        layout.addWidget(btn, row, 2)
+        btns_Lyt.addWidget(btn, 0, 1)
+
+        btns_Lyt.addItem(
+            QSpacerItem(0, 0, QSizePolicy.MinimumExpanding, QSizePolicy.Fixed), 0, 2
+        )
+
+        layout.addLayout(btns_Lyt, row, 1, 1, 3)
         row += 1
 
         layout.addItem(
-            QSpacerItem(
-                5, 5, QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding
-            ),
+            QSpacerItem(5, 50, QSizePolicy.MinimumExpanding, QSizePolicy.Fixed),
             row,
             4,
         )
@@ -161,9 +233,10 @@ class VictoryScreen(QWidget):
 
     def create_inventory_slot(self, item: Item.Item) -> tuple[QWidget, QCheckBox]:
         layout = QVBoxLayout()
-        layout.addWidget(item.widget())
+        layout.addWidget(item.preview_widget())
 
         cb = QCheckBox()
+        cb.setStyleSheet(self.checkboxstyle)
         cbl = QVBoxLayout()
         cbl.addWidget(cb)
         cbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -201,9 +274,10 @@ class VictoryScreen(QWidget):
 
         total_inventory = sum(item.serialize()["stamina"] for item in selected_items)
         remaining = self.player.inventory_capacity - total_inventory
-        self.capacity.setPercentage(
-            (total_inventory / self.player.inventory_capacity) * 100
-        )
+        percentageValue = (total_inventory / self.player.inventory_capacity) * 100
+        self.capacity.setPercentage(percentageValue)
+
+        self.cap_lbl.setText(str(int(percentageValue)) + "/100")
 
         for box in unselected_boxes:
             if self.boxes[box].serialize()["stamina"] > remaining:
