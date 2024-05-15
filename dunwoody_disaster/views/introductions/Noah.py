@@ -79,12 +79,11 @@ class NoahIntroScreen(QWidget):
         if k == Qt.Key.Key_Enter or k == Qt.Key.Key_Return:
             self._callback()
         return
-    
+
     def setCheat(self, event: QMouseEvent):
         self.character.maxHealth = 10000
         self.character.health = self.character.maxHealth
         self.character.set_health(self.character.maxHealth)
-        print(self.character.maxHealth)
 
     def text_box(self, text: str) -> QVBoxLayout:
         lbl = QLabel(text)
