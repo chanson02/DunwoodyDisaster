@@ -95,6 +95,8 @@ class FightScreen(QWidget):
     def center_layout(self) -> QGridLayout:
         p1 = CharacterState(self.player1)
         p2 = CharacterState(self.player2)
+        p1.setMinimumWidth(250)
+        p2.setMinimumWidth(250)
         layout = QGridLayout()
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -120,14 +122,16 @@ class FightScreen(QWidget):
         layout.addWidget(self.animation_Object, row, 0, 0, 3)
         row += 1
 
-        layout.addItem(QSpacerItem(0, 30, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 0)
+        layout.addItem(QSpacerItem(0, 20, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 0)
         row += 1
 
         layout.addWidget(self.p1_selector, row, 0)
         layout.addWidget(self.p2_selector, row, 2)
         row += 1
 
-        layout.addItem(QSpacerItem(0, 20, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 0)
+        layout.addItem(
+            QSpacerItem(0, 350, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 0
+        )
         row += 1
 
         btnLayout = QGridLayout()
@@ -176,7 +180,9 @@ class FightScreen(QWidget):
             self.controller._loseCallback()
 
     def victoryClicked(self):
+        self.player2.set_health(0)
         self.controller._winCallback()
 
     def defeatClicked(self):
+        self.player1.set_health(0)
         self.controller._loseCallback()

@@ -147,6 +147,10 @@ class FightPreview(QWidget):
         self.battlefield.setPixmap(
             self.centerOverlay(bkg, NPC.image().scaledToWidth(150))
         )
+        if "Engineering" in lbl:
+            self.battlefield.setMaximumHeight(150)
+        else:
+            self.battlefield.setMaximumHeight(300)
 
         self.health.setText(f"Health: {NPC.maxHealth}")
         self.magic.setText(f"Magic: {NPC.maxMagic}")

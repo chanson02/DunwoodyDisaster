@@ -1,10 +1,12 @@
 from PySide6.QtWidgets import (
     QWidget,
     QStackedLayout,
-    QVBoxLayout,
+    QGridLayout,
     QLabel,
     QHBoxLayout,
     QGroupBox,
+    QSpacerItem,
+    QSizePolicy,
 )
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QKeyEvent
@@ -29,6 +31,7 @@ class DialogueScreen(QWidget):
         """
 
         super().__init__()
+        self.setStyleSheet('font-family: "Futura Bk BT";')
         self._index = 0
         self.char1 = char1
         self.char2 = char2
@@ -37,11 +40,15 @@ class DialogueScreen(QWidget):
         self._char2_dialogue = []
 
         self.char1_img = QLabel("")
-        self.char1_img.setPixmap(self.char1.image())
+        self.char1_img.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.char1_img.setPixmap(self.char1.image().scaledToHeight(400))
         self.char2_img = QLabel("")
-        self.char2_img.setPixmap(self.char2.image())
+        self.char2_img.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.char2_img.setPixmap(self.char2.image().scaledToHeight(400))
         self.char1_dialogue = QLabel("")
+        self.char1_dialogue.setStyleSheet("font-size: 18px;")
         self.char2_dialogue = QLabel("")
+        self.char2_dialogue.setStyleSheet("font-size: 18px;")
 
         self.dialogue_stack = QStackedLayout()
 
@@ -86,18 +93,42 @@ class DialogueScreen(QWidget):
         return
 
     def init_ui(self):
-        layout = QVBoxLayout()
+        layout = QGridLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
         self.setLayout(layout)
 
+        row = 0
+
+        layout.addItem(
+            QSpacerItem(100, 5, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding), row, 0
+        )
+        row += 1
+
         player_layout = QHBoxLayout()
-        layout.addLayout(player_layout)
+        layout.addLayout(player_layout, row, 1)
         player_layout.addWidget(self.char1_img)
         player_layout.addWidget(self.char2_img)
+        row += 1
 
-        layout.addLayout(self.dialogue_stack)
+        layout.addItem(
+            QSpacerItem(0, 5, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding), row, 1
+        )
+        row += 1
+
+        layout.addLayout(self.dialogue_stack, row, 1)
+        row += 1
+
+        layout.addItem(
+            QSpacerItem(100, 50, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding),
+            row,
+            2,
+        )
 
         # Player 1 dialogue box
         player1_dialogue_box = QGroupBox(self.char1.name)
+        player1_dialogue_box.setStyleSheet("font-size: 22px;")
+        player1_dialogue_box.setMinimumHeight(150)
         container = QHBoxLayout()
         container.addWidget(self.char1_dialogue)
         player1_dialogue_box.setLayout(container)
@@ -105,6 +136,8 @@ class DialogueScreen(QWidget):
 
         # Player 2 dialogue box
         player2_dialogue_box = QGroupBox(self.char2.name)
+        player2_dialogue_box.setStyleSheet("font-size: 22px;")
+        player2_dialogue_box.setMinimumHeight(150)
         container = QHBoxLayout()
         container.addWidget(self.char2_dialogue)
         player2_dialogue_box.setLayout(container)

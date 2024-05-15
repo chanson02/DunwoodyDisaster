@@ -12,10 +12,11 @@ from dunwoody_disaster.CharacterFactory import CharacterFactory, Character
 from dunwoody_disaster.views.defeatScreen import DefeatScreen
 from dunwoody_disaster.views.victoryScreen import VictoryScreen
 from dunwoody_disaster.views.dialogueScreen import DialogueScreen
-from dunwoody_disaster.views.CharacterDetailWidget import CharacterDetailWidget
 from dunwoody_disaster import AUDIO
 from dunwoody_disaster.views.introductions.Cooper import CooperIntroScreen
 from dunwoody_disaster.views.introductions.Noah import NoahIntroScreen
+from dunwoody_disaster.views.introductions.Mitch import MitchIntroScreen
+from dunwoody_disaster.views.introductions.John import JohnIntroScreen
 
 default_font = QFont("blood crow", 12)  # Font family is Arial and font size is 12
 QApplication.setFont(default_font)
@@ -99,7 +100,7 @@ class MainWindow(QMainWindow):
             pygame.mixer.music.set_volume(0.4)
             pygame.mixer.music.play(-1)
 
-            self.characterWidget = CharacterDetailWidget(
+            self.characterWidget = JohnIntroScreen(
                 character, transition_callback=self.showMapScreen
             )
         elif character.name == "Cooper":
@@ -109,7 +110,7 @@ class MainWindow(QMainWindow):
         elif character.name == "Mitch":
             self.TypeWriterSound = pygame.mixer.Sound(AUDIO["TypeWriterSound"])
             self.TypeWriterSound.set_volume(0.2)
-            self.TypeWriterSound.play(loops=5)
+            self.TypeWriterSound.play(loops=-1)
             # Load Mitch's theme music
             pygame.mixer.music.load(AUDIO["MitchTheme"])
             # Set the volume to maximum (1.0)
@@ -117,7 +118,7 @@ class MainWindow(QMainWindow):
             # Play John's theme music in a loop indefinitely
             pygame.mixer.music.play(-1)
 
-            self.characterWidget = CharacterDetailWidget(
+            self.characterWidget = MitchIntroScreen(
                 character, transition_callback=self.showMapScreen
             )
         elif character.name == "Noah":
@@ -208,7 +209,14 @@ class MainWindow(QMainWindow):
 
     def showWinGameCrawl(self):
         crawl = Crawl()
-        crawl.text_lines = ["Evil has been defeated"]
+        crawl.text_lines = [
+            "With their final year completed and the SENG program defunct, the students",
+            "leave the institution, unprepared and unsatisfied with their educational experience.",
+            "",
+            "Instead of knowledge, they leave with debt. In place of job prospects, an endless",
+            "job search reliant of the goodwill of potential employers. They leave knowing the",
+            "diploma they possess isn’t worth the paper it is printed on.",
+        ]
         crawl.onFinish(self.showCreditScreen)
         self.stack.addWidget(crawl)
         self.stack.setCurrentWidget(crawl)
