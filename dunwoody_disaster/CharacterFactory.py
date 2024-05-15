@@ -268,10 +268,10 @@ class CharacterFactory:
 
         char.weapons = [
             Item.Weapon(
-                name="Syntax\nError", damage=10, magic=5, stamina=5, magical=True
+                name="Syntax Error", damage=10, magic=5, stamina=5, magical=True
             ),
             Item.Weapon(
-                name="Recursive\nLoop", damage=15, magic=5, stamina=10, magical=True
+                name="Recursive Loop", damage=15, magic=5, stamina=10, magical=True
             ),
             Item.Weapon(name="Keyboard", damage=5, magic=0, stamina=3, magical=False),
         ]
@@ -287,7 +287,7 @@ class CharacterFactory:
                 name="GDB", armorVal=5, staminaCost=5, magicCost=2, magicDefense=10
             ),
             Item.Armor(
-                name="SSL\nCertificate",
+                name="SSL Certificate",
                 armorVal=10,
                 staminaCost=5,
                 magicCost=2,
@@ -375,26 +375,26 @@ class CharacterFactory:
 
         char.weapons = [
             Item.Weapon(
-                name="Unreal\nEnd", damage=8, magic=15, stamina=8, magical=True
+                name="Unreal End", damage=8, magic=15, stamina=8, magical=True
             ),
             Item.Weapon(
-                name="Thermos\nThrow", damage=12, magic=5, stamina=8, magical=False
+                name="Thermos Throw", damage=12, magic=5, stamina=8, magical=False
             ),
             Item.Weapon(
-                name="Laptop\nLunge", damage=18, magic=5, stamina=10, magical=False
+                name="Laptop Lunge", damage=18, magic=5, stamina=10, magical=False
             ),
         ]
 
         char.defenses = [
             Item.Armor(
-                name="Stress\nBall",
+                name="Stress Ball",
                 armorVal=15,
                 staminaCost=5,
                 magicCost=0,
                 magicDefense=15,
             ),
             Item.Armor(
-                name="Spaghetti\nCode",
+                name="Spaghetti Code",
                 armorVal=5,
                 staminaCost=5,
                 magicCost=5,
@@ -436,23 +436,23 @@ class CharacterFactory:
         char.weapons = [
             Item.Weapon(name="Query", damage=5, magic=15, stamina=8, magical=True),
             Item.Weapon(
-                name="Schema\nSmash", damage=8, magic=10, stamina=6, magical=True
+                name="Schema Smash", damage=8, magic=10, stamina=6, magical=True
             ),
             Item.Weapon(
-                name="Index\nImpact", damage=12, magic=4, stamina=8, magical=False
+                name="Index Impact", damage=12, magic=4, stamina=8, magical=False
             ),
         ]
 
         char.defenses = [
             Item.Armor(
-                name="Firewall\nFortress",
+                name="Firewall Fortress",
                 armorVal=10,
                 staminaCost=5,
                 magicCost=5,
                 magicDefense=0,
             ),
             Item.Armor(
-                name="Query\nValidation",
+                name="Query Validation",
                 armorVal=0,
                 staminaCost=5,
                 magicCost=5,
@@ -482,29 +482,29 @@ class CharacterFactory:
 
         char.weapons = [
             Item.Weapon(
-                name="API\nAmbush", damage=5, magic=15, stamina=8, magical=True
+                name="API Ambush", damage=5, magic=15, stamina=8, magical=True
             ),
             Item.Weapon(
                 name="Confusion", damage=12, magic=20, stamina=12, magical=True
             ),
             Item.Weapon(
-                name="DDoS\nDownpour", damage=15, magic=5, stamina=8, magical=False
+                name="DDoS Downpour", damage=15, magic=5, stamina=8, magical=False
             ),
             Item.Weapon(
-                name="Patch\nPummel", damage=2, magic=15, stamina=15, magical=False
+                name="Patch Pummel", damage=2, magic=15, stamina=15, magical=False
             ),
         ]
 
         char.defenses = [
             Item.Armor(
-                name="Malware\nMoat",
+                name="Malware Moat",
                 armorVal=12,
                 staminaCost=8,
                 magicCost=0,
                 magicDefense=5,
             ),
             Item.Armor(
-                name="VPN\nVigilance",
+                name="VPN Vigilance",
                 armorVal=5,
                 staminaCost=0,
                 magicCost=8,
@@ -536,13 +536,13 @@ class CharacterFactory:
 
         char.weapons = [
             Item.Weapon(
-                name="API\nAvalanche", damage=15, magic=25, stamina=12, magical=True
+                name="API Avalanche", damage=15, magic=25, stamina=12, magical=True
             ),
             Item.Weapon(
-                name="Cache\nClash", damage=15, magic=15, stamina=15, magical=False
+                name="Cache Clash", damage=15, magic=15, stamina=15, magical=False
             ),
             Item.Weapon(
-                name="Kubernetes\nKick", damage=25, magic=12, stamina=12, magical=False
+                name="Kubernetes Kick", damage=25, magic=12, stamina=12, magical=False
             ),
         ]
 
@@ -586,13 +586,13 @@ class CharacterFactory:
 
         char.weapons = [
             Item.Weapon(
-                name="Short\nCircuit", damage=8, magic=15, stamina=8, magical=True
+                name="Short Circuit", damage=8, magic=15, stamina=8, magical=True
             ),
             Item.Weapon(
-                name="Voltage\nSpike", damage=15, magic=8, stamina=8, magical=False
+                name="Voltage Spike", damage=15, magic=8, stamina=8, magical=False
             ),
             Item.Weapon(
-                name="Circuit\nBreaker", damage=25, magic=12, stamina=12, magical=False
+                name="Circuit Breaker", damage=25, magic=12, stamina=12, magical=False
             ),
         ]
 
@@ -605,7 +605,7 @@ class CharacterFactory:
                 magicDefense=12,
             ),
             Item.Armor(
-                name="Diode\nDefense",
+                name="Diode Defense",
                 armorVal=12,
                 staminaCost=8,
                 magicCost=10,
@@ -640,20 +640,20 @@ class CharacterFactory:
                 name="Breadboard", damage=10, magic=0, stamina=5, magical=False
             ),
             Item.Weapon(
-                name="Server\nRack", damage=18, magic=5, stamina=10, magical=False
+                name="Server Rack", damage=18, magic=5, stamina=10, magical=False
             ),
         ]
 
         char.defenses = [
             Item.Armor(
-                name="Virtualization\nLayer",
+                name="Virtualization Layer",
                 armorVal=25,
                 staminaCost=25,
                 magicCost=0,
                 magicDefense=0,
             ),
             Item.Armor(
-                name="Command\nLine",
+                name="Command Line",
                 armorVal=0,
                 staminaCost=0,
                 magicCost=15,
@@ -686,23 +686,23 @@ class CharacterFactory:
         char.weapons = [
             Item.Weapon(name="Compiler", damage=12, magic=20, stamina=12, magical=True),
             Item.Weapon(
-                name="Syntax\nError", damage=6, magic=15, stamina=6, magical=True
+                name="Syntax Error", damage=6, magic=15, stamina=6, magical=True
             ),
             Item.Weapon(
-                name="Neural\nNightmare", damage=5, magic=0, stamina=15, magical=False
+                name="Neural Nightmare", damage=5, magic=0, stamina=15, magical=False
             ),
         ]
 
         char.defenses = [
             Item.Armor(
-                name="Overfitting\nObstacle",
+                name="Overfitting Obstacle",
                 armorVal=15,
                 staminaCost=12,
                 magicCost=12,
                 magicDefense=20,
             ),
             Item.Armor(
-                name="Bias\nBlockade",
+                name="Bias Blockade",
                 armorVal=20,
                 staminaCost=12,
                 magicCost=12,
@@ -732,26 +732,26 @@ class CharacterFactory:
 
         char.weapons = [
             Item.Weapon(
-                name="Schedule\nSabotage", damage=0, magic=12, stamina=8, magical=True
+                name="Schedule Sabotage", damage=0, magic=12, stamina=8, magical=True
             ),
             Item.Weapon(
-                name="Accredidation\nAmbush",
+                name="Accredidation Ambush",
                 damage=5,
                 magic=20,
                 stamina=13,
                 magical=True,
             ),
             Item.Weapon(
-                name="Policy\nPiracy", damage=12, magic=0, stamina=8, magical=False
+                name="Policy Piracy", damage=12, magic=0, stamina=8, magical=False
             ),
             Item.Weapon(
-                name="Admin\nAssault", damage=20, magic=0, stamina=13, magical=False
+                name="Admin Assault", damage=20, magic=0, stamina=13, magical=False
             ),
         ]
 
         char.defenses = [
             Item.Armor(
-                name="Enrollment\nError",
+                name="Enrollment Error",
                 armorVal=15,
                 staminaCost=15,
                 magicCost=0,

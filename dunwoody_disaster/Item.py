@@ -39,9 +39,10 @@ class Item:
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
 
-        name = QLabel(self.name)
+        name = QLabel(self.name.replace(' ', '\n'))
         name.setAlignment(Qt.AlignmentFlag.AlignCenter)
         name.setFixedHeight(40)
+        name.setWordWrap(True)
         name.setStyleSheet(
             'color: white; font-size: 16px; font-family: "Futura Bk BT";'
         )
@@ -72,7 +73,7 @@ class Item:
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
 
-        name = QLabel(self.name)
+        name = QLabel(self.name.replace(' ', '\n'))
         name.setAlignment(Qt.AlignmentFlag.AlignCenter)
         name.setStyleSheet(
             'color: white; font-size: 20px; font-family: "Futura Bk BT";'
