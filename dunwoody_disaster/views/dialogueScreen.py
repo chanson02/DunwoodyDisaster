@@ -1,12 +1,10 @@
 from PySide6.QtWidgets import (
     QWidget,
     QStackedLayout,
-    QGridLayout,
     QLabel,
     QHBoxLayout,
+    QVBoxLayout,
     QGroupBox,
-    QSpacerItem,
-    QSizePolicy,
 )
 from PySide6.QtCore import Qt, QTimer
 from PySide6.QtGui import QKeyEvent, QPixmap, QFont
