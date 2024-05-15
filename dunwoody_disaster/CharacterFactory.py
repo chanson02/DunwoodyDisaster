@@ -351,7 +351,7 @@ class CharacterFactory:
                 name="600Hr Scrum-Meeting",
                 damage=1,
                 magic=1,
-                stamina=1,
+                stamina=40,
                 magical=False,
             ),
             Item.Weapon(name="Barry", damage=5, magic=5, stamina=5, magical=False),
