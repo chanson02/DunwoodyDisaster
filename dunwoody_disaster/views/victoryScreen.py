@@ -26,6 +26,16 @@ class VictoryScreen(QWidget):
         self.player = fight_controller.player
         self.items = fight_controller.enemy.get_items()
         self.boxes: dict[QCheckBox, Item.Item] = {}
+        self.checkboxstyle = '''QCheckBox::indicator:unchecked {
+                                    border: 2px solid white;
+                                    border-radius: 1px;
+                                    background-color: white;
+                                }
+                                QCheckBox::indicator:checked {
+                                    border: 2px solid white;
+                                    border-radius: 1px;
+                                    background-color: white;
+                                }'''
 
         layout = QGridLayout()
         layout.setSpacing(0)
@@ -70,16 +80,25 @@ class VictoryScreen(QWidget):
 
         drops = QGroupBox("Loot Dropped")
         drops.setStyleSheet('color: white; max-width: 600px; font-family: "Futura Bk BT";')
-        loot = QHBoxLayout()
+        loot = QGridLayout()
         scroller = DD.scroller(loot, False, True)
         scroller.setStyleSheet("border: none;")
         drops.setLayout(DD.layout(scroller))
         layout.addWidget(drops, row, 3, 5, 1)
 
+        irow = 1
+        colm = 1
+        loot.addItem(QSpacerItem(30, 30, QSizePolicy.Fixed, QSizePolicy.Fixed), 0, 0)
         for item in self.items:
             widget, box = self.create_inventory_slot(item)
-            loot.addWidget(widget)
+            loot.addWidget(widget, irow, colm)
             self.boxes[box] = item
+            if colm >= 4:
+                irow = 2
+                colm = 1
+            else:
+                colm += 1
+        loot.addItem(QSpacerItem(30, 20, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding), irow + 1, 5)
 
         row += 1
 
@@ -137,6 +156,7 @@ class VictoryScreen(QWidget):
         for item in self.player.get_items():
             widget, box = self.create_inventory_slot(item)
             widget.setMinimumWidth(150)
+            widget
             inventory.addWidget(widget)
             self.boxes[box] = item
             box.setChecked(True)
@@ -183,9 +203,10 @@ class VictoryScreen(QWidget):
 
     def create_inventory_slot(self, item: Item.Item) -> tuple[QWidget, QCheckBox]:
         layout = QVBoxLayout()
-        layout.addWidget(item.widget())
+        layout.addWidget(item.preview_widget())
 
         cb = QCheckBox()
+        cb.setStyleSheet(self.checkboxstyle)
         cbl = QVBoxLayout()
         cbl.addWidget(cb)
         cbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
