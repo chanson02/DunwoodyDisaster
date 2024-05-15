@@ -5,8 +5,8 @@ from PySide6.QtWidgets import (
     QHBoxLayout,
     QVBoxLayout,
     QGroupBox,
-    QSpacerItem, 
-    QSizePolicy
+    QSpacerItem,
+    QSizePolicy,
 )
 from PySide6.QtCore import Qt, QTimer
 from PySide6.QtGui import QKeyEvent, QPixmap, QFont
@@ -125,15 +125,11 @@ class DialogueScreen(QWidget):
         char2_name_label.setFont(QFont("Blood Crow", 24, QFont.Bold))
 
         self.char1_img = QLabel()
-        self.char1_img.setPixmap(
-            QPixmap(self.char1.image()).scaledToHeight(450)
-        )
+        self.char1_img.setPixmap(QPixmap(self.char1.image()).scaledToHeight(450))
         self.char1_img.setAlignment(Qt.AlignCenter)
 
         self.char2_img = QLabel()
-        self.char2_img.setPixmap(
-            QPixmap(self.char2.image()).scaledToHeight(450)
-        )
+        self.char2_img.setPixmap(QPixmap(self.char2.image()).scaledToHeight(450))
         self.char2_img.setAlignment(Qt.AlignCenter)
 
         self.char1_dialogue = QLabel()

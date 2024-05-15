@@ -74,12 +74,11 @@ class MonologueWidget(QWidget):
         self.dialogueText.setMaximumHeight(800)  # Limit the height of the chatbox
         textLayout.addWidget(self.dialogueText)
 
-        textLayout.addItem(
-            QSpacerItem(0, 30, QSizePolicy.Fixed, QSizePolicy.Fixed))
+        textLayout.addItem(QSpacerItem(0, 30, QSizePolicy.Fixed, QSizePolicy.Fixed))
 
         # Button to move to the next dialogue
         self.nextButton = QPushButton("Next", self)
-        self.nextButton.setStyleSheet('font-size: 24px;')
+        self.nextButton.setStyleSheet("font-size: 24px;")
         self.nextButton.clicked.connect(self.display_next_dialogue)
         self.nextButton.setMaximumHeight(50)  # Limit the height of the button
         textLayout.addWidget(self.nextButton)
