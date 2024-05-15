@@ -11,16 +11,15 @@ class Crawl(QWidget):
         self._finishCallback = DD.unimplemented
         self.text_lines = [
             "Filled with hope and the dream of becoming software engineers,",
-            "four students will undertake a new journey each excited at the",
-            "prospect of starting a new chapter in their lives.",
+            "four students will embark on a thrilling adventure,",
+            "each buzzing with excitement about beginning a fresh chapter in their lives",
             "",
-            "During their time at Dunwoody, they will experience a new form of education.",
-            "An education devoid of thought, planning, or reason whose sole purpose is to",
-            "burden unsuspecting students with financial strife while providing few avenues",
-            "for employment. ",
+            "During their time at Dunwoody, they will encounter a series of challenges",
+            "An education that that will cost them an arm and a leg,",
+            "and an experience that will leave them questioning the value of their life choices.",
             "",
-            "Now, these four students must band together, united under one front, to dismantle",
-            "the system that has crippled them financially, but provided so little in return. ",
+            "Now, these four students must band together, united under one front,",
+            "To dismantle the system that has been put in place to keep them down,",
             "",
             "This is their story...",
         ]
