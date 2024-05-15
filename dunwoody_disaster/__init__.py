@@ -81,11 +81,10 @@ def scroller(child: QLayout, horizontal: bool, vertical: bool) -> QScrollArea:
 
     h_policy = Qt.ScrollBarPolicy.ScrollBarAlwaysOff
     v_policy = Qt.ScrollBarPolicy.ScrollBarAlwaysOff
-    # Keeping commented in case we want to re-implement later
-    # if horizontal:
-    #     h_policy = Qt.ScrollBarPolicy.ScrollBarAsNeeded
-    # if vertical:
-    #     v_policy = Qt.ScrollBarPolicy.ScrollBarAsNeeded
+    if horizontal:
+        h_policy = Qt.ScrollBarPolicy.ScrollBarAsNeeded
+    if vertical:
+        v_policy = Qt.ScrollBarPolicy.ScrollBarAsNeeded
 
     result = QScrollArea()
     result.setContentsMargins(0, 0, 0, 0)
