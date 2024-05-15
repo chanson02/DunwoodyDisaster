@@ -36,7 +36,7 @@ class VictoryScreen(QWidget):
         #                             border-radius: 1px;
         #                             background-color: white;
         #                         }"""
-        self.checkboxstyle = '''QCheckBox::indicator {
+        self.checkboxstyle = """QCheckBox::indicator {
                                     width: 30px;
                                     height: 30px;
                                     background-color: gray;
@@ -46,18 +46,18 @@ class VictoryScreen(QWidget):
                                     border-color: white white black black;
                                 }
                                 QCheckBox::indicator:checked {
-                                    background-color: qradialgradient(spread:pad, 
+                                    background-color: qradialgradient(spread:pad,
                                                             cx:0.5,
                                                             cy:0.5,
                                                             radius:0.9,
                                                             fx:0.5,
                                                             fy:0.5,
-                                                            stop:0 rgba(0, 255, 0, 255), 
+                                                            stop:0 rgba(0, 255, 0, 255),
                                                             stop:1 rgba(0, 64, 0, 255));
                                 }
                                 QCheckBox:checked, QCheckBox::indicator:checked {
                                     border-color: black black white white;
-                                }'''
+                                }"""
 
         layout = QGridLayout()
         layout.setSpacing(0)
@@ -276,8 +276,8 @@ class VictoryScreen(QWidget):
         remaining = self.player.inventory_capacity - total_inventory
         percentageValue = (total_inventory / self.player.inventory_capacity) * 100
         self.capacity.setPercentage(percentageValue)
-                                    
-        self.cap_lbl.setText(str(int(percentageValue)) + '/100')
+
+        self.cap_lbl.setText(str(int(percentageValue)) + "/100")
 
         for box in unselected_boxes:
             if self.boxes[box].serialize()["stamina"] > remaining:

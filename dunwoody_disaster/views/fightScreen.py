@@ -129,7 +129,9 @@ class FightScreen(QWidget):
         layout.addWidget(self.p2_selector, row, 2)
         row += 1
 
-        layout.addItem(QSpacerItem(0, 350, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 0)
+        layout.addItem(
+            QSpacerItem(0, 350, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 0
+        )
         row += 1
 
         btnLayout = QGridLayout()
