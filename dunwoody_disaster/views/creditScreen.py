@@ -18,7 +18,7 @@ class Credits(QWidget):
             ("Noah", "Scrum leader | Software Architect"),
             ("John", "Arts and Audio Director"),
             ("Mitch", "Playtester | Game Designer | Creator of Crawl Screens"),
-            ("Jenni", "GUI Designer | Creator of Dialogue Screens"),
+            ("Jenni", "UI Clean up | Observer of Greatness"),
         ]
         self.images = {
             "Cooper": DD.ASSETS["CooperRefined+"],

@@ -181,7 +181,10 @@ class FightScreen(QWidget):
 
     def victoryClicked(self):
         self.player2.set_health(0)
-        self.controller._winCallback()
+        if self.player2.name == "Bill Hudson":
+            self.controller._winGameCall()
+        else:
+            self.controller._winCallback()
 
     def defeatClicked(self):
         self.player1.set_health(0)
