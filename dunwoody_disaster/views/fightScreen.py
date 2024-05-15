@@ -68,7 +68,9 @@ class FightScreen(QWidget):
         # )
         row += 1
 
-        arsenal = Arsenal(self.p1_selector, self.player1.weapons, self.player1.defenses)
+        arsenal = Arsenal(
+            self.p1_selector, self.player1.weapons, self.player1.defenses, True
+        )
         layout.addWidget(arsenal, row, 1)
 
         layout.addItem(
@@ -174,7 +176,9 @@ class FightScreen(QWidget):
             self.controller._loseCallback()
 
     def victoryClicked(self):
+        self.player2.set_health(0)
         self.controller._winCallback()
 
     def defeatClicked(self):
+        self.player1.set_health(0)
         self.controller._loseCallback()

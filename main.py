@@ -110,7 +110,7 @@ class MainWindow(QMainWindow):
         elif character.name == "Mitch":
             self.TypeWriterSound = pygame.mixer.Sound(AUDIO["TypeWriterSound"])
             self.TypeWriterSound.set_volume(0.2)
-            self.TypeWriterSound.play(loops=5)
+            self.TypeWriterSound.play(loops=-1)
             # Load Mitch's theme music
             pygame.mixer.music.load(AUDIO["MitchTheme"])
             # Set the volume to maximum (1.0)
@@ -206,7 +206,14 @@ class MainWindow(QMainWindow):
 
     def showWinGameCrawl(self):
         crawl = Crawl()
-        crawl.text_lines = ["Evil has been defeated"]
+        crawl.text_lines = [
+            "With their final year completed and the SENG program defunct, the students",
+            "leave the institution, unprepared and unsatisfied with their educational experience.",
+            "",
+            "Instead of knowledge, they leave with debt. In place of job prospects, an endless",
+            "job search reliant of the goodwill of potential employers. They leave knowing the",
+            "diploma they possess isn’t worth the paper it is printed on.",
+        ]
         crawl.onFinish(self.showCreditScreen)
         self.stack.addWidget(crawl)
         self.stack.setCurrentWidget(crawl)
