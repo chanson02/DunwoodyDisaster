@@ -8,7 +8,8 @@ from PySide6.QtWidgets import (
     QTextEdit,
     QPushButton,
     QVBoxLayout,
-    QHBoxLayout,
+    QGridLayout,
+    QSpacerItem,
     QSizePolicy,
 )
 from PySide6.QtGui import QPixmap, QFont, QKeyEvent
@@ -43,15 +44,25 @@ class MonologueWidget(QWidget):
 
     def initUI(self):
         # Create the main layout
-        mainLayout = QHBoxLayout(self)
+        mainLayout = QGridLayout(self)
+        mainLayout.setContentsMargins(0, 0, 0, 0)
+        mainLayout.setSpacing(0)
+        self.setLayout(mainLayout)
+
+        row = 0
+
+        mainLayout.addItem(
+            QSpacerItem(50, 30, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding), row, 0
+        )
+        row += 1
 
         # Configures the character image, making it larger and positioned to the left
         self.char_img = QLabel(self)
         self.char_img.setPixmap(
-            QPixmap(self.char.image()).scaled(800, 800, Qt.KeepAspectRatio)
+            QPixmap(self.char.image()).scaledToHeight(600)
         )  # Scale image
         self.char_img.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
-        mainLayout.addWidget(self.char_img)
+        mainLayout.addWidget(self.char_img, row, 1)
 
         # Create a layout for text and buttons on the right
         textLayout = QVBoxLayout()
@@ -63,14 +74,25 @@ class MonologueWidget(QWidget):
         self.dialogueText.setMaximumHeight(800)  # Limit the height of the chatbox
         textLayout.addWidget(self.dialogueText)
 
+        textLayout.addItem(QSpacerItem(0, 30, QSizePolicy.Fixed, QSizePolicy.Fixed))
+
         # Button to move to the next dialogue
         self.nextButton = QPushButton("Next", self)
+        self.nextButton.setStyleSheet("font-size: 24px;")
         self.nextButton.clicked.connect(self.display_next_dialogue)
         self.nextButton.setMaximumHeight(50)  # Limit the height of the button
         textLayout.addWidget(self.nextButton)
 
+        mainLayout.addItem(
+            QSpacerItem(50, 0, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 2
+        )
         # Add textLayout to the mainLayout
-        mainLayout.addLayout(textLayout, 1)
+        mainLayout.addLayout(textLayout, row, 3)
+        row += 1
+
+        mainLayout.addItem(
+            QSpacerItem(50, 30, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding), row, 4
+        )
 
         self.timer = QTimer(self)
         self.timer.timeout.connect(
