@@ -261,10 +261,10 @@ class CharacterFactory:
         char.maxStamina = 100
         char.reset()
 
-        char.strength = 5
-        char.intelligence = 50
-        char.defense = 10
-        char.magicDefense = 25
+        char.strength = 10
+        char.intelligence = 70
+        char.defense = 20
+        char.magicDefense = 35
 
         char.weapons = [
             Item.Weapon(
