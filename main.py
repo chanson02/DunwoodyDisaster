@@ -1,6 +1,7 @@
 import sys
 import pygame
-from PySide6.QtGui import QFont
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QFont, QKeyEvent
 from PySide6.QtWidgets import QMainWindow, QStackedWidget, QApplication
 from dunwoody_disaster.FightSequence import FightSequence
 from dunwoody_disaster.views.StartMenu import StartMenu
@@ -12,6 +13,13 @@ from dunwoody_disaster.CharacterFactory import CharacterFactory, Character
 from dunwoody_disaster.views.defeatScreen import DefeatScreen
 from dunwoody_disaster.views.victoryScreen import VictoryScreen
 from dunwoody_disaster.views.dialogueScreen import DialogueScreen
+
+# from dunwoody_disaster.views.CharacterDetailWidget import CharacterDetailWidget
+from dunwoody_disaster.views.MonologueWidget import (
+    MonologueWidget,
+)
+from dunwoody_disaster.EventIdentifier import EventIdentifier
+
 from dunwoody_disaster import AUDIO
 from dunwoody_disaster.views.introductions.Cooper import CooperIntroScreen
 from dunwoody_disaster.views.introductions.Noah import NoahIntroScreen
@@ -22,13 +30,17 @@ default_font = QFont("blood crow", 12)  # Font family is Arial and font size is 
 QApplication.setFont(default_font)
 
 
+def should_display_monologue(player, opponent):
+    # Placeholder for logic to determine if a monologue should be displayed
+    return opponent.name
+
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Dunwoody-Disaster")
         self.setStyleSheet("background-color: black; color: #FFFFFF;")
-        self.setupMusicPlayer()
-
+        self.currentScreen = None  # To keep track of the current screen
         self.player = None
         self.fight = None
         self.stack = QStackedWidget()
@@ -42,6 +54,7 @@ class MainWindow(QMainWindow):
     def showStartMenu(self):
         self.startMenu.movie.start()
         self.stack.setCurrentWidget(self.startMenu)
+        self.setupMusicPlayer()
 
     def setupMusicPlayer(self):
         # Initialize Pygame mixer
@@ -52,12 +65,17 @@ class MainWindow(QMainWindow):
         pygame.mixer.music.play(-1)  # Play indefinitely
         # Load and play fire crackle sound; only set sounds to variables and not music.
         self.Fire_Sound1 = pygame.mixer.Sound(AUDIO["FireCrackle"])
-        self.Fire_Sound1.set_volume(0.1)
+        self.Fire_Sound1.set_volume(0.05)
         self.Fire_Sound1.play(loops=-1)
+        # Load and play wind sound
+        self.Wind_Sound = pygame.mixer.Sound(AUDIO["Wind"])
+        self.Wind_Sound.set_volume(0.05)
+        self.Wind_Sound.play(loops=-1)
 
     def startBtnClicked(self):
         pygame.mixer.music.stop()
         self.Fire_Sound1.stop()
+        self.Wind_Sound.stop()
         pygame.mixer.music.load(AUDIO["CrawlMusic"])
         pygame.mixer.music.set_volume(1.0)
         pygame.mixer.music.play()
@@ -92,9 +110,6 @@ class MainWindow(QMainWindow):
     def displayCharacterDetails(self, character):
         self.stopAllSounds()
         if character.name == "John":
-            self.TypeWriterSound = pygame.mixer.Sound(AUDIO["TypeWriterSound"])
-            self.TypeWriterSound.set_volume(0.9)
-            self.TypeWriterSound.play(loops=-1)
             # Load John's theme music
             pygame.mixer.music.load(AUDIO["JohnTheme"])
             pygame.mixer.music.set_volume(0.4)
@@ -108,9 +123,6 @@ class MainWindow(QMainWindow):
                 character, transition_callback=self.showMapScreen
             )
         elif character.name == "Mitch":
-            self.TypeWriterSound = pygame.mixer.Sound(AUDIO["TypeWriterSound"])
-            self.TypeWriterSound.set_volume(0.2)
-            self.TypeWriterSound.play(loops=-1)
             # Load Mitch's theme music
             pygame.mixer.music.load(AUDIO["MitchTheme"])
             # Set the volume to maximum (1.0)
@@ -135,6 +147,18 @@ class MainWindow(QMainWindow):
 
         self.stack.addWidget(self.characterWidget)
         self.stack.setCurrentWidget(self.characterWidget)
+
+    def displayMonologue(self, character, event_id):
+        self.stopAllSounds()
+        if character.name == "John":
+            # load monologue music
+            pygame.mixer.music.load(AUDIO["JohnTheme"])
+            pygame.mixer.music.set_volume(0.4)
+            pygame.mixer.music.play(-1)
+        # Create a monologue widget for the character and set the transition callback to show the map screen after the monologue
+        self.monologue = MonologueWidget(character, event_id, self.showMapScreen)
+        self.stack.addWidget(self.monologue)
+        self.stack.setCurrentWidget(self.monologue)
 
     def showMapScreen(self):
         self.stack.removeWidget(self.characterWidget)
@@ -177,7 +201,7 @@ class MainWindow(QMainWindow):
             self.stack.removeWidget(self.fight.widget)
 
         self.fight = FightSequence(self.player, room["NPC"], room["battlefield"])
-        self.fight.onWin(self.showVictoryScreen)
+        self.fight.onWin(lambda: self.showVictoryScreen(room["NPC"].name))
         self.fight.onLose(self.showDefeatScreen)
         self.fight.onWinGame(self.showWinGameCrawl)
 
@@ -191,16 +215,18 @@ class MainWindow(QMainWindow):
     def loadCharacter(self, name: str) -> Character:
         return CharacterFactory.LoadCharacter(name)
 
-    def showVictoryScreen(self):
+    def showVictoryScreen(self, boss_name):
+        event_id = EventIdentifier.get_event_id("boss_defeat", boss_name)
         if self.fight is None:
             raise Exception("Victory Screen expects a fight")
-
         victory = VictoryScreen(self.fight)
 
         def loot_collected():
             self.stack.removeWidget(victory)
-            self.showMapScreen()
-            self.saveCharacter(self.player)
+            if should_display_monologue(self.player, self.fight.enemy):
+                self.displayMonologue(self.player, event_id)
+            else:
+                self.showMapScreen()
 
         victory.onClose(loot_collected)
         self.stack.addWidget(victory)
@@ -247,6 +273,11 @@ class MainWindow(QMainWindow):
         self.stack.addWidget(credits)
         self.stack.setCurrentWidget(credits)
         credits.onFinishCredits(self.showStartMenu)
+
+    def keyPressEvent(self, event: QKeyEvent):
+        if event.key() == Qt.Key.Key_C:
+            self.stopAllSounds()
+            self.showCreditScreen()
 
 
 if __name__ == "__main__":

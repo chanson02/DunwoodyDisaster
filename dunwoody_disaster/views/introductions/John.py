@@ -70,6 +70,7 @@ class JohnIntroScreen(QWidget):
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.add_char)
         self.char_index = 0
+        # Get the character description or set a default message
         self.character_description = getattr(
             self.character, "description", "No description available."
         )
