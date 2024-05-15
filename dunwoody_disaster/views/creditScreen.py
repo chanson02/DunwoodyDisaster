@@ -15,7 +15,7 @@ class Credits(QWidget):
         )  # Set up a finish callback, currently unimplemented in DD
         self.text_lines = [
             ("Cooper", "Lead Programmer | Resident Git Expert"),
-            ("Noah", "Stock"),
+            ("Noah", "Scrum leader | Software Architect"),
             ("John", "Arts and Audio Director"),
             ("Mitch", "Playtester | Game Designer | Creator of Crawl Screens"),
             ("Jenni", "Stock"),
