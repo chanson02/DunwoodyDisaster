@@ -374,9 +374,7 @@ class CharacterFactory:
         char.magicDefense = 5
 
         char.weapons = [
-            Item.Weapon(
-                name="Unreal End", damage=8, magic=15, stamina=8, magical=True
-            ),
+            Item.Weapon(name="Unreal End", damage=8, magic=15, stamina=8, magical=True),
             Item.Weapon(
                 name="Thermos Throw", damage=12, magic=5, stamina=8, magical=False
             ),
@@ -481,9 +479,7 @@ class CharacterFactory:
         char.level = 2
 
         char.weapons = [
-            Item.Weapon(
-                name="API Ambush", damage=5, magic=15, stamina=8, magical=True
-            ),
+            Item.Weapon(name="API Ambush", damage=5, magic=15, stamina=8, magical=True),
             Item.Weapon(
                 name="Confusion", damage=12, magic=20, stamina=12, magical=True
             ),
