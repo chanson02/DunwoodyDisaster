@@ -88,7 +88,9 @@ class Arsenal(QWidget):
         item_layout.addItem(DD.expander(False, True, 0), item_row, 0)
 
         scroll_area = DD.scroller(item_layout, False, True)
-        scroll_area.setFixedWidth(200) # make sure the scroller is bigger than the item gbox
+        scroll_area.setFixedWidth(
+            200
+        )  # make sure the scroller is bigger than the item gbox
         layout.addWidget(scroll_area, row, 1)
         row += 1
 
