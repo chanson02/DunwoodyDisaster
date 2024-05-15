@@ -1,6 +1,14 @@
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QPushButton
+from PySide6.QtWidgets import (
+    QWidget,
+    QVBoxLayout,
+    QLabel,
+    QPushButton,
+    QGridLayout,
+    QSizePolicy,
+    QSpacerItem,
+)
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QKeyEvent, QMouseEvent, QPixmap
+from PySide6.QtGui import QKeyEvent, QMouseEvent, QPixmap, QFont
 
 from dunwoody_disaster.CharacterFactory import Character
 from typing import Callable
@@ -15,8 +23,26 @@ class NoahIntroScreen(QWidget):
         self.text_styles = "font-size: 24px;"
         self._callback = transition_callback
 
-        layout = QVBoxLayout()
+        layout = QGridLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
         self.setLayout(layout)
+
+        row = 0
+
+        layout.addItem(
+            QSpacerItem(50, 30, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding), row, 0
+        )
+        row += 1
+
+        pic1 = QLabel()
+        weaponPix = QPixmap(DD.ASSETS["Power Chord"])
+        weaponPix = weaponPix.scaledToWidth(300)
+        pic1.setPixmap(weaponPix)
+        pic1.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        pic1.mousePressEvent = self.setCheat
+        layout.addWidget(pic1, row, 2)
+        row += 1
 
         text = """
         Meet Noah, the, um, *Shuffles papers* something something something.
@@ -36,41 +62,43 @@ class NoahIntroScreen(QWidget):
         """
 
         tb = self.text_box(" ".join(text.split()))
-        layout.addLayout(tb)
-
-        pic1 = QLabel()
-        weaponPix = QPixmap(DD.ASSETS["Power Chord"])
-        weaponPix = weaponPix.scaledToWidth(300)
-        pic1.setPixmap(weaponPix)
-        pic1.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        pic1.mousePressEvent = self.setCheat
-        layout.addWidget(pic1)
+        layout.addLayout(tb, row, 2)
 
         pic = QLabel()
         pic.setPixmap(character.image().scaledToWidth(500))
         pic.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        layout.addWidget(pic)
+        layout.addWidget(pic, row, 1)
+        row += 1
 
-        text = """
-        Use the mouse to select different classrooms.
-        Press "Return" to enter the classroom.
-        "-Cooper wuz here"
-        Click through the dialogue to learn about your opponent before battle!
-        Defeat enemies by outsmarting them in programming challenges.
-        Learn from your teachers as you beat their classes.
-        """
-        frmt = (
-            " ".join([t for t in text.split(" ") if t != ""])
-            .strip()
-            .replace("\n ", "\n")
+        layout.addItem(
+            QSpacerItem(0, 30, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding), row, 1
         )
-        tb = self.text_box(frmt)
-        tb.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        layout.addLayout(tb)
+        row += 1
+
+        btn_lyt = QGridLayout()
+        btn_lyt.setContentsMargins(0, 0, 0, 0)
+        btn_lyt.setSpacing(0)
+
+        btn_lyt.addItem(
+            QSpacerItem(50, 0, QSizePolicy.MinimumExpanding, QSizePolicy.Fixed), 0, 0
+        )
 
         btn = QPushButton("Start")
+        btn.setFont(QFont("blood crow", 36))
+        btn.setStyleSheet("font-size: 18px;")
         btn.clicked.connect(self._callback)
-        layout.addWidget(btn)
+        btn_lyt.addWidget(btn, 0, 1)
+
+        btn_lyt.addItem(
+            QSpacerItem(50, 0, QSizePolicy.MinimumExpanding, QSizePolicy.Fixed), 0, 2
+        )
+
+        layout.addLayout(btn_lyt, row, 2)
+        row += 1
+
+        layout.addItem(
+            QSpacerItem(50, 50, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding), row, 3
+        )
 
         return
 

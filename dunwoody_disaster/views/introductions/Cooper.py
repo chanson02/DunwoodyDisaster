@@ -8,7 +8,7 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
 )
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QKeyEvent
+from PySide6.QtGui import QKeyEvent, QFont
 
 from dunwoody_disaster.CharacterFactory import Character
 from typing import Callable
@@ -65,6 +65,7 @@ class CooperIntroScreen(QWidget):
         )
 
         btn = QPushButton("Start")
+        btn.setFont(QFont("blood crow", 36))
         btn.setStyleSheet("font-size: 18px;")
         btn.clicked.connect(self._callback)
         btn_lyt.addWidget(btn, 0, 1)
