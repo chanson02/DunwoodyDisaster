@@ -92,14 +92,10 @@ class MonologueWidget(QWidget):
         path = os.path.join(
             DD.BASE_PATH, "monologues", self.char.name, f"{self.event_id}.json"
         )
-        print(
-            f"Attempting to load dialogue from: {path}"
-        )  # Debug print to check the path
 
         try:
             with open(path, "r") as f:
                 data = json.load(f)
-            print(f"Loaded data: {data}")  # Debug print to see what data was loaded
 
             # Assuming the JSON structure is { "Example":"victory": ["line1", "line2"] }
             character_monologue = data.get(self.char.name, {})
