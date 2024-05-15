@@ -39,7 +39,7 @@ class NoahIntroScreen(QWidget):
         layout.addLayout(tb)
 
         pic1 = QLabel()
-        weaponPix = QPixmap(DD.ASSETS["noahSecretWeapon"])
+        weaponPix = QPixmap(DD.ASSETS["Power Chord"])
         weaponPix = weaponPix.scaledToWidth(300)
         pic1.setPixmap(weaponPix)
         pic1.setAlignment(Qt.AlignmentFlag.AlignCenter)
