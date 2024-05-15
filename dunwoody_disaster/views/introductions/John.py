@@ -45,10 +45,19 @@ class JohnIntroScreen(QWidget):
 
         # Text edit for description with typewriter effect
         self.backgroundEdit = QTextEdit(self)
-        background_description = QFont("JMH Typewriter", 20)
+        background_description = QFont("JMH Typewriter", 18)
         self.backgroundEdit.setFont(background_description)
         self.backgroundEdit.setReadOnly(True)
-        layout.addWidget(self.backgroundEdit, row, 2)
+        self.backgroundEdit.setStyleSheet("border: none; background-color: black;")
+        self.backgroundEdit.setVerticalScrollBarPolicy(
+            Qt.ScrollBarAlwaysOff
+        )  # Disable vertical scroll bar
+        self.backgroundEdit.setHorizontalScrollBarPolicy(
+            Qt.ScrollBarAlwaysOff
+        )  # Disable horizontal scroll bar
+        self.backgroundEdit.setFixedHeight(600)  # Set a fixed height
+        self.backgroundEdit.setFixedWidth(800)  # Set a fixed width
+        layout.addWidget(self.backgroundEdit, row, 2, 1, 2)  # Span 1 row and 2 columns
 
         layout.addItem(QSpacerItem(20, 0, QSizePolicy.Fixed), row, 3)
 
