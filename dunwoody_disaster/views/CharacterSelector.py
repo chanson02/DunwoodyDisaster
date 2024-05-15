@@ -54,7 +54,9 @@ class CharacterSelector(QWidget):
         row += 1
 
         container = QWidget()
-        container.setStyleSheet("min-width: 0px; background-color: black; border: none;")
+        container.setStyleSheet(
+            "min-width: 0px; background-color: black; border: none;"
+        )
         hbox = QHBoxLayout()
         for character in characters:
             hbox.addWidget(self.characterWidget(character))
@@ -79,7 +81,7 @@ class CharacterSelector(QWidget):
         )
         self.select_lbl = QLabel("")
         self.select_lbl.setStyleSheet(
-            'background-color: black; color: red; font-size: 40px; font-weight: 600;'
+            "background-color: black; color: red; font-size: 40px; font-weight: 600;"
         )
         self.select_lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
         btnLayout.addWidget(self.select_lbl, 0, 1)

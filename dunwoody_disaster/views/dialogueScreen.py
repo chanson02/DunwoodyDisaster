@@ -6,7 +6,7 @@ from PySide6.QtWidgets import (
     QHBoxLayout,
     QGroupBox,
     QSpacerItem,
-    QSizePolicy
+    QSizePolicy,
 )
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QKeyEvent
@@ -46,9 +46,9 @@ class DialogueScreen(QWidget):
         self.char2_img.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.char2_img.setPixmap(self.char2.image().scaledToHeight(400))
         self.char1_dialogue = QLabel("")
-        self.char1_dialogue.setStyleSheet('font-size: 18px;')
+        self.char1_dialogue.setStyleSheet("font-size: 18px;")
         self.char2_dialogue = QLabel("")
-        self.char2_dialogue.setStyleSheet('font-size: 18px;')
+        self.char2_dialogue.setStyleSheet("font-size: 18px;")
 
         self.dialogue_stack = QStackedLayout()
 
@@ -120,12 +120,14 @@ class DialogueScreen(QWidget):
         row += 1
 
         layout.addItem(
-            QSpacerItem(100, 50, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding), row, 2
+            QSpacerItem(100, 50, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding),
+            row,
+            2,
         )
 
         # Player 1 dialogue box
         player1_dialogue_box = QGroupBox(self.char1.name)
-        player1_dialogue_box.setStyleSheet('font-size: 22px;')
+        player1_dialogue_box.setStyleSheet("font-size: 22px;")
         player1_dialogue_box.setMinimumHeight(150)
         container = QHBoxLayout()
         container.addWidget(self.char1_dialogue)
@@ -134,7 +136,7 @@ class DialogueScreen(QWidget):
 
         # Player 2 dialogue box
         player2_dialogue_box = QGroupBox(self.char2.name)
-        player2_dialogue_box.setStyleSheet('font-size: 22px;')
+        player2_dialogue_box.setStyleSheet("font-size: 22px;")
         player2_dialogue_box.setMinimumHeight(150)
         container = QHBoxLayout()
         container.addWidget(self.char2_dialogue)

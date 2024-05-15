@@ -1,4 +1,12 @@
-from PySide6.QtWidgets import QWidget, QGridLayout, QLabel, QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout
+from PySide6.QtWidgets import (
+    QWidget,
+    QGridLayout,
+    QLabel,
+    QPushButton,
+    QSizePolicy,
+    QSpacerItem,
+    QVBoxLayout,
+)
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QKeyEvent
 
@@ -41,11 +49,6 @@ class CooperIntroScreen(QWidget):
         tb = self.text_box(" ".join(text.split()))
         layout.addLayout(tb, row, 2)
 
-        frmt = (
-            " ".join([t for t in text.split(" ") if t != ""])
-            .strip()
-            .replace("\n ", "\n")
-        )
         row += 1
 
         layout.addItem(
@@ -58,15 +61,17 @@ class CooperIntroScreen(QWidget):
         btn_lyt.setSpacing(0)
 
         btn_lyt.addItem(
-            QSpacerItem(50, 0, QSizePolicy.MinimumExpanding, QSizePolicy.Fixed), 0, 0)
+            QSpacerItem(50, 0, QSizePolicy.MinimumExpanding, QSizePolicy.Fixed), 0, 0
+        )
 
         btn = QPushButton("Start")
-        btn.setStyleSheet('font-size: 18px;')
+        btn.setStyleSheet("font-size: 18px;")
         btn.clicked.connect(self._callback)
         btn_lyt.addWidget(btn, 0, 1)
 
         btn_lyt.addItem(
-            QSpacerItem(50, 0, QSizePolicy.MinimumExpanding, QSizePolicy.Fixed), 0, 2)
+            QSpacerItem(50, 0, QSizePolicy.MinimumExpanding, QSizePolicy.Fixed), 0, 2
+        )
 
         layout.addLayout(btn_lyt, row, 1, 1, 2)
         row += 1

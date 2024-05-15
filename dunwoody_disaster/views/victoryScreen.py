@@ -26,7 +26,7 @@ class VictoryScreen(QWidget):
         self.player = fight_controller.player
         self.items = fight_controller.enemy.get_items()
         self.boxes: dict[QCheckBox, Item.Item] = {}
-        self.checkboxstyle = '''QCheckBox::indicator:unchecked {
+        self.checkboxstyle = """QCheckBox::indicator:unchecked {
                                     border: 2px solid white;
                                     border-radius: 1px;
                                     background-color: white;
@@ -35,7 +35,7 @@ class VictoryScreen(QWidget):
                                     border: 2px solid white;
                                     border-radius: 1px;
                                     background-color: white;
-                                }'''
+                                }"""
 
         layout = QGridLayout()
         layout.setSpacing(0)
@@ -52,9 +52,7 @@ class VictoryScreen(QWidget):
         )
         row += 1
 
-        lbl = QLabel(
-            f"Victory!\nCollect your loot."
-        )
+        lbl = QLabel("Victory!\nCollect your loot.")
         lbl.setStyleSheet("font-size: 40px; font-weight: 600; color: red;")
         lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(lbl, row, 1)
@@ -79,7 +77,9 @@ class VictoryScreen(QWidget):
         layout.addWidget(pic, row, 1)
 
         drops = QGroupBox("Loot Dropped")
-        drops.setStyleSheet('color: white; max-width: 600px; font-family: "Futura Bk BT";')
+        drops.setStyleSheet(
+            'color: white; max-width: 600px; font-family: "Futura Bk BT";'
+        )
         loot = QGridLayout()
         scroller = DD.scroller(loot, False, True)
         scroller.setStyleSheet("border: none;")
@@ -98,7 +98,11 @@ class VictoryScreen(QWidget):
                 colm = 1
             else:
                 colm += 1
-        loot.addItem(QSpacerItem(30, 20, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding), irow + 1, 5)
+        loot.addItem(
+            QSpacerItem(30, 20, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding),
+            irow + 1,
+            5,
+        )
 
         row += 1
 
@@ -128,8 +132,10 @@ class VictoryScreen(QWidget):
         self.capacity.setMinimumWidth(300)
         cap_Layout.addWidget(self.capacity, 0, 1)
 
-        cap_Layout.addItem(QSpacerItem(0, 0, QSizePolicy.MinimumExpanding, QSizePolicy.Fixed), 0, 2)
-        
+        cap_Layout.addItem(
+            QSpacerItem(0, 0, QSizePolicy.MinimumExpanding, QSizePolicy.Fixed), 0, 2
+        )
+
         lbl = QLabel("50/100")
         lbl.setStyleSheet('font-size: 16px; font-family: "Futura Bk BT";')
         lbl.setAlignment(Qt.AlignmentFlag.AlignRight)
@@ -143,7 +149,9 @@ class VictoryScreen(QWidget):
 
         inventory_box = QGroupBox("Inventory")
         inventory_box.setFixedHeight(220)
-        inventory_box.setStyleSheet('color: white; max-width: 600px; font-family: "Futura Bk BT";')
+        inventory_box.setStyleSheet(
+            'color: white; max-width: 600px; font-family: "Futura Bk BT";'
+        )
         inventory = QHBoxLayout()
         scroller = DD.scroller(inventory, True, False)
         scroller.setStyleSheet("border: none;")
@@ -171,11 +179,13 @@ class VictoryScreen(QWidget):
         btns_Lyt = QGridLayout()
 
         btns_Lyt.addItem(
-            QSpacerItem(
-                0, 0, QSizePolicy.MinimumExpanding, QSizePolicy.Fixed), 0, 0)
+            QSpacerItem(0, 0, QSizePolicy.MinimumExpanding, QSizePolicy.Fixed), 0, 0
+        )
 
         btn = QPushButton("Continue")
-        btn.setStyleSheet("font-size: 24px; font-weight: 600; background-color: transparent; min-width: 150px;")
+        btn.setStyleSheet(
+            "font-size: 24px; font-weight: 600; background-color: transparent; min-width: 150px;"
+        )
         btn.clicked.connect(self.confirmClicked)
         btns_Lyt.addWidget(btn, 0, 1)
 
@@ -187,9 +197,7 @@ class VictoryScreen(QWidget):
         row += 1
 
         layout.addItem(
-            QSpacerItem(
-                5, 50, QSizePolicy.MinimumExpanding, QSizePolicy.Fixed
-            ),
+            QSpacerItem(5, 50, QSizePolicy.MinimumExpanding, QSizePolicy.Fixed),
             row,
             4,
         )

@@ -1,5 +1,13 @@
 import pygame
-from PySide6.QtWidgets import QWidget, QLabel, QTextEdit, QGridLayout, QPushButton, QSizePolicy, QSpacerItem
+from PySide6.QtWidgets import (
+    QWidget,
+    QLabel,
+    QTextEdit,
+    QGridLayout,
+    QPushButton,
+    QSizePolicy,
+    QSpacerItem,
+)
 from PySide6.QtGui import QPixmap, QFont, QIcon, QKeyEvent
 from PySide6.QtCore import Qt, QTimer
 
@@ -42,9 +50,7 @@ class MitchIntroScreen(QWidget):
         self.backgroundEdit.setReadOnly(True)
         layout.addWidget(self.backgroundEdit, row, 2)
 
-        layout.addItem(
-            QSpacerItem(20, 0, QSizePolicy.Fixed), row, 3
-        )
+        layout.addItem(QSpacerItem(20, 0, QSizePolicy.Fixed), row, 3)
 
         # Button to transition to map screen
         self.mapButton = QPushButton("Go to Map")
