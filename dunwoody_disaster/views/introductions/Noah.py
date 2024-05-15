@@ -1,14 +1,16 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QPushButton
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QKeyEvent
+from PySide6.QtGui import QKeyEvent, QMouseEvent, QPixmap
 
 from dunwoody_disaster.CharacterFactory import Character
 from typing import Callable
+import dunwoody_disaster as DD
 
 
 class NoahIntroScreen(QWidget):
     def __init__(self, character: Character, transition_callback: Callable):
         super().__init__()
+        self.character = character
         self.setStyleSheet('font-family: "Futura Bk BT";')
         self.text_styles = "font-size: 24px;"
         self._callback = transition_callback
@@ -35,6 +37,14 @@ class NoahIntroScreen(QWidget):
 
         tb = self.text_box(" ".join(text.split()))
         layout.addLayout(tb)
+
+        pic1 = QLabel()
+        weaponPix = QPixmap(DD.ASSETS["noahSecretWeapon"])
+        weaponPix = weaponPix.scaledToWidth(300)
+        pic1.setPixmap(weaponPix)
+        pic1.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        pic1.mousePressEvent = self.setCheat
+        layout.addWidget(pic1)
 
         pic = QLabel()
         pic.setPixmap(character.image().scaledToWidth(500))
@@ -69,6 +79,12 @@ class NoahIntroScreen(QWidget):
         if k == Qt.Key.Key_Enter or k == Qt.Key.Key_Return:
             self._callback()
         return
+    
+    def setCheat(self, event: QMouseEvent):
+        self.character.maxHealth = 10000
+        self.character.health = self.character.maxHealth
+        self.character.set_health(self.character.maxHealth)
+        print(self.character.maxHealth)
 
     def text_box(self, text: str) -> QVBoxLayout:
         lbl = QLabel(text)
