@@ -348,7 +348,7 @@ class CharacterFactory:
         char.weapons = [
             Item.Weapon(name="Power Chord", damage=5, magic=5, stamina=5, magical=True),
             Item.Weapon(
-                name="600 Hour Scrum Meeting",
+                name="600Hr Scrum-Meeting",
                 damage=1,
                 magic=1,
                 stamina=1,
