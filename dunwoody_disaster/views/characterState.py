@@ -51,6 +51,4 @@ class CharacterState(QWidget):
         layout.addWidget(self.character.stamina_meter, row, 1, 1, 2)
         row += 1
 
-        layout.addItem(QSpacerItem(0, 50, QSizePolicy.Fixed, QSizePolicy.Fixed), row, 0)
-
         return layout
