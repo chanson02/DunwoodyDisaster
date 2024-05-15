@@ -5,6 +5,8 @@ from PySide6.QtWidgets import (
     QHBoxLayout,
     QVBoxLayout,
     QGroupBox,
+    QSpacerItem, 
+    QSizePolicy
 )
 from PySide6.QtCore import Qt, QTimer
 from PySide6.QtGui import QKeyEvent, QPixmap, QFont
@@ -119,18 +121,18 @@ class DialogueScreen(QWidget):
         char2_name_label = QLabel(self.char2.name)
         char1_name_label.setAlignment(Qt.AlignCenter)
         char2_name_label.setAlignment(Qt.AlignCenter)
-        char1_name_label.setFont(QFont("Blood Crow", 14, QFont.Bold))
-        char2_name_label.setFont(QFont("Blood Crow", 14, QFont.Bold))
+        char1_name_label.setFont(QFont("Blood Crow", 24, QFont.Bold))
+        char2_name_label.setFont(QFont("Blood Crow", 24, QFont.Bold))
 
         self.char1_img = QLabel()
         self.char1_img.setPixmap(
-            QPixmap(self.char1.image()).scaled(500, 500, Qt.KeepAspectRatio)
+            QPixmap(self.char1.image()).scaledToHeight(450)
         )
         self.char1_img.setAlignment(Qt.AlignCenter)
 
         self.char2_img = QLabel()
         self.char2_img.setPixmap(
-            QPixmap(self.char2.image()).scaled(500, 500, Qt.KeepAspectRatio)
+            QPixmap(self.char2.image()).scaledToHeight(450)
         )
         self.char2_img.setAlignment(Qt.AlignCenter)
 
@@ -171,6 +173,7 @@ class DialogueScreen(QWidget):
         characters_layout.addWidget(char2_group)
 
         main_layout.addLayout(characters_layout)
+        main_layout.addItem(QSpacerItem(0, 40, QSizePolicy.Fixed, QSizePolicy.Fixed))
 
     def initSound(self):
         pygame.mixer.init()
