@@ -345,16 +345,16 @@ class CharacterFactory:
         char.defense = 1
         char.magicDefense = 1
 
-        # char.weapons = [
-        #     Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=True),
-        #     Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False),
-        #     Item.Weapon(name="", damage=5, magic=5, stamina=5, magical=False)
-        # ]
+        char.weapons = [
+            Item.Weapon(name="Power Chord", damage=5, magic=5, stamina=5, magical=True),
+            Item.Weapon(name="600 Hour Scrum Meeting", damage=1, magic=1, stamina=1, magical=False),
+            Item.Weapon(name="Barry", damage=5, magic=5, stamina=5, magical=False)
+        ]
 
-        # char.defenses = [
-        #     Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=0),
-        #     Item.Armor(name="", armorVal=5, staminaCost=5, magicCost=5, magicDefense=5)
-        # ]
+        char.defenses = [
+            Item.Armor(name="PR REJECTED", armorVal=5, staminaCost=5, magicCost=5, magicDefense=0),
+            Item.Armor(name="Heavy Metal", armorVal=50, staminaCost=20, magicCost=5, magicDefense=5)
+        ]
         char.image_path = DD.ASSETS["NoahRefined+"]
         return char
 
