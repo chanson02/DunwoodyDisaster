@@ -11,9 +11,11 @@ from PySide6.QtWidgets import (
     QPushButton,
     QWidget,
     QApplication,
+    QGraphicsOpacityEffect,
     QSpacerItem,
     QSizePolicy,
 )
+from PySide6.QtCore import QTimer
 
 import dunwoody_disaster as DD
 
@@ -109,7 +111,12 @@ class MovieLabel(QLabel):
 class StartMenu(QWidget):
     def __init__(self):
         super().__init__()
-        self._callback = DD.unimplemented
+        self.initUI()
+        self.fadeIn()
+
+    def initUI(self):
+        self.setStyleSheet("background-color: black;")
+        self.setWindowTitle("Dunwoody Disaster")
 
         layout = QGridLayout()
         layout.setSpacing(0)
@@ -143,6 +150,14 @@ class StartMenu(QWidget):
             0,
         )
 
+        btn_style = """
+            background-color: transparent;
+            min-width: 400px;
+            font-size: 50px;  /* Adjust the size as needed */
+            font-weight: bold;  /* '600px' should be changed to 'bold' if you want a bold font */
+            font-family: 'Blood Crow';  /* Example font family */
+            """
+
         start = QPushButton("Start Game")
         start.setStyleSheet(btn_style)
         start.clicked.connect(self.startClicked)
@@ -166,6 +181,23 @@ class StartMenu(QWidget):
     def startClicked(self):
         self.movie.stop()
         self._callback()
+
+    def fadeIn(self):
+        self.effect = QGraphicsOpacityEffect(self)
+        self.setGraphicsEffect(self.effect)
+        self.opacity = 0.0
+        self.effect.setOpacity(self.opacity)
+
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.increaseOpacity)
+        self.timer.start(150)  # Adjust the timer interval for speed of fade-in
+
+    def increaseOpacity(self):
+        self.opacity += 0.05  # Increment the opacity
+        if self.opacity > 1:
+            self.opacity = 1
+            self.timer.stop()
+        self.effect.setOpacity(self.opacity)
 
     def onStart(self, callback: Callable):
         """

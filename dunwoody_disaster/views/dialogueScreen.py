@@ -1,19 +1,19 @@
 from PySide6.QtWidgets import (
     QWidget,
     QStackedLayout,
-    QGridLayout,
     QLabel,
     QHBoxLayout,
+    QVBoxLayout,
     QGroupBox,
-    QSpacerItem,
-    QSizePolicy,
 )
-from PySide6.QtCore import Qt
-from PySide6.QtGui import QKeyEvent
+from PySide6.QtCore import Qt, QTimer
+from PySide6.QtGui import QKeyEvent, QPixmap, QFont
 from dunwoody_disaster.CharacterFactory import Character
 import dunwoody_disaster as DD
+from dunwoody_disaster import AUDIO
 from typing import Callable
 import json
+import pygame
 
 
 # Dialogue screen between boss and users
@@ -31,29 +31,34 @@ class DialogueScreen(QWidget):
         """
 
         super().__init__()
-        self.setStyleSheet('font-family: "Futura Bk BT";')
-        self._index = 0
-        self.char1 = char1
-        self.char2 = char2
+        self.char1 = char1  # Player character
+        self.char2 = char2  # Boss character
 
-        self._char1_dialogue = []
-        self._char2_dialogue = []
+        self.current_dialogue = ""
+        self.char_index = 0
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.type_text)
 
-        self.char1_img = QLabel("")
-        self.char1_img.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.char1_img.setPixmap(self.char1.image().scaledToHeight(400))
-        self.char2_img = QLabel("")
-        self.char2_img.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.char2_img.setPixmap(self.char2.image().scaledToHeight(400))
-        self.char1_dialogue = QLabel("")
-        self.char1_dialogue.setStyleSheet("font-size: 18px;")
-        self.char2_dialogue = QLabel("")
-        self.char2_dialogue.setStyleSheet("font-size: 18px;")
+        self.char1_img = QLabel()
+        self.char1_img.setPixmap(
+            QPixmap(self.char1.image()).scaled(500, 500, Qt.KeepAspectRatio)
+        )
+        self.char1_img.setAlignment(Qt.AlignCenter)
+
+        self.char2_img = QLabel()
+        self.char2_img.setPixmap(
+            QPixmap(self.char2.image()).scaled(500, 500, Qt.KeepAspectRatio)
+        )
+        self.char2_img.setAlignment(Qt.AlignCenter)
+
+        self.char1_dialogue = QLabel()
+        self.char2_dialogue = QLabel()
 
         self.dialogue_stack = QStackedLayout()
 
         self.init_ui()
         self.loadDialogue()
+        self.initSound()
         DD.clickable(self).connect(self.next_dialogue)
         self._callback = DD.unimplemented
 
@@ -93,72 +98,132 @@ class DialogueScreen(QWidget):
         return
 
     def init_ui(self):
-        layout = QGridLayout()
-        layout.setContentsMargins(0, 0, 0, 0)
-        layout.setSpacing(0)
-        self.setLayout(layout)
+        dialogue_font = QFont(
+            "Times New Roman", 16, QFont.Bold
+        )  # Example: "Times New Roman", size 16, bold
+        self.char1_dialogue.setFont(dialogue_font)
+        self.char2_dialogue.setFont(dialogue_font)
 
-        row = 0
+        main_layout = QVBoxLayout(self)
 
-        layout.addItem(
-            QSpacerItem(100, 5, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding), row, 0
+        char1_group = QGroupBox()
+        char2_group = QGroupBox()
+
+        char1_group.setStyleSheet("QGroupBox { border: None; }")
+        char2_group.setStyleSheet("QGroupBox { border: None; }")
+
+        char1_layout = QVBoxLayout()
+        char2_layout = QVBoxLayout()
+
+        char1_name_label = QLabel(self.char1.name)
+        char2_name_label = QLabel(self.char2.name)
+        char1_name_label.setAlignment(Qt.AlignCenter)
+        char2_name_label.setAlignment(Qt.AlignCenter)
+        char1_name_label.setFont(QFont("Blood Crow", 14, QFont.Bold))
+        char2_name_label.setFont(QFont("Blood Crow", 14, QFont.Bold))
+
+        self.char1_img = QLabel()
+        self.char1_img.setPixmap(
+            QPixmap(self.char1.image()).scaled(500, 500, Qt.KeepAspectRatio)
         )
-        row += 1
+        self.char1_img.setAlignment(Qt.AlignCenter)
 
-        player_layout = QHBoxLayout()
-        layout.addLayout(player_layout, row, 1)
-        player_layout.addWidget(self.char1_img)
-        player_layout.addWidget(self.char2_img)
-        row += 1
-
-        layout.addItem(
-            QSpacerItem(0, 5, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding), row, 1
+        self.char2_img = QLabel()
+        self.char2_img.setPixmap(
+            QPixmap(self.char2.image()).scaled(500, 500, Qt.KeepAspectRatio)
         )
-        row += 1
+        self.char2_img.setAlignment(Qt.AlignCenter)
 
-        layout.addLayout(self.dialogue_stack, row, 1)
-        row += 1
+        self.char1_dialogue = QLabel()
+        self.char2_dialogue = QLabel()
 
-        layout.addItem(
-            QSpacerItem(100, 50, QSizePolicy.Fixed, QSizePolicy.MinimumExpanding),
-            row,
-            2,
-        )
+        self.char1_dialogue.setAlignment(Qt.AlignCenter)
+        self.char2_dialogue.setAlignment(Qt.AlignCenter)
 
-        # Player 1 dialogue box
-        player1_dialogue_box = QGroupBox(self.char1.name)
-        player1_dialogue_box.setStyleSheet("font-size: 22px;")
-        player1_dialogue_box.setMinimumHeight(150)
-        container = QHBoxLayout()
-        container.addWidget(self.char1_dialogue)
-        player1_dialogue_box.setLayout(container)
-        self.dialogue_stack.addWidget(player1_dialogue_box)
+        # Apply styles to dialogue QLabel widgets
+        dialogue_style = """
+        QLabel {
+            background-color: #000000;
+            border: 2px solid #444444;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 20px;
+            font-family: "JMH Typewriter";
+        }
+        """
+        self.char1_dialogue.setStyleSheet(dialogue_style)
+        self.char2_dialogue.setStyleSheet(dialogue_style)
+        self.char1_dialogue.setWordWrap(True)
+        self.char2_dialogue.setWordWrap(True)
 
-        # Player 2 dialogue box
-        player2_dialogue_box = QGroupBox(self.char2.name)
-        player2_dialogue_box.setStyleSheet("font-size: 22px;")
-        player2_dialogue_box.setMinimumHeight(150)
-        container = QHBoxLayout()
-        container.addWidget(self.char2_dialogue)
-        player2_dialogue_box.setLayout(container)
-        self.dialogue_stack.addWidget(player2_dialogue_box)
+        char1_layout.addWidget(char1_name_label)
+        char1_layout.addWidget(self.char1_img)
+        char1_layout.addWidget(self.char1_dialogue)
+        char2_layout.addWidget(char2_name_label)
+        char2_layout.addWidget(self.char2_img)
+        char2_layout.addWidget(self.char2_dialogue)
 
-        # self.next_dialogue()
+        char1_group.setLayout(char1_layout)
+        char2_group.setLayout(char2_layout)
+
+        characters_layout = QHBoxLayout()
+        characters_layout.addWidget(char1_group)
+        characters_layout.addWidget(char2_group)
+
+        main_layout.addLayout(characters_layout)
+
+    def initSound(self):
+        pygame.mixer.init()
+        self.TypeWriterSound = pygame.mixer.Sound(AUDIO["TypeWriterSound"])
+        self.TypeWriterSound.set_volume(0.9)
 
     def next_dialogue(self):
+        if self.timer.isActive():
+            self.timer.stop()
+            if self.current_speaker == 0:
+                self.char1_dialogue.setText(self.current_dialogue)
+            else:
+                self.char2_dialogue.setText(self.current_dialogue)
+            return
+
         index = self._index // 2
         char = self._index % 2
+        self.current_speaker = char
 
         try:
             if char == 0:
-                self.char1_dialogue.setText(self._char1_dialogue[index])
+                self.current_dialogue = self._char1_dialogue[index]
+                self.char1_dialogue.clear()
             else:
-                self.char2_dialogue.setText(self._char2_dialogue[index])
-        except IndexError:
-            # There is no more dialogue
-            self.deleteLater()
-            self._callback()
+                self.current_dialogue = self._char2_dialogue[index]
+                self.char2_dialogue.clear()
 
-        self.dialogue_stack.setCurrentIndex(char)
+            self.char_index = 0
+            self.timer.start(50)  # Adjust speed as needed
+        except IndexError:
+            self.deleteLater()
+            if self._callback:
+                self._callback()
+
         self._index += 1
-        return
+
+    def type_text(self):
+        if self.char_index < len(self.current_dialogue):
+            # Play sound with each character
+            if (
+                not pygame.mixer.get_busy()
+            ):  # Check if the sound is not currently playing
+                self.TypeWriterSound.stop()  # Ensure any currently playing sound is stopped
+                self.TypeWriterSound.play()
+
+            if self.current_speaker == 0:
+                self.char1_dialogue.setText(
+                    self.char1_dialogue.text() + self.current_dialogue[self.char_index]
+                )
+            else:
+                self.char2_dialogue.setText(
+                    self.char2_dialogue.text() + self.current_dialogue[self.char_index]
+                )
+            self.char_index += 1
+        else:
+            self.timer.stop()
