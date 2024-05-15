@@ -45,7 +45,6 @@ class JohnIntroScreen(QWidget):
 
         # Text edit for description with typewriter effect
         self.backgroundEdit = QTextEdit(self)
-        self.backgroundEdit.setStyleSheet('border: none;')
         background_description = QFont("JMH Typewriter", 20)
         self.backgroundEdit.setFont(background_description)
         self.backgroundEdit.setReadOnly(True)

@@ -46,7 +46,6 @@ class MitchIntroScreen(QWidget):
         # Text edit for description with typewriter effect
         self.backgroundEdit = QTextEdit(self)
         background_description = QFont("JMH Typewriter", 20)
-        self.backgroundEdit.setStyleSheet('border: none;')
         self.backgroundEdit.setFont(background_description)
         self.backgroundEdit.setReadOnly(True)
         layout.addWidget(self.backgroundEdit, row, 2)
