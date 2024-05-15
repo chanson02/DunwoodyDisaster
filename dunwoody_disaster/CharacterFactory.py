@@ -672,6 +672,7 @@ class CharacterFactory:
         """Matthew is currently the strongest magic caster."""
         char = CharacterFactory.createCharacter()
         char.name = "Matthew Beckler"
+        char.image_path = DD.ASSETS["Matthew"]
         char.maxHealth = 80
         char.maxMagic = 120
         char.maxStamina = 60
