@@ -176,7 +176,9 @@ class FightScreen(QWidget):
             self.controller._loseCallback()
 
     def victoryClicked(self):
+        self.player2.set_health(0)
         self.controller._winCallback()
 
     def defeatClicked(self):
+        self.player1.set_health(0)
         self.controller._loseCallback()
