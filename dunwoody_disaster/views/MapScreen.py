@@ -160,7 +160,7 @@ class Map(QLabel):
         map.addRoom("Black 42", (1092, 130), chars.RyanRengo(), "Courtyard+")
         map.addRoom("Math", (540, 570), chars.NoureenSajid(), "MathClass+")
         map.addRoom(
-            "Center of Engineering Excellence",
+            "Center of Engineering\nExcellence\n",
             (840, 750),
             chars.AmalanPulendran(),
             "ComputerLab+",

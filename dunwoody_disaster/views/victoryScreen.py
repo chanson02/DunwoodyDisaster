@@ -26,16 +26,38 @@ class VictoryScreen(QWidget):
         self.player = fight_controller.player
         self.items = fight_controller.enemy.get_items()
         self.boxes: dict[QCheckBox, Item.Item] = {}
-        self.checkboxstyle = """QCheckBox::indicator:unchecked {
-                                    border: 2px solid white;
-                                    border-radius: 1px;
-                                    background-color: white;
+        # self.checkboxstyle = """QCheckBox::indicator:unchecked {
+        #                             border: 2px solid white;
+        #                             border-radius: 1px;
+        #                             background-color: white;
+        #                         }
+        #                         QCheckBox::indicator:checked {
+        #                             border: 2px solid white;
+        #                             border-radius: 1px;
+        #                             background-color: white;
+        #                         }"""
+        self.checkboxstyle = '''QCheckBox::indicator {
+                                    width: 30px;
+                                    height: 30px;
+                                    background-color: gray;
+                                    border-radius: 15px;
+                                    border-style: solid;
+                                    border-width: 1px;
+                                    border-color: white white black black;
                                 }
                                 QCheckBox::indicator:checked {
-                                    border: 2px solid white;
-                                    border-radius: 1px;
-                                    background-color: white;
-                                }"""
+                                    background-color: qradialgradient(spread:pad, 
+                                                            cx:0.5,
+                                                            cy:0.5,
+                                                            radius:0.9,
+                                                            fx:0.5,
+                                                            fy:0.5,
+                                                            stop:0 rgba(0, 255, 0, 255), 
+                                                            stop:1 rgba(0, 64, 0, 255));
+                                }
+                                QCheckBox:checked, QCheckBox::indicator:checked {
+                                    border-color: black black white white;
+                                }'''
 
         layout = QGridLayout()
         layout.setSpacing(0)
@@ -136,10 +158,10 @@ class VictoryScreen(QWidget):
             QSpacerItem(0, 0, QSizePolicy.MinimumExpanding, QSizePolicy.Fixed), 0, 2
         )
 
-        lbl = QLabel("50/100")
-        lbl.setStyleSheet('font-size: 16px; font-family: "Futura Bk BT";')
-        lbl.setAlignment(Qt.AlignmentFlag.AlignRight)
-        cap_Layout.addWidget(lbl, 0, 3)
+        self.cap_lbl = QLabel("50/100")
+        self.cap_lbl.setStyleSheet('font-size: 16px; font-family: "Futura Bk BT";')
+        self.cap_lbl.setAlignment(Qt.AlignmentFlag.AlignRight)
+        cap_Layout.addWidget(self.cap_lbl, 0, 3)
 
         layout.addLayout(cap_Layout, row, 1)
         row += 1
@@ -252,9 +274,10 @@ class VictoryScreen(QWidget):
 
         total_inventory = sum(item.serialize()["stamina"] for item in selected_items)
         remaining = self.player.inventory_capacity - total_inventory
-        self.capacity.setPercentage(
-            (total_inventory / self.player.inventory_capacity) * 100
-        )
+        percentageValue = (total_inventory / self.player.inventory_capacity) * 100
+        self.capacity.setPercentage(percentageValue)
+                                    
+        self.cap_lbl.setText(str(int(percentageValue)) + '/100')
 
         for box in unselected_boxes:
             if self.boxes[box].serialize()["stamina"] > remaining:
