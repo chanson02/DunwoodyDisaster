@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel
 import threading
-from PySide6.QtGui import QPixmap, QImage
+from PySide6.QtGui import QPixmap
 from PySide6.QtCore import QTimer
 from queue import Queue
 from dunwoody_disaster.animations.PygameAnimation import PygameAnimation
@@ -49,14 +49,8 @@ class AnimationWidget(QWidget):
     def update_frame(self):
         while self.animation.running:
             self.animation.run()
-            img_bytes = self.animation.to_bytes()
-            self.queue.put(img_bytes)
+            self.queue.put(self.animation.to_qimage())
 
     def draw_frames(self):
-        width = self.animation.size[0]
-        height = self.animation.size[1]
         while not self.queue.empty():
-            img_bytes = self.queue.get()
-            img = QImage(img_bytes, width, height, QImage.Format.Format_RGB888)
-            pixmap = QPixmap.fromImage(img)
-            self.frame.setPixmap(pixmap)
+            self.frame.setPixmap(QPixmap.fromImage(self.queue.get()))

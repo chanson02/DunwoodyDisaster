@@ -135,6 +135,14 @@ class Map(QLabel):
                 icon = QPixmap(DD.ASSETS["SSL Certificate"]).scaledToWidth(100)
                 result = DD.overlay(result, icon, room)
 
+        for room in rooms["beaten"]:
+            icon = QPixmap(DD.ASSETS["completed"]).scaledToWidth(30)
+            result = DD.overlay(result, icon, room)
+
+        for room in rooms["all"] - rooms["beaten"]:
+            icon = QPixmap(DD.ASSETS["un-completed"]).scaledToWidth(30)
+            result = DD.overlay(result, icon, room)
+
         return result
 
     def setAsset(self, asset: str):
@@ -147,16 +155,19 @@ class Map(QLabel):
         chars = CharacterFactory
         map = Map(char)
         map.setAsset("NewMapFinal")
-        map.addRoom("Bus Stop", (419, 700), chars.JoeAxberg(), "MathClassResized")
-        map.addRoom("Court Yard", (693, 559), chars.LeAnnSimonson(), "LibraryResized")
-        map.addRoom("Commons", (451, 449), chars.RyanRengo(), "ScienceClassResized")
-        map.addRoom("Math", (236, 359), chars.NoureenSajid(), "CourtyardResized")
+        map.addRoom("Bus Stop", (300, 775), chars.JoeAxberg(), "Library+")
+        map.addRoom("Court Yard", (900, 460), chars.LeAnnSimonson(), "Courtyard+")
+        map.addRoom("Black 42", (1092, 130), chars.RyanRengo(), "Courtyard+")
+        map.addRoom("Math", (540, 570), chars.NoureenSajid(), "MathClass+")
         map.addRoom(
-            "English", (770, 366), chars.AmalanPulendran(), "ComputerLabResized"
+            "Center of Engineering\nExcellence\n",
+            (840, 750),
+            chars.AmalanPulendran(),
+            "ComputerLab+",
         )
-        map.addRoom("Science", (490, 217), chars.MatthewBeckler(), "MathClassResized")
+        map.addRoom("Science", (435, 225), chars.MatthewBeckler(), "ScienceClass+")
         map.addRoom(
-            "Dean's Office", (90, 589), chars.BillHudson(), "DeansOfficeResized"
+            "Dean's Office", (677, 272), chars.BillHudson(), "DeansOffice+", True
         )
         return map
 

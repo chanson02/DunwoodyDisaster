@@ -41,7 +41,10 @@ class Item:
 
         name = QLabel(self.name)
         name.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        name.setStyleSheet("color: white; font-size: 16px;")
+        name.setFixedHeight(40)
+        name.setStyleSheet(
+            'color: white; font-size: 16px; font-family: "Futura Bk BT";'
+        )
         layout.addWidget(name)
 
         img = QLabel()
@@ -51,6 +54,7 @@ class Item:
 
         for stat, value in self.serialize().items():
             lbl = QLabel(f"{stat}: {value}")
+            lbl.setStyleSheet('font-family: "Futura Bk BT";')
             lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
             layout.addWidget(lbl)
 
@@ -70,7 +74,9 @@ class Item:
 
         name = QLabel(self.name)
         name.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        name.setStyleSheet("color: white; font-size: 20px;")
+        name.setStyleSheet(
+            'color: white; font-size: 20px; font-family: "Futura Bk BT";'
+        )
         layout.addWidget(name)
 
         img = QLabel()
@@ -80,6 +86,7 @@ class Item:
 
         for stat, value in self.serialize().items():
             lbl = QLabel(f"{stat}: {value}")
+            lbl.setStyleSheet('font-family: "Futura Bk BT";')
             lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
             layout.addWidget(lbl)
 
