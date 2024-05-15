@@ -142,7 +142,7 @@ class VictoryScreen(QWidget):
         row += 1
 
         inventory_box = QGroupBox("Inventory")
-        inventory_box.setFixedHeight(200)
+        inventory_box.setFixedHeight(220)
         inventory_box.setStyleSheet('color: white; max-width: 600px; font-family: "Futura Bk BT";')
         inventory = QHBoxLayout()
         scroller = DD.scroller(inventory, True, False)
