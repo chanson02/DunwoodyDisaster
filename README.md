@@ -20,3 +20,7 @@ For this project we are using python version 3.11.8
 - Auto-format with `black .`
 - Use `flake8 .` to see lints
 
+### Packaging
+- Install pyinstaller
+- Unix: `pyinstaller --noconsole --onefile --add-data "dunwoody_disaster/:dunwoody_disaster/" main.py`
+- Windows: Change the `:` to a `;`
