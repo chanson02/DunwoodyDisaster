@@ -113,6 +113,11 @@ class Weapon(Item):
         """
         super().__init__(name, damage, stamina, magic)
         self.magical = magical
+        if name not in DD.ASSETS:
+            if self.magical:
+                self.image = DD.ASSETS["Cache Staff"]
+            else:
+                self.image = DD.ASSETS["Byte Spear"]
 
     def to_dict(self) -> dict:
         result = super().to_dict()
@@ -155,6 +160,11 @@ class Armor(Item):
         """
         super().__init__(name, armorVal, staminaCost, magicCost)
         self.magicDefense = magicDefense
+        if name not in DD.ASSETS:
+            if self.magicDefense:
+                self.image = DD.ASSETS["Firewall Armor"]
+            else:
+                self.image = DD.ASSETS["AntiVirus Armor"]
 
     def to_dict(self) -> dict:
         result = super().to_dict()
