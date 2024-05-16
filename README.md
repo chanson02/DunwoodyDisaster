@@ -21,6 +21,6 @@ For this project we are using python version 3.11.8
 - Use `flake8 .` to see lints
 
 ### Packaging
-- Install pyinstaller
+- Install pyinstaller (5.13.2)
 - Unix: `pyinstaller --noconsole --onefile --add-data "dunwoody_disaster/:dunwoody_disaster/" main.py`
 - Windows: Change the `:` to a `;`
