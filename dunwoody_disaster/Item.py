@@ -114,7 +114,7 @@ class Weapon(Item):
         super().__init__(name, damage, stamina, magic)
         self.magical = magical
         if name not in DD.ASSETS:
-            if(self.magical):
+            if self.magical:
                 self.image = DD.ASSETS["Cache Staff"]
             else:
                 self.image = DD.ASSETS["Byte Spear"]
@@ -161,7 +161,7 @@ class Armor(Item):
         super().__init__(name, armorVal, staminaCost, magicCost)
         self.magicDefense = magicDefense
         if name not in DD.ASSETS:
-            if(self.magicDefense):
+            if self.magicDefense:
                 self.image = DD.ASSETS["Firewall Armor"]
             else:
                 self.image = DD.ASSETS["AntiVirus Armor"]
