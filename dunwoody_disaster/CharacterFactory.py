@@ -468,25 +468,25 @@ class CharacterFactory:
         char.level = 1
 
         char.weapons = [
-            Item.Weapon(name="Byte Spear", damage=5, magic=15, stamina=8, magical=True),
+            Item.Weapon(name="Query", damage=5, magic=15, stamina=8, magical=True),
             Item.Weapon(
-                name="Debug Grenade", damage=8, magic=10, stamina=6, magical=True
+                name="Scehma Smash", damage=8, magic=10, stamina=6, magical=True
             ),
             Item.Weapon(
-                name="Throttle Whip", damage=12, magic=4, stamina=8, magical=False
+                name="Index Impact", damage=12, magic=4, stamina=8, magical=False
             ),
         ]
 
         char.defenses = [
             Item.Armor(
-                name="Mesh Leggings",
+                name="Firewall Fortress",
                 armorVal=10,
                 staminaCost=5,
                 magicCost=5,
                 magicDefense=0,
             ),
             Item.Armor(
-                name="Firewall Armor",
+                name="Query Validation",
                 armorVal=0,
                 staminaCost=5,
                 magicCost=5,
@@ -516,16 +516,16 @@ class CharacterFactory:
 
         char.weapons = [
             Item.Weapon(
-                name="Debug Grenade", damage=5, magic=15, stamina=8, magical=True
+                name="API Ambush", damage=5, magic=15, stamina=8, magical=True
             ),
             Item.Weapon(
-                name="Exception Hammer", damage=12, magic=20, stamina=12, magical=True
+                name="Confusion", damage=12, magic=20, stamina=12, magical=True
             ),
             Item.Weapon(
-                name="Cloud Flail", damage=15, magic=5, stamina=8, magical=False
+                name="DDoS Downpour", damage=15, magic=5, stamina=8, magical=False
             ),
             Item.Weapon(
-                name="Compression Gauntlet",
+                name="Patch Pummel",
                 damage=2,
                 magic=15,
                 stamina=15,
@@ -535,14 +535,14 @@ class CharacterFactory:
 
         char.defenses = [
             Item.Armor(
-                name="Bandwidth Harness",
+                name="Malware Moat",
                 armorVal=12,
                 staminaCost=8,
                 magicCost=0,
                 magicDefense=5,
             ),
             Item.Armor(
-                name="Glitch Gauntlet",
+                name="VPN Vigilance",
                 armorVal=5,
                 staminaCost=0,
                 magicCost=8,
@@ -574,26 +574,26 @@ class CharacterFactory:
 
         char.weapons = [
             Item.Weapon(
-                name="Unreal End", damage=15, magic=25, stamina=12, magical=True
+                name="API Avalanche", damage=15, magic=25, stamina=12, magical=True
             ),
             Item.Weapon(
-                name="Debug Grenade", damage=15, magic=15, stamina=15, magical=False
+                name="Cache Clash", damage=15, magic=15, stamina=15, magical=False
             ),
             Item.Weapon(
-                name="Neural Sync", damage=25, magic=12, stamina=12, magical=False
+                name="Kubernetes Kick", damage=25, magic=12, stamina=12, magical=False
             ),
         ]
 
         char.defenses = [
             Item.Armor(
-                name="Firewall Armor",
+                name="Lambda Leap",
                 armorVal=10,
                 staminaCost=5,
                 magicCost=5,
                 magicDefense=10,
             ),
             Item.Armor(
-                name="Glitch Gauntlet",
+                name="Docker Dash",
                 armorVal=12,
                 staminaCost=6,
                 magicCost=6,
@@ -624,26 +624,26 @@ class CharacterFactory:
 
         char.weapons = [
             Item.Weapon(
-                name="Cloud Flail", damage=8, magic=15, stamina=8, magical=True
+                name="Short Circuit", damage=8, magic=15, stamina=8, magical=True
             ),
             Item.Weapon(
-                name="Neural Sync", damage=15, magic=8, stamina=8, magical=False
+                name="Voltage Spike", damage=15, magic=8, stamina=8, magical=False
             ),
             Item.Weapon(
-                name="Packet Flail", damage=25, magic=12, stamina=12, magical=False
+                name="Circuit Breaker", damage=25, magic=12, stamina=12, magical=False
             ),
         ]
 
         char.defenses = [
             Item.Armor(
-                name="Firewall Armor",
+                name="Charged Up",
                 armorVal=15,
                 staminaCost=10,
                 magicCost=8,
                 magicDefense=12,
             ),
             Item.Armor(
-                name="Bandwidth Harness",
+                name="Diode Defense",
                 armorVal=12,
                 staminaCost=8,
                 magicCost=10,
@@ -673,12 +673,12 @@ class CharacterFactory:
         char.level = 5
 
         char.weapons = [
-            Item.Weapon(name="Byte Spear", damage=5, magic=15, stamina=5, magical=True),
+            Item.Weapon(name="SSH", damage=5, magic=15, stamina=5, magical=True),
             Item.Weapon(
-                name="Cloud Flail", damage=10, magic=0, stamina=5, magical=False
+                name="Breadboard Bash", damage=10, magic=0, stamina=5, magical=False
             ),
             Item.Weapon(
-                name="Compression Gauntlet",
+                name="Server Rack Smash",
                 damage=18,
                 magic=5,
                 stamina=10,
@@ -688,14 +688,14 @@ class CharacterFactory:
 
         char.defenses = [
             Item.Armor(
-                name="AntiVirus Armor",
+                name="Virtualization Layer",
                 armorVal=25,
                 staminaCost=25,
                 magicCost=0,
                 magicDefense=0,
             ),
             Item.Armor(
-                name="Glitch Gauntlet",
+                name="Bitter Byte",
                 armorVal=0,
                 staminaCost=0,
                 magicCost=15,
@@ -728,10 +728,10 @@ class CharacterFactory:
 
         char.weapons = [
             Item.Weapon(
-                name="Cache Staff", damage=12, magic=20, stamina=12, magical=True
+                name="Syntax Error", damage=12, magic=20, stamina=12, magical=True
             ),
             Item.Weapon(
-                name="Cloud Flail", damage=6, magic=15, stamina=6, magical=True
+                name="Nueral Nightmare", damage=6, magic=15, stamina=6, magical=True
             ),
             Item.Weapon(
                 name="Byte Spear", damage=5, magic=0, stamina=15, magical=False
@@ -740,14 +740,14 @@ class CharacterFactory:
 
         char.defenses = [
             Item.Armor(
-                name="Firewall Armor",
+                name="Overfitting Obstacle",
                 armorVal=15,
                 staminaCost=12,
                 magicCost=12,
                 magicDefense=20,
             ),
             Item.Armor(
-                name="Boot Drives",
+                name="Bias Blockade",
                 armorVal=20,
                 staminaCost=12,
                 magicCost=12,
@@ -777,37 +777,37 @@ class CharacterFactory:
 
         char.weapons = [
             Item.Weapon(
-                name="Cache Staff", damage=0, magic=12, stamina=8, magical=True
+                name="Schedule Sabotage", damage=0, magic=12, stamina=8, magical=True
             ),
             Item.Weapon(
-                name="Byte Spear",
+                name="Accredidation Ambush",
                 damage=5,
                 magic=20,
                 stamina=13,
                 magical=True,
             ),
             Item.Weapon(
-                name="Compression Gauntlet",
+                name="Policy Piracy",
                 damage=12,
                 magic=0,
                 stamina=8,
                 magical=False,
             ),
             Item.Weapon(
-                name="Debug Grenade", damage=20, magic=0, stamina=13, magical=False
+                name="Admin Assault", damage=20, magic=0, stamina=13, magical=False
             ),
         ]
 
         char.defenses = [
             Item.Armor(
-                name="Datalink Visors",
+                name="Enrollment Error",
                 armorVal=15,
                 staminaCost=15,
                 magicCost=0,
                 magicDefense=0,
             ),
             Item.Armor(
-                name="Glitch Gauntlet",
+                name="Stonewalling",
                 armorVal=0,
                 staminaCost=0,
                 magicCost=15,
